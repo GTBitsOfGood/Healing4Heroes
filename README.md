@@ -17,20 +17,20 @@ git clone https://github.com/GTBitsOfGood/Healing4Heroes.git
 ```
 cd Healing4Heroes
 ```
-3. Obtain your secrets -- Linux or MacOS:
+3. Obtain your secrets -- Linux or MacOS (Skip if Windows):
 ```
 npm run secrets
 ```
-Or on Windows Machines:
+4. Obtain your secrets -- Windows Machines (Skip if MacOS or Linux):
 ```
 npm run secrets:login
 npm run secrets:sync 
 ```
-3. Install the dependencies:
+5. Install the dependencies:
 ```
 npm ci
 ```
-4. Run the project in development mode:
+6. Run the project in development mode:
 ```
 npm run dev
 ```
