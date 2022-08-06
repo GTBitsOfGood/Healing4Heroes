@@ -5,8 +5,8 @@ async function dbConnect(): Promise<void> {
 
   await mongoose
     .connect(process.env.DATABASE_URL as string, {
-        socketTimeoutMS: 360000,
-        dbName: process.env.DATABASE_NAME,
+      socketTimeoutMS: 360000,
+      dbName: process.env.DATABASE_NAME,
     })
     .catch((error) => {
       console.error("Unable to connect to database.");

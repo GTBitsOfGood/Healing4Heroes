@@ -1,8 +1,8 @@
 export const urls = {
-    api: {
-        user: {
-            get: '/api/users/get',
-            create: '/api/users/create'
-        }
-    }
-}
+  api: {
+    user: {
+      get: "/api/user",
+      create: "/api/users/create",
+    },
+  },
+};
