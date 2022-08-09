@@ -17,20 +17,23 @@ git clone https://github.com/GTBitsOfGood/Healing4Heroes.git
 ```
 cd Healing4Heroes
 ```
-3. Obtain your secrets -- Linux or MacOS (Skip if Windows):
+3. Obtain your secrets -- Linux or MacOS (Skip if Windows); you will need to obtain a password from your Engineering Manager:
 ```
-npm run secrets
+npm run secrets:linux
 ```
-4. Obtain your secrets -- Windows Machines (Skip if MacOS or Linux):
+4. Obtain your secrets -- Windows Machines (Skip if MacOS or Linux); you will need to obtain a password from your Engineering Manager:
 ```
-npm run secrets:login
-npm run secrets:sync 
+npm run secrets:windows
 ```
 5. Install the dependencies:
 ```
 npm ci
 ```
-6. Run the project in development mode:
+6. Install Husky Hooks
+```
+npm run prepare
+```
+7. Run the project in development mode:
 ```
 npm run dev
 ```
@@ -38,4 +41,5 @@ npm run dev
 ## Additional Information
 
 - Use `[NAME]/[ISSUE_NUMBER]-[SHORT_DESCRIPTION]` when naming your feature branches
-- Please run `npm run lint` before creating your pull request 
+- Highly recommended to use VSCode with ESLint and Prettier extensions
+  - To save even more time, set up "Format on Save"
