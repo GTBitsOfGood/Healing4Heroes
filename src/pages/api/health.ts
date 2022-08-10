@@ -1,9 +1,13 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
+import APIWrapper from "server/utils/APIWrapper";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json({
-    Hello: "World",
-    Version: 1.0,
-  });
-}
+export default APIWrapper({
+  GET: {
+    config: {},
+    handler: async (req) => {
+      return {
+        Hello: "World",
+        Version: 2.0,
+      };
+    },
+  },
+});

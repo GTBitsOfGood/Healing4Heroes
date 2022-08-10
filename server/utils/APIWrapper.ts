@@ -6,9 +6,12 @@ import {
   HttpMethod,
   InternalRequest,
   InternalResponseData,
+  Role,
 } from "src/utils/types";
 
 interface RouteConfig {
+  requireSession?: boolean;
+  roles?: Array<Role>;
   handleResponse?: boolean; // handleResponse if the route handles setting status code and body
 }
 
@@ -37,6 +40,7 @@ function APIWrapper(
         message: errorMessage,
       });
     }
+
     const { config, handler } = route;
 
     try {

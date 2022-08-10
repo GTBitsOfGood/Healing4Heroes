@@ -15,7 +15,9 @@ export default APIWrapper({
       const user = await findUserById(userId);
 
       if (!user) {
-        throw new Error("Failed to retrieve contacts.");
+        throw new Error(
+          `Could not find user with userId: ${userId.toString()}`
+        );
       }
 
       return user;

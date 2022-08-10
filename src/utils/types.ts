@@ -1,8 +1,17 @@
+import { Types } from "mongoose";
 import { NextApiRequest } from "next";
 
+export enum Role {
+  NONPROFIT_ADMIN = "Nonprofit Admin",
+  NONPROFIT_USER = "Nonprofit User",
+}
+
 export interface User {
+  _id: Types.ObjectId;
   email: string;
 }
+
+/* Internal Request & API Wrapper Types */
 
 export enum HttpMethod {
   GET = "GET",
