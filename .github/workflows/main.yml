@@ -1,4 +1,4 @@
-name: deploy website
+name: deploy backend
 # On pull request, make a deployment to Preview
 # On merge into main, make a deployment to Develop
 # On merge into prod, flag prod, make a deployment to Production
@@ -10,18 +10,27 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./backend
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+        working-directory: ${{env.working-directory}}
+
       - name: Lint files and run type-checks
         run: yarn lint
+        working-directory: ${{env.working-directory}}
+
   deploy:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./backend
     steps:
       - uses: actions/checkout@v2
 
@@ -29,6 +38,7 @@ jobs:
         id: pipeline
         # if its a PR, then its for preview, else its for development or prod based on what it's being pushed to.
         run: echo ::set-output name=pipeline::${{ github.event_name == 'pull_request' && 'Preview' || (github.ref == 'refs/heads/production' && 'Production' || 'Development') }}
+        working-directory: ${{env.working-directory}}
 
       - uses: chrnorm/deployment-action@releases/v1
         name: Create GitHub deployment
@@ -47,7 +57,7 @@ jobs:
           vercel-args: ${{ steps.pipeline.outputs.pipeline == 'Production' && '--prod' || null}} #Optional
           vercel-org-id: ${{ secrets.ORG_ID}} #Required
           vercel-project-id: ${{ secrets.PROJECT_ID}} #Required
-          #working-directory: ./sub-directory #Your Working Directory, Optional
+          working-directory: ${{env.working-directory}} # subdirectory of project
           # alias-domains: | #Optional, for when an actual domain is provided
           #   staging.angular.vercel-action.amond.dev
           #   pr-{{PR_NUMBER}}.angular.vercel-action.amond.dev
