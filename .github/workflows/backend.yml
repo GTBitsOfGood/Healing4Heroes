@@ -21,11 +21,11 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-        working-directory: ${{env.working-directory}}
+        working-directory: ${{ env.working-directory }}
 
       - name: Lint files and run type-checks
         run: yarn lint
-        working-directory: ${{env.working-directory}}
+        working-directory: ${{ env.working-directory }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -37,8 +37,8 @@ jobs:
       - name: Set pipeline
         id: pipeline
         # if its a PR, then its for preview, else its for development or prod based on what it's being pushed to.
-        run: echo ::set-output name=pipeline::${{ github.event_name == 'pull_request' && 'Preview' || (github.ref == 'refs/heads/production' && 'Production' || 'Development') }}
-        working-directory: ${{env.working-directory}}
+        run: echo ::set-output name=pipeline::${{ github.event_name == 'pull_request' && 'Preview' || (github.ref == 'refs/heads/production' && 'Backend-Production' || 'Backend-Development') }}
+        working-directory: ${{ env.working-directory }}
 
       - uses: chrnorm/deployment-action@releases/v1
         name: Create GitHub deployment
@@ -54,10 +54,10 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           github-token: ${{ secrets.GITHUB_TOKEN }} #Optional
-          vercel-args: ${{ steps.pipeline.outputs.pipeline == 'Production' && '--prod' || null}} #Optional
+          vercel-args: ${{ steps.pipeline.outputs.pipeline == 'Backend-Production' && '--prod' || null}} #Optional
           vercel-org-id: ${{ secrets.ORG_ID}} #Required
-          vercel-project-id: ${{ secrets.PROJECT_ID}} #Required
-          working-directory: ${{env.working-directory}} # subdirectory of project
+          vercel-project-id: ${{ secrets.BACKEND_PROJECT_ID }} #Required
+          working-directory: ${{ env.working-directory }} # subdirectory of project
           # alias-domains: | #Optional, for when an actual domain is provided
           #   staging.angular.vercel-action.amond.dev
           #   pr-{{PR_NUMBER}}.angular.vercel-action.amond.dev
