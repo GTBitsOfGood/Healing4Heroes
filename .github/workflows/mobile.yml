@@ -23,6 +23,10 @@ jobs:
         run: yarn install --frozen-lockfile
         working-directory: ${{ env.working-directory }}
 
+      - name: Lint files and run type-checks
+        run: yarn lint
+        working-directory: ${{ env.working-directory }}
+
   deploy:
     runs-on: ubuntu-latest
     env:
@@ -30,31 +34,10 @@ jobs:
       build-directory: mobile/web-build
     steps:
       - uses: actions/checkout@v2
-      # - name: Use Node.js 16.x
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: 16.x
-
-      # - name: Install Expo CLI
-      #   run: npm install --global expo-cli
-      #   working-directory: ${{ env.working-directory }}
-
-      # - name: Install Dependencies
-      #   run: npm ci
-      #   working-directory: ${{ env.working-directory }}
-
-      # - name: Create a build to deploy to Vercel
-      #   run: npm run build
-      #   working-directory: ${{ env.working-directory }}
-
-      # - name: View Files
-      #   run: ls -a
-      #   working-directory: ${{ env.working-directory }}
-
       - name: Set pipeline
         id: pipeline
         # if its a PR, then its for preview, else its for development or prod based on what it's being pushed to.
-        run: echo ::set-output name=pipeline::${{ github.event_name == 'pull_request' && 'Preview' || (github.ref == 'refs/heads/production' && 'Mobile-Production' || 'Mobile-Development') }}
+        run: echo ::set-output name=pipeline::${{ github.event_name == 'pull_request' && 'Preview-Mobile' || (github.ref == 'refs/heads/production' && 'Mobile-Production' || 'Mobile-Development') }}
         working-directory: ${{ env.working-directory }}
 
       - uses: chrnorm/deployment-action@releases/v1
