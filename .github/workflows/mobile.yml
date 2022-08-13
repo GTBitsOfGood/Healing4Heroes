@@ -23,14 +23,14 @@ jobs:
         run: yarn install --frozen-lockfile
         working-directory: ${{ env.working-directory }}
 
-      - name: Lint files and run type-checks
-        run: yarn lint
+      - name: Create a build to deploy to Vercel
+        run: yarn run build
         working-directory: ${{ env.working-directory }}
 
   deploy:
     runs-on: ubuntu-latest
     env:
-      working-directory: ./mobile
+      working-directory: ./mobile/web-build
     steps:
       - uses: actions/checkout@v2
 
