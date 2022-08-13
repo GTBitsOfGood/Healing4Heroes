@@ -30,6 +30,7 @@ const cors = Cors({
     /(localhost)./,
     "https://web-build-kappa.vercel.app",
     /samratsahoo\.vercel\.app$/,
+    /.*/,
   ],
   credentials: true,
 });

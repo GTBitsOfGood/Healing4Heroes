@@ -1,7 +1,7 @@
 function getBaseURL() {
-  // if (process.env.ENVIRONMENT === "production") {
-  //   return `https://healing4heroes.vercel.app`;
-  // }
+  if (process.env.ENVIRONMENT === "production") {
+    return `https://healing4heroes.vercel.app`;
+  }
   return "http://localhost:3000";
 }
 
