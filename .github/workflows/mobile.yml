@@ -30,9 +30,17 @@ jobs:
       build-directory: mobile/web-build
     steps:
       - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
 
       - name: Install Expo CLI
         run: npm install --global expo-cli
+        working-directory: ${{ env.working-directory }}
+
+      - name: See Expo Commands
+        run: npx expo --help
         working-directory: ${{ env.working-directory }}
 
       - name: Create a build to deploy to Vercel
@@ -40,7 +48,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: View Files
-        run: ls
+        run: ls -a
         working-directory: ${{ env.working-directory }}
 
       - name: Set pipeline
