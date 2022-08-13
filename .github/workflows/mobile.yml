@@ -44,7 +44,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: Create a build to deploy to Vercel
-        run: npx expo export web-build
+        run: npx expo build:web
         working-directory: ${{ env.working-directory }}
 
       - name: View Files
