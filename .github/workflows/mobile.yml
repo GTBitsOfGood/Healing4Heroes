@@ -32,11 +32,11 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install Expo CLI
-        run: yarn global add expo-cli
+        run: npm install --global expo-cli
         working-directory: ${{ env.working-directory }}
 
       - name: Create a build to deploy to Vercel
-        run: yarn run build
+        run: npm run build
         working-directory: ${{ env.working-directory }}
 
       - name: View Files
