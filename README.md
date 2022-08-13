@@ -2,10 +2,11 @@
 
 ## Stack
 
-- React.js: Front-end
-- Next.js: Page/API routing and pre-rendering
+- React Native: Front-end
+- Next.js: Backend + API routing
 - MongoDB: Permanently storing data
 - eslint: Automatically identifying and fixing code errors
+- Vercel: Deployment
 
 ## Development
 
@@ -29,11 +30,20 @@ npm run secrets:windows
 ```
 npm ci
 ```
-6. Run the project in development mode:
+6. Run the project in your browser (Note not all React-Native features may work properly in the browser but it is good for quick development and iteration):
 ```
 npm run dev
 ```
-
+7. (Optional but Reccommended) Run the project on your phone. There are a couple of ways to do this but using [Expo Go](https://expo.dev/client). When using Expo Go, you will receive a QR code which you scan through your phone's Expo Go app. 
+```
+npm run start:mobile
+npm run start:backend
+```
+8. If you face network issues of connecting with the app via your phone, you can run expo it via a tunnel like ngrok:
+```
+npm run start:mobile-tunnel
+npm run start:backend
+```
 ## Additional Information
 
 - Use `[NAME]/[ISSUE_NUMBER]-[SHORT_DESCRIPTION]` when naming your feature branches

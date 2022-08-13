@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@bitwarden/cli": "^2022.6.2",
     "@types/react": "~18.0.14",
     "@types/react-native": "~0.69.1",
     "@typescript-eslint/eslint-plugin": "^5.33.0",

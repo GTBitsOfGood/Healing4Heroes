@@ -16,7 +16,10 @@
     "lint:mobile": "npm run lint --prefix mobile",
     "format": "concurrently npm:format:*",
     "format:backend": "npm run format --prefix backend",
-    "format:mobile": "npm run format --prefix mobile"
+    "format:mobile": "npm run format --prefix mobile",
+    "start:backend": "npm run dev --prefix backend",
+    "start:mobile": "cd mobile && expo start",
+    "start:mobile-tunnel": "cd mobile && expo start --tunnel"
   },
   "dependencies": {
     "concurrently": "^7.3.0"
