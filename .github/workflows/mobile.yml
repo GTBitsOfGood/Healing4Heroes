@@ -71,9 +71,9 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           github-token: ${{ secrets.GITHUB_TOKEN }} #Optional
-          vercel-args: ${{ steps.pipeline.outputs.pipeline == 'Backend-Production' && '--prod' || null}} #Optional
+          vercel-args: ${{ steps.pipeline.outputs.pipeline == 'Mobile-Production' && '--prod' || null}} #Optional
           vercel-org-id: ${{ secrets.ORG_ID}} #Required
-          vercel-project-id: ${{ secrets.BACKEND_PROJECT_ID }} #Required
+          vercel-project-id: ${{ secrets.MOBILE_PROJECT_ID }} #Required
           working-directory: ${{ env.working-directory }} # subdirectory of project
           # alias-domains: | #Optional, for when an actual domain is provided
           #   staging.angular.vercel-action.amond.dev
