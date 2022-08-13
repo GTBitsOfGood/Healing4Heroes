@@ -2490,7 +2490,7 @@
   "resolved" "https://registry.npmjs.org/babel-plugin-syntax-trailing-function-commas/-/babel-plugin-syntax-trailing-function-commas-7.0.0-beta.0.tgz"
   "version" "7.0.0-beta.0"
 
-"babel-preset-expo@~9.2.0":
+"babel-preset-expo@^9.2.0", "babel-preset-expo@~9.2.0":
   "integrity" "sha512-aM2htiNx0H49H+MWCp9+cKVSdcdNSn0tbE5Dln/GO1xna4ZlnA30clbfClcYJFUcZtW90IsYeZwQ/hj8zyWhNA=="
   "resolved" "https://registry.npmjs.org/babel-preset-expo/-/babel-preset-expo-9.2.0.tgz"
   "version" "9.2.0"
