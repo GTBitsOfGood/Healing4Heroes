@@ -29,7 +29,7 @@ jobs:
       working-directory: ./mobile
       build-directory: mobile/web-build
     steps:
-      # - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       # - name: Use Node.js 16.x
       #   uses: actions/setup-node@v1
       #   with:
