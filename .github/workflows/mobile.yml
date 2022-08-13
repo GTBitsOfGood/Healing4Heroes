@@ -10,8 +10,6 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    outputs:
-      deployment_id: ${{ steps.deployment.outputs.deployment_id }}
     env:
       working-directory: ./mobile
     steps:
@@ -27,12 +25,15 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: lint
     env:
       working-directory: ./mobile
       build-directory: ./mobile/web-build
     steps:
       - uses: actions/checkout@v2
+
+      - name: Install Expo CLI
+        run: yarn global add expo-cli
+        working-directory: ${{ env.working-directory }}
 
       - name: Create a build to deploy to Vercel
         run: yarn run build
@@ -58,10 +59,10 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           github-token: ${{ secrets.GITHUB_TOKEN }} #Optional
-          vercel-args: ${{ steps.pipeline.outputs.pipeline == 'Mobile-Production' && '--prod' || null}} #Optional
+          vercel-args: ${{ steps.pipeline.outputs.pipeline == 'Backend-Production' && '--prod' || null}} #Optional
           vercel-org-id: ${{ secrets.ORG_ID}} #Required
-          vercel-project-id: ${{ secrets.MOBILE_PROJECT_ID }} #Required
-          working-directory: ${{ env.build-directory }} # subdirectory of project
+          vercel-project-id: ${{ secrets.BACKEND_PROJECT_ID }} #Required
+          working-directory: ${{ env.working-directory }} # subdirectory of project
           # alias-domains: | #Optional, for when an actual domain is provided
           #   staging.angular.vercel-action.amond.dev
           #   pr-{{PR_NUMBER}}.angular.vercel-action.amond.dev
@@ -74,7 +75,7 @@ jobs:
           target_url: ${{ steps.vercel_deploy.outputs.preview-url }}
           environment_url: ${{ steps.vercel_deploy.outputs.preview-url }}
           state: "success"
-          deployment_id: ${{ needs.lint.outputs.deployment_id }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Update deployment status (failure)
         if: failure()
@@ -84,4 +85,4 @@ jobs:
           target_url: ${{ steps.vercel_deploy.outputs.preview-url }}
           environment_url: ${{ steps.vercel_deploy.outputs.preview-url }}
           state: "failure"
-          deployment_id: ${{ needs.lint.outputs.deployment_id }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
