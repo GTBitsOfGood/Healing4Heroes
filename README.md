@@ -34,12 +34,12 @@ npm ci
 ```
 npm run dev
 ```
-7. (Optional but Reccommended) Run the project on your phone. There are a couple of ways to do this but using [Expo Go](https://expo.dev/client). When using Expo Go, you will receive a QR code which you scan through your phone's Expo Go app. 
+7. (Optional but Reccommended) Run the project on your phone. There are a couple of ways to do this but using [Expo Go](https://expo.dev/client) is the easiest. When using Expo Go, you will receive a QR code which you scan through your phone's Expo Go app. 
 ```
 npm run start:mobile
 npm run start:backend
 ```
-8. If you face network issues of connecting with the app via your phone, you can run expo it via a tunnel like ngrok:
+8. If you face network issues of connecting with the app via your phone, you can run it via a tunnel like ngrok:
 ```
 npm run start:mobile-tunnel
 npm run start:backend
