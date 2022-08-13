@@ -10,6 +10,8 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    outputs:
+      deployment_id: ${{ steps.deployment.outputs.deployment_id }}
     env:
       working-directory: ./mobile
     steps:
@@ -23,22 +25,24 @@ jobs:
         run: yarn install --frozen-lockfile
         working-directory: ${{ env.working-directory }}
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: lint
+    env:
+      working-directory: ./mobile
+      build-directory: ./mobile/web-build
+    steps:
+      - uses: actions/checkout@v2
+
       - name: Create a build to deploy to Vercel
         run: yarn run build
         working-directory: ${{ env.working-directory }}
-
-  deploy:
-    runs-on: ubuntu-latest
-    env:
-      working-directory: ./mobile/web-build
-    steps:
-      - uses: actions/checkout@v2
 
       - name: Set pipeline
         id: pipeline
         # if its a PR, then its for preview, else its for development or prod based on what it's being pushed to.
         run: echo ::set-output name=pipeline::${{ github.event_name == 'pull_request' && 'Preview' || (github.ref == 'refs/heads/production' && 'Mobile-Production' || 'Mobile-Development') }}
-        working-directory: ${{ env.working-directory }}
+        working-directory: ${{ env.build-directory }}
 
       - uses: chrnorm/deployment-action@releases/v1
         name: Create GitHub deployment
@@ -57,7 +61,7 @@ jobs:
           vercel-args: ${{ steps.pipeline.outputs.pipeline == 'Mobile-Production' && '--prod' || null}} #Optional
           vercel-org-id: ${{ secrets.ORG_ID}} #Required
           vercel-project-id: ${{ secrets.MOBILE_PROJECT_ID }} #Required
-          working-directory: ${{ env.working-directory }} # subdirectory of project
+          working-directory: ${{ env.build-directory }} # subdirectory of project
           # alias-domains: | #Optional, for when an actual domain is provided
           #   staging.angular.vercel-action.amond.dev
           #   pr-{{PR_NUMBER}}.angular.vercel-action.amond.dev
@@ -70,7 +74,7 @@ jobs:
           target_url: ${{ steps.vercel_deploy.outputs.preview-url }}
           environment_url: ${{ steps.vercel_deploy.outputs.preview-url }}
           state: "success"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          deployment_id: ${{ needs.lint.outputs.deployment_id }}
 
       - name: Update deployment status (failure)
         if: failure()
@@ -80,4 +84,4 @@ jobs:
           target_url: ${{ steps.vercel_deploy.outputs.preview-url }}
           environment_url: ${{ steps.vercel_deploy.outputs.preview-url }}
           state: "failure"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          deployment_id: ${{ needs.lint.outputs.deployment_id }}
