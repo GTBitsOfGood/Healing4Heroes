@@ -1,4 +1,4 @@
-import { InternalRequestData, InternalResponseData } from "src/utils/types";
+import { InternalRequestData, InternalResponseData } from "./types";
 
 export async function internalRequest<T>({
   url,
@@ -8,7 +8,7 @@ export async function internalRequest<T>({
 }: InternalRequestData): Promise<T> {
   const requestInfo: RequestInit = {
     method,
-    mode: "same-origin",
+    mode: "cors",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",

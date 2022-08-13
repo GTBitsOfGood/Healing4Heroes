@@ -29,11 +29,7 @@ npm run secrets:windows
 ```
 npm ci
 ```
-6. Install Husky Hooks
-```
-npm run prepare
-```
-7. Run the project in development mode:
+6. Run the project in development mode:
 ```
 npm run dev
 ```

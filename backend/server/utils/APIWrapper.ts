@@ -1,7 +1,7 @@
 // Modified API Wrapper Inspired By Nationals NPP Portal: https://github.com/GTBitsOfGood/national-npp/blob/main/server/utils/APIWrapper.ts
-
+import Cors, { CorsRequest } from "cors";
 import mongoose from "mongoose";
-import { NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import {
   HttpMethod,
   InternalRequest,
@@ -23,10 +23,38 @@ interface Route<T> {
   ) => Promise<T>;
 }
 
+const cors = Cors({
+  methods: ["POST", "GET", "PUT", "PATCH", "DELETE"],
+  // Regex to determine valid cross origin requests
+  origin: [
+    /(localhost)./,
+    "https://web-build-kappa.vercel.app",
+    /samratsahoo\.vercel\.app$/,
+  ],
+  credentials: true,
+});
+
+const runMiddleware = (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: (req: CorsRequest, res: any, next: any) => void
+) => {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+};
+
 function APIWrapper(
   routeHandlers: Partial<Record<HttpMethod, Route<unknown>>>
 ) {
   return async (req: InternalRequest, res: NextApiResponse) => {
+    await runMiddleware(req, res, cors);
     const method = req.method;
     const route = routeHandlers[method as HttpMethod];
 

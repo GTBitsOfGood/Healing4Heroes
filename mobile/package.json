@@ -1,0 +1,43 @@
+{
+  "name": "healing4heroes-mobile",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "build": "npx expo export:web",
+    "lint": "eslint --fix --ext .jsx,.js,.tsx,.ts .",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss}\""
+  },
+  "dependencies": {
+    "@expo/webpack-config": "^0.17.2",
+    "babel-preset-expo": "^9.2.0",
+    "expo": "~46.0.6",
+    "expo-status-bar": "~1.4.0",
+    "mongoose": "^6.5.2",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-native": "0.69.4",
+    "react-native-web": "~0.18.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@types/react": "~18.0.14",
+    "@types/react-native": "~0.69.1",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "eslint": "^8.21.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.30.1",
+    "fx": "^20.0.2",
+    "husky": "^6.0.0",
+    "prettier": "^2.7.1",
+    "typescript": "~4.3.5"
+  },
+  "private": true
+}
