@@ -18,19 +18,15 @@ export async function internalRequest<T>({
   if (body) {
     requestInfo.body = JSON.stringify(body);
   }
-
   if (queryParams) {
-    const urlSearchParams = new URLSearchParams(
-      Object.entries(queryParams)
-        .filter(([, value]) => value !== undefined && value !== null)
-        .map(([key, value]) => [
-          key,
-          (value as string | number | boolean).toString(),
-        ])
-    );
-    url = `${url}?${urlSearchParams.toString()}`;
+    Object.entries(queryParams)
+      .filter(([, value]) => value !== undefined && value !== null)
+      .map(([key, value]) => {
+        url = `${url}?${key}=${(
+          value as string | number | boolean
+        ).toString()}`;
+      });
   }
-
   const response = await fetch(url, requestInfo);
   const responseBody = (await response.json()) as InternalResponseData<T>;
 

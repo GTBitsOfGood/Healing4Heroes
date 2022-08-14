@@ -47,5 +47,6 @@ npm run start:backend
 ## Additional Information
 
 - Use `[NAME]/[ISSUE_NUMBER]-[SHORT_DESCRIPTION]` when naming your feature branches
+- Please run `npm run lint` and `npm run format` before committing
 - Highly recommended to use VSCode with ESLint and Prettier extensions
   - To save even more time, set up "Format on Save"
