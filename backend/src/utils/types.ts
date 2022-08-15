@@ -9,6 +9,8 @@ export enum Role {
 export interface User {
   _id: Types.ObjectId;
   email: string;
+  firebaseUid: string;
+  roles?: Array<Role>;
 }
 
 /* Internal Request & API Wrapper Types */

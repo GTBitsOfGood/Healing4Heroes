@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 export interface User {
   _id: Types.ObjectId;
   email: string;
+  accessToken: string;
 }
 
 /* Internal Request & API Wrapper Types */
@@ -20,6 +21,7 @@ export interface InternalRequestData {
   method: HttpMethod;
   body?: { [key: string]: unknown };
   queryParams?: { [key: string]: string | number | boolean | undefined };
+  requireAuth?: boolean;
 }
 
 export interface InternalResponseData<T> {

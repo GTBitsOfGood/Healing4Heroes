@@ -4,7 +4,10 @@ import APIWrapper from "server/utils/APIWrapper";
 
 export default APIWrapper({
   GET: {
-    config: {},
+    config: {
+      requireToken: false,
+      roles: [],
+    },
     handler: async (req) => {
       const userId = new Types.ObjectId(req.query.userId as string);
 

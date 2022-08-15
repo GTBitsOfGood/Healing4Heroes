@@ -6,6 +6,8 @@
 - Next.js: Backend + API routing
 - MongoDB: Permanently storing data
 - eslint: Automatically identifying and fixing code errors
+- Firebase: User Authentication
+- Github Actions: Continuous Deployment Pipeline
 - Vercel: Deployment
 
 ## Development

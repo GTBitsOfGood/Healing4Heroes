@@ -1,3 +1,9 @@
+import {
+  applicationDefault,
+  initializeApp,
+  getApps,
+  getApp,
+} from "firebase-admin/app";
 import mongoose from "mongoose";
 
 async function dbConnect(): Promise<void> {
@@ -13,6 +19,15 @@ async function dbConnect(): Promise<void> {
 
       throw error;
     });
+}
+
+export function firebaseConnect() {
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = "firebase-service-account.json";
+  if (getApps().length === 0) {
+    initializeApp({ credential: applicationDefault() });
+  } else {
+    getApp();
+  }
 }
 
 export default dbConnect;

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { User } from "src/utils/types";
+import { Role, User } from "src/utils/types";
 
 const UserSchema = new mongoose.Schema<User>({
   email: {
@@ -7,6 +7,16 @@ const UserSchema = new mongoose.Schema<User>({
     required: true,
     unique: true,
     index: true,
+  },
+  firebaseUid: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  roles: {
+    type: [Role],
+    required: false,
+    default: [],
   },
 });
 

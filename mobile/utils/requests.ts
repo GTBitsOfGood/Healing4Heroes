@@ -1,10 +1,12 @@
 import { InternalRequestData, InternalResponseData } from "./types";
+import { auth } from "../utils/firebase";
 
 export async function internalRequest<T>({
   url,
   queryParams,
   method,
   body,
+  requireAuth,
 }: InternalRequestData): Promise<T> {
   const requestInfo: RequestInit = {
     method,
@@ -12,6 +14,9 @@ export async function internalRequest<T>({
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      accessToken: requireAuth
+        ? ((await auth.currentUser?.getIdToken()) as string)
+        : "",
     },
   };
 
@@ -24,7 +29,7 @@ export async function internalRequest<T>({
       .map(([key, value]) => {
         url = `${url}?${key}=${(
           value as string | number | boolean
-        ).toString()}`;
+        ).toString()}&`;
       });
   }
   const response = await fetch(url, requestInfo);
