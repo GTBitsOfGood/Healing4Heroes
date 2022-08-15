@@ -5,6 +5,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { createUser } from "../actions/User";
+import { Role } from "../utils/types";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("testing@example.com");
@@ -21,8 +23,11 @@ export default function LoginScreen() {
         `Failed to sign Up with email; account may already exist!`
       );
     }
-
-    return userCredential.user;
+    const user = userCredential.user;
+    const result = await createUser(user.email as string, user.uid, [
+      Role.NONPROFIT_USER,
+    ]);
+    return result;
   };
 
   const handleLogin = async () => {
@@ -35,7 +40,6 @@ export default function LoginScreen() {
     if (!userCredential || !userCredential.user) {
       throw new Error(`Email or password is incorrect!`);
     }
-
     return userCredential.user;
   };
 

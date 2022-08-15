@@ -1,5 +1,10 @@
 import { Types } from "mongoose";
 
+export enum Role {
+  NONPROFIT_ADMIN = "Nonprofit Admin",
+  NONPROFIT_USER = "Nonprofit User",
+}
+
 export interface User {
   _id: Types.ObjectId;
   email: string;
