@@ -2,7 +2,9 @@ import APIWrapper from "server/utils/APIWrapper";
 
 export default APIWrapper({
   GET: {
-    config: {},
+    config: {
+      requireToken: false,
+    },
     handler: async () => {
       return {
         Hello: "World",

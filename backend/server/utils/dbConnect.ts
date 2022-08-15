@@ -1,8 +1,9 @@
+import { credential } from "firebase-admin";
 import {
-  applicationDefault,
   initializeApp,
   getApps,
   getApp,
+  ServiceAccount,
 } from "firebase-admin/app";
 import mongoose from "mongoose";
 
@@ -22,9 +23,12 @@ async function dbConnect(): Promise<void> {
 }
 
 export function firebaseConnect() {
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = "firebase-service-account.json";
+  /*eslint-disable */
+  const serviceAccount: ServiceAccount =
+    require("./firebase-service-account.json") as ServiceAccount;
+  /*eslint-enable */
   if (getApps().length === 0) {
-    initializeApp({ credential: applicationDefault() });
+    initializeApp({ credential: credential.cert(serviceAccount) });
   } else {
     getApp();
   }
