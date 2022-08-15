@@ -33,11 +33,8 @@ jobs:
       working-directory: ./backend
     steps:
       - uses: actions/checkout@v2
-
       - name: Set Firebase Service Account
-        working-directory: ./backend/server/utils
-        run: |
-          ${{ secrets.FIREBASE_SERVICE_ACCOUNT }} > firebase-service-account.json
+        run: echo ${{ secrets.FIREBASE_SERVICE_ACCOUNT }} > backend/server/utils/firebase-service-account.json
 
       - name: Set pipeline
         id: pipeline
