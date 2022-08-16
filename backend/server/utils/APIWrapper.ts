@@ -2,6 +2,7 @@
 import Cors, { CorsRequest } from "cors";
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
+import { getUser } from "server/utils/Authentication";
 import {
   HttpMethod,
   InternalRequest,
@@ -10,7 +11,7 @@ import {
 } from "src/utils/types";
 
 interface RouteConfig {
-  requireSession?: boolean;
+  requireToken?: boolean;
   roles?: Array<Role>;
   handleResponse?: boolean; // handleResponse if the route handles setting status code and body
 }
@@ -73,6 +74,19 @@ function APIWrapper(
     const { config, handler } = route;
 
     try {
+      // Handle user access token + roles restrictions
+      if (config?.requireToken) {
+        const user = await getUser(req.headers.accessToken as string);
+        if (config.roles) {
+          if (!config.roles.some((role) => user?.roles?.includes(role))) {
+            return res.status(403).json({
+              success: false,
+              message:
+                "User does not have permissions to access this API route",
+            });
+          }
+        }
+      }
       const data = await handler(req, res);
 
       if (config?.handleResponse) {

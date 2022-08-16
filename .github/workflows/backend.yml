@@ -31,8 +31,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       working-directory: ./backend
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
     steps:
       - uses: actions/checkout@v2
+
+      - name: Copy Firebase Credentials
+        run: |
+          echo $FIREBASE_CREDENTIALS >> backend/server/utils/firebase-service-account.json
+        shell: bash
+        env:
+          FIREBASE_CREDENTIALS: ${{secrets.FIREBASE_SERVICE_ACCOUNT}}
 
       - name: Set pipeline
         id: pipeline

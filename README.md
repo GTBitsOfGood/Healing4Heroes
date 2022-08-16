@@ -6,6 +6,8 @@
 - Next.js: Backend + API routing
 - MongoDB: Permanently storing data
 - eslint: Automatically identifying and fixing code errors
+- Firebase: User Authentication
+- Github Actions: Continuous Deployment Pipeline
 - Vercel: Deployment
 
 ## Development
@@ -34,7 +36,7 @@ npm ci
 ```
 npm run dev
 ```
-7. (Optional but Reccommended) Run the project on your phone. There are a couple of ways to do this but using [Expo Go](https://expo.dev/client) is the easiest. When using Expo Go, you will receive a QR code which you scan through your phone's Expo Go app. 
+7. (Optional but Reccommended) Run the project on your phone. There are a couple of ways to do this but using [Expo Go](https://expo.dev/client) is the easiest. When using Expo Go, you will receive a QR code which you scan through your phone's Expo Go app.
 ```
 npm run start:mobile
 npm run start:backend
@@ -44,6 +46,7 @@ npm run start:backend
 npm run start:mobile-tunnel
 npm run start:backend
 ```
+Note: Expo Go uses a production environment so it will use the live API url instead of your localhost one. To change it to the localhost one, simply `return localhost:3000` at the top of `getBaseURL()` in `utils/urls.ts`
 ## Additional Information
 
 - Use `[NAME]/[ISSUE_NUMBER]-[SHORT_DESCRIPTION]` when naming your feature branches

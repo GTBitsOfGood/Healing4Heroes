@@ -1,3 +1,10 @@
+import { credential } from "firebase-admin";
+import {
+  initializeApp,
+  getApps,
+  getApp,
+  ServiceAccount,
+} from "firebase-admin/app";
 import mongoose from "mongoose";
 
 async function dbConnect(): Promise<void> {
@@ -13,6 +20,18 @@ async function dbConnect(): Promise<void> {
 
       throw error;
     });
+}
+
+export function firebaseConnect() {
+  /*eslint-disable */
+  const serviceAccount: ServiceAccount =
+    require("./firebase-service-account.json") as ServiceAccount;
+  /*eslint-enable */
+  if (getApps().length === 0) {
+    initializeApp({ credential: credential.cert(serviceAccount) });
+  } else {
+    getApp();
+  }
 }
 
 export default dbConnect;
