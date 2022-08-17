@@ -1,6 +1,6 @@
 import { getAuth } from "firebase-admin/auth";
 import UserModel from "server/mongodb/models/User";
-import { firebaseConnect } from "./dbConnect";
+import dbConnect, { firebaseConnect } from "./dbConnect";
 
 export const getUser = async (accessToken: string) => {
   if (!accessToken) {
@@ -8,11 +8,11 @@ export const getUser = async (accessToken: string) => {
   }
   firebaseConnect();
   const decodedToken = await getAuth().verifyIdToken(accessToken);
-
   if (!decodedToken || !decodedToken.uid) {
     throw new Error("Invalid access token!");
   }
 
+  await dbConnect();
   const user = await UserModel.findOne({
     firebaseUid: decodedToken.uid,
   });
