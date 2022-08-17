@@ -76,9 +76,12 @@ function APIWrapper(
     try {
       // Handle user access token + roles restrictions
       if (config?.requireToken) {
-        const user = await getUser(req.headers.accessToken as string);
+        const user = await getUser(req.headers.accesstoken as string);
         if (config.roles) {
-          if (!config.roles.some((role) => user?.roles?.includes(role))) {
+          if (
+            config.roles.length !== 0 &&
+            !config.roles.some((role) => user?.roles?.includes(role))
+          ) {
             return res.status(403).json({
               success: false,
               message:

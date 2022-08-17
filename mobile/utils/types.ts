@@ -8,7 +8,8 @@ export enum Role {
 export interface User {
   _id: Types.ObjectId;
   email: string;
-  accessToken: string;
+  firebaseUid: string;
+  roles?: Array<Role>;
 }
 
 /* Internal Request & API Wrapper Types */
@@ -26,7 +27,7 @@ export interface InternalRequestData {
   method: HttpMethod;
   body?: { [key: string]: unknown };
   queryParams?: { [key: string]: string | number | boolean | undefined };
-  requireAuth?: boolean;
+  authRequired?: boolean;
 }
 
 export interface InternalResponseData<T> {

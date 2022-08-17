@@ -4,13 +4,11 @@ import { urls } from "../utils/urls";
 
 const userUrl = urls.baseUrl + urls.api.user;
 
-export const getUserById = async (userId: string) => {
+export const getUserInfo = async () => {
   return internalRequest<User>({
     url: userUrl,
     method: HttpMethod.GET,
-    queryParams: {
-      userId,
-    },
+    authRequired: true,
   });
 };
 

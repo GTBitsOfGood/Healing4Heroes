@@ -5,7 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { createUser } from "../actions/User";
+import { createUser, getUserInfo } from "../actions/User";
 import { Role } from "../utils/types";
 
 export default function LoginScreen() {
@@ -40,6 +40,8 @@ export default function LoginScreen() {
     if (!userCredential || !userCredential.user) {
       throw new Error(`Email or password is incorrect!`);
     }
+    const user = await getUserInfo();
+    console.log(user);
     return userCredential.user;
   };
 

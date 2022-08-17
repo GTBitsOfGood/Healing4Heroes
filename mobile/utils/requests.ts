@@ -6,7 +6,7 @@ export async function internalRequest<T>({
   queryParams,
   method,
   body,
-  requireAuth,
+  authRequired,
 }: InternalRequestData): Promise<T> {
   const requestInfo: RequestInit = {
     method,
@@ -14,7 +14,7 @@ export async function internalRequest<T>({
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      accessToken: requireAuth
+      accesstoken: authRequired
         ? ((await auth.currentUser?.getIdToken()) as string)
         : "",
     },

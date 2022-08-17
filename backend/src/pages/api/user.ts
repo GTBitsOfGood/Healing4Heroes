@@ -1,31 +1,20 @@
-import { Types } from "mongoose";
-import {
-  createUser,
-  findUserByFirebaseUid,
-  findUserById,
-} from "server/mongodb/actions/User";
+import { createUser, findUserByFirebaseUid } from "server/mongodb/actions/User";
 import APIWrapper from "server/utils/APIWrapper";
+import { getUser } from "server/utils/Authentication";
 import { Role } from "src/utils/types";
 
 export default APIWrapper({
   GET: {
     config: {
-      requireToken: false,
-      roles: [],
+      requireToken: true,
+      roles: [Role.NONPROFIT_USER],
     },
     handler: async (req) => {
-      const userId = new Types.ObjectId(req.query.userId as string);
-
-      if (!userId) {
-        throw new Error("User id cannot be null.");
-      }
-
-      const user = await findUserById(userId);
+      const accessToken: string = req.headers.accesstoken as string;
+      const user = await getUser(accessToken);
 
       if (!user) {
-        throw new Error(
-          `Could not find user with userId: ${userId.toString()}`
-        );
+        throw new Error("User not found in database!");
       }
 
       return user;

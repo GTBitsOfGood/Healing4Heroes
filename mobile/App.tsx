@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { getUserById } from "./actions/User";
 import LoginScreen from "./screens/LoginScreen";
 
 export default function App() {
@@ -19,8 +18,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-const retrieveUserById = async () => {
-  const result = await getUserById("62ed9937b052f60447816f42");
-  console.log(result);
-};
