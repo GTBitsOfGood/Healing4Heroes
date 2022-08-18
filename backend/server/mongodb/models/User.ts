@@ -8,6 +8,14 @@ const UserSchema = new mongoose.Schema<User>({
     unique: true,
     index: true,
   },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
   firebaseUid: {
     type: String,
     required: true,

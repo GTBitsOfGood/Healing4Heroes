@@ -8,9 +8,19 @@ export enum Role {
 
 export interface User {
   _id: Types.ObjectId;
+  firstName: string;
+  lastName: string;
   email: string;
   firebaseUid: string;
   roles?: Array<Role>;
+}
+
+export interface ServiceAnimal {
+  _id: Types.ObjectId;
+  checkUpDate: Date;
+  microchipExpiration: Date;
+  totalHours: number;
+  owner: User | Types.ObjectId;
 }
 
 /* Internal Request & API Wrapper Types */

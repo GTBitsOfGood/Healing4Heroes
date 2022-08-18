@@ -11,6 +11,8 @@ import { Role } from "../utils/types";
 export default function LoginScreen() {
   const [email, setEmail] = useState("testing@example.com");
   const [password, setPassword] = useState("testpassword");
+  const [firstName, setFirstName] = useState("firstName");
+  const [lastName, setLastName] = useState("lastName");
 
   const handleSignUp = async () => {
     const userCredential = await createUserWithEmailAndPassword(
@@ -24,9 +26,13 @@ export default function LoginScreen() {
       );
     }
     const user = userCredential.user;
-    const result = await createUser(user.email as string, user.uid, [
-      Role.NONPROFIT_USER,
-    ]);
+    const result = await createUser(
+      user.email as string,
+      user.uid,
+      [Role.NONPROFIT_USER],
+      firstName,
+      lastName
+    );
     return result;
   };
 

@@ -18,13 +18,17 @@ export async function findUserByFirebaseUid(firebaseUid: string) {
 export async function createUser(
   email: string,
   firebaseUid: string,
-  roles: Array<Role>
+  roles: Array<Role>,
+  firstName: string,
+  lastName: string
 ) {
   await dbConnect();
   const user = await UserModel.create({
     email: email,
     firebaseUid: firebaseUid,
     roles: roles,
+    firstName: firstName,
+    lastName: lastName,
   });
   return user;
 }

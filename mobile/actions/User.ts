@@ -15,7 +15,9 @@ export const getUserInfo = async () => {
 export const createUser = async (
   email: string,
   firebaseUid: string,
-  roles: Array<Role>
+  roles: Array<Role>,
+  firstName: string,
+  lastName: string
 ) => {
   return internalRequest<User>({
     url: userUrl,
@@ -24,6 +26,8 @@ export const createUser = async (
       email,
       firebaseUid,
       roles,
+      firstName,
+      lastName,
     },
   });
 };
