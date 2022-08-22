@@ -36,7 +36,7 @@ npm ci
 ```
 npm run dev
 ```
-7. (Optional but Recommended) Run the project on your phone. There are a couple of ways to do this but using [Expo Go](https://expo.dev/client) is the easiest. When using Expo Go, you will receive a QR code which you scan through your phone's Expo Go app.
+7. (Required for Frontend Devs) Run the project on your phone. There are a couple of ways to do this but using [Expo Go](https://expo.dev/client) is the easiest. When using Expo Go, you will receive a QR code which you scan through your phone's Expo Go app.
 ```
 npm run start:mobile
 npm run start:backend
@@ -61,7 +61,7 @@ export async function findUserByFirebaseUid(firebaseUid: string) {
 }
 ```
 - **API Wrapper**:
-The API wrapper is a wrapper around the traditional Next.js API handlers that handles things like CORS, user authentication, and role checking. It acts as a middleware between the API request and the handler. You can read through the API wrapper in `backend/server/utils/APIWrapper.ts` if you would like to learn more. The API wrapper is used in the API endpoints in `backend/src/pages/api`. Here we are able to set a configuration dictionary and which has the different types of requests that we can make to that certain endpoint (note: the file paths correspond to API paths --> so `backend/src/pages/api/user.ts` corresponds to `/api/user`). This is where all error handling should occur. Here is a sample API wrapper to get user information:
+The API wrapper is a wrapper around the traditional Next.js API handlers and the API wrapper abstracts things like CORS, user authentication, and role checking. It acts as a middleware between the API request and the handler. If you would like to learn more, you can read through the API wrapper in `backend/server/utils/APIWrapper.ts`. The API wrapper is used in the API endpoints in `backend/src/pages/api`. Here we are able to set a configuration dictionary and which has the different types of requests that we can make to that certain endpoint (note: the file paths correspond to API paths --> so `backend/src/pages/api/user.ts` corresponds to `/api/user`). This is where all error handling should occur. Here is a sample API wrapper to get user information:
  
 ```typescript
 export default APIWrapper({
@@ -84,7 +84,7 @@ export default APIWrapper({
 });
 ```
 - **Frontend Action**:
-Finally, we want all that functionality to be available to the frontend. We have a use custom internal web request (which handles authentication + error handling for you) that we use to send the API request and receive information. Frontend actions can be found in `mobile/actions/`. Here is a sample frontend action to get user info:
+Finally, we want all that functionality to be available to the frontend. We have a custom internal web request (which handles authentication + error handling for you) that we use to send the API request and receive information. Frontend actions can be found in `mobile/actions/`. Here is a sample frontend action to get user info:
 ```typescript
 export const getUserInfo = async () => {
   return internalRequest<User>({
@@ -101,5 +101,5 @@ export const getUserInfo = async () => {
  
 - Use `[NAME]/[ISSUE_NUMBER]-[SHORT_DESCRIPTION]` when naming your feature branches
 - Please run `npm run lint` and `npm run format` before committing
-- Highly recommended to use VSCode with ESLint and Prettier extensions
+- It is highly recommended to use VSCode with ESLint and Prettier extensions
   - To save even more time, set up "Format on Save"
