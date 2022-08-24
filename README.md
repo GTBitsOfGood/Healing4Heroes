@@ -32,16 +32,16 @@ npm run secrets:windows
 ```
 npm ci
 ```
-6. Run the project in your browser (Note not all React-Native features may work properly in the browser but it is good for quick development and iteration):
+6. Run the project in your browser (Note: Not all React-Native features may work properly in the browser but it is good for quick development and iteration):
 ```
 npm run dev
 ```
-7. (Required for Frontend Devs) Run the project on your phone. There are a couple of ways to do this but using [Expo Go](https://expo.dev/client) is the easiest. When using Expo Go, you will receive a QR code which you scan through your phone's Expo Go app.
+7. (Required for Frontend Devs) To run the project on your phone, there are a couple of ways to do this but using [Expo Go](https://expo.dev/client) is the easiest. When using running the application, you will receive a QR code which you scan through your phone's Expo Go app.
 ```
 npm run start:mobile
 npm run start:backend
 ```
-8. If you face network issues of connecting with the app via your phone, you can run it via a tunnel like ngrok:
+8. If you face network issues of connecting with the app via your phone, you can run it via a tunnel like ngrok; you may need to install a package when doing this for the first time:
 ```
 npm run start:mobile-tunnel
 npm run start:backend
@@ -49,7 +49,7 @@ npm run start:backend
 - Note: Expo Go uses a production environment so it will use the live API url instead of your localhost one. To change it to the localhost one, simply `return localhost:3000` at the top of `getBaseURL()` in `utils/urls.ts`
  
 ## Repository Backend Guide
-This repository has a bit of a learning curve when it comes to understanding the backend functionality because we have a bit of abstraction to help developers seamlessly integrate with necessary middleware and authentication services. I'm writing this small guide to help lessen the learning curve for using the backend.
+This repository has a small a learning curve when it comes to understanding the backend functionality because we have a bit of abstraction to help developers seamlessly integrate with necessary middleware and authentication services. I'm writing this guide to help lessen the learning curve for developing the backend.
  
 - **Backend Actions**:
 The data flow from the database to the rest of the application starts with backend actions. The backend actions are the actual MongoDB queries that are made to get data. All backend actions can be found in the `backend/server/mongodb/actions` folder. Here is a sample backend action that finds a user using their Firebase UID:
