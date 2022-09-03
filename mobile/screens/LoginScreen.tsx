@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { createUser, getUserInfo } from "../actions/User";
-import { Role } from "../utils/types";
+import { HandlerType, Role } from "../utils/types";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("testing@example.com");
@@ -31,7 +31,8 @@ export default function LoginScreen() {
       user.uid,
       [Role.NONPROFIT_USER],
       firstName,
-      lastName
+      lastName,
+      HandlerType.HANDLER_VETERAN
     );
     return result;
   };

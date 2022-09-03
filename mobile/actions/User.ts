@@ -1,5 +1,5 @@
 import { internalRequest } from "../utils/requests";
-import { HttpMethod, Role, User } from "../utils/types";
+import { HandlerType, HttpMethod, Role, User } from "../utils/types";
 import { urls } from "../utils/urls";
 
 const userUrl = urls.baseUrl + urls.api.user;
@@ -17,7 +17,8 @@ export const createUser = async (
   firebaseUid: string,
   roles: Array<Role>,
   firstName: string,
-  lastName: string
+  lastName: string,
+  handlerType: HandlerType
 ) => {
   return internalRequest<User>({
     url: userUrl,
@@ -28,6 +29,7 @@ export const createUser = async (
       roles,
       firstName,
       lastName,
+      handlerType,
     },
   });
 };

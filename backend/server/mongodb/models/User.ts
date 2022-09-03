@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Role, User } from "src/utils/types";
+import { HandlerType, Role, User } from "src/utils/types";
 
 const UserSchema = new mongoose.Schema<User>({
   email: {
@@ -20,6 +20,11 @@ const UserSchema = new mongoose.Schema<User>({
     type: String,
     required: true,
     unique: true,
+  },
+  handlerType: {
+    type: String,
+    required: true,
+    enum: Object.values(HandlerType),
   },
   roles: {
     type: [String],

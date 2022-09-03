@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import UserModel from "server/mongodb/models/User";
 import dbConnect from "server/utils/dbConnect";
-import { Role } from "src/utils/types";
+import { HandlerType, Role } from "src/utils/types";
 
 export async function findUserById(userId: Types.ObjectId) {
   await dbConnect();
@@ -20,7 +20,8 @@ export async function createUser(
   firebaseUid: string,
   roles: Array<Role>,
   firstName: string,
-  lastName: string
+  lastName: string,
+  handlerType: HandlerType
 ) {
   await dbConnect();
   const user = await UserModel.create({
@@ -29,6 +30,7 @@ export async function createUser(
     roles: roles,
     firstName: firstName,
     lastName: lastName,
+    handlerType: handlerType,
   });
   return user;
 }

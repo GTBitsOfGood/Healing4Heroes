@@ -5,12 +5,19 @@ export enum Role {
   NONPROFIT_USER = "Nonprofit User",
 }
 
+export enum HandlerType {
+  HANDLER_VETERAN = "veteran",
+  HANDLER_CIVILIAN = "civilian",
+  HANDLER_CHILD = "child",
+}
+
 export interface User {
   _id: Types.ObjectId;
   firstName: string;
   lastName: string;
   email: string;
   firebaseUid: string;
+  handlerType: HandlerType;
   roles?: Array<Role>;
 }
 
@@ -19,7 +26,20 @@ export interface ServiceAnimal {
   checkUpDate: Date;
   microchipExpiration: Date;
   totalHours: number;
-  owner: User | Types.ObjectId;
+  handler: User | Types.ObjectId;
+}
+
+export interface TrainingLog {
+  description: string;
+  skills: Array<string>;
+  trainingHours: number;
+  behavior: ServiceAnimalBehavior;
+  animal: ServiceAnimal | Types.ObjectId;
+}
+
+export interface ServiceAnimalBehavior {
+  description: string;
+  repeat: number;
 }
 
 /* Internal Request & API Wrapper Types */
