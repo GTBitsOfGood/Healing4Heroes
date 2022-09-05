@@ -1,8 +1,8 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
-export default function LandingScreen() {
+export default function LandingScreen(props: any) {
   return (
     <View style={styles.container}>
       <Text>Landing Screen</Text>
@@ -17,5 +17,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  buttonItem: {
+    width: 300,
+    backgroundColor: "#D3D3D3",
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
   },
 });

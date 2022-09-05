@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function AdminDashboardScreen() {
   return (
     <View style={styles.container}>
-      <Text>User Dashboard Screen</Text>
+      <Text>Admin Dashboard Screen</Text>
       <StatusBar style="auto" />
     </View>
   );

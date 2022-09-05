@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { auth } from "../utils/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -53,8 +53,17 @@ export default function LoginScreen() {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text onPress={handleLogin}>Sign Up</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
