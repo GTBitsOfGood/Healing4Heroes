@@ -46,7 +46,6 @@ npm run start:backend
 npm run start:mobile-tunnel
 npm run start:backend
 ```
-- Note: Expo Go uses a production environment so it will use the live API url instead of your localhost one. To change it to the localhost one, simply `return localhost:3000` at the top of `getBaseURL()` in `utils/urls.ts`
  
 ## Repository Backend Guide
 This repository has a small a learning curve when it comes to understanding the backend functionality because we have a bit of abstraction to help developers seamlessly integrate with necessary middleware and authentication services. I'm writing this guide to help lessen the learning curve for developing the backend.
