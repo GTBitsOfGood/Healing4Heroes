@@ -20,17 +20,17 @@ git clone https://github.com/GTBitsOfGood/Healing4Heroes.git
 ```
 cd Healing4Heroes
 ```
-3. Obtain your secrets -- Linux or MacOS (Skip if Windows); you will need to obtain a password from your Engineering Manager:
+3. Install the dependencies:
+```
+npm ci
+```
+4. Obtain your secrets -- Linux or MacOS (Skip if Windows); you will need to obtain a password from your Engineering Manager:
 ```
 npm run secrets:linux
 ```
-4. Obtain your secrets -- Windows Machines (Skip if MacOS or Linux); you will need to obtain a password from your Engineering Manager:
+5. Obtain your secrets -- Windows Machines (Skip if MacOS or Linux); you will need to obtain a password from your Engineering Manager:
 ```
 npm run secrets:windows
-```
-5. Install the dependencies:
-```
-npm ci
 ```
 6. Run the project in your browser (Note: Not all React-Native features may work properly in the browser but it is good for quick development and iteration):
 ```
