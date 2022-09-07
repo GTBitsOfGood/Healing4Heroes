@@ -1,7 +1,10 @@
-import React from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { auth } from "../utils/firebase";
 
 export default function DevelopmentScreen(props: any) {
+  const [accessToken, setAccessToken] = useState("No Access Token Set Yet");
   return (
     <View style={styles.container}>
       {/* Temporary Development Screen to help devs w/navigation */}
@@ -53,6 +56,28 @@ export default function DevelopmentScreen(props: any) {
       >
         <Text>Go To Admin Dashboard Page</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={async () => {
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            "testing@example.com",
+            "testpassword"
+          );
+
+          const accessToken = (await auth.currentUser?.getIdToken()) as string;
+          if (!accessToken) {
+            setAccessToken("Failed to Retrieve Access Token");
+          }
+          setAccessToken(accessToken);
+        }}
+        style={styles.buttonItem}
+      >
+        <Text>Get User Access Token - For Backend Devs</Text>
+      </TouchableOpacity>
+      <View style={styles.accessTokenContainer}>
+        <Text>{accessToken}</Text>
+      </View>
     </View>
   );
 }
@@ -71,5 +96,9 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     borderRadius: 10,
+  },
+
+  accessTokenContainer: {
+    width: 300,
   },
 });

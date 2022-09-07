@@ -23,18 +23,30 @@ export interface User {
 
 export interface ServiceAnimal {
   _id: Types.ObjectId;
-  checkUpDate: Date;
-  microchipExpiration: Date;
   totalHours: number;
   handler: User | Types.ObjectId;
+  subHandler?: SubHandler;
+  dateOfBirth?: Date;
+  dateOfAdoption?: Date;
+  microchipExpiration?: Date;
+  checkUpDate?: Date;
+}
+
+export interface SubHandler {
+  name: string;
+  relation: string;
+  type: HandlerType;
 }
 
 export interface TrainingLog {
+  _id: Types.ObjectId;
+  date: Date;
   description: string;
   skills: Array<string>;
   trainingHours: number;
   behavior: ServiceAnimalBehavior;
   animal: ServiceAnimal | Types.ObjectId;
+  video?: string;
 }
 
 export interface ServiceAnimalBehavior {
