@@ -55,7 +55,7 @@ export default function SignUpScreen(props: any) {
           <View></View>
         )}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => {}} style={styles.button}>
+          <TouchableOpacity style={styles.button}>
             <Text style={styles.btnText}>Sign Up</Text>
           </TouchableOpacity>
         </View>

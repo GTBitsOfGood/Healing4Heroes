@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -176,7 +176,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     minWidth: "85%",
     backgroundColor: "white",
-
   },
 
   input: {
@@ -200,7 +199,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     minWidth: "85%",
     backgroundColor: "#666666",
-
   },
 
   btnText: {
