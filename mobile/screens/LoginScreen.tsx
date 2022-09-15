@@ -111,7 +111,7 @@ export default function LoginScreen(props: any) {
 
       <View style={styles.footerContainer}>
         <View style={styles.footerTextContainer}>
-          <Text style={styles.footerText}>Don't have an account?</Text>
+          <Text style={styles.footerText}>Don&apos;t have an account?</Text>
           <Text
             style={styles.signupText}
             onPress={() => {
