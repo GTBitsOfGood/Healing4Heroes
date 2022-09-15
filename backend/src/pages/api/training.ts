@@ -1,6 +1,7 @@
+import { Types } from "mongoose";
 import { createTrainingLog } from "server/mongodb/actions/TrainingLog";
 import APIWrapper from "server/utils/APIWrapper";
-import { Role, ServiceAnimal, ServiceAnimalBehavior } from "src/utils/types";
+import { Role, ServiceAnimalBehavior } from "src/utils/types";
 
 export default APIWrapper({
   POST: {
@@ -15,7 +16,7 @@ export default APIWrapper({
       const trainingHours: number = req.body.trainingHours as number;
       const behavior: ServiceAnimalBehavior = req.body
         .behavior as ServiceAnimalBehavior;
-      const animal: ServiceAnimal = req.body.animal as ServiceAnimal;
+      const animal: Types.ObjectId = req.body.animal as Types.ObjectId;
       const video: string = req.body.video as string;
 
       const trainingLog = await createTrainingLog(

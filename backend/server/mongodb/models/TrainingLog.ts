@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { TrainingLog, ServiceAnimalBehavior } from "src/utils/types";
 
 const ServiceAnimalBehaviorSchema = new mongoose.Schema<ServiceAnimalBehavior>({
@@ -29,13 +29,11 @@ const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
     required: true,
   },
   animal: {
-    // TODO: replace with the actual schema
-    type: Object,
+    type: Schema.Types.ObjectId,
     required: true,
   },
   video: {
     type: String,
-    required: true,
   },
 });
 

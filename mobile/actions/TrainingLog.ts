@@ -1,7 +1,8 @@
-import {urls} from "../utils/urls";
-import {ServiceAnimalBehavior} from "../../backend/src/utils/types";
-import {HttpMethod, TrainingLog} from "../utils/types";
-import {internalRequest} from "../utils/requests";
+import { urls } from "../utils/urls";
+import { ServiceAnimalBehavior } from "../../backend/src/utils/types";
+import { HttpMethod, TrainingLog } from "../utils/types";
+import { internalRequest } from "../utils/requests";
+import { Types } from "mongoose";
 
 const trainingLogUrl = urls.baseUrl + urls.api.training;
 
@@ -11,7 +12,7 @@ export const getTrainingLog = async (
   skills: Array<string>,
   trainingHours: number,
   behavior: ServiceAnimalBehavior,
-  animal: unknown, // TODO: replace with the actual type
+  animal: Types.ObjectId,
   video: string,
 ) => {
   return internalRequest<TrainingLog>({

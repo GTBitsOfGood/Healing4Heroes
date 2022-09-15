@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import TrainingLogModel from "server/mongodb/models/TrainingLog";
 import dbConnect from "server/utils/dbConnect";
 import { ServiceAnimalBehavior } from "src/utils/types";
@@ -8,7 +9,7 @@ export async function createTrainingLog(
   skills: Array<string>,
   trainingHours: number,
   behavior: ServiceAnimalBehavior,
-  animal: unknown, // TODO: replace with the actual type
+  animal: Types.ObjectId,
   video: string
 ) {
   await dbConnect();
