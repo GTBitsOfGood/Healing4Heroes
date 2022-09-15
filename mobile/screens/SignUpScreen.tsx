@@ -1,11 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
+  Keyboard,
   KeyboardAvoidingView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -16,69 +18,75 @@ export default function SignUpScreen(props: any) {
   const [checkValidRegister, setCheckValidRegister] = useState(true);
   const windowHeight = useWindowDimensions().height;
   return (
-    <View style={[{ minHeight: Math.round(windowHeight) }]}>
-      <KeyboardAvoidingView style={styles.container}>
-        <View style={styles.headerContainer}>
-          <View style={styles.logoContainer}></View>
-        </View>
-
-        <View style={styles.bodyContainer}>
-          <Text style={styles.registerText}>Register your account</Text>
-          <View>
-            <View style={styles.inputContainer}>
-              <Fontisto name="email" size={20} color="grey" />
-              <TextInput placeholder="Email" style={styles.input}></TextInput>
-            </View>
-            <View style={styles.inputContainer}>
-              <SimpleLineIcons name="lock" size={20} color="grey" />
-              <TextInput
-                placeholder="Password"
-                style={styles.input}
-                secureTextEntry
-              ></TextInput>
-            </View>
-            <View style={styles.inputContainer}>
-              <SimpleLineIcons name="lock" size={20} color="grey" />
-              <TextInput
-                placeholder="Confirmed Password"
-                style={styles.input}
-                secureTextEntry
-              ></TextInput>
-            </View>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={[{ minHeight: Math.round(windowHeight) }]}>
+        <KeyboardAvoidingView style={styles.container}>
+          <View style={styles.headerContainer}>
+            <View style={styles.logoContainer}></View>
           </View>
 
-          {checkValidRegister ? (
-            <View style={styles.failedContainer}>
-              <Text style={styles.failedText}>
-                Register Falied - Account already exists{" "}
+          <View style={styles.bodyContainer}>
+            <Text style={styles.registerText}>Register your account</Text>
+            <View>
+              <View style={styles.inputContainer}>
+                <Fontisto name="email" size={20} color="grey" />
+                <TextInput placeholder="Email" style={styles.input}></TextInput>
+              </View>
+              <View style={styles.inputContainer}>
+                <SimpleLineIcons name="lock" size={20} color="grey" />
+                <TextInput
+                  placeholder="Password"
+                  style={styles.input}
+                  secureTextEntry
+                ></TextInput>
+              </View>
+              <View style={styles.inputContainer}>
+                <SimpleLineIcons name="lock" size={20} color="grey" />
+                <TextInput
+                  placeholder="Confirmed Password"
+                  style={styles.input}
+                  secureTextEntry
+                ></TextInput>
+              </View>
+            </View>
+
+            {!checkValidRegister ? (
+              <View style={styles.failedContainer}>
+                <Text style={styles.failedText}>
+                  Register Falied - Account already exists{" "}
+                </Text>
+              </View>
+            ) : (
+              <View></View>
+            )}
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.btnText}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.footerContainer}>
+            <View style={styles.changeOptionContainer}>
+              <Text style={styles.footerText}>Already have an account?</Text>
+              <Text
+                style={styles.signupText}
+                onPress={() => {
+                  props.navigation.navigate("Login");
+                }}
+              >
+                Sign in here
               </Text>
             </View>
-          ) : (
-            <View></View>
-          )}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.btnText}>Sign Up</Text>
-            </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.footerContainer}>
-          <View style={styles.changeOptionContainer}>
-            <Text style={styles.footerText}>Already have an account?</Text>
-            <Text
-              style={styles.signupText}
-              onPress={() => {
-                props.navigation.navigate("Login");
-              }}
-            >
-              Sign in here
-            </Text>
-          </View>
-        </View>
 
-        {/* <Text onPress={handleLogin}>Login</Text> */}
-      </KeyboardAvoidingView>
-    </View>
+          {/* <Text onPress={handleLogin}>Login</Text> */}
+        </KeyboardAvoidingView>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
