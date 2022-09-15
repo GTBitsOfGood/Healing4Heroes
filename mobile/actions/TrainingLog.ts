@@ -13,7 +13,7 @@ export const createTrainingLog = async (
   trainingHours: number,
   behavior: ServiceAnimalBehavior,
   animal: Types.ObjectId,
-  video?: string,
+  video?: string
 ) => {
   return internalRequest<TrainingLog>({
     url: trainingLogUrl,
@@ -25,7 +25,7 @@ export const createTrainingLog = async (
       trainingHours,
       behavior,
       animal,
-      video
+      video,
     },
   });
 };
