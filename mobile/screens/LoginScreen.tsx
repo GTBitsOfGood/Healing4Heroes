@@ -6,6 +6,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   TouchableOpacity,
+  useWindowDimensions,
 } from "react-native";
 import { auth } from "../utils/firebase";
 import {
@@ -61,70 +62,72 @@ export default function LoginScreen(props: any) {
     console.log(user);
     return userCredential.user;
   };
-
+  const windowHeight = useWindowDimensions().height;
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <View style={styles.logoContainer}></View>
-      </View>
+    <View style={[{ minHeight: Math.round(windowHeight) }]}>
+      <KeyboardAvoidingView style={styles.container}>
+        <View style={styles.headerContainer}>
+          <View style={styles.logoContainer}></View>
+        </View>
 
-      <View style={styles.bodyContainer}>
-        <Text style={styles.loginText}>Login your account</Text>
-        <View>
-          <View style={styles.inputContainer}>
-            <Fontisto name="email" size={20} color="grey" />
-            <TextInput
-              placeholder="Email"
-              onChangeText={(text) => setEmail(text)}
-              style={styles.input}
-            ></TextInput>
+        <View style={styles.bodyContainer}>
+          <Text style={styles.loginText}>Login your account</Text>
+          <View>
+            <View style={styles.inputContainer}>
+              <Fontisto name="email" size={20} color="grey" />
+              <TextInput
+                placeholder="Email"
+                onChangeText={(text) => setEmail(text)}
+                style={styles.input}
+              ></TextInput>
+            </View>
+            <View style={styles.inputContainer}>
+              <SimpleLineIcons name="lock" size={20} color="grey" />
+              <TextInput
+                placeholder="Password"
+                onChangeText={(text) => setPassword(text)}
+                style={styles.input}
+                secureTextEntry
+              ></TextInput>
+            </View>
           </View>
-          <View style={styles.inputContainer}>
-            <SimpleLineIcons name="lock" size={20} color="grey" />
-            <TextInput
-              placeholder="Password"
-              onChangeText={(text) => setPassword(text)}
-              style={styles.input}
-              secureTextEntry
-            ></TextInput>
+          {/* conditional rendering after authentication  */}
+          {checkValidUser ? (
+            <View style={styles.failedContainer}>
+              <Text style={styles.failedText}>
+                Login Failed - Wrong password/ email address
+              </Text>
+            </View>
+          ) : (
+            <View></View>
+          )}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={handleLogin} style={styles.button}>
+              <Text style={styles.btnText}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.forgotContainer}>
+            <Text>Forgot your password?</Text>
           </View>
         </View>
-        {/* conditional rendering after authentication  */}
-        {checkValidUser ? (
-          <View style={styles.failedContainer}>
-            <Text style={styles.failedText}>
-              Login Failed - Wrong password/ email address
+
+        <View style={styles.footerContainer}>
+          <View style={styles.footerTextContainer}>
+            <Text style={styles.footerText}>Don&apos;t have an account?</Text>
+            <Text
+              style={styles.signupText}
+              onPress={() => {
+                props.navigation.navigate("Sign Up");
+              }}
+            >
+              Sign up here
             </Text>
           </View>
-        ) : (
-          <View></View>
-        )}
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={handleLogin} style={styles.button}>
-            <Text style={styles.btnText}>Sign In</Text>
-          </TouchableOpacity>
         </View>
-        <View style={styles.forgotContainer}>
-          <Text>Forgot the password?</Text>
-        </View>
-      </View>
 
-      <View style={styles.footerContainer}>
-        <View style={styles.footerTextContainer}>
-          <Text style={styles.footerText}>Don&apos;t have an account?</Text>
-          <Text
-            style={styles.signupText}
-            onPress={() => {
-              props.navigation.navigate("Sign Up");
-            }}
-          >
-            Sign up here
-          </Text>
-        </View>
-      </View>
-
-      {/* <Text onPress={handleLogin}>Login</Text> */}
-    </KeyboardAvoidingView>
+        {/* <Text onPress={handleLogin}>Login</Text> */}
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
@@ -138,7 +141,7 @@ const styles = StyleSheet.create({
 
   headerContainer: {
     flex: 2,
-    marginTop: 25,
+    marginTop: 75,
   },
 
   bodyContainer: {

@@ -43,10 +43,11 @@ const styles = StyleSheet.create({
 
   headerContainer: {
     flex: 1,
+    marginTop: 25,
   },
 
   bodyContainer: {
-    marginTop: 25,
+    marginTop: 0,
     flex: 3,
   },
 
