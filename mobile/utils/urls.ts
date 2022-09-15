@@ -9,5 +9,6 @@ export const urls = {
   baseUrl: getBaseURL(),
   api: {
     user: "/api/user",
+    training: "/api/training"
   },
 };
