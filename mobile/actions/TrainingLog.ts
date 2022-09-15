@@ -6,14 +6,14 @@ import { Types } from "mongoose";
 
 const trainingLogUrl = urls.baseUrl + urls.api.training;
 
-export const getTrainingLog = async (
+export const createTrainingLog = async (
   date: Date,
   description: string,
   skills: Array<string>,
   trainingHours: number,
   behavior: ServiceAnimalBehavior,
   animal: Types.ObjectId,
-  video: string,
+  video?: string,
 ) => {
   return internalRequest<TrainingLog>({
     url: trainingLogUrl,
