@@ -1,11 +1,112 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { useWindowDimensions, StyleSheet, Text, View } from "react-native";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 
-export default function AnimalInformationScreen() {
+function validateDate(dateStr: string) {
+  const regex = /^\d{1,2}-\d{1,2}-\d{4}$/;
+
+  if (!regex.test(dateStr)) {
+    return false;
+  }
+
+  // Parse the date parts to integers
+  var parts = dateStr.split("-");
+  var day = parseInt(parts[1]);
+  var month = parseInt(parts[0]);
+  var year = parseInt(parts[2]);
+
+  // Check the ranges of month and year
+  if (year < 1000 || year > 3000 || month == 0 || month > 12)
+    return false;
+
+  var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+  // Adjust for leap years
+  if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+    monthLength[1] = 29;
+
+  // Check the range of the day
+  return day > 0 && day <= monthLength[month - 1];
+}
+
+function updateDatabase() {
+
+}
+  
+export default function AnimalInformationScreen(props: any) {
+  const { handlerName, handlerRole } = props.route.params;
+
+  const [animalName, setAnimalName] = useState("");
+  const [animalBirth, setAnimalBirth] = useState("");
+  const [animalAdaptation, setAnimalAdaptation] = useState("");
+  const [error, setError] = useState("");
+
+  const windowHeight = useWindowDimensions().height;
+
   return (
-    <View style={styles.container}>
-      <Text>Animal Information Screen</Text>
+    <View
+      style={styles.container}
+    >
+      <View>
+        <Text style={styles.header}>Getting Started</Text>
+        <Text style={styles.label}>What is your dog's name? *</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="First / Last Name"
+          placeholderTextColor="#999999"
+          value={animalName}
+          onChangeText={setAnimalName}
+        />
+        <Text style={styles.label}>Date of Birth? <Text style={styles.optional}>(Optional)</Text></Text>
+        <TextInput
+          style={styles.input}
+          placeholder="MM-DD-YYYY"
+          placeholderTextColor="#999999"
+          value={animalBirth}
+          onChangeText={setAnimalBirth}
+        />
+        <Text style={styles.label}>Date of Adaptation? <Text style={styles.optional}>(Optional)</Text></Text>
+        <TextInput
+          style={styles.input}
+          placeholder="MM-DD-YYYY"
+          placeholderTextColor="#999999"
+          value={animalAdaptation}
+          onChangeText={setAnimalAdaptation}
+        />
+      </View>
+      <View style={{flex: 1}}/>
+      <View>
+        { error && 
+          <View style={styles.failedContainer}>
+            <Text style={styles.failedText}>{ error }</Text>
+          </View>
+        }
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={() => {
+            if (!animalName) {
+              setError("Please enter your dog's name.");
+            } else if (animalBirth && !validateDate(animalBirth)) {
+              setError("Animal birth date is invalid.");
+            } else if (animalAdaptation && !validateDate(animalAdaptation)) {
+              setError("Animal adaptation date is invalid.");
+            } else {
+              setError("");
+              updateDatabase();
+
+              props.navigation.navigate("User Dashboard");
+            }
+          }}
+        >
+          <Text style={styles.buttonText}>Next</Text>
+        </TouchableOpacity>
+        <View style={styles.circles}>
+          <View style={[styles.circle, styles.selected]} />
+          <View style={[styles.circle, styles.selected]} />
+          <View style={styles.circle} />
+        </View>
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -14,8 +115,84 @@ export default function AnimalInformationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    backgroundColor: "#f2f2f2",
+    flexDirection: "column",
+    paddingVertical: 40,
+    paddingHorizontal: 24,
+  },
+  header: {
+    alignSelf: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#666666",
+  },
+  label: {
+    marginTop: 60,
+    marginBottom: 16,
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333333",
+  },
+  input: {
+    backgroundColor: "white",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    borderWidth: 0.5,
+    borderColor: "#D9D9D9",
+  },
+  dropDownContainer: {
+    borderWidth: 0.5,
+    borderColor: "#D9D9D9",
+    paddingHorizontal: 6,
+  },
+  button: {
+    paddingVertical: 16,
+    borderRadius: 8,
+    backgroundColor: "#666666",
+    display: "flex",
+    flexDirection: "row",
     justifyContent: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+  },
+  circles: {
+    marginTop: 13,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  circle: {
+    width: 8,
+    height: 8,
+    borderRadius: 8 / 2,
+    backgroundColor: "#CCCCCC",
+    marginHorizontal: 3,
+  },
+  selected: {
+    backgroundColor: "#666666"
+  },
+  optional: {
+    color: "#999999",
+    fontWeight: "normal",
+    fontSize: 14,
+  },
+  datePicker: {
+    alignSelf: "flex-start",
+  },
+  failedContainer: {
+    alignItems: "center",
+    marginBottom: 12,
+    padding: 8,
+    borderRadius: 10,
+    borderWidth: 0.5,
+    minWidth: "85%",
+    backgroundColor: "#D9D9D9",
+  },
+  failedText: {
+    fontSize: 12,
+    fontWeight: "300",
   },
 });

@@ -22,6 +22,7 @@
     "start:mobile-tunnel": "cd mobile && expo start --tunnel"
   },
   "dependencies": {
-    "concurrently": "^7.3.0"
+    "concurrently": "^7.3.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5"
   }
 }
