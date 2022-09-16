@@ -1,8 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { Keyboard } from "react-native";
 
 const dropDownItems = [
@@ -94,7 +93,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     paddingVertical: 40,
     paddingHorizontal: 24,
-    // fontFamily: "DM Sans"
   },
   header: {
     alignSelf: "center",
@@ -151,6 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#666666"
   },
   failedContainer: {
+    marginTop: 12,
     alignItems: "center",
     marginBottom: 12,
     padding: 8,

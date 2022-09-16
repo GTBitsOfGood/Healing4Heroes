@@ -11,21 +11,7 @@ import AdminDashboardScreen from "./screens/AdminDashboardScreen";
 import LandingScreen from "./screens/LandingScreen";
 import DevelopmentScreen from "./screens/DevelopmentScreen";
 
-type RootStackParamList = {
-  "Development": undefined,
-  "Animal Information": {
-    handlerName: string,
-    handlerRole: string
-  },
-  "Landing": undefined,
-  "Login": undefined,
-  "Sign Up": undefined,
-  "Handler Information": undefined,
-  "User Dashboard": undefined,
-  "Admin Dashboard": undefined,
-}
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
