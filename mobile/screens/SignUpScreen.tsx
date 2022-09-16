@@ -1,8 +1,6 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
   Keyboard,
-  KeyboardAvoidingView,
   StyleSheet,
   Text,
   TextInput,
@@ -13,10 +11,75 @@ import {
 } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
+import { validateEmail } from "../utils/string";
+import { auth } from "../utils/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUser } from "../actions/User";
+import { Role } from "../utils/types";
 
 export default function SignUpScreen(props: any) {
   const [checkValidRegister, setCheckValidRegister] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const windowHeight = useWindowDimensions().height;
+
+  const validateInput = () => {
+    setCheckValidRegister(true);
+    if (!validateEmail(email)) {
+      setCheckValidRegister(false);
+      setErrorMessage("Invalid Email Detected!");
+      return false;
+    }
+
+    if (confirmPassword !== password) {
+      setCheckValidRegister(false);
+      setErrorMessage("Password does not match confirmation!");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSignUp = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      if (!userCredential || !userCredential.user) {
+        setErrorMessage("An error occurred -- Please try again!");
+        setCheckValidRegister(false);
+        return;
+      }
+
+      const user = userCredential.user;
+      const isAdmin = email.endsWith("@healing4heroes.org");
+      const firebaseUid = user.uid;
+      let createdUser;
+      if (isAdmin) {
+        createdUser = await createUser(email, firebaseUid, [
+          Role.NONPROFIT_USER,
+          Role.NONPROFIT_ADMIN,
+        ]);
+      } else {
+        createdUser = await createUser(email, firebaseUid, [
+          Role.NONPROFIT_USER,
+        ]);
+      }
+      return createdUser;
+    } catch (e) {
+      setErrorMessage(
+        "Failed to sign up with email; account may already exist!"
+      );
+      setCheckValidRegister(false);
+      return;
+    }
+  };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -24,7 +87,7 @@ export default function SignUpScreen(props: any) {
       }}
     >
       <View style={[{ minHeight: Math.round(windowHeight) }]}>
-        <KeyboardAvoidingView style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.headerContainer}>
             <View style={styles.logoContainer}></View>
           </View>
@@ -32,39 +95,64 @@ export default function SignUpScreen(props: any) {
           <View style={styles.bodyContainer}>
             <Text style={styles.registerText}>Register your account</Text>
             <View>
+              {/* Email Input Container */}
               <View style={styles.inputContainer}>
                 <Fontisto name="email" size={20} color="grey" />
-                <TextInput placeholder="Email" style={styles.input}></TextInput>
+                <TextInput
+                  placeholder="Email"
+                  style={styles.input}
+                  onChangeText={setEmail}
+                ></TextInput>
               </View>
+
+              {/* Password Input Container */}
               <View style={styles.inputContainer}>
                 <SimpleLineIcons name="lock" size={20} color="grey" />
                 <TextInput
                   placeholder="Password"
                   style={styles.input}
                   secureTextEntry
+                  onChangeText={setPassword}
                 ></TextInput>
               </View>
+
+              {/* Confirm Password Container */}
               <View style={styles.inputContainer}>
                 <SimpleLineIcons name="lock" size={20} color="grey" />
                 <TextInput
-                  placeholder="Confirmed Password"
+                  placeholder="Confirm Password"
                   style={styles.input}
                   secureTextEntry
+                  onChangeText={setConfirmPassword}
                 ></TextInput>
               </View>
             </View>
 
             {!checkValidRegister ? (
               <View style={styles.failedContainer}>
-                <Text style={styles.failedText}>
-                  Register Falied - Account already exists{" "}
-                </Text>
+                <Text style={styles.failedText}>{errorMessage}</Text>
               </View>
             ) : (
               <View></View>
             )}
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={async () => {
+                  const validInputs = validateInput();
+                  if (validInputs) {
+                    const user = await handleSignUp();
+                    console.log(user);
+                    if (user && checkValidRegister) {
+                      props.navigation.navigate("Handler Information", {
+                        params: {
+                          userId: user?._id,
+                        },
+                      });
+                    }
+                  }
+                }}
+              >
                 <Text style={styles.btnText}>Sign Up</Text>
               </TouchableOpacity>
             </View>
@@ -84,7 +172,7 @@ export default function SignUpScreen(props: any) {
           </View>
 
           {/* <Text onPress={handleLogin}>Login</Text> */}
-        </KeyboardAvoidingView>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
