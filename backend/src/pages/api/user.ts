@@ -1,4 +1,8 @@
-import { createUser, findUserByFirebaseUid } from "server/mongodb/actions/User";
+import {
+  createUser,
+  findUserByFirebaseUid,
+  updateUser,
+} from "server/mongodb/actions/User";
 import APIWrapper from "server/utils/APIWrapper";
 import { getUser } from "server/utils/Authentication";
 import { HandlerType, Role } from "src/utils/types";
@@ -48,6 +52,39 @@ export default APIWrapper({
       }
 
       return user;
+    },
+  },
+  PATCH: {
+    config: {
+      requireToken: true,
+      roles: [Role.NONPROFIT_USER],
+    },
+    handler: async (req) => {
+      const accessToken: string = req.headers.accesstoken as string;
+      const firstName: string = req.body.firstName as string;
+      const lastName: string = req.body.lastName as string;
+      const handlerType: HandlerType = req.body.handlerType as HandlerType;
+      const roles: Array<Role> = req.body.roles as Array<Role>;
+
+      const user = await getUser(accessToken);
+
+      if (!user) {
+        throw new Error("User not found in database!");
+      }
+
+      const updatedUser = await updateUser(
+        user._id,
+        roles,
+        firstName,
+        lastName,
+        handlerType
+      );
+
+      if (!updatedUser) {
+        throw new Error("Failed to update user!");
+      }
+
+      return updatedUser;
     },
   },
 });
