@@ -1,40 +1,77 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { Keyboard } from "react-native";
+import { HandlerType } from "../utils/types";
+import { getUserInfo, updateUser } from "../actions/User";
 
 const dropDownItems = [
-  {label: "Veteran", value: "veteran"},
-  {label: "Civilian", value: "civilian"},
-  {label: "Child", value: "child"},
-  {label: "Volunteer, etc", value: "volunteer"},
+  { label: "Veteran", value: HandlerType.HANDLER_VETERAN },
+  { label: "Civilian", value: HandlerType.HANDLER_CIVILIAN },
+  { label: "Child", value: HandlerType.HANDLER_CHILD },
+  { label: "Volunteer", value: "volunteer" },
 ];
-
-function updateDatabase() {
-
-}
 
 export default function HandlerInformationScreen(props: any) {
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [dropDownValue, setDropDownValue] = useState(null);
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
+
+  const updateUserInfo = async () => {
+    const user = await updateUser(
+      undefined,
+      firstName,
+      lastName,
+      dropDownValue as unknown as HandlerType
+    );
+    return user;
+  };
+
+  const validateInput = () => {
+    if (!firstName || !lastName) {
+      setError("Please enter your first and last name.");
+      return;
+    } else if (!dropDownValue) {
+      setError("Please choose what describes you best.");
+      return;
+    }
+
+    setError("");
+    return true;
+  };
 
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.header}>Getting Started</Text>
-        <Text style={styles.label}>What is your name? *</Text>
+        <Text style={styles.label}>What is your first name?*</Text>
         <TextInput
           style={styles.input}
-          placeholder="First / Last Name"
+          placeholder="First Name"
           placeholderTextColor="#999999"
-          value={name}
-          onChangeText={setName}
+          value={firstName}
+          onChangeText={setFirstName}
         />
-        <Text style={styles.label}>What describes you best? *</Text>
-        <DropDownPicker 
+        <Text style={styles.label}>What is your last name?*</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Last Name"
+          placeholderTextColor="#999999"
+          value={lastName}
+          onChangeText={setLastName}
+        />
+
+        <Text style={styles.label}>What describes you best?*</Text>
+        <DropDownPicker
           open={dropDownOpen}
           setOpen={setDropDownOpen}
           items={dropDownItems}
@@ -48,27 +85,27 @@ export default function HandlerInformationScreen(props: any) {
         />
       </View>
       <View>
-        { error && 
+        {error && (
           <View style={styles.failedContainer}>
-            <Text style={styles.failedText}>{ error }</Text>
+            <Text style={styles.failedText}>{error}</Text>
           </View>
-        }
-        <TouchableOpacity 
+        )}
+        <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            if (!name) {
-              setError("Please enter your name.");
-            } else if (!dropDownValue) {
-              setError("Please choose what describes you best.");
-            } else {
-              setError("");
-              updateDatabase();
-              props.navigation.navigate("Animal Information", {
-                params: {
-                  handlerName: name,
-                  handlerRole: dropDownValue,
-                }
-              });
+          onPress={async () => {
+            const validInput = validateInput();
+            if (validInput) {
+              const userUpdate = await updateUserInfo();
+              if (userUpdate) {
+                const user = await getUserInfo();
+                props.navigation.navigate("Animal Information", {
+                  params: {
+                    handlerId: user._id,
+                  },
+                });
+              } else {
+                setError("Something went wrong! Please try again");
+              }
             }
           }}
         >
@@ -97,15 +134,16 @@ const styles = StyleSheet.create({
   header: {
     alignSelf: "center",
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "DMSans-Medium",
     color: "#666666",
+    marginTop: 35,
   },
   label: {
     marginTop: 60,
     marginBottom: 16,
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 20,
     color: "#333333",
+    fontFamily: "DMSans-Bold",
   },
   input: {
     backgroundColor: "white",
@@ -146,7 +184,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
   },
   selected: {
-    backgroundColor: "#666666"
+    backgroundColor: "#666666",
   },
   failedContainer: {
     marginTop: 12,

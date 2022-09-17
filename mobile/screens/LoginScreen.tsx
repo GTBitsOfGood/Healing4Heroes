@@ -14,6 +14,7 @@ import { auth } from "../utils/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { createUser, getUserInfo } from "../actions/User";
 import { HandlerType, Role } from "../utils/types";
@@ -21,48 +22,33 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 
 export default function LoginScreen(props: any) {
-  const [email, setEmail] = useState("testing@example.com");
-  const [password, setPassword] = useState("testpassword");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [checkValidUser, setCheckValidUser] = useState(true);
   const [firstName, setFirstName] = useState("firstName");
   const [lastName, setLastName] = useState("lastName");
-
-  const handleSignUp = async () => {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    if (!userCredential || !userCredential.user) {
-      throw new Error(
-        `Failed to sign Up with email; account may already exist!`
-      );
-    }
-    const user = userCredential.user;
-    const result = await createUser(
-      user.email as string,
-      user.uid,
-      [Role.NONPROFIT_USER],
-      firstName,
-      lastName,
-      HandlerType.HANDLER_VETERAN
-    );
-    return result;
-  };
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = async () => {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    if (!userCredential || !userCredential.user) {
-      throw new Error(`Email or password is incorrect!`);
+    try {
+      await signOut(auth).then().catch();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (!userCredential || !userCredential.user) {
+        setErrorMessage(`An error occurred -- Please try again!`);
+        setCheckValidUser(false);
+        return;
+      }
+      const user = await getUserInfo();
+      return user;
+    } catch (e) {
+      setErrorMessage(`Account email or password combination is incorrect!`);
+      setCheckValidUser(false);
+      return;
     }
-    const user = await getUserInfo();
-    console.log(user);
-    return userCredential.user;
   };
   const windowHeight = useWindowDimensions().height;
   return (
@@ -101,15 +87,24 @@ export default function LoginScreen(props: any) {
             {/* conditional rendering after authentication  */}
             {!checkValidUser ? (
               <View style={styles.failedContainer}>
-                <Text style={styles.failedText}>
-                  Login Failed - Wrong password/ email address
-                </Text>
+                <Text style={styles.failedText}>{errorMessage}</Text>
               </View>
             ) : (
               <View></View>
             )}
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={handleLogin} style={styles.button}>
+              <TouchableOpacity
+                onPress={async () => {
+                  const result = await handleLogin();
+                  if (result) {
+                    if (result.roles?.includes(Role.NONPROFIT_ADMIN))
+                      props.navigation.navigate("Admin Dashboard");
+                  } else {
+                    props.navigation.navigate("User Dashboard");
+                  }
+                }}
+                style={styles.button}
+              >
                 <Text style={styles.btnText}>Sign In</Text>
               </TouchableOpacity>
             </View>

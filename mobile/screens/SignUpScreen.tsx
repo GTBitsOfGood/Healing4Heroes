@@ -13,7 +13,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { validateEmail } from "../utils/string";
 import { auth } from "../utils/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { createUser } from "../actions/User";
 import { Role } from "../utils/types";
 
@@ -43,13 +43,14 @@ export default function SignUpScreen(props: any) {
   };
 
   const handleSignUp = async () => {
+    await auth.signOut().then().catch();
+    console.log(await auth?.currentUser);
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-
       if (!userCredential || !userCredential.user) {
         setErrorMessage("An error occurred -- Please try again!");
         setCheckValidRegister(false);
@@ -142,11 +143,11 @@ export default function SignUpScreen(props: any) {
                   const validInputs = validateInput();
                   if (validInputs) {
                     const user = await handleSignUp();
-                    console.log(user);
-                    if (user && checkValidRegister) {
+                    if (user) {
                       props.navigation.navigate("Handler Information", {
                         params: {
                           userId: user?._id,
+                          roles: user?.roles,
                         },
                       });
                     }

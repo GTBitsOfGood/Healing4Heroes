@@ -1,27 +1,31 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { validateDate } from "../utils/string";
 
 function updateDatabase() {
-
+  return;
 }
-  
+
 export default function AnimalInformationScreen(props: any) {
   const { handlerName, handlerRole } = props.route.params;
 
   const [animalName, setAnimalName] = useState("");
   const [animalBirth, setAnimalBirth] = useState("");
-  const [animalAdaptation, setAnimalAdaptation] = useState("");
+  const [animalAdoption, setAnimalAdoption] = useState("");
   const [error, setError] = useState("");
 
   return (
-    <View
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <View>
         <Text style={styles.header}>Getting Started</Text>
-        <Text style={styles.label}>What is your dog's name? *</Text>
+        <Text style={styles.label}>What is your dog&apos;s name? *</Text>
         <TextInput
           style={styles.input}
           placeholder="First / Last Name"
@@ -29,7 +33,9 @@ export default function AnimalInformationScreen(props: any) {
           value={animalName}
           onChangeText={setAnimalName}
         />
-        <Text style={styles.label}>Date of Birth? <Text style={styles.optional}>(Optional)</Text></Text>
+        <Text style={styles.label}>
+          Date of Birth? <Text style={styles.optional}>(Optional)</Text>
+        </Text>
         <TextInput
           style={styles.input}
           placeholder="MM-DD-YYYY"
@@ -37,31 +43,33 @@ export default function AnimalInformationScreen(props: any) {
           value={animalBirth}
           onChangeText={setAnimalBirth}
         />
-        <Text style={styles.label}>Date of Adaptation? <Text style={styles.optional}>(Optional)</Text></Text>
+        <Text style={styles.label}>
+          Date of Adoption? <Text style={styles.optional}>(Optional)</Text>
+        </Text>
         <TextInput
           style={styles.input}
           placeholder="MM-DD-YYYY"
           placeholderTextColor="#999999"
-          value={animalAdaptation}
-          onChangeText={setAnimalAdaptation}
+          value={animalAdoption}
+          onChangeText={setAnimalAdoption}
         />
       </View>
-      <View style={{flex: 1}}/>
+      <View style={{ flex: 1 }} />
       <View>
-        { error && 
+        {error && (
           <View style={styles.failedContainer}>
-            <Text style={styles.failedText}>{ error }</Text>
+            <Text style={styles.failedText}>{error}</Text>
           </View>
-        }
-        <TouchableOpacity 
+        )}
+        <TouchableOpacity
           style={styles.button}
           onPress={() => {
             if (!animalName) {
               setError("Please enter your dog's name.");
             } else if (animalBirth && !validateDate(animalBirth)) {
               setError("Animal birth date is invalid.");
-            } else if (animalAdaptation && !validateDate(animalAdaptation)) {
-              setError("Animal adaptation date is invalid.");
+            } else if (animalAdoption && !validateDate(animalAdoption)) {
+              setError("Animal adoption date is invalid.");
             } else {
               setError("");
               updateDatabase();
@@ -94,15 +102,16 @@ const styles = StyleSheet.create({
   header: {
     alignSelf: "center",
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "DMSans-Medium",
     color: "#666666",
+    marginTop: 35,
   },
   label: {
     marginTop: 60,
     marginBottom: 16,
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 20,
     color: "#333333",
+    fontFamily: "DMSans-Bold",
   },
   input: {
     backgroundColor: "white",
@@ -143,7 +152,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
   },
   selected: {
-    backgroundColor: "#666666"
+    backgroundColor: "#666666",
   },
   optional: {
     color: "#999999",

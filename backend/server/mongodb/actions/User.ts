@@ -43,7 +43,7 @@ export async function updateUser(
   handlerType?: HandlerType
 ) {
   await dbConnect();
-  const user = UserModel.findOneAndUpdate(userId, {
+  const user = UserModel.findByIdAndUpdate(userId, {
     roles: roles,
     firstName: firstName,
     lastName: lastName,

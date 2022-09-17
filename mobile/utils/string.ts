@@ -6,16 +6,15 @@ export function validateDate(dateStr: string) {
   }
 
   // Parse the date parts to integers
-  var parts = dateStr.split("-");
-  var day = parseInt(parts[1]);
-  var month = parseInt(parts[0]);
-  var year = parseInt(parts[2]);
+  const parts = dateStr.split("-");
+  const day = parseInt(parts[1]);
+  const month = parseInt(parts[0]);
+  const year = parseInt(parts[2]);
 
   // Check the ranges of month and year
-  if (year < 1000 || year > 3000 || month == 0 || month > 12)
-    return false;
+  if (year < 1000 || year > 3000 || month == 0 || month > 12) return false;
 
-  var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+  const monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
   // Adjust for leap years
   if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))

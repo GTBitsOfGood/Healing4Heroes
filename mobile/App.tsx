@@ -10,10 +10,17 @@ import UserDashboardScreen from "./screens/UserDashboardScreen";
 import AdminDashboardScreen from "./screens/AdminDashboardScreen";
 import LandingScreen from "./screens/LandingScreen";
 import DevelopmentScreen from "./screens/DevelopmentScreen";
+import { useFonts } from "expo-font";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "DMSans-Bold": require("./assets/fonts/DMSans-Bold.ttf"),
+    "DMSans-Medium": require("./assets/fonts/DMSans-Medium.ttf"),
+    "DMSans-Regular": require("./assets/fonts/DMSans-Regular.ttf"),
+  });
+
   return (
     <NavigationContainer>
       <Stack.Navigator
