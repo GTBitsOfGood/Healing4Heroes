@@ -19,7 +19,6 @@ export async function internalRequest<T>({
         : "",
     },
   };
-  console.log(requestInfo.headers);
   if (body) {
     requestInfo.body = JSON.stringify(body);
   }

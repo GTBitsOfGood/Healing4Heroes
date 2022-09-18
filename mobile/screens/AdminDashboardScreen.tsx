@@ -1,8 +1,15 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { BackHandler, StyleSheet, Text, View } from "react-native";
 
-export default function AdminDashboardScreen() {
+export default function AdminDashboardScreen(props: any) {
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", function () {
+      props.navigation.navigate("Admin Dashboard");
+      return true;
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text>Admin Dashboard Screen</Text>

@@ -44,7 +44,6 @@ export default function SignUpScreen(props: any) {
 
   const handleSignUp = async () => {
     await auth.signOut().then().catch();
-    console.log(await auth?.currentUser);
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,

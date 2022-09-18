@@ -97,7 +97,16 @@ export default function LoginScreen(props: any) {
                 onPress={async () => {
                   const result = await handleLogin();
                   if (result) {
-                    if (result.roles?.includes(Role.NONPROFIT_ADMIN))
+                    // If they signed up but haven't set their user information
+                    if (
+                      !(
+                        result.firstName &&
+                        result.lastName &&
+                        result.handlerType
+                      )
+                    ) {
+                      props.navigation.navigate("Handler Information");
+                    } else if (result.roles?.includes(Role.NONPROFIT_ADMIN))
                       props.navigation.navigate("Admin Dashboard");
                   } else {
                     props.navigation.navigate("User Dashboard");

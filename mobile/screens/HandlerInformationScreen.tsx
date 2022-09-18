@@ -1,15 +1,16 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
+  BackHandler,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { Keyboard } from "react-native";
-import { HandlerType } from "../utils/types";
+import { HandlerType, Role, User } from "../utils/types";
 import { getUserInfo, updateUser } from "../actions/User";
 
 const dropDownItems = [
@@ -25,6 +26,19 @@ export default function HandlerInformationScreen(props: any) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
+  const [user, setUser] = useState<User>();
+  useEffect(() => {
+    async function getUser() {
+      const user = await getUserInfo();
+      return user;
+    }
+    getUser().then((result) => setUser(result));
+
+    BackHandler.addEventListener("hardwareBackPress", function () {
+      props.navigation.navigate("Handler Information");
+      return true;
+    });
+  }, []);
 
   const updateUserInfo = async () => {
     const user = await updateUser(
@@ -97,14 +111,19 @@ export default function HandlerInformationScreen(props: any) {
             if (validInput) {
               const userUpdate = await updateUserInfo();
               if (userUpdate) {
-                const user = await getUserInfo();
-                props.navigation.navigate("Animal Information", {
-                  params: {
-                    handlerId: user._id,
-                  },
-                });
+                if ((user as User).roles?.includes(Role.NONPROFIT_ADMIN)) {
+                  props.navigation.navigate("Admin Dashboard");
+                } else {
+                  props.navigation.navigate("Animal Information", {
+                    params: {
+                      handlerId: (user as User)._id,
+                    },
+                  });
+                }
+                return;
               } else {
                 setError("Something went wrong! Please try again");
+                return;
               }
             }
           }}
