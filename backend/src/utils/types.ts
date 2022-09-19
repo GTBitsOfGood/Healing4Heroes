@@ -24,6 +24,7 @@ export interface User {
 
 export interface ServiceAnimal {
   _id: Types.ObjectId;
+  name: string;
   totalHours: number;
   handler: User | Types.ObjectId;
   subHandler?: SubHandler;

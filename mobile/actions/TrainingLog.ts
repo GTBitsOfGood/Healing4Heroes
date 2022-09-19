@@ -7,7 +7,6 @@ import { Types } from "mongoose";
 const trainingLogUrl = urls.baseUrl + urls.api.training;
 
 export const createTrainingLog = async (
-  auth: any,
   date: Date,
   description: string,
   skills: Array<string>,

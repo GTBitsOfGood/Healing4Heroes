@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import { ServiceAnimal, HandlerType } from "src/utils/types";
 
 const AnimalSchema = new mongoose.Schema<ServiceAnimal>({
+  name: {
+    type: String,
+    required: true,
+  },
   totalHours: {
     type: Number,
     required: true,

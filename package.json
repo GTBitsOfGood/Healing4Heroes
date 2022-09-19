@@ -19,7 +19,7 @@
     "format:mobile": "npm run format --prefix mobile",
     "start:backend": "npm run dev --prefix backend",
     "start:mobile": "cd mobile && npx expo start",
-    "start:mobile-tunnel": "cd mobile && expo start --tunnel"
+    "start:mobile-tunnel": "cd mobile && npx expo start --tunnel"
   },
   "dependencies": {
     "concurrently": "^7.3.0"

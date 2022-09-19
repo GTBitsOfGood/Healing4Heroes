@@ -5,6 +5,7 @@ import { urls } from "../utils/urls";
 const animalUrl = urls.baseUrl + urls.api.animal;
 
 export const createAnimal = async (
+  name: string,
   totalHours?: number,
   subHandler?: SubHandler,
   dateOfBirth?: Date,
@@ -16,6 +17,7 @@ export const createAnimal = async (
     url: animalUrl,
     method: HttpMethod.POST,
     body: {
+      name,
       totalHours,
       subHandler,
       dateOfBirth,

@@ -7,11 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { createAnimal } from "../actions/Animal";
 import { validateDate } from "../utils/string";
-
-function updateDatabase() {
-  return;
-}
 
 export default function AnimalInformationScreen(props: any) {
   const { handlerName, handlerRole } = props.route.params;
@@ -20,6 +17,22 @@ export default function AnimalInformationScreen(props: any) {
   const [animalBirth, setAnimalBirth] = useState("");
   const [animalAdoption, setAnimalAdoption] = useState("");
   const [error, setError] = useState("");
+
+  const addAnimal = async () => {
+    const animal = await createAnimal(
+      animalName,
+      0,
+      undefined,
+      animalBirth ? new Date(animalBirth as unknown as string) : undefined,
+      animalAdoption
+        ? new Date(animalAdoption as unknown as string)
+        : undefined,
+      undefined,
+      undefined
+    );
+
+    return animal;
+  };
 
   return (
     <View style={styles.container}>
@@ -63,7 +76,7 @@ export default function AnimalInformationScreen(props: any) {
         )}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
+          onPress={async () => {
             if (!animalName) {
               setError("Please enter your dog's name.");
             } else if (animalBirth && !validateDate(animalBirth)) {
@@ -72,9 +85,13 @@ export default function AnimalInformationScreen(props: any) {
               setError("Animal adoption date is invalid.");
             } else {
               setError("");
-              updateDatabase();
+              const result = await addAnimal();
 
-              props.navigation.navigate("User Dashboard");
+              if (result) {
+                props.navigation.navigate("User Dashboard");
+              } else {
+                setError("Failed to create service animal!");
+              }
             }
           }}
         >

@@ -16,7 +16,7 @@ export default APIWrapper({
       if (!handler) {
         throw new Error("User not found in database!");
       }
-
+      const name: string = req.body.name as string;
       const totalHours: number = req.body.totalHours as number;
       const subHandler: SubHandler = req.body.subHandler as SubHandler;
       const dateOfBirth: Date = req.body.dateOfBirth as Date;
@@ -25,6 +25,7 @@ export default APIWrapper({
       const checkUpDate: Date = req.body.checkUpDate as Date;
 
       const animal = await createAnimal(
+        name,
         totalHours,
         handler._id,
         subHandler,

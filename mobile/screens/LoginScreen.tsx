@@ -11,13 +11,9 @@ import {
   Keyboard,
 } from "react-native";
 import { auth } from "../utils/firebase";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import { createUser, getUserInfo } from "../actions/User";
-import { HandlerType, Role } from "../utils/types";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { getUserInfo } from "../actions/User";
+import { Role } from "../utils/types";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 
@@ -25,8 +21,6 @@ export default function LoginScreen(props: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkValidUser, setCheckValidUser] = useState(true);
-  const [firstName, setFirstName] = useState("firstName");
-  const [lastName, setLastName] = useState("lastName");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = async () => {
