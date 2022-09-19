@@ -46,7 +46,7 @@ export interface TrainingLog {
   skills: Array<string>;
   trainingHours: number;
   behavior: ServiceAnimalBehavior;
-  animal: ServiceAnimal | Types.ObjectId;
+  animal: Types.ObjectId;
   video?: string;
 }
 

@@ -19,14 +19,31 @@ export async function createUser(
   email: string,
   firebaseUid: string,
   roles: Array<Role>,
-  firstName: string,
-  lastName: string,
-  handlerType: HandlerType
+  firstName?: string,
+  lastName?: string,
+  handlerType?: HandlerType
 ) {
   await dbConnect();
   const user = await UserModel.create({
     email: email,
     firebaseUid: firebaseUid,
+    roles: roles,
+    firstName: firstName,
+    lastName: lastName,
+    handlerType: handlerType,
+  });
+  return user;
+}
+
+export async function updateUser(
+  userId: Types.ObjectId,
+  roles?: Array<Role>,
+  firstName?: string,
+  lastName?: string,
+  handlerType?: HandlerType
+) {
+  await dbConnect();
+  const user = UserModel.findByIdAndUpdate(userId, {
     roles: roles,
     firstName: firstName,
     lastName: lastName,

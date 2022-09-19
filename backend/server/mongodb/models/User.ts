@@ -10,11 +10,11 @@ const UserSchema = new mongoose.Schema<User>({
   },
   firstName: {
     type: String,
-    required: true,
+    required: false,
   },
   lastName: {
     type: String,
-    required: true,
+    required: false,
   },
   firebaseUid: {
     type: String,
@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema<User>({
   },
   handlerType: {
     type: String,
-    required: true,
+    required: false,
     enum: Object.values(HandlerType),
   },
   roles: {
