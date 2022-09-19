@@ -19,14 +19,32 @@ export default function AnimalInformationScreen(props: any) {
   const [error, setError] = useState("");
 
   const addAnimal = async () => {
+    let parsedAdoptionDate = undefined;
+    let parsedBirthDate = undefined;
+    if (animalAdoption) {
+      const splitDate = animalAdoption.split("-");
+      parsedAdoptionDate = new Date(
+        parseInt(splitDate[2]),
+        parseInt(splitDate[0]) - 1,
+        parseInt(splitDate[1])
+      );
+    }
+
+    if (animalBirth) {
+      const splitDate = animalBirth.split("-");
+      parsedBirthDate = new Date(
+        parseInt(splitDate[2]),
+        parseInt(splitDate[0]) - 1,
+        parseInt(splitDate[1])
+      );
+    }
+
     const animal = await createAnimal(
       animalName,
       0,
       undefined,
-      animalBirth ? new Date(animalBirth as unknown as string) : undefined,
-      animalAdoption
-        ? new Date(animalAdoption as unknown as string)
-        : undefined,
+      parsedBirthDate,
+      parsedAdoptionDate,
       undefined,
       undefined
     );

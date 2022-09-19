@@ -16,6 +16,7 @@ export const createAnimal = async (
   return internalRequest<ServiceAnimal>({
     url: animalUrl,
     method: HttpMethod.POST,
+    authRequired: true,
     body: {
       name,
       totalHours,
