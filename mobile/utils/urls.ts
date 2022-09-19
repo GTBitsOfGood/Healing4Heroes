@@ -10,6 +10,7 @@ export const urls = {
   baseUrl: getBaseURL(),
   api: {
     user: "/api/user",
+    animal: "/api/animal",
     training: "/api/training",
   },
 };
