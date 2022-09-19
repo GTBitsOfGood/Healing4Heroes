@@ -5,6 +5,7 @@ const AnimalSchema = new mongoose.Schema<ServiceAnimal>({
   totalHours: {
     type: Number,
     required: true,
+    default: 0,
   },
   handler: {
     type: mongoose.Types.ObjectId,
@@ -13,40 +14,33 @@ const AnimalSchema = new mongoose.Schema<ServiceAnimal>({
   subHandler: {
     name: {
       type: String,
-      required: true,
-      default: "John Doe",
+      required: false,
     },
     relation: {
       type: String,
-      required: true,
-      default: "Nonprofit Staff",
+      required: false,
     },
     type: {
       type: String,
       required: false,
       enum: Object.values(HandlerType),
-      default: HandlerType.HANDLER_CIVILIAN,
     },
   },
   dateOfBirth: {
     type: Date,
-    required: true,
-    default: Date.now(),
+    required: false,
   },
   dateOfAdoption: {
     type: Date,
-    required: true,
-    default: Date.now(),
+    required: false,
   },
   microchipExpiration: {
     type: Date,
-    required: true,
-    default: new Date("2030-01-01"),
+    required: false,
   },
   checkUpDate: {
     type: Date,
-    required: true,
-    default: new Date("2030-01-01"),
+    required: false,
   },
 });
 

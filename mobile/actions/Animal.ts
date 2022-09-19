@@ -5,7 +5,7 @@ import { urls } from "../utils/urls";
 const animalUrl = urls.baseUrl + urls.api.animal;
 
 export const createAnimal = async (
-  totalHours: number,
+  totalHours?: number,
   subHandler?: SubHandler,
   dateOfBirth?: Date,
   dateOfAdoption?: Date,

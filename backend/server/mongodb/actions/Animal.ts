@@ -4,8 +4,8 @@ import dbConnect from "server/utils/dbConnect";
 import { SubHandler } from "src/utils/types";
 
 export async function createAnimal(
-  totalHours: number, // TODO: user flow for totalHours (default to 0?)
-  handler: Types.ObjectId,
+  totalHours?: number,
+  handler?: Types.ObjectId,
   subHandler?: SubHandler,
   dateOfBirth?: Date,
   dateOfAdoption?: Date,
@@ -22,7 +22,6 @@ export async function createAnimal(
     microchipExpiration: microchipExpiration,
     checkUpDate: checkUpDate,
   });
-  console.log("Hello World");
 
   return animal;
 }
