@@ -8,8 +8,15 @@ function getBaseURL() {
 export const urls = {
   baseUrl: getBaseURL(),
   api: {
-    user: "/api/user",
-    animal: "/api/animal",
-    training: "/api/training",
+    user: {
+      user: "/api/user/user",
+      animal: "/api/user/animal",
+      training: "/api/user/training",
+    },
+    admin: {
+      user: "/api/admin/user",
+      animal: "/api/admin/animal",
+      training: "/api/admin/training",
+    },
   },
 };

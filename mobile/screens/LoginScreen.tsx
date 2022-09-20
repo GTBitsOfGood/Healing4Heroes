@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { auth } from "../utils/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { getUserInfo } from "../actions/User";
+import { userGetUserInfo } from "../actions/User";
 import { Role } from "../utils/types";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
@@ -36,7 +36,7 @@ export default function LoginScreen(props: any) {
         setCheckValidUser(false);
         return;
       }
-      const user = await getUserInfo();
+      const user = await userGetUserInfo();
       return user;
     } catch (e) {
       setErrorMessage(`Account email or password combination is incorrect!`);
@@ -129,8 +129,6 @@ export default function LoginScreen(props: any) {
               </Text>
             </View>
           </View>
-
-          {/* <Text onPress={handleLogin}>Login</Text> */}
         </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>

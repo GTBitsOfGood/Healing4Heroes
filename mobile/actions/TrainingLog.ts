@@ -4,9 +4,9 @@ import { HttpMethod, TrainingLog } from "../utils/types";
 import { internalRequest } from "../utils/requests";
 import { Types } from "mongoose";
 
-const trainingLogUrl = urls.baseUrl + urls.api.training;
+const trainingLogUrl = urls.baseUrl + urls.api.user.training;
 
-export const createTrainingLog = async (
+export const userCreateTrainingLog = async (
   date: Date,
   description: string,
   skills: Array<string>,

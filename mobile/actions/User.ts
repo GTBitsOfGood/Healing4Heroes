@@ -2,9 +2,9 @@ import { internalRequest } from "../utils/requests";
 import { HandlerType, HttpMethod, Role, User } from "../utils/types";
 import { urls } from "../utils/urls";
 
-const userUrl = urls.baseUrl + urls.api.user;
+const userUrl = urls.baseUrl + urls.api.user.user;
 
-export const getUserInfo = async () => {
+export const userGetUserInfo = async () => {
   return internalRequest<User>({
     url: userUrl,
     method: HttpMethod.GET,
@@ -12,7 +12,7 @@ export const getUserInfo = async () => {
   });
 };
 
-export const createUser = async (
+export const userCreateUser = async (
   email: string,
   firebaseUid: string,
   roles: Array<Role>,
@@ -34,7 +34,7 @@ export const createUser = async (
   });
 };
 
-export const updateUser = async (
+export const userUpdateUser = async (
   roles?: Array<Role>,
   firstName?: string,
   lastName?: string,

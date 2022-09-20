@@ -11,7 +11,7 @@ import {
 import DropDownPicker from "react-native-dropdown-picker";
 import { Keyboard } from "react-native";
 import { HandlerType, Role, User } from "../utils/types";
-import { getUserInfo, updateUser } from "../actions/User";
+import { userGetUserInfo, userUpdateUser } from "../actions/User";
 
 const dropDownItems = [
   { label: "Veteran", value: HandlerType.HANDLER_VETERAN },
@@ -29,7 +29,7 @@ export default function HandlerInformationScreen(props: any) {
   const [user, setUser] = useState<User>();
   useEffect(() => {
     async function getUser() {
-      const user = await getUserInfo();
+      const user = await userGetUserInfo();
       return user;
     }
     getUser().then((result) => setUser(result));
@@ -41,7 +41,7 @@ export default function HandlerInformationScreen(props: any) {
   }, []);
 
   const updateUserInfo = async () => {
-    const user = await updateUser(
+    const user = await userUpdateUser(
       undefined,
       firstName,
       lastName,

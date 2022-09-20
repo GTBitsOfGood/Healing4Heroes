@@ -2,9 +2,9 @@ import { internalRequest } from "../utils/requests";
 import { SubHandler, HttpMethod, ServiceAnimal } from "../utils/types";
 import { urls } from "../utils/urls";
 
-const animalUrl = urls.baseUrl + urls.api.animal;
+const animalUrl = urls.baseUrl + urls.api.user.animal;
 
-export const createAnimal = async (
+export const userCreateAnimal = async (
   name: string,
   totalHours?: number,
   subHandler?: SubHandler,

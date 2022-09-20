@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { createAnimal } from "../actions/Animal";
+import { userCreateAnimal } from "../actions/Animal";
 import { validateDate } from "../utils/string";
 
 export default function AnimalInformationScreen(props: any) {
@@ -39,7 +39,7 @@ export default function AnimalInformationScreen(props: any) {
       );
     }
 
-    const animal = await createAnimal(
+    const animal = await userCreateAnimal(
       animalName,
       0,
       undefined,
