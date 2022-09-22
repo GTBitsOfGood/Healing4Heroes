@@ -14,7 +14,7 @@ import { Fontisto } from "@expo/vector-icons";
 import { validateEmail } from "../utils/string";
 import { auth } from "../utils/firebase";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
-import { createUser } from "../actions/User";
+import { userCreateUser } from "../actions/User";
 import { Role } from "../utils/types";
 
 export default function SignUpScreen(props: any) {
@@ -61,12 +61,12 @@ export default function SignUpScreen(props: any) {
       const firebaseUid = user.uid;
       let createdUser;
       if (isAdmin) {
-        createdUser = await createUser(email, firebaseUid, [
+        createdUser = await userCreateUser(email, firebaseUid, [
           Role.NONPROFIT_USER,
           Role.NONPROFIT_ADMIN,
         ]);
       } else {
-        createdUser = await createUser(email, firebaseUid, [
+        createdUser = await userCreateUser(email, firebaseUid, [
           Role.NONPROFIT_USER,
         ]);
       }
