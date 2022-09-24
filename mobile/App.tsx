@@ -11,6 +11,7 @@ import AdminDashboardScreen from "./screens/AdminDashboardScreen";
 import LandingScreen from "./screens/LandingScreen";
 import DevelopmentScreen from "./screens/DevelopmentScreen";
 import { useFonts } from "expo-font";
+import StorageExampleScreen from "./screens/StorageExampleScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,16 +44,11 @@ export default function App() {
         />
         <Stack.Screen name="User Dashboard" component={UserDashboardScreen} />
         <Stack.Screen name="Admin Dashboard" component={AdminDashboardScreen} />
+        <Stack.Screen
+          name="Storage Example Screen"
+          component={StorageExampleScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
