@@ -12,6 +12,7 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss}\""
   },
   "dependencies": {
+    "@expo/config": "^7.0.1",
     "@expo/ngrok": "^4.1.0",
     "@expo/webpack-config": "^0.17.2",
     "@react-navigation/native": "^6.0.11",
