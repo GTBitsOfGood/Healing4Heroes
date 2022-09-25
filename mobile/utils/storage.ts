@@ -5,7 +5,7 @@ import { StorageLocation } from "./types";
 export const uploadFile = async (
   fileName: string,
   storageLocation: StorageLocation,
-  uri: string
+  fileData: string
 ) => {
   const storageRef = ref(storage, storageLocation + fileName);
 
@@ -19,7 +19,7 @@ export const uploadFile = async (
       reject(new TypeError("Network request failed"));
     };
     xhr.responseType = "blob";
-    xhr.open("GET", uri, true);
+    xhr.open("GET", fileData, true);
     xhr.send(null);
   });
 
