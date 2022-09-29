@@ -11,6 +11,12 @@ export enum HandlerType {
   HANDLER_CHILD = "child",
 }
 
+export enum StorageLocation {
+  HANDLER_PICTURES = "HandlerPictures/",
+  SERVICE_ANIMAL_PICTURES = "ServiceAnimalPictures/",
+  TRAINING_LOG_VIDEOS = "TrainingLogVideos/",
+}
+
 export interface User {
   _id: Types.ObjectId;
   firstName: string;

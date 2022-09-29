@@ -58,6 +58,13 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={() => props.navigation.navigate("Storage Example Screen")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Storage Example Screen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
         onPress={async () => {
           const userCredential = await signInWithEmailAndPassword(
             auth,
