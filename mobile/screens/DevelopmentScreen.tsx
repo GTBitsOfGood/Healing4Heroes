@@ -65,6 +65,13 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={() => props.navigation.navigate("Step Overlay Example Screen")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Step overlay Example Screen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
         onPress={async () => {
           const userCredential = await signInWithEmailAndPassword(
             auth,

@@ -12,6 +12,7 @@ import LandingScreen from "./screens/LandingScreen";
 import DevelopmentScreen from "./screens/DevelopmentScreen";
 import { useFonts } from "expo-font";
 import StorageExampleScreen from "./screens/StorageExampleScreen";
+import StepOverlayExampleScreen from "./screens/StepOverlayExampleScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,10 @@ export default function App() {
         <Stack.Screen
           name="Storage Example Screen"
           component={StorageExampleScreen}
+        />
+        <Stack.Screen
+          name="Step Overlay Example Screen"
+          component={StepOverlayExampleScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
