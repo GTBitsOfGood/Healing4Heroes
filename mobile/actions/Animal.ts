@@ -28,3 +28,11 @@ export const userCreateAnimal = async (
     },
   });
 };
+
+export const userGetAnimal = async () => {
+  return internalRequest<ServiceAnimal>({
+    url: animalUrl,
+    method: HttpMethod.GET,
+    authRequired: true,
+  });
+}

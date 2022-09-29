@@ -1,4 +1,4 @@
-import { createAnimal } from "server/mongodb/actions/Animal";
+import { createAnimal, findAnimalByUserId } from "server/mongodb/actions/Animal";
 import APIWrapper from "server/utils/APIWrapper";
 import { getUser } from "server/utils/Authentication";
 import { User, SubHandler, Role } from "src/utils/types";
@@ -41,5 +41,27 @@ export default APIWrapper({
 
       return animal;
     },
+  },
+  GET: {
+    config: {
+      requireToken: true,
+      roles: [Role.NONPROFIT_USER],
+    },
+    handler: async (req) => {
+      const accessToken: string = req.headers.accesstoken as string;
+      const handler: User = await getUser(accessToken);
+
+      if (!handler) {
+        throw new Error("User not found in database!");
+      }
+      
+      const animal = await findAnimalByUserId(handler._id);
+
+      if (!animal) {
+        throw new Error("Animal not found in database!");
+      }
+
+      return animal;
+    }
   },
 });

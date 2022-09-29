@@ -1482,9 +1482,9 @@
     "resolve-from" "^5.0.0"
     "sucrase" "^3.20.0"
 
-"@expo/ngrok-bin-darwin-x64@2.3.40":
-  "integrity" "sha512-nqGLfxIjZBoT79VDk5mqaHQKCWkunSi486zGLeB8Ye8Qar1yo4STFwks+DqTbnGD5ItArQz2LzKRVE4YXuJFuw=="
-  "resolved" "https://registry.npmjs.org/@expo/ngrok-bin-darwin-x64/-/ngrok-bin-darwin-x64-2.3.40.tgz"
+"@expo/ngrok-bin-darwin-arm64@2.3.40":
+  "integrity" "sha512-Zij81v/bIsVBvgXgYS71xbi/3lqKfVEfr7rId8BsHO3Ec1nQcp/I+729W3KX9PUHzWlXCLxOKZ3uF4jL/TcNbg=="
+  "resolved" "https://registry.npmjs.org/@expo/ngrok-bin-darwin-arm64/-/ngrok-bin-darwin-arm64-2.3.40.tgz"
   "version" "2.3.40"
 
 "@expo/ngrok-bin@2.3.40":
