@@ -30,6 +30,6 @@ export async function createAnimal(
 
 export async function findAnimalByUserId(id: Types.ObjectId) {
   await dbConnect();
-  
-  return await AnimalModel.findOne({ handler: id }).exec()
+
+  return AnimalModel.findOne({ handler: id }).exec();
 }
