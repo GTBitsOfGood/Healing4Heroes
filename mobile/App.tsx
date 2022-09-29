@@ -11,6 +11,8 @@ import AdminDashboardScreen from "./screens/AdminDashboardScreen";
 import LandingScreen from "./screens/LandingScreen";
 import DevelopmentScreen from "./screens/DevelopmentScreen";
 import { useFonts } from "expo-font";
+import AddTrainingLog from "./screens/AddTrainingLog";
+import UploadVideoScreen from "./screens/UploadVideoScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +43,8 @@ export default function App() {
           name="Animal Information"
           component={AnimalInformationScreen}
         />
+        <Stack.Screen name="Add Training Log" component={AddTrainingLog} />
+        <Stack.Screen name="Upload Video Log" component={UploadVideoScreen} />
         <Stack.Screen name="User Dashboard" component={UserDashboardScreen} />
         <Stack.Screen name="Admin Dashboard" component={AdminDashboardScreen} />
       </Stack.Navigator>

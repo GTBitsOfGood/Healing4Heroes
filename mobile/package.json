@@ -20,6 +20,7 @@
     "babel-preset-expo": "^9.2.0",
     "expo": "~46.0.6",
     "expo-cli": "^6.0.5",
+    "expo-image-picker": "~13.3.1",
     "expo-status-bar": "~1.4.0",
     "firebase": "^9.9.4",
     "mongoose": "^6.5.2",
