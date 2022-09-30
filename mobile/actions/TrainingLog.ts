@@ -4,7 +4,8 @@ import { HttpMethod, TrainingLog } from "../utils/types";
 import { internalRequest } from "../utils/requests";
 import { Types } from "mongoose";
 
-const trainingLogUrl = urls.baseUrl + urls.api.user.training;
+const userTrainingLogUrl = urls.baseUrl + urls.api.user.training;
+const adminTrainingLogUrl = urls.baseUrl + urls.api.admin.training;
 
 export const userCreateTrainingLog = async (
   date: Date,
@@ -17,7 +18,7 @@ export const userCreateTrainingLog = async (
   video?: string
 ) => {
   return internalRequest<TrainingLog>({
-    url: trainingLogUrl,
+    url: userTrainingLogUrl,
     method: HttpMethod.POST,
     authRequired: true,
     body: {
@@ -30,5 +31,22 @@ export const userCreateTrainingLog = async (
       handler,
       video,
     },
+  });
+};
+
+export const userGetTrainingLogs = async () => {
+  return internalRequest<TrainingLog>({
+    url: userTrainingLogUrl,
+    method: HttpMethod.GET,
+    authRequired: true,
+  });
+};
+
+export const adminGetTrainingLogs = async (userId: Types.ObjectId) => {
+  return internalRequest<TrainingLog>({
+    url: adminTrainingLogUrl,
+    method: HttpMethod.GET,
+    authRequired: true,
+    body: { userId },
   });
 };

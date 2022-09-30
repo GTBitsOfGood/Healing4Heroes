@@ -1,6 +1,10 @@
 import { Types } from "mongoose";
-import { createTrainingLog } from "server/mongodb/actions/TrainingLog";
+import {
+  createTrainingLog,
+  getTrainingLogs,
+} from "server/mongodb/actions/TrainingLog";
 import APIWrapper from "server/utils/APIWrapper";
+import { getUser } from "server/utils/Authentication";
 import { Role, ServiceAnimalBehavior } from "src/utils/types";
 
 export default APIWrapper({
@@ -35,6 +39,25 @@ export default APIWrapper({
       }
 
       return trainingLog;
+    },
+  },
+  GET: {
+    config: {
+      requireToken: true,
+      roles: [Role.NONPROFIT_USER],
+    },
+    handler: async (req) => {
+      const accessToken: string = req.headers.accesstoken as string;
+      const user = await getUser(accessToken);
+
+      if (!user) {
+        throw new Error("User not found in database!");
+      }
+
+      const userId = user._id;
+      const trainingLogs = await getTrainingLogs(userId);
+
+      return trainingLogs;
     },
   },
 });

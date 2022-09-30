@@ -26,3 +26,9 @@ export async function createTrainingLog(
   });
   return trainingLog;
 }
+
+export async function getTrainingLogs(userId: Types.ObjectId) {
+  await dbConnect();
+  const trainingLogs = await TrainingLogModel.find({ handler: userId });
+  return trainingLogs;
+}
