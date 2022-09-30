@@ -13,9 +13,30 @@ import {
   Button,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { userCreateTrainingLog } from "../actions/TrainingLog";
 
 export default function AddTrainingLogScreen(props: any) {
+  const [error, setError] = useState("");
+  const [videoUploaded, setVideoUploaded] = useState(false);
   const [image, setImage] = useState();
+  //input propagated from addTrainingLogPage
+  const { totalHours, note, skillsPlayed, behaviorDescription } =
+    props.route.params;
+
+  const updateTrainingLog = async () => {
+    // const trainingLog = await userCreateTrainingLog();
+    // return trainingLog;
+  };
+
+  const validateInput = () => {
+    if (!videoUploaded) {
+      setError("please upload a training video clip");
+      return;
+    } else {
+      setError("");
+      return true;
+    }
+  };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
@@ -25,14 +46,11 @@ export default function AddTrainingLogScreen(props: any) {
   }, []);
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
     });
-    console.log(result);
+    setVideoUploaded(true);
   };
 
   return (
@@ -54,15 +72,7 @@ export default function AddTrainingLogScreen(props: any) {
             <HeaderDate />
           </View>
         </View>
-
         <Text style={styles.label}>Video Log</Text>
-        <View style={styles.videoUploadContainer}>
-          <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-            <Ionicons name="add-circle-outline" size={30} color="grey" />
-            <Text style={styles.uploadText}> Training Video Log</Text>
-          </TouchableOpacity>
-          {image && <Image source={{ uri: image }} />}
-        </View>
         <View style={styles.videoUploadContainer}>
           <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
             <Ionicons name="add-circle-outline" size={30} color="grey" />
@@ -72,7 +82,28 @@ export default function AddTrainingLogScreen(props: any) {
         </View>
       </View>
       <View>
-        <TouchableOpacity style={styles.button}>
+        {error && (
+          <View style={styles.failedContainer}>
+            <Text style={styles.failedText}>{error}</Text>
+          </View>
+        )}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={async () => {
+            const validInput = validateInput();
+            if (validInput) {
+              const trainingLogUpdate = await updateTrainingLog();
+              // if (trainingLogUpdate) {
+              //   props.navigation.navigate("Admin Dashboard");
+              //   return;
+              // } else {
+              // return;
+              // }
+            } else {
+              //handle error if updateTrainingLog fails
+            }
+          }}
+        >
           <Text style={styles.buttonText}>Finish</Text>
         </TouchableOpacity>
         <View style={styles.circles}>
@@ -127,6 +158,20 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#333333",
     fontFamily: "DMSans-Bold",
+  },
+  failedContainer: {
+    marginTop: 12,
+    alignItems: "center",
+    marginBottom: 12,
+    padding: 8,
+    borderRadius: 10,
+    borderWidth: 0.5,
+    minWidth: "85%",
+    backgroundColor: "#D9D9D9",
+  },
+  failedText: {
+    fontSize: 12,
+    fontWeight: "300",
   },
   button: {
     paddingVertical: 16,

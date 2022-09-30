@@ -13,13 +13,32 @@ import HeaderDate from "../components/HeaderDate";
 
 export default function AddTrainingLogScreen(props: any) {
   const [totalHours, setTotalHours] = useState("");
-  const [skills, setSkills] = useState([
-    { id: 1, skill: "post", selected: "false" },
-    { id: 2, skill: "heel", selected: "false" },
-    { id: 3, skill: "jump", selected: "false" },
-  ]);
-  const [error, setError] = useState("");
+  const [note, setNote] = useState("");
   const [skillsPlayed, setSkillPlayed] = useState("");
+  const [allSkills, setAllSkills] = useState([]);
+  const [behaviorDescription, setBehaviorDescription] = useState("");
+
+  const [error, setError] = useState("");
+
+  const handleAddSkill = () => {};
+  const skills = [
+    { id: 1, skill: "post" },
+    { id: 2, skill: "heel" },
+    { id: 3, skill: "jump" },
+  ];
+
+  const validateInput = () => {
+    if (!totalHours) {
+      setError("Please enter your total hours.");
+      return;
+    } else if (!skillsPlayed) {
+      setError("Please select at least one skill played.");
+      return;
+    } else {
+      setError("");
+      return true;
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -28,11 +47,19 @@ export default function AddTrainingLogScreen(props: any) {
         <View>
           <View>
             <Text style={styles.label}>Total hrs*</Text>
-            <TextInput style={styles.input} onChangeText={setTotalHours} />
+            <TextInput
+              style={styles.input}
+              value={totalHours}
+              onChangeText={setTotalHours}
+            />
           </View>
           <View>
             <Text style={styles.label}>Note</Text>
-            <TextInput style={styles.input} />
+            <TextInput
+              style={styles.input}
+              value={note}
+              onChangeText={setNote}
+            />
           </View>
           <View>
             <Text style={styles.label}>Skill Played*</Text>
@@ -43,6 +70,7 @@ export default function AddTrainingLogScreen(props: any) {
                 <TouchableOpacity
                   style={styles.multiSelectButton}
                   onPress={() => {
+                    // handleAddSkill();
                     setSkillPlayed(item.skill);
                   }}
                 >
@@ -52,8 +80,12 @@ export default function AddTrainingLogScreen(props: any) {
             ></FlatList>
           </View>
           <View>
-            <Text style={styles.label}>Behavior Note</Text>
-            <TextInput style={styles.behaviorInput} placeholder="Note" />
+            <Text style={styles.label}>Behavior Description</Text>
+            <TextInput
+              style={styles.behaviorInput}
+              value={behaviorDescription}
+              onChangeText={setBehaviorDescription}
+            />
           </View>
         </View>
       </View>
@@ -65,14 +97,15 @@ export default function AddTrainingLogScreen(props: any) {
         )}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            if (!totalHours) {
-              setError("Please enter your total hours.");
-            } else if (!skillsPlayed) {
-              setError("Please select at least one skill played.");
-            } else {
-              setError("");
-              props.navigation.navigate("Upload Video Log");
+          onPress={async () => {
+            const validInput = validateInput();
+            if (validInput) {
+              props.navigation.navigate("Upload Video Log", {
+                totalHours: totalHours,
+                note: note,
+                skillsPlayed: skillsPlayed,
+                behaviorDescription: behaviorDescription,
+              });
             }
           }}
         >
