@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import { ServiceAnimal, HandlerType } from "src/utils/types";
 
 const AnimalSchema = new mongoose.Schema<ServiceAnimal>({
+  handler: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -10,10 +14,6 @@ const AnimalSchema = new mongoose.Schema<ServiceAnimal>({
     type: Number,
     required: true,
     default: 0,
-  },
-  handler: {
-    type: mongoose.Types.ObjectId,
-    required: true,
   },
   subHandler: {
     name: {

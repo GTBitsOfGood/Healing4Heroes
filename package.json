@@ -22,6 +22,7 @@
     "start:mobile-tunnel": "cd mobile && npx expo start --tunnel"
   },
   "dependencies": {
-    "concurrently": "^7.3.0"
+    "concurrently": "^7.3.0",
+    "expo-image-picker": "^13.3.1"
   }
 }
