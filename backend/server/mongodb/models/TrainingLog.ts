@@ -32,6 +32,10 @@ const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
     type: Schema.Types.ObjectId,
     required: true,
   },
+  handler: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
   video: {
     type: String,
   },

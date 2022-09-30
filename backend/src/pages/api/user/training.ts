@@ -17,6 +17,7 @@ export default APIWrapper({
       const behavior: ServiceAnimalBehavior = req.body
         .behavior as ServiceAnimalBehavior;
       const animal: Types.ObjectId = req.body.animal as Types.ObjectId;
+      const handler: Types.ObjectId = req.body.handler as Types.ObjectId;
       const video: string = req.body.video as string;
 
       const trainingLog = await createTrainingLog(
@@ -26,6 +27,7 @@ export default APIWrapper({
         trainingHours,
         behavior,
         animal,
+        handler,
         video
       );
       if (!trainingLog) {

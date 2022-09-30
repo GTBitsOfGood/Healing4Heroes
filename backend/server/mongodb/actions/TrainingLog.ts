@@ -10,6 +10,7 @@ export async function createTrainingLog(
   trainingHours: number,
   behavior: ServiceAnimalBehavior,
   animal: Types.ObjectId,
+  handler: Types.ObjectId,
   video: string
 ) {
   await dbConnect();
@@ -20,6 +21,7 @@ export async function createTrainingLog(
     trainingHours,
     behavior,
     animal,
+    handler,
     video,
   });
   return trainingLog;

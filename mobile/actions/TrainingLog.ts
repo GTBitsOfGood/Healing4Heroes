@@ -13,6 +13,7 @@ export const userCreateTrainingLog = async (
   trainingHours: number,
   behavior: ServiceAnimalBehavior,
   animal: Types.ObjectId,
+  handler: Types.ObjectId,
   video?: string
 ) => {
   return internalRequest<TrainingLog>({
@@ -26,6 +27,7 @@ export const userCreateTrainingLog = async (
       trainingHours,
       behavior,
       animal,
+      handler,
       video,
     },
   });
