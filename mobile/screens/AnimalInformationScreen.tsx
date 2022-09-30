@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 import { userCreateAnimal } from "../actions/Animal";
 import StepOverlay from "../components/StepOverlay";
 import { validateDate } from "../utils/string";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function AnimalInformationScreen(props: any) {
   const [animalName, setAnimalName] = useState("");
@@ -68,6 +69,7 @@ export default function AnimalInformationScreen(props: any) {
       headerName="Getting Started"
       buttonFunction={submitAnimalInformation}
       error={error}
+      pageIcon={<FontAwesome5 name="dog" size={37.5} color="black" />}
       pageBody={
         <View style={styles.container}>
           <Text style={styles.label}>What is your dog&apos;s name? *</Text>
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: "#f2f2f2",
     flexDirection: "column",
-    paddingHorizontal: 0,
+    marginTop: 20,
   },
   header: {
     alignSelf: "center",
@@ -120,7 +122,6 @@ const styles = StyleSheet.create({
     marginTop: 35,
   },
   label: {
-    marginTop: 45,
     marginBottom: 16,
     fontSize: 20,
     color: "#333333",
@@ -129,6 +130,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "white",
     paddingVertical: 12,
+    marginBottom: 40,
     paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 0.5,

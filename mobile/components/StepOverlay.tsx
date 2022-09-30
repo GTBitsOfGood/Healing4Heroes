@@ -15,6 +15,7 @@ interface StepOverlayProps {
   error: string;
   buttonFunction: ((event: GestureResponderEvent) => void) | undefined;
   pageBody: ReactElement;
+  pageIcon?: ReactElement;
 }
 export default function StepOverlay({
   circleCount,
@@ -23,10 +24,14 @@ export default function StepOverlay({
   buttonFunction,
   pageBody,
   error,
+  pageIcon,
 }: StepOverlayProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{headerName}</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>{headerName}</Text>
+        {<View style={styles.iconCircle}>{pageIcon}</View>}
+      </View>
       <ScrollView>{pageBody}</ScrollView>
 
       {error && (
@@ -61,7 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     flexDirection: "column",
     paddingVertical: 40,
-    paddingHorizontal: 24,
+    paddingHorizontal: 34,
   },
   header: {
     alignSelf: "center",
@@ -105,6 +110,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#CCCCCC",
     marginHorizontal: 3,
   },
+  iconCircle: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+    marginBottom: 10,
+    width: 75,
+    height: 75,
+    borderRadius: 75 / 2,
+    backgroundColor: "#D9D9D9",
+  },
   selected: {
     backgroundColor: "#666666",
   },
@@ -121,5 +137,10 @@ const styles = StyleSheet.create({
   failedText: {
     fontSize: 12,
     fontWeight: "300",
+  },
+  headerContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
 });

@@ -12,6 +12,8 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { Keyboard } from "react-native";
 import { HandlerType, Role, User } from "../utils/types";
 import { userGetUserInfo, userUpdateUser } from "../actions/User";
+import StepOverlay from "../components/StepOverlay";
+import { Ionicons } from "@expo/vector-icons";
 
 const dropDownItems = [
   { label: "Veteran", value: HandlerType.HANDLER_VETERAN },
@@ -28,6 +30,7 @@ export default function HandlerInformationScreen(props: any) {
   const [error, setError] = useState("");
   const [user, setUser] = useState<User>();
   useEffect(() => {
+    DropDownPicker.setListMode("SCROLLVIEW");
     async function getUser() {
       const user = await userGetUserInfo();
       return user;
@@ -63,81 +66,76 @@ export default function HandlerInformationScreen(props: any) {
     return true;
   };
 
-  return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.header}>Getting Started</Text>
-        <Text style={styles.label}>What is your first name?*</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="First Name"
-          placeholderTextColor="#999999"
-          value={firstName}
-          onChangeText={setFirstName}
-        />
-        <Text style={styles.label}>What is your last name?*</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Last Name"
-          placeholderTextColor="#999999"
-          value={lastName}
-          onChangeText={setLastName}
-        />
+  const submitHandlerInformation = async () => {
+    const validInput = validateInput();
+    if (validInput) {
+      const userUpdate = await updateUserInfo();
+      if (userUpdate) {
+        if ((user as User).roles?.includes(Role.NONPROFIT_ADMIN)) {
+          props.navigation.navigate("Admin Dashboard");
+        } else {
+          props.navigation.navigate("Animal Information", {
+            params: {
+              handlerId: (user as User)._id,
+            },
+          });
+        }
+        return;
+      } else {
+        setError("Something went wrong! Please try again");
+        return;
+      }
+    }
+  };
 
-        <Text style={styles.label}>What describes you best?*</Text>
-        <DropDownPicker
-          open={dropDownOpen}
-          setOpen={setDropDownOpen}
-          items={dropDownItems}
-          value={dropDownValue}
-          setValue={setDropDownValue}
-          style={styles.input}
-          dropDownContainerStyle={styles.dropDownContainer}
-          onOpen={() => {
-            Keyboard.dismiss();
-          }}
-        />
-      </View>
-      <View>
-        {error && (
-          <View style={styles.failedContainer}>
-            <Text style={styles.failedText}>{error}</Text>
-          </View>
-        )}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={async () => {
-            const validInput = validateInput();
-            if (validInput) {
-              const userUpdate = await updateUserInfo();
-              if (userUpdate) {
-                if ((user as User).roles?.includes(Role.NONPROFIT_ADMIN)) {
-                  props.navigation.navigate("Admin Dashboard");
-                } else {
-                  props.navigation.navigate("Animal Information", {
-                    params: {
-                      handlerId: (user as User)._id,
-                    },
-                  });
-                }
-                return;
-              } else {
-                setError("Something went wrong! Please try again");
-                return;
-              }
-            }
-          }}
-        >
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
-        <View style={styles.circles}>
-          <View style={[styles.circle, styles.selected]} />
-          <View style={styles.circle} />
-          <View style={styles.circle} />
+  return (
+    <StepOverlay
+      circleCount={3}
+      numberSelected={1}
+      headerName="Getting Started"
+      buttonFunction={submitHandlerInformation}
+      error={error}
+      pageIcon={<Ionicons name="person" size={24} color="black" />}
+      pageBody={
+        <View style={styles.container}>
+          <Text style={styles.label}>What is your first name?*</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="First Name"
+            placeholderTextColor="#999999"
+            value={firstName}
+            onChangeText={setFirstName}
+          />
+
+          <Text style={styles.label}>What is your last name?*</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Last Name"
+            placeholderTextColor="#999999"
+            value={lastName}
+            onChangeText={setLastName}
+          />
+
+          <Text style={styles.label}>What describes you best?*</Text>
+          <DropDownPicker
+            open={dropDownOpen}
+            setOpen={setDropDownOpen}
+            items={dropDownItems}
+            value={dropDownValue}
+            setValue={setDropDownValue}
+            style={styles.input}
+            dropDownDirection="AUTO"
+            placeholderStyle={{
+              color: "#999999",
+            }}
+            dropDownContainerStyle={styles.dropDownContainer}
+            onOpen={() => {
+              Keyboard.dismiss();
+            }}
+          />
         </View>
-      </View>
-      <StatusBar style="auto" />
-    </View>
+      }
+    />
   );
 }
 
@@ -147,8 +145,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     justifyContent: "space-between",
     flexDirection: "column",
-    paddingVertical: 40,
-    paddingHorizontal: 24,
+    marginTop: 20,
   },
   header: {
     alignSelf: "center",
@@ -158,7 +155,6 @@ const styles = StyleSheet.create({
     marginTop: 35,
   },
   label: {
-    marginTop: 60,
     marginBottom: 16,
     fontSize: 20,
     color: "#333333",
@@ -167,6 +163,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "white",
     paddingVertical: 12,
+    marginBottom: 40,
     paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 0.5,
