@@ -14,6 +14,7 @@ import { HandlerType, Role, User } from "../utils/types";
 import { userGetUserInfo, userUpdateUser } from "../actions/User";
 import StepOverlay from "../components/StepOverlay";
 import { Ionicons } from "@expo/vector-icons";
+import SolidDropDown from "../components/SolidDropDown";
 
 const dropDownItems = [
   { label: "Veteran", value: HandlerType.HANDLER_VETERAN },
@@ -23,8 +24,7 @@ const dropDownItems = [
 ];
 
 export default function HandlerInformationScreen(props: any) {
-  const [dropDownOpen, setDropDownOpen] = useState(false);
-  const [dropDownValue, setDropDownValue] = useState(null);
+  const [dropDownValue, setDropDownValue] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
@@ -117,22 +117,22 @@ export default function HandlerInformationScreen(props: any) {
           />
 
           <Text style={styles.label}>What describes you best?*</Text>
-          <DropDownPicker
-            open={dropDownOpen}
-            setOpen={setDropDownOpen}
-            items={dropDownItems}
-            value={dropDownValue}
-            setValue={setDropDownValue}
-            style={styles.input}
-            dropDownDirection="AUTO"
-            placeholderStyle={{
-              color: "#999999",
+
+          <SolidDropDown
+            items={{
+              Veteran: HandlerType.HANDLER_VETERAN,
+              "First Responder/LEO": HandlerType.HANDLER_CHILD,
+              "Surviving Family Member":
+                HandlerType.HANDLER_SURVIVING_FAMILY_MEMBER,
+              Child: HandlerType.HANDLER_CHILD,
+              Civilian: HandlerType.HANDLER_CIVILIAN,
             }}
-            dropDownContainerStyle={styles.dropDownContainer}
-            onOpen={() => {
-              Keyboard.dismiss();
+            placeholder={"Select An Option"}
+            isMultiselect={false}
+            callbackFunction={(element: string | Array<string>) => {
+              setDropDownValue(element as HandlerType);
             }}
-          />
+          ></SolidDropDown>
         </View>
       }
     />
