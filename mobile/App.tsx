@@ -13,6 +13,8 @@ import DevelopmentScreen from "./screens/DevelopmentScreen";
 import { useFonts } from "expo-font";
 import StorageExampleScreen from "./screens/StorageExampleScreen";
 import StepOverlayExampleScreen from "./screens/StepOverlayExampleScreen";
+import AddTrainingLog from "./screens/AddTrainingLog";
+import UploadVideoScreen from "./screens/UploadVideoScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +45,8 @@ export default function App() {
           name="Animal Information"
           component={AnimalInformationScreen}
         />
+        <Stack.Screen name="Add Training Log" component={AddTrainingLog} />
+        <Stack.Screen name="Upload Video Log" component={UploadVideoScreen} />
         <Stack.Screen name="User Dashboard" component={UserDashboardScreen} />
         <Stack.Screen name="Admin Dashboard" component={AdminDashboardScreen} />
         <Stack.Screen

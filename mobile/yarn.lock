@@ -1485,9 +1485,6 @@
 "@expo/ngrok-bin-darwin-arm64@2.3.40":
   "integrity" "sha512-Zij81v/bIsVBvgXgYS71xbi/3lqKfVEfr7rId8BsHO3Ec1nQcp/I+729W3KX9PUHzWlXCLxOKZ3uF4jL/TcNbg=="
   "resolved" "https://registry.npmjs.org/@expo/ngrok-bin-darwin-arm64/-/ngrok-bin-darwin-arm64-2.3.40.tgz"
-"@expo/ngrok-bin-linux-x64@2.3.40":
-  "integrity" "sha512-yOuwpOmMe6RGnk9ninlM7Zg1EiF81ptFOcFmT61PDOA4gK8/ttZKTMkDQiq0DZdcXUyE0HCr83EglJZTnHIzPA=="
-  "resolved" "https://registry.npmjs.org/@expo/ngrok-bin-linux-x64/-/ngrok-bin-linux-x64-2.3.40.tgz"
   "version" "2.3.40"
 
 "@expo/ngrok-bin@2.3.40":
