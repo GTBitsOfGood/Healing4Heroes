@@ -19,7 +19,7 @@ export async function createUser(
   email: string,
   firebaseUid: string,
   roles: Array<Role>,
-  birthday: Date,
+  birthday?: Date,
   firstName?: string,
   lastName?: string,
   handlerType?: HandlerType

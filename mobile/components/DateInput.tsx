@@ -40,7 +40,7 @@ export default function SolidDropDown({
           if (monthIndex > 11) {
             value = "12";
           } else if (monthIndex < 0 && value.length === 2) {
-            value = "0";
+            value = "1";
           }
           setMonth(value);
           callbackFunction(
@@ -101,6 +101,9 @@ export default function SolidDropDown({
         value={year}
         onChangeText={(value) => {
           setYear(value);
+          if (parseInt(value) < 0){
+            value = "0000"
+          }
           callbackFunction(
             new Date(parseInt(value), parseInt(month) - 1, parseInt(day))
           );

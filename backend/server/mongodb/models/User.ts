@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema<User>({
   },
   birthday: {
     type: Date,
-    required: true,
+    required: false,
   },
   handlerType: {
     type: String,
