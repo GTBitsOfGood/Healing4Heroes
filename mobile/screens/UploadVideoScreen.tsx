@@ -40,7 +40,7 @@ export default function AddTrainingLogScreen(props: any) {
     const animal = await userGetAnimal();
     const trainingLog = await userCreateTrainingLog(
       new Date(),
-      behaviorDescription,
+      additionalNotes,
       skillsPlayed,
       totalHours,
       behaviorDescription,

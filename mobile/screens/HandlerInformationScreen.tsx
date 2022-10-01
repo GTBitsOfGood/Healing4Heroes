@@ -13,6 +13,8 @@ import { userGetUserInfo, userUpdateUser } from "../actions/User";
 import StepOverlay from "../components/StepOverlay";
 import { Ionicons } from "@expo/vector-icons";
 import SolidDropDown from "../components/SolidDropDown";
+import DateInput from "../components/DateInput";
+import { validateBirthday } from "../utils/string";
 
 export default function HandlerInformationScreen(props: any) {
   const [dropDownValue, setDropDownValue] = useState("");
@@ -20,6 +22,7 @@ export default function HandlerInformationScreen(props: any) {
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const [user, setUser] = useState<User>();
+  const [birthday, setBirthday] = useState<Date>();
   useEffect(() => {
     DropDownPicker.setListMode("SCROLLVIEW");
     async function getUser() {
@@ -37,6 +40,7 @@ export default function HandlerInformationScreen(props: any) {
   const updateUserInfo = async () => {
     const user = await userUpdateUser(
       undefined,
+      birthday,
       firstName,
       lastName,
       dropDownValue as unknown as HandlerType
@@ -50,6 +54,9 @@ export default function HandlerInformationScreen(props: any) {
       return;
     } else if (!dropDownValue) {
       setError("Please choose what describes you best.");
+      return;
+    } else if (!validateBirthday(birthday)) {
+      setError("Please enter a valid birthday.");
       return;
     }
 
@@ -126,7 +133,16 @@ export default function HandlerInformationScreen(props: any) {
             ) => {
               setDropDownValue(values as HandlerType);
             }}
-          ></SolidDropDown>
+          />
+          <View style={styles.birthdayContainer}>
+            <Text style={styles.label}>When is your birthday?*</Text>
+            <DateInput
+              autofill={false}
+              callbackFunction={(date) => {
+                setBirthday(date);
+              }}
+            />
+          </View>
         </View>
       }
     />
@@ -209,5 +225,9 @@ const styles = StyleSheet.create({
   failedText: {
     fontSize: 12,
     fontWeight: "300",
+  },
+  birthdayContainer: {
+    marginTop: 10,
+    marginBottom: 10,
   },
 });

@@ -16,6 +16,7 @@ export const userCreateUser = async (
   email: string,
   firebaseUid: string,
   roles: Array<Role>,
+  birthday?: Date,
   firstName?: string,
   lastName?: string,
   handlerType?: HandlerType
@@ -30,12 +31,14 @@ export const userCreateUser = async (
       firstName,
       lastName,
       handlerType,
+      birthday,
     },
   });
 };
 
 export const userUpdateUser = async (
   roles?: Array<Role>,
+  birthday?: Date,
   firstName?: string,
   lastName?: string,
   handlerType?: HandlerType
@@ -46,6 +49,7 @@ export const userUpdateUser = async (
     authRequired: true,
     body: {
       roles,
+      birthday,
       firstName,
       lastName,
       handlerType,

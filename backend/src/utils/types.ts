@@ -21,6 +21,7 @@ export interface User {
   email: string;
   firebaseUid: string;
   handlerType: HandlerType;
+  birthday: Date;
   roles?: Array<Role>;
 }
 
