@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema<User>({
     required: true,
     unique: true,
   },
+  birthday: {
+    type: Date,
+    required: false,
+  },
   handlerType: {
     type: String,
     required: false,

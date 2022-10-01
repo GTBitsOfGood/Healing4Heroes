@@ -35,3 +35,7 @@ export const validateEmail = (email: string) => {
 export const convertToMegabytes = (fileSize: number) => {
   return fileSize / 1024 / 1024;
 };
+
+export const validateBirthday = (date: Date | undefined) => {
+  return date && date < new Date() && date.toString() !== "Invalid Date";
+};

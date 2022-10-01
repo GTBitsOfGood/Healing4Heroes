@@ -8,12 +8,12 @@ const adminTrainingLogUrl = urls.baseUrl + urls.api.admin.training;
 
 export const userCreateTrainingLog = async (
   date: Date,
-  description: string,
   skills: Array<ServiceAnimalSkills>,
   trainingHours: number,
   behavior: string,
   animal: Types.ObjectId,
   handler: Types.ObjectId,
+  description?: string,
   video?: string
 ) => {
   return internalRequest<TrainingLog>({

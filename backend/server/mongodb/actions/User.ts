@@ -19,6 +19,7 @@ export async function createUser(
   email: string,
   firebaseUid: string,
   roles: Array<Role>,
+  birthday?: Date,
   firstName?: string,
   lastName?: string,
   handlerType?: HandlerType
@@ -28,6 +29,7 @@ export async function createUser(
     email: email,
     firebaseUid: firebaseUid,
     roles: roles,
+    birthday: birthday,
     firstName: firstName,
     lastName: lastName,
     handlerType: handlerType,
@@ -37,6 +39,7 @@ export async function createUser(
 
 export async function updateUser(
   userId: Types.ObjectId,
+  birthday?: Date,
   roles?: Array<Role>,
   firstName?: string,
   lastName?: string,
@@ -48,6 +51,7 @@ export async function updateUser(
     firstName: firstName,
     lastName: lastName,
     handlerType: handlerType,
+    birthday: birthday,
   });
   return user;
 }

@@ -28,6 +28,7 @@ export default APIWrapper({
     config: {},
     handler: async (req) => {
       const email: string = req.body.email as string;
+      const birthday: Date = req.body.birthday as Date;
       const firebaseUid: string = req.body.firebaseUid as string;
       const roles: Array<Role> = req.body.roles as Array<Role>;
       const firstName: string = req.body.firstName as string;
@@ -43,6 +44,7 @@ export default APIWrapper({
         email,
         firebaseUid,
         roles,
+        birthday,
         firstName,
         lastName,
         handlerType
@@ -61,6 +63,7 @@ export default APIWrapper({
     },
     handler: async (req) => {
       const accessToken: string = req.headers.accesstoken as string;
+      const birthday: Date = req.body.birthday as Date;
       const firstName: string = req.body.firstName as string;
       const lastName: string = req.body.lastName as string;
       const handlerType: HandlerType = req.body.handlerType as HandlerType;
@@ -74,13 +77,14 @@ export default APIWrapper({
 
       const updatedUser = await updateUser(
         user._id,
+        birthday,
         roles,
         firstName,
         lastName,
         handlerType
       );
 
-      if (!updatedUser) {
+      if (!updatedUser?.modifiedPaths) {
         throw new Error("Failed to update user!");
       }
 

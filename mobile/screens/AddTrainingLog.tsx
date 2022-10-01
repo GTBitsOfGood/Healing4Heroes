@@ -33,7 +33,7 @@ export default function AddTrainingLogScreen(props: any) {
     if (validInput) {
       props.navigation.navigate("Upload Video Log", {
         totalHours: totalHours,
-        skillsDisplayed: skillValuesSelected,
+        skillValuesSelected: skillValuesSelected,
         behaviorDescription: behaviorDescription,
       });
     }
@@ -54,7 +54,8 @@ export default function AddTrainingLogScreen(props: any) {
             value={totalHours}
             onChangeText={setTotalHours}
             placeholder="Enter Hours Trained"
-            placeholderTextColor={"#D9D9D9"}
+            placeholderTextColor={"#999999"}
+            keyboardType="numeric"
           />
 
           <Text style={styles.label}>Skills Displayed*</Text>
@@ -86,7 +87,7 @@ export default function AddTrainingLogScreen(props: any) {
             value={behaviorDescription}
             onChangeText={setBehaviorDescription}
             placeholder="Enter Behavior Description"
-            placeholderTextColor={"#D9D9D9"}
+            placeholderTextColor={"#999999"}
           />
         </View>
       }
