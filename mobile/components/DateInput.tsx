@@ -101,8 +101,8 @@ export default function SolidDropDown({
         value={year}
         onChangeText={(value) => {
           setYear(value);
-          if (parseInt(value) < 0){
-            value = "0000"
+          if (parseInt(value) < 0) {
+            value = "0000";
           }
           callbackFunction(
             new Date(parseInt(value), parseInt(month) - 1, parseInt(day))

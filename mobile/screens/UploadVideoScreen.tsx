@@ -27,7 +27,8 @@ export default function AddTrainingLogScreen(props: any) {
   const [additionalNotes, setAdditionalNotes] = React.useState("");
 
   //input propagated from addTrainingLogPage
-  const { totalHours, skillsPlayed, behaviorDescription } = props.route.params;
+  const { totalHours, skillValuesSelected, behaviorDescription } =
+    props.route.params;
 
   const createTrainingLog = async () => {
     const fileName: string = uuidv4();
@@ -36,18 +37,17 @@ export default function AddTrainingLogScreen(props: any) {
       StorageLocation.TRAINING_LOG_VIDEOS,
       videoUri
     );
-
     const animal = await userGetAnimal();
     const trainingLog = await userCreateTrainingLog(
       new Date(),
-      additionalNotes,
-      skillsPlayed,
+      skillValuesSelected,
       totalHours,
       behaviorDescription,
       animal._id,
+      additionalNotes,
       upload as string
     );
-    props.navigation.navigate("User Dashboard Screen");
+    props.navigation.navigate("User Dashboard");
     return trainingLog;
   };
 

@@ -33,7 +33,7 @@ export default function AddTrainingLogScreen(props: any) {
     if (validInput) {
       props.navigation.navigate("Upload Video Log", {
         totalHours: totalHours,
-        skillsDisplayed: skillValuesSelected,
+        skillValuesSelected: skillValuesSelected,
         behaviorDescription: behaviorDescription,
       });
     }

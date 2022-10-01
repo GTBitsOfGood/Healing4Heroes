@@ -14,7 +14,7 @@ const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
   },
   description: {
     type: String,
-    required: true,
+    required: false,
   },
   skills: {
     type: [String],
