@@ -16,6 +16,7 @@ import { userGetUserInfo } from "../actions/User";
 import { Role } from "../utils/types";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
+import OnboardingOverlay from "../components/OnboardingOverlay";
 
 export default function LoginScreen(props: any) {
   const [email, setEmail] = useState("");
@@ -44,94 +45,85 @@ export default function LoginScreen(props: any) {
       return;
     }
   };
-  const windowHeight = useWindowDimensions().height;
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
+    <OnboardingOverlay
+      showBackDrop={false}
+      footerMainText={"Don't have an account?"}
+      footerSubText={"Create an Account"}
+      headerText={"Login to Your Account"}
+      footerCallback={() => {
+        props.navigation.navigate("Sign Up");
       }}
-    >
-      <View style={[{ minHeight: Math.round(windowHeight) }]}>
-        <KeyboardAvoidingView style={styles.container}>
-          <View style={styles.headerContainer}>
-            <View style={styles.logoContainer}></View>
-          </View>
-
-          <View style={styles.bodyContainer}>
-            <Text style={styles.loginText}>Login your account</Text>
-            <View>
-              <View style={styles.inputContainer}>
-                <Fontisto name="email" size={20} color="grey" />
-                <TextInput
-                  placeholder="Email"
-                  onChangeText={(text) => setEmail(text)}
-                  style={styles.input}
-                ></TextInput>
+      pageBody={
+        <TouchableWithoutFeedback
+          onPress={() => {
+            Keyboard.dismiss();
+          }}
+        >
+          <View>
+            <KeyboardAvoidingView style={styles.container}>
+              <View style={styles.bodyContainer}>
+                <View>
+                  <View style={styles.inputContainer}>
+                    <Fontisto name="email" size={20} color="grey" />
+                    <TextInput
+                      placeholder="Email"
+                      onChangeText={(text) => setEmail(text)}
+                      style={styles.input}
+                    ></TextInput>
+                  </View>
+                  <View style={styles.inputContainer}>
+                    <SimpleLineIcons name="lock" size={20} color="grey" />
+                    <TextInput
+                      placeholder="Password"
+                      onChangeText={(text) => setPassword(text)}
+                      style={styles.input}
+                      secureTextEntry
+                    ></TextInput>
+                  </View>
+                </View>
+                {/* conditional rendering after authentication  */}
+                {!checkValidUser ? (
+                  <View style={styles.failedContainer}>
+                    <Text style={styles.failedText}>{errorMessage}</Text>
+                  </View>
+                ) : (
+                  <View></View>
+                )}
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    onPress={async () => {
+                      const result = await handleLogin();
+                      if (result) {
+                        // If they signed up but haven't set their user information
+                        if (
+                          !(
+                            result.firstName &&
+                            result.lastName &&
+                            result.handlerType
+                          )
+                        ) {
+                          props.navigation.navigate("Handler Information");
+                        } else if (result.roles?.includes(Role.NONPROFIT_ADMIN))
+                          props.navigation.navigate("Admin Dashboard");
+                      } else {
+                        props.navigation.navigate("User Dashboard");
+                      }
+                    }}
+                    style={styles.button}
+                  >
+                    <Text style={styles.btnText}>Sign In</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.forgotContainer}>
+                  <Text>Forgot your password?</Text>
+                </View>
               </View>
-              <View style={styles.inputContainer}>
-                <SimpleLineIcons name="lock" size={20} color="grey" />
-                <TextInput
-                  placeholder="Password"
-                  onChangeText={(text) => setPassword(text)}
-                  style={styles.input}
-                  secureTextEntry
-                ></TextInput>
-              </View>
-            </View>
-            {/* conditional rendering after authentication  */}
-            {!checkValidUser ? (
-              <View style={styles.failedContainer}>
-                <Text style={styles.failedText}>{errorMessage}</Text>
-              </View>
-            ) : (
-              <View></View>
-            )}
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                onPress={async () => {
-                  const result = await handleLogin();
-                  if (result) {
-                    // If they signed up but haven't set their user information
-                    if (
-                      !(
-                        result.firstName &&
-                        result.lastName &&
-                        result.handlerType
-                      )
-                    ) {
-                      props.navigation.navigate("Handler Information");
-                    } else if (result.roles?.includes(Role.NONPROFIT_ADMIN))
-                      props.navigation.navigate("Admin Dashboard");
-                  } else {
-                    props.navigation.navigate("User Dashboard");
-                  }
-                }}
-                style={styles.button}
-              >
-                <Text style={styles.btnText}>Sign In</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.forgotContainer}>
-              <Text>Forgot your password?</Text>
-            </View>
+            </KeyboardAvoidingView>
           </View>
-
-          <View style={styles.footerContainer}>
-            <View style={styles.footerTextContainer}>
-              <Text style={styles.footerText}>Don&apos;t have an account?</Text>
-              <Text
-                style={styles.signupText}
-                onPress={() => {
-                  props.navigation.navigate("Sign Up");
-                }}
-              >
-                Sign up here
-              </Text>
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      }
+    />
   );
 }
 
@@ -141,6 +133,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#F2F2F2",
+    marginBottom: 10,
   },
 
   headerContainer: {
@@ -181,7 +174,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    minWidth: "85%",
+    minWidth: "100%",
     backgroundColor: "white",
   },
 
@@ -204,7 +197,7 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: "center",
     borderRadius: 10,
-    minWidth: "85%",
+    minWidth: "100%",
     backgroundColor: "#666666",
   },
 
@@ -223,7 +216,7 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 10,
     borderWidth: 0.5,
-    minWidth: "85%",
+    minWidth: "100%",
     backgroundColor: "#D9D9D9",
   },
 
