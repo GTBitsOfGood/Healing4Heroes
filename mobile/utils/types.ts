@@ -6,9 +6,26 @@ export enum Role {
 }
 
 export enum HandlerType {
-  HANDLER_VETERAN = "veteran",
-  HANDLER_CIVILIAN = "civilian",
-  HANDLER_CHILD = "child",
+  HANDLER_VETERAN = "Veteran",
+  HANDLER_CIVILIAN = "Civilian",
+  HANDLER_CHILD = "Child",
+  HANDLER_FIRST_RESPONDER = "First Responder/LEO",
+  HANDLER_SURVIVING_FAMILY_MEMBER = "Surviving Family Member",
+}
+
+export enum StorageLocation {
+  HANDLER_PICTURES = "HandlerPictures/",
+  SERVICE_ANIMAL_PICTURES = "ServiceAnimalPictures/",
+  TRAINING_LOG_VIDEOS = "TrainingLogVideos/",
+}
+
+export enum ServiceAnimalSkills {
+  SKILL_POST_BLOCK = "Post/Block",
+  SKILL_LEAD_FOLLOW = "Lead/Follow",
+  SKILL_STAY_SIT_DOWN = "Stay/Sit/Down",
+  SKILL_TOUCH = "Touch",
+  SKILL_TUCK = "Tuck",
+  SKILL_HEEL = "Heel",
 }
 
 export interface User {

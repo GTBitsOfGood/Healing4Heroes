@@ -18,8 +18,7 @@ export default APIWrapper({
       const description: string = req.body.description as string;
       const skills: Array<string> = req.body.skills as Array<string>;
       const trainingHours: number = req.body.trainingHours as number;
-      const behavior: ServiceAnimalBehavior = req.body
-        .behavior as ServiceAnimalBehavior;
+      const behavior: string = req.body.behavior as string;
       const animal: Types.ObjectId = req.body.animal as Types.ObjectId;
       const handler: Types.ObjectId = req.body.handler as Types.ObjectId;
       const video: string = req.body.video as string;

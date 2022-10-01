@@ -1,4 +1,5 @@
 import { getApps, getApp, initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import * as constant from "./constants";
 
@@ -11,13 +12,15 @@ const firebaseConfig = {
   appId: constant.FIREBASE_APP_ID,
 };
 
+let app;
 // Initialize Firebase
 if (getApps().length === 0) {
-  initializeApp(firebaseConfig);
+  app = initializeApp(firebaseConfig);
 } else {
-  getApp();
+  app = getApp();
 }
 
 const auth = getAuth();
+const storage = getStorage(app);
 
-export { auth };
+export { auth, storage };

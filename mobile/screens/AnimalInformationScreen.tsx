@@ -1,18 +1,11 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput } from "react-native";
 import { userCreateAnimal } from "../actions/Animal";
+import StepOverlay from "../components/StepOverlay";
 import { validateDate } from "../utils/string";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function AnimalInformationScreen(props: any) {
-  const { handlerName, handlerRole } = props.route.params;
-
   const [animalName, setAnimalName] = useState("");
   const [animalBirth, setAnimalBirth] = useState("");
   const [animalAdoption, setAnimalAdoption] = useState("");
@@ -52,87 +45,74 @@ export default function AnimalInformationScreen(props: any) {
     return animal;
   };
 
+  const submitAnimalInformation = async () => {
+    if (!animalName) {
+      setError("Please enter your dog's name.");
+    } else if (animalBirth && !validateDate(animalBirth)) {
+      setError("Animal birth date is invalid.");
+    } else if (animalAdoption && !validateDate(animalAdoption)) {
+      setError("Animal adoption date is invalid.");
+    } else {
+      setError("");
+      const result = await addAnimal();
+      if (result) {
+        props.navigation.navigate("User Dashboard");
+      } else {
+        setError("Failed to create service animal!");
+      }
+    }
+  };
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.header}>Getting Started</Text>
-        <Text style={styles.label}>What is your dog&apos;s name? *</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="First / Last Name"
-          placeholderTextColor="#999999"
-          value={animalName}
-          onChangeText={setAnimalName}
-        />
-        <Text style={styles.label}>
-          Date of Birth? <Text style={styles.optional}>(Optional)</Text>
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="MM-DD-YYYY"
-          placeholderTextColor="#999999"
-          value={animalBirth}
-          onChangeText={setAnimalBirth}
-        />
-        <Text style={styles.label}>
-          Date of Adoption? <Text style={styles.optional}>(Optional)</Text>
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="MM-DD-YYYY"
-          placeholderTextColor="#999999"
-          value={animalAdoption}
-          onChangeText={setAnimalAdoption}
-        />
-      </View>
-      <View style={{ flex: 1 }} />
-      <View>
-        {error && (
-          <View style={styles.failedContainer}>
-            <Text style={styles.failedText}>{error}</Text>
-          </View>
-        )}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={async () => {
-            if (!animalName) {
-              setError("Please enter your dog's name.");
-            } else if (animalBirth && !validateDate(animalBirth)) {
-              setError("Animal birth date is invalid.");
-            } else if (animalAdoption && !validateDate(animalAdoption)) {
-              setError("Animal adoption date is invalid.");
-            } else {
-              setError("");
-              const result = await addAnimal();
-
-              if (result) {
-                props.navigation.navigate("User Dashboard");
-              } else {
-                setError("Failed to create service animal!");
-              }
-            }
-          }}
-        >
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
-        <View style={styles.circles}>
-          <View style={[styles.circle, styles.selected]} />
-          <View style={[styles.circle, styles.selected]} />
-          <View style={styles.circle} />
+    <StepOverlay
+      circleCount={3}
+      numberSelected={2}
+      headerName="Getting Started"
+      buttonFunction={submitAnimalInformation}
+      error={error}
+      pageIcon={<FontAwesome5 name="dog" size={37.5} color="black" />}
+      pageBody={
+        <View style={styles.container}>
+          <Text style={styles.label}>What is your dog&apos;s name? *</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="First / Last Name"
+            placeholderTextColor="#999999"
+            value={animalName}
+            onChangeText={setAnimalName}
+          />
+          <Text style={styles.label}>
+            Date of Birth? <Text style={styles.optional}>(Optional)</Text>
+          </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="MM-DD-YYYY"
+            placeholderTextColor="#999999"
+            value={animalBirth}
+            onChangeText={setAnimalBirth}
+          />
+          <Text style={styles.label}>
+            Date of Adoption? <Text style={styles.optional}>(Optional)</Text>
+          </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="MM-DD-YYYY"
+            placeholderTextColor="#999999"
+            value={animalAdoption}
+            onChangeText={setAnimalAdoption}
+          />
         </View>
-      </View>
-      <StatusBar style="auto" />
-    </View>
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "flex-start",
     backgroundColor: "#f2f2f2",
     flexDirection: "column",
-    paddingVertical: 40,
-    paddingHorizontal: 24,
+    marginTop: 20,
   },
   header: {
     alignSelf: "center",
@@ -142,7 +122,6 @@ const styles = StyleSheet.create({
     marginTop: 35,
   },
   label: {
-    marginTop: 60,
     marginBottom: 16,
     fontSize: 20,
     color: "#333333",
@@ -151,6 +130,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "white",
     paddingVertical: 12,
+    marginBottom: 40,
     paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 0.5,

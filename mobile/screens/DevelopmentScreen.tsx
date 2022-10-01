@@ -37,6 +37,20 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={() => props.navigation.navigate("Add Training Log")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Add Training Log Page</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("Upload Video Log")}
+        style={styles.buttonItem}
+      >
+        <Text>Go Upload Video Log Page</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
         onPress={() => props.navigation.navigate("Animal Information")}
         style={styles.buttonItem}
       >
@@ -55,6 +69,20 @@ export default function DevelopmentScreen(props: any) {
         style={styles.buttonItem}
       >
         <Text>Go To Admin Dashboard Page</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("Storage Example Screen")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Storage Example Screen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("Step Overlay Example Screen")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Step overlay Example Screen</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

@@ -1,6 +1,11 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
-import { BackHandler, StyleSheet, Text, View } from "react-native";
+import {
+  BackHandler,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function UserDashboardScreen(props: any) {
   useEffect(() => {
@@ -12,8 +17,12 @@ export default function UserDashboardScreen(props: any) {
 
   return (
     <View style={styles.container}>
-      <Text>User Dashboard Screen</Text>
-      <StatusBar style="auto" />
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("Add Training Log")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Add Training Log Page</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -24,5 +33,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  buttonItem: {
+    width: 300,
+    backgroundColor: "#D3D3D3",
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
   },
 });

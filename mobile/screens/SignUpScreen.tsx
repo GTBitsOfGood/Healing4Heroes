@@ -13,7 +13,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { validateEmail } from "../utils/string";
 import { auth } from "../utils/firebase";
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { userCreateUser } from "../actions/User";
 import { Role } from "../utils/types";
 
