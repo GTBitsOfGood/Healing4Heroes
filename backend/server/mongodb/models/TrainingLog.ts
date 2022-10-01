@@ -1,10 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 import { TrainingLog, ServiceAnimalBehavior } from "src/utils/types";
 
-const ServiceAnimalBehaviorSchema = new mongoose.Schema<ServiceAnimalBehavior>({
-  description: String,
-  repeat: Number,
-});
+const ServiceAnimalBehaviorSchema = new mongoose.Schema<ServiceAnimalBehavior>(
+  {
+    description: String,
+    repeat: Number,
+  },
+  { _id: false }
+);
 
 const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
   date: {
@@ -29,6 +32,10 @@ const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
     required: true,
   },
   animal: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+  handler: {
     type: Schema.Types.ObjectId,
     required: true,
   },

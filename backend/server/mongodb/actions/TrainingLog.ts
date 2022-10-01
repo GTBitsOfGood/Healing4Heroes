@@ -9,6 +9,7 @@ export async function createTrainingLog(
   trainingHours: number,
   behavior: string,
   animal: Types.ObjectId,
+  handler: Types.ObjectId,
   video: string
 ) {
   await dbConnect();
@@ -19,7 +20,14 @@ export async function createTrainingLog(
     trainingHours,
     behavior,
     animal,
+    handler,
     video,
   });
   return trainingLog;
+}
+
+export async function getTrainingLogs(userId: Types.ObjectId) {
+  await dbConnect();
+  const trainingLogs = await TrainingLogModel.find({ handler: userId });
+  return trainingLogs;
 }
