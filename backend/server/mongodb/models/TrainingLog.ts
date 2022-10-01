@@ -25,7 +25,7 @@ const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
     required: true,
   },
   behavior: {
-    type: ServiceAnimalBehaviorSchema,
+    type: String,
     required: true,
   },
   animal: {

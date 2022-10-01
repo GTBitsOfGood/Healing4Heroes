@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const HeaderDate = (prop: any) => {
+const HeaderDate = () => {
   const [currentDate, setcurrentDate] = useState("");
 
   useEffect(() => {
-    var date = new Date();
-    var day = String(date.getDate()).padStart(2, "0");
-    var month = String(date.getMonth() + 1).padStart(2, "0");
-    var year = date.getFullYear();
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
 
     setcurrentDate(day + "-" + month + "-" + year);
   }, []);

@@ -30,7 +30,7 @@ export default function StepOverlay({
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.header}>{headerName}</Text>
-        {<View style={styles.iconCircle}>{pageIcon}</View>}
+        {pageIcon && <View style={styles.iconCircle}>{pageIcon}</View>}
       </View>
       <ScrollView>{pageBody}</ScrollView>
 

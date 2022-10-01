@@ -19,6 +19,15 @@ export enum StorageLocation {
   TRAINING_LOG_VIDEOS = "TrainingLogVideos/",
 }
 
+export enum ServiceAnimalSkills {
+  SKILL_POST_BLOCK = "Post/Block",
+  SKILL_LEAD_FOLLOW = "Lead/Follow",
+  SKILL_STAY_SIT_DOWN = "Stay/Sit/Down",
+  SKILL_TOUCH = "Touch",
+  SKILL_TUCK = "Tuck",
+  SKILL_HEEL = "Heel",
+}
+
 export interface User {
   _id: Types.ObjectId;
   firstName: string;

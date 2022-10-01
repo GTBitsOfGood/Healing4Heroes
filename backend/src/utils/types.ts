@@ -58,6 +58,15 @@ export interface ServiceAnimalBehavior {
   repeat: number;
 }
 
+export enum ServiceAnimalSkills {
+  SKILL_POST_BLOCK = "Post/Block",
+  SKILL_LEAD_FOLLOW = "Lead/Follow",
+  SKILL_STAY_SIT_DOWN = "Stay/Sit/Down",
+  SKILL_TOUCH = "Touch",
+  SKILL_TUCK = "Tuck",
+  SKILL_HEEL = "Heel",
+}
+
 /* Internal Request & API Wrapper Types */
 
 export enum HttpMethod {

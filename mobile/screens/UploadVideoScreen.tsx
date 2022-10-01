@@ -1,117 +1,131 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import HeaderDate from "../components/HeaderDate";
-
+import * as FileSystem from "expo-file-system";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
 import {
   BackHandler,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Image,
-  Button,
+  TextInput,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { userCreateTrainingLog } from "../actions/TrainingLog";
+import { Video } from "expo-av";
+import { ImageInfo } from "expo-image-picker";
+import StepOverlay from "../components/StepOverlay";
+import { convertToMegabytes } from "../utils/string";
+import { StorageLocation } from "../utils/types";
+import { uploadFile } from "../utils/storage";
+import { userGetAnimal } from "../actions/Animal";
 
 export default function AddTrainingLogScreen(props: any) {
   const [error, setError] = useState("");
-  const [videoUploaded, setVideoUploaded] = useState(false);
-  const [image, setImage] = useState();
+  const [videoUri, setVideoUri] = useState<string>("");
+  const [additionalNotes, setAdditionalNotes] = React.useState("");
+
   //input propagated from addTrainingLogPage
-  const { totalHours, note, skillsPlayed, behaviorDescription } =
-    props.route.params;
+  const { totalHours, skillsPlayed, behaviorDescription } = props.route.params;
 
-  const updateTrainingLog = async () => {
-    // const trainingLog = await userCreateTrainingLog();
-    // return trainingLog;
-  };
+  const createTrainingLog = async () => {
+    const fileName: string = uuidv4();
+    const upload = await uploadFile(
+      fileName + ".mp4",
+      StorageLocation.TRAINING_LOG_VIDEOS,
+      videoUri
+    );
 
-  const validateInput = () => {
-    if (!videoUploaded) {
-      setError("please upload a training video clip");
-      return;
-    } else {
-      setError("");
-      return true;
-    }
+    const animal = await userGetAnimal();
+    const trainingLog = await userCreateTrainingLog(
+      new Date(),
+      behaviorDescription,
+      skillsPlayed,
+      totalHours,
+      behaviorDescription,
+      animal._id,
+      upload as string
+    );
+    props.navigation.navigate("User Dashboard Screen");
+    return trainingLog;
   };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("User Dashboard");
+      props.navigation.navigate("Add Training Log");
       return true;
     });
   }, []);
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    setError("");
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       quality: 1,
     });
-    setVideoUploaded(true);
+
+    if (!result.cancelled) {
+      const videoLocation = (result as ImageInfo).uri;
+      const videoSize = (await FileSystem.getInfoAsync(videoLocation)).size;
+      // All Videos must be smaller than 1GB
+      if (convertToMegabytes(videoSize as number) > 1024) {
+        setError(
+          "Video is too large -- consider shortening the video or compressing it."
+        );
+        return;
+      }
+      setVideoUri(videoLocation);
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <View>
-        <View style={styles.headerContainer}>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate("Add Training Log")}
-            style={styles.backArrow}
-          >
-            <Ionicons
-              name="chevron-back-circle"
-              size={45}
-              style={styles.arrowIcon}
-              color="grey"
+    <StepOverlay
+      headerName="Create Training Log"
+      circleCount={2}
+      error={error}
+      buttonFunction={createTrainingLog}
+      numberSelected={2}
+      pageBody={
+        <View style={styles.container}>
+          <Text style={styles.label}>Video Log</Text>
+          <View style={styles.videoUploadContainer}>
+            <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
+              <Ionicons name="add-circle-outline" size={30} color="grey" />
+              {!videoUri ? (
+                <Text style={styles.uploadText}>
+                  {" "}
+                  Upload Training Video Log
+                </Text>
+              ) : (
+                <Text style={styles.uploadText}> Upload A Different File</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+
+          {videoUri && (
+            <Video
+              style={styles.video}
+              source={{
+                uri: videoUri,
+              }}
+              resizeMode="contain"
+              useNativeControls
+              isLooping
             />
-          </TouchableOpacity>
-          <View>
-            <HeaderDate />
-          </View>
+          )}
+          <Text style={styles.label}>Additional Notes</Text>
+          <TextInput
+            style={styles.input}
+            value={additionalNotes}
+            onChangeText={setAdditionalNotes}
+            placeholder="Additional Notes"
+            placeholderTextColor={"#D9D9D9"}
+            multiline={true}
+          />
         </View>
-        <Text style={styles.label}>Video Log</Text>
-        <View style={styles.videoUploadContainer}>
-          <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-            <Ionicons name="add-circle-outline" size={30} color="grey" />
-            <Text style={styles.uploadText}> Training Video Log</Text>
-          </TouchableOpacity>
-          {image && <Image source={{ uri: image }} />}
-        </View>
-      </View>
-      <View>
-        {error && (
-          <View style={styles.failedContainer}>
-            <Text style={styles.failedText}>{error}</Text>
-          </View>
-        )}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={async () => {
-            const validInput = validateInput();
-            if (validInput) {
-              const trainingLogUpdate = await updateTrainingLog();
-              // if (trainingLogUpdate) {
-              //   props.navigation.navigate("Admin Dashboard");
-              //   return;
-              // } else {
-              // return;
-              // }
-            } else {
-              //handle error if updateTrainingLog fails
-            }
-          }}
-        >
-          <Text style={styles.buttonText}>Finish</Text>
-        </TouchableOpacity>
-        <View style={styles.circles}>
-          <View style={styles.circle} />
-          <View style={[styles.circle, styles.selected]} />
-        </View>
-      </View>
-    </View>
+      }
+    />
   );
 }
 
@@ -121,8 +135,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     justifyContent: "space-between",
     flexDirection: "column",
-    paddingVertical: 40,
-    paddingHorizontal: 24,
+    paddingVertical: 20,
+    paddingHorizontal: 0,
   },
   headerContainer: {
     flexDirection: "row",
@@ -153,7 +167,7 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   label: {
-    marginTop: 20,
+    marginTop: 0,
     marginBottom: 16,
     fontSize: 20,
     color: "#333333",
@@ -200,5 +214,21 @@ const styles = StyleSheet.create({
   },
   selected: {
     backgroundColor: "#666666",
+  },
+  video: {
+    width: "100%",
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 20,
+    borderWidth: 1,
+  },
+  input: {
+    backgroundColor: "white",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    borderWidth: 0.5,
+    borderColor: "#D9D9D9",
+    marginBottom: 0,
   },
 });

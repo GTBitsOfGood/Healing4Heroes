@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -9,19 +8,11 @@ import {
   BackHandler,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { Keyboard } from "react-native";
 import { HandlerType, Role, User } from "../utils/types";
 import { userGetUserInfo, userUpdateUser } from "../actions/User";
 import StepOverlay from "../components/StepOverlay";
 import { Ionicons } from "@expo/vector-icons";
 import SolidDropDown from "../components/SolidDropDown";
-
-const dropDownItems = [
-  { label: "Veteran", value: HandlerType.HANDLER_VETERAN },
-  { label: "Civilian", value: HandlerType.HANDLER_CIVILIAN },
-  { label: "Child", value: HandlerType.HANDLER_CHILD },
-  { label: "Volunteer", value: "volunteer" },
-];
 
 export default function HandlerInformationScreen(props: any) {
   const [dropDownValue, setDropDownValue] = useState("");
@@ -129,8 +120,11 @@ export default function HandlerInformationScreen(props: any) {
             }}
             placeholder={"Select An Option"}
             isMultiselect={false}
-            callbackFunction={(element: string | Array<string>) => {
-              setDropDownValue(element as HandlerType);
+            callbackFunction={(
+              values: string | string[],
+              keys: string | string[]
+            ) => {
+              setDropDownValue(values as HandlerType);
             }}
           ></SolidDropDown>
         </View>

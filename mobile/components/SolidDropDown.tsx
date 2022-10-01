@@ -11,7 +11,8 @@ import { Entypo } from "@expo/vector-icons";
 interface SolidDropDownProps {
   items: Record<string, string>;
   isMultiselect: boolean;
-  callbackFunction: (value: string | Array<string>) => void;
+  callbackFunction: (value: string[] | string, key: string[] | string) => void;
+  showAllValues?: boolean;
   placeholder?: string;
 }
 export default function SolidDropDown({
@@ -19,6 +20,7 @@ export default function SolidDropDown({
   isMultiselect,
   placeholder,
   callbackFunction,
+  showAllValues,
 }: SolidDropDownProps) {
   const [fieldValue, setFieldValue] = React.useState(placeholder);
   const [selectedOptions, setSelectedOptions] = React.useState<Set<string>>(
@@ -68,7 +70,13 @@ export default function SolidDropDown({
                     }
                     // handle dropdown value
                     if (selectedOptionsCopy.size > 1) {
-                      setFieldValue(Array.from(selectedOptionsCopy).join(", "));
+                      if (showAllValues) {
+                        setFieldValue(
+                          Array.from(selectedOptionsCopy).join(", ")
+                        );
+                      } else {
+                        setFieldValue("Multiple Values Selected");
+                      }
                     } else if (selectedOptionsCopy.size == 1) {
                       const setVals = selectedOptionsCopy.values();
                       setFieldValue(setVals.next().value);
@@ -80,13 +88,16 @@ export default function SolidDropDown({
                     for (const key of selectedOptionsCopy) {
                       values.push(items[key]);
                     }
-                    callbackFunction(values);
+                    callbackFunction(values, Array.from(selectedOptionsCopy));
                   } else {
                     selectedOptionsCopy.clear();
                     selectedOptionsCopy.add(item);
                     setFieldValue(item);
                     setSelectedOptions(new Set([...selectedOptionsCopy]));
-                    callbackFunction(items[item]);
+                    callbackFunction(
+                      items[item],
+                      Array.from(selectedOptionsCopy)
+                    );
                   }
                 }}
               >

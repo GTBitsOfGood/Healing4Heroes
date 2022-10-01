@@ -1,124 +1,96 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import {
-  BackHandler,
-  FlatList,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import HeaderDate from "../components/HeaderDate";
+import React, { useState } from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
+import BubbleList from "../components/BubbleList";
+import SolidDropDown from "../components/SolidDropDown";
+import StepOverlay from "../components/StepOverlay";
+import { ServiceAnimalSkills } from "../utils/types";
 
 export default function AddTrainingLogScreen(props: any) {
   const [totalHours, setTotalHours] = useState("");
-  const [note, setNote] = useState("");
-  const [skillsPlayed, setSkillPlayed] = useState("");
-  const [allSkills, setAllSkills] = useState([]);
+  const [skillKeysSelected, setSkillKeysSelected] = useState<string[]>([]);
+  const [skillValuesSelected, setSkillValuesSelected] = useState<string[]>([]);
   const [behaviorDescription, setBehaviorDescription] = useState("");
 
   const [error, setError] = useState("");
-
-  const handleAddSkill = () => {};
-  const skills = [
-    { id: 1, skill: "post" },
-    { id: 2, skill: "heel" },
-    { id: 3, skill: "jump" },
-  ];
 
   const validateInput = () => {
     if (!totalHours) {
       setError("Please enter your total hours.");
       return;
-    } else if (!skillsPlayed) {
-      setError("Please select at least one skill played.");
+    } else if (!skillKeysSelected) {
+      setError("Please select at least one skill displayed.");
       return;
+    } else if (!behaviorDescription) {
+      setError("Please enter a description of the dog's behavior");
     } else {
       setError("");
       return true;
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <View>
-        <HeaderDate />
-        <View>
-          <View>
-            <Text style={styles.label}>Total hrs*</Text>
-            <TextInput
-              style={styles.input}
-              value={totalHours}
-              onChangeText={setTotalHours}
-            />
-          </View>
-          <View>
-            <Text style={styles.label}>Note</Text>
-            <TextInput
-              style={styles.input}
-              value={note}
-              onChangeText={setNote}
-            />
-          </View>
-          <View>
-            <Text style={styles.label}>Skill Played*</Text>
-            <FlatList
-              horizontal
-              data={skills}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.multiSelectButton}
-                  onPress={() => {
-                    // handleAddSkill();
-                    setSkillPlayed(item.skill);
-                  }}
-                >
-                  <Text>{item.skill}</Text>
-                </TouchableOpacity>
-              )}
-            ></FlatList>
-          </View>
-          <View>
-            <Text style={styles.label}>Behavior Description</Text>
-            <TextInput
-              style={styles.behaviorInput}
-              value={behaviorDescription}
-              onChangeText={setBehaviorDescription}
-            />
-          </View>
-        </View>
-      </View>
-      <View>
-        {error && (
-          <View style={styles.failedContainer}>
-            <Text style={styles.failedText}>{error}</Text>
-          </View>
-        )}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={async () => {
-            const validInput = validateInput();
-            if (validInput) {
-              props.navigation.navigate("Upload Video Log", {
-                totalHours: totalHours,
-                note: note,
-                skillsPlayed: skillsPlayed,
-                behaviorDescription: behaviorDescription,
-              });
-            }
-          }}
-        >
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
-        <View style={styles.circles}>
-          <View style={[styles.circle, styles.selected]} />
-          <View style={styles.circle} />
-        </View>
-      </View>
+  const submitTrainingLogInfo = () => {
+    const validInput = validateInput();
+    if (validInput) {
+      props.navigation.navigate("Upload Video Log", {
+        totalHours: totalHours,
+        skillsDisplayed: skillValuesSelected,
+        behaviorDescription: behaviorDescription,
+      });
+    }
+  };
 
-      <StatusBar style="auto" />
-    </View>
+  return (
+    <StepOverlay
+      error={error}
+      circleCount={2}
+      numberSelected={1}
+      buttonFunction={submitTrainingLogInfo}
+      headerName={"Create New Training Log"}
+      pageBody={
+        <View style={styles.container}>
+          <Text style={styles.label}>Total Training Hours*</Text>
+          <TextInput
+            style={styles.input}
+            value={totalHours}
+            onChangeText={setTotalHours}
+            placeholder="Enter Hours Trained"
+            placeholderTextColor={"#D9D9D9"}
+          />
+
+          <Text style={styles.label}>Skills Displayed*</Text>
+          <SolidDropDown
+            items={{
+              "Post/Block": ServiceAnimalSkills.SKILL_POST_BLOCK,
+              "Lead/Follow": ServiceAnimalSkills.SKILL_LEAD_FOLLOW,
+              "Stay/Sit/Down": ServiceAnimalSkills.SKILL_STAY_SIT_DOWN,
+              Touch: ServiceAnimalSkills.SKILL_TOUCH,
+              Tuck: ServiceAnimalSkills.SKILL_TUCK,
+              Heel: ServiceAnimalSkills.SKILL_HEEL,
+            }}
+            isMultiselect={true}
+            placeholder="Select to Add"
+            callbackFunction={(
+              values: string[] | string,
+              keys: string[] | string
+            ) => {
+              setSkillValuesSelected([...(values as string[])]);
+              setSkillKeysSelected([...keys]);
+            }}
+          />
+
+          <BubbleList items={skillKeysSelected} />
+
+          <Text style={styles.label}>Behavior Description*</Text>
+          <TextInput
+            style={styles.input}
+            value={behaviorDescription}
+            onChangeText={setBehaviorDescription}
+            placeholder="Enter Behavior Description"
+            placeholderTextColor={"#D9D9D9"}
+          />
+        </View>
+      }
+    />
   );
 }
 
@@ -128,8 +100,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     justifyContent: "space-between",
     flexDirection: "column",
-    paddingVertical: 40,
-    paddingHorizontal: 24,
+    paddingVertical: 20,
+    paddingHorizontal: 0,
   },
   header: {
     alignSelf: "center",

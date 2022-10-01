@@ -35,4 +35,4 @@ export const userGetAnimal = async () => {
     method: HttpMethod.GET,
     authRequired: true,
   });
-}
+};
