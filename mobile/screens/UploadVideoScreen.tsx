@@ -13,10 +13,10 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { userCreateTrainingLog } from "../actions/TrainingLog";
-import { Video } from "expo-av";
+import { ResizeMode, Video } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../components/StepOverlay";
-import { convertToMegabytes } from "../utils/string";
+import { convertToMegabytes } from "../utils/helper";
 import { StorageLocation } from "../utils/types";
 import { uploadFile } from "../utils/storage";
 import { userGetAnimal } from "../actions/Animal";
@@ -109,7 +109,7 @@ export default function AddTrainingLogScreen(props: any) {
               source={{
                 uri: videoUri,
               }}
-              resizeMode="contain"
+              resizeMode={ResizeMode.CONTAIN}
               useNativeControls
               isLooping
             />

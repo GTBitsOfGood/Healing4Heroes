@@ -2,42 +2,25 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { userCreateAnimal } from "../actions/Animal";
 import StepOverlay from "../components/StepOverlay";
-import { validateDate } from "../utils/string";
+import { validateBirthday } from "../utils/helper";
 import { FontAwesome5 } from "@expo/vector-icons";
+import DateInput from "../components/DateInput";
 
 export default function AnimalInformationScreen(props: any) {
   const [animalName, setAnimalName] = useState("");
-  const [animalBirth, setAnimalBirth] = useState("");
-  const [animalAdoption, setAnimalAdoption] = useState("");
+  const [animalBirth, setAnimalBirth] = useState<Date>();
+  const [trainingClassDate, setTrainingClassDate] = useState<Date>();
+  const [animalAdoption, setAnimalAdoption] = useState<Date>();
   const [error, setError] = useState("");
 
   const addAnimal = async () => {
-    let parsedAdoptionDate = undefined;
-    let parsedBirthDate = undefined;
-    if (animalAdoption) {
-      const splitDate = animalAdoption.split("-");
-      parsedAdoptionDate = new Date(
-        parseInt(splitDate[2]),
-        parseInt(splitDate[0]) - 1,
-        parseInt(splitDate[1])
-      );
-    }
-
-    if (animalBirth) {
-      const splitDate = animalBirth.split("-");
-      parsedBirthDate = new Date(
-        parseInt(splitDate[2]),
-        parseInt(splitDate[0]) - 1,
-        parseInt(splitDate[1])
-      );
-    }
-
     const animal = await userCreateAnimal(
       animalName,
       0,
       undefined,
-      parsedBirthDate,
-      parsedAdoptionDate,
+      trainingClassDate,
+      animalBirth,
+      animalAdoption,
       undefined,
       undefined
     );
@@ -48,10 +31,12 @@ export default function AnimalInformationScreen(props: any) {
   const submitAnimalInformation = async () => {
     if (!animalName) {
       setError("Please enter your dog's name.");
-    } else if (animalBirth && !validateDate(animalBirth)) {
+    } else if (animalBirth && !validateBirthday(animalBirth)) {
       setError("Animal birth date is invalid.");
-    } else if (animalAdoption && !validateDate(animalAdoption)) {
+    } else if (animalAdoption && !validateBirthday(animalAdoption)) {
       setError("Animal adoption date is invalid.");
+    } else if (trainingClassDate && !validateBirthday(trainingClassDate)) {
+      setError("Animal training class date is invalid.");
     } else {
       setError("");
       const result = await addAnimal();
@@ -83,23 +68,38 @@ export default function AnimalInformationScreen(props: any) {
           <Text style={styles.label}>
             Date of Birth? <Text style={styles.optional}>(Optional)</Text>
           </Text>
-          <TextInput
-            style={styles.input}
-            placeholder="MM-DD-YYYY"
-            placeholderTextColor="#999999"
-            value={animalBirth}
-            onChangeText={setAnimalBirth}
-          />
+          <View style={styles.dateInput}>
+            <DateInput
+              autofill={false}
+              callbackFunction={(newDate) => {
+                setAnimalBirth(newDate);
+              }}
+            />
+          </View>
           <Text style={styles.label}>
             Date of Adoption? <Text style={styles.optional}>(Optional)</Text>
           </Text>
-          <TextInput
-            style={styles.input}
-            placeholder="MM-DD-YYYY"
-            placeholderTextColor="#999999"
-            value={animalAdoption}
-            onChangeText={setAnimalAdoption}
-          />
+          <View style={styles.dateInput}>
+            <DateInput
+              autofill={false}
+              callbackFunction={(newDate) => {
+                setAnimalAdoption(newDate);
+              }}
+            />
+          </View>
+
+          <Text style={styles.label}>
+            Date of Training Class?{" "}
+            <Text style={styles.optional}>(Optional)</Text>
+          </Text>
+          <View style={styles.dateInput}>
+            <DateInput
+              autofill={false}
+              callbackFunction={(newDate) => {
+                setTrainingClassDate(newDate);
+              }}
+            />
+          </View>
         </View>
       }
     />
@@ -190,5 +190,8 @@ const styles = StyleSheet.create({
   failedText: {
     fontSize: 12,
     fontWeight: "300",
+  },
+  dateInput: {
+    marginBottom: 40,
   },
 });

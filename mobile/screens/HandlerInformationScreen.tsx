@@ -14,7 +14,7 @@ import StepOverlay from "../components/StepOverlay";
 import { Ionicons } from "@expo/vector-icons";
 import SolidDropDown from "../components/SolidDropDown";
 import DateInput from "../components/DateInput";
-import { validateBirthday } from "../utils/string";
+import { validateBirthday } from "../utils/helper";
 
 export default function HandlerInformationScreen(props: any) {
   const [dropDownValue, setDropDownValue] = useState("");

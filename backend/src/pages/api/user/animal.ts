@@ -22,6 +22,7 @@ export default APIWrapper({
       const name: string = req.body.name as string;
       const totalHours: number = req.body.totalHours as number;
       const subHandler: SubHandler = req.body.subHandler as SubHandler;
+      const dateOfTrainingClass: Date = req.body.dateOfTrainingClass as Date;
       const dateOfBirth: Date = req.body.dateOfBirth as Date;
       const dateOfAdoption: Date = req.body.dateOfAdoption as Date;
       const microchipExpiration: Date = req.body.microchipExpiration as Date;
@@ -32,6 +33,7 @@ export default APIWrapper({
         totalHours,
         handler._id,
         subHandler,
+        dateOfTrainingClass,
         dateOfBirth,
         dateOfAdoption,
         microchipExpiration,

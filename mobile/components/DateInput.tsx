@@ -64,15 +64,21 @@ export default function SolidDropDown({
           }
 
           let maxDays;
+          let yearToConsider;
+          if (year) {
+            yearToConsider = year;
+          } else {
+            yearToConsider = new Date().getFullYear();
+          }
           if (month) {
             maxDays = new Date(
-              new Date().getFullYear(),
+              parseInt(yearToConsider as string),
               parseInt(month),
               0
             ).getDate();
           } else {
             maxDays = new Date(
-              new Date().getFullYear(),
+              parseInt(yearToConsider as string),
               new Date().getMonth(),
               0
             ).getDate();

@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
-import { validateEmail } from "../utils/string";
+import { validateEmail } from "../utils/helper";
 import { auth } from "../utils/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { userCreateUser } from "../actions/User";

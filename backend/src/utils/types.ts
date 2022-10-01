@@ -31,6 +31,7 @@ export interface ServiceAnimal {
   totalHours: number;
   handler: User | Types.ObjectId;
   subHandler?: SubHandler;
+  dateOfTrainingClass?: Date;
   dateOfBirth?: Date;
   dateOfAdoption?: Date;
   microchipExpiration?: Date;

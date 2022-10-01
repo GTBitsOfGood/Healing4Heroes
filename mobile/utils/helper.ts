@@ -37,5 +37,5 @@ export const convertToMegabytes = (fileSize: number) => {
 };
 
 export const validateBirthday = (date: Date | undefined) => {
-  return date && date < new Date() && date.toString() !== "Invalid Date";
+  return date && date <= new Date() && date.toString() !== "Invalid Date";
 };
