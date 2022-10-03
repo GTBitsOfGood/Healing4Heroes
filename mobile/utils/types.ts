@@ -41,8 +41,9 @@ export interface User {
 
 export interface ServiceAnimal {
   _id: Types.ObjectId;
-  totalHours: number;
   handler: User | Types.ObjectId;
+  name: string;
+  totalHours: number;
   subHandler?: SubHandler;
   dateOfTrainingClass?: Date;
   dateOfBirth?: Date;
