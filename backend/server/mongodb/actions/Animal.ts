@@ -30,8 +30,7 @@ export async function createAnimal(
   return animal;
 }
 
-
-export async function findAnimal(_id: Types.ObjectId) {
+export async function findAnimalByUserId(_id: Types.ObjectId) {
   await dbConnect();
 
   const animal = AnimalModel.findOne({ _id: _id });
@@ -47,10 +46,11 @@ export async function updateAnimal(
   dateOfBirth?: Date,
   dateOfAdoption?: Date,
   microchipExpiration?: Date,
-  checkUpDate?: Date
+  checkUpDate?: Date,
+  dateOfTrainingClass?: Date
 ) {
   await dbConnect();
-  const res = AnimalModel.updateOne(
+  const animal = AnimalModel.updateOne(
     { _id: _id },
     {
       $set: {
@@ -61,15 +61,10 @@ export async function updateAnimal(
         dateOfAdoption: dateOfAdoption,
         microchipExpiration: microchipExpiration,
         checkUpDate: checkUpDate,
+        dateOfTrainingClass: dateOfTrainingClass,
       },
     }
   );
 
-  return res;
-
-export async function findAnimalByUserId(id: Types.ObjectId) {
-  await dbConnect();
-
-  return AnimalModel.findOne({ handler: id }).exec();
-
+  return animal;
 }

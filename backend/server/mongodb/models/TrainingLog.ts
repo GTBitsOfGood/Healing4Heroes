@@ -1,13 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { TrainingLog, ServiceAnimalBehavior } from "src/utils/types";
-
-const ServiceAnimalBehaviorSchema = new mongoose.Schema<ServiceAnimalBehavior>(
-  {
-    description: String,
-    repeat: Number,
-  },
-  { _id: false }
-);
+import { TrainingLog } from "src/utils/types";
 
 const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
   date: {

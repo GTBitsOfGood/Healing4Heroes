@@ -32,7 +32,6 @@ export const userCreateAnimal = async (
   });
 };
 
-
 export const userUpdateAnimal = async (
   _id: Types.ObjectId,
   name?: string,
@@ -63,23 +62,22 @@ export const userUpdateAnimal = async (
 };
 
 export const adminUpdateAnimal = async (
-  _id: Types.ObjectId,
+  userId: Types.ObjectId,
   name?: string,
   totalHours?: number,
   subHandler?: SubHandler,
   dateOfBirth?: Date,
   dateOfAdoption?: Date,
   microchipExpiration?: Date,
-  checkUpDate?: Date
+  checkUpDate?: Date,
+  dateOfTrainingClass?: Date
 ) => {
-  const stringId = _id.toString();
-
   return internalRequest<ServiceAnimal>({
     url: animalUrl,
     method: HttpMethod.PATCH,
     authRequired: true,
     body: {
-      stringId,
+      userId,
       name,
       totalHours,
       subHandler,
@@ -87,10 +85,10 @@ export const adminUpdateAnimal = async (
       dateOfAdoption,
       microchipExpiration,
       checkUpDate,
+      dateOfTrainingClass,
     },
   });
 };
-
 
 export const userGetAnimal = async () => {
   return internalRequest<ServiceAnimal>({

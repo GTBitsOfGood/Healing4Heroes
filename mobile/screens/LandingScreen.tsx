@@ -9,7 +9,6 @@ export default function LandingScreen(props: any) {
       footerSubText={""}
       footerMainText={""}
       headerText={""}
-      footerCallback={() => {}}
       pageBody={
         <View style={styles.bodyContainer}>
           <View style={styles.loginContainer}>

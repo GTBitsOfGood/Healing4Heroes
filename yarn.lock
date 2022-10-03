@@ -1878,11 +1878,6 @@
   "resolved" "https://registry.npmjs.org/ci-info/-/ci-info-3.4.0.tgz"
   "version" "3.4.0"
 
-"cjs-loader@^0.1.0":
-  "integrity" "sha512-WgdnnrdNJT+ffiyU2S1zsrhbDjkDH4qgTbGYHPSN6XBVMSg1LbnSnUrVFMic4pWYypcTwkhoNfBB+GFP/73MHQ=="
-  "resolved" "https://registry.npmjs.org/cjs-loader/-/cjs-loader-0.1.0.tgz"
-  "version" "0.1.0"
-
 "clean-stack@^2.0.0":
   "integrity" "sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A=="
   "resolved" "https://registry.npmjs.org/clean-stack/-/clean-stack-2.2.0.tgz"
@@ -2298,15 +2293,6 @@
   "resolved" "https://registry.npmjs.org/expo-image-loader/-/expo-image-loader-3.2.0.tgz"
   "version" "3.2.0"
 
-"expo-image-picker@~13.3.1":
-  "integrity" "sha512-IY84uDu9uxetAup5yw0CIIujigl/lM3grwyfpeZFMKGmWHzmKamptjd/sG8K65xkb6tF9awmGMW0qglHQ9hakQ=="
-  "resolved" "https://registry.npmjs.org/expo-image-picker/-/expo-image-picker-13.3.1.tgz"
-  "version" "13.3.1"
-  dependencies:
-    "@expo/config-plugins" "~5.0.0"
-    "expo-image-loader" "~3.2.0"
-    "uuid" "7.0.2"
-
 "expo-keep-awake@~10.2.0":
   "integrity" "sha512-kIRtO4Hmrvxh4E45IPWG/NiUZsuRe1AQwBT09pq+kx8nm6tUS4B9TeL6+1NFy+qVBLbGKDqoQD5Ez7XYTFtBeQ=="
   "resolved" "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-10.2.0.tgz"
@@ -2331,7 +2317,7 @@
     "compare-versions" "^3.4.0"
     "invariant" "^2.2.4"
 
-"expo@*", "expo@^46.0.13":
+"expo@*":
   "integrity" "sha512-xaU8GlJ7j3vo1U5tSbFDsoJqUfTkRF4XDEUj/Dr/jqUf0GcvlMKuGe6HvnbMO9slxYQlYlWJUzvlAx38TLhxyA=="
   "resolved" "https://registry.npmjs.org/expo/-/expo-46.0.13.tgz"
   "version" "46.0.13"
@@ -3807,16 +3793,6 @@
   "integrity" "sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw=="
   "resolved" "https://registry.npmjs.org/sax/-/sax-1.2.4.tgz"
   "version" "1.2.4"
-
-"schema-utils@^4.0.0":
-  "integrity" "sha512-1edyXKgh6XnJsJSQ8mKWXnN/BVaIbFMLpouRUrXgVq7WYne5kw3MW7UPhO44uRXQSIpTSXoJbmrR2X0w9kUTyg=="
-  "resolved" "https://registry.npmjs.org/schema-utils/-/schema-utils-4.0.0.tgz"
-  "version" "4.0.0"
-  dependencies:
-    "@types/json-schema" "^7.0.9"
-    "ajv" "^8.8.0"
-    "ajv-formats" "^2.1.1"
-    "ajv-keywords" "^5.0.0"
 
 "semver@^5.5.0":
   "integrity" "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="

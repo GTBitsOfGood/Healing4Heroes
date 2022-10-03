@@ -3,9 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   ScrollView,
-  GestureResponderEvent,
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -15,7 +13,7 @@ interface OnboardingOverlayProps {
   footerMainText: string;
   footerSubText: string;
   pageBody: ReactElement;
-  footerCallback: () => void;
+  footerCallback?: () => void | undefined;
   headerText: string;
 }
 export default function OnboardingOverlay({
@@ -66,7 +64,9 @@ export default function OnboardingOverlay({
           <Text
             style={styles.footerSubText}
             onPress={() => {
-              footerCallback();
+              if (footerCallback) {
+                footerCallback();
+              }
             }}
           >
             {footerSubText}

@@ -98,7 +98,7 @@ export default function SolidDropDown({
                       items[item],
                       Array.from(selectedOptionsCopy)
                     );
-                    setOpen(!open)
+                    setOpen(!open);
                   }
                 }}
               >

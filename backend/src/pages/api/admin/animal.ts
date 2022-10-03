@@ -1,8 +1,10 @@
 import { Types } from "mongoose";
-import { findAnimal, updateAnimal } from "server/mongodb/actions/Animal";
+import {
+  findAnimalByUserId,
+  updateAnimal,
+} from "server/mongodb/actions/Animal";
 import APIWrapper from "server/utils/APIWrapper";
-import { getUser } from "server/utils/Authentication";
-import { User, SubHandler, Role } from "src/utils/types";
+import { SubHandler, Role, ServiceAnimal } from "src/utils/types";
 
 export default APIWrapper({
   PATCH: {
@@ -11,8 +13,7 @@ export default APIWrapper({
       roles: [Role.NONPROFIT_ADMIN],
     },
     handler: async (req) => {
-      const stringId: string = req.body.stringId as string;
-      const _id: Types.ObjectId = new Types.ObjectId(stringId);
+      const userId: Types.ObjectId = req.body.userId as Types.ObjectId;
       const name: string = req.body.name as string;
       const totalHours: number = req.body.totalHours as number;
 
@@ -21,24 +22,27 @@ export default APIWrapper({
       const dateOfAdoption: Date = req.body.dateOfAdoption as Date;
       const microchipExpiration: Date = req.body.microchipExpiration as Date;
       const checkUpDate: Date = req.body.checkUpDate as Date;
+      const dateOfTrainingClass: Date = req.body.dateOfTrainingClass as Date;
+      const animal = (await findAnimalByUserId(userId)) as ServiceAnimal;
 
       const res = await updateAnimal(
-        _id,
+        animal._id,
         name,
         totalHours,
         subHandler,
         dateOfBirth,
         dateOfAdoption,
         microchipExpiration,
-        checkUpDate
+        checkUpDate,
+        dateOfTrainingClass
       );
 
       if (res.modifiedCount == 0) {
         throw new Error("Failed to update service animal's information.");
       }
 
-      const animal = findAnimal(_id);
-      return animal;
+      const updatedAnimal = findAnimalByUserId(userId);
+      return updatedAnimal;
     },
   },
 });

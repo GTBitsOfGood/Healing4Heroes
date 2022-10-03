@@ -5,7 +5,7 @@ import {
 } from "server/mongodb/actions/TrainingLog";
 import APIWrapper from "server/utils/APIWrapper";
 import { getUser } from "server/utils/Authentication";
-import { Role, ServiceAnimalBehavior } from "src/utils/types";
+import { Role } from "src/utils/types";
 
 export default APIWrapper({
   POST: {

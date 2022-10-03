@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import {
-  Keyboard,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  useWindowDimensions,
   View,
 } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
@@ -24,7 +21,6 @@ export default function SignUpScreen(props: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const windowHeight = useWindowDimensions().height;
 
   const validateInput = () => {
     setCheckValidRegister(true);

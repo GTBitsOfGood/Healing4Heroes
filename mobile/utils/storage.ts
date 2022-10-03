@@ -14,7 +14,7 @@ export const uploadFile = async (
     xhr.onload = function () {
       resolve(xhr.response);
     };
-    xhr.onerror = function (e) {
+    xhr.onerror = function () {
       reject(new TypeError("Network request failed"));
     };
     xhr.responseType = "blob";

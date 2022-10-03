@@ -1,11 +1,9 @@
 import { Types } from "mongoose";
 import {
   createAnimal,
-  findAnimal,
   updateAnimal,
-  findAnimalByUserId
+  findAnimalByUserId,
 } from "server/mongodb/actions/Animal";
-
 import APIWrapper from "server/utils/APIWrapper";
 import { getUser } from "server/utils/Authentication";
 import { User, SubHandler, Role } from "src/utils/types";
@@ -74,9 +72,10 @@ export default APIWrapper({
       const dateOfBirth: Date = req.body.dateOfBirth as Date;
       const dateOfAdoption: Date = req.body.dateOfAdoption as Date;
       const microchipExpiration: Date = req.body.microchipExpiration as Date;
+      const dateOfTrainingClass: Date = req.body.dateOfTrainingClass as Date;
       const checkUpDate: Date = req.body.checkUpDate as Date;
 
-      const animal = await findAnimal(_id);
+      const animal = await findAnimalByUserId(_id);
 
       if (!animal) {
         throw new Error("Failed to update service animal's information.");
@@ -94,7 +93,8 @@ export default APIWrapper({
         dateOfBirth,
         dateOfAdoption,
         microchipExpiration,
-        checkUpDate
+        checkUpDate,
+        dateOfTrainingClass
       );
 
       if (res.modifiedCount == 0) {
