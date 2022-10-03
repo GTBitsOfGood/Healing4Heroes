@@ -1,22 +1,23 @@
 import { urls } from "../utils/urls";
-import { ServiceAnimalBehavior } from "../../backend/src/utils/types";
-import { HttpMethod, TrainingLog } from "../utils/types";
+import { HttpMethod, ServiceAnimalSkills, TrainingLog } from "../utils/types";
 import { internalRequest } from "../utils/requests";
 import { Types } from "mongoose";
 
-const trainingLogUrl = urls.baseUrl + urls.api.user.training;
+const userTrainingLogUrl = urls.baseUrl + urls.api.user.training;
+const adminTrainingLogUrl = urls.baseUrl + urls.api.admin.training;
 
 export const userCreateTrainingLog = async (
   date: Date,
-  description: string,
-  skills: Array<string>,
+  skills: Array<ServiceAnimalSkills>,
   trainingHours: number,
-  behavior: ServiceAnimalBehavior,
+  behavior: string,
   animal: Types.ObjectId,
+  handler: Types.ObjectId,
+  description?: string,
   video?: string
 ) => {
   return internalRequest<TrainingLog>({
-    url: trainingLogUrl,
+    url: userTrainingLogUrl,
     method: HttpMethod.POST,
     authRequired: true,
     body: {
@@ -26,7 +27,25 @@ export const userCreateTrainingLog = async (
       trainingHours,
       behavior,
       animal,
+      handler,
       video,
     },
+  });
+};
+
+export const userGetTrainingLogs = async () => {
+  return internalRequest<TrainingLog>({
+    url: userTrainingLogUrl,
+    method: HttpMethod.GET,
+    authRequired: true,
+  });
+};
+
+export const adminGetTrainingLogs = async (userId: Types.ObjectId) => {
+  return internalRequest<TrainingLog>({
+    url: adminTrainingLogUrl,
+    method: HttpMethod.GET,
+    authRequired: true,
+    body: { userId },
   });
 };

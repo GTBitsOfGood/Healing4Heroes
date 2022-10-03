@@ -1,5 +1,4 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import LoginScreen from "./screens/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -13,6 +12,8 @@ import DevelopmentScreen from "./screens/DevelopmentScreen";
 import { useFonts } from "expo-font";
 import StorageExampleScreen from "./screens/StorageExampleScreen";
 import StepOverlayExampleScreen from "./screens/StepOverlayExampleScreen";
+import AddTrainingLogScreen from "./screens/AddTrainingLogScreen";
+import UploadVideoScreen from "./screens/UploadVideoScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,11 @@ export default function App() {
           name="Animal Information"
           component={AnimalInformationScreen}
         />
+        <Stack.Screen
+          name="Add Training Log"
+          component={AddTrainingLogScreen}
+        />
+        <Stack.Screen name="Upload Video Log" component={UploadVideoScreen} />
         <Stack.Screen name="User Dashboard" component={UserDashboardScreen} />
         <Stack.Screen name="Admin Dashboard" component={AdminDashboardScreen} />
         <Stack.Screen

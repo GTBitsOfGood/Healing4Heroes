@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -9,26 +8,21 @@ import {
   BackHandler,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { Keyboard } from "react-native";
 import { HandlerType, Role, User } from "../utils/types";
 import { userGetUserInfo, userUpdateUser } from "../actions/User";
 import StepOverlay from "../components/StepOverlay";
 import { Ionicons } from "@expo/vector-icons";
-
-const dropDownItems = [
-  { label: "Veteran", value: HandlerType.HANDLER_VETERAN },
-  { label: "Civilian", value: HandlerType.HANDLER_CIVILIAN },
-  { label: "Child", value: HandlerType.HANDLER_CHILD },
-  { label: "Volunteer", value: "volunteer" },
-];
+import SolidDropDown from "../components/SolidDropDown";
+import DateInput from "../components/DateInput";
+import { validateBirthday } from "../utils/helper";
 
 export default function HandlerInformationScreen(props: any) {
-  const [dropDownOpen, setDropDownOpen] = useState(false);
-  const [dropDownValue, setDropDownValue] = useState(null);
+  const [dropDownValue, setDropDownValue] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const [user, setUser] = useState<User>();
+  const [birthday, setBirthday] = useState<Date>();
   useEffect(() => {
     DropDownPicker.setListMode("SCROLLVIEW");
     async function getUser() {
@@ -46,6 +40,7 @@ export default function HandlerInformationScreen(props: any) {
   const updateUserInfo = async () => {
     const user = await userUpdateUser(
       undefined,
+      birthday,
       firstName,
       lastName,
       dropDownValue as unknown as HandlerType
@@ -59,6 +54,9 @@ export default function HandlerInformationScreen(props: any) {
       return;
     } else if (!dropDownValue) {
       setError("Please choose what describes you best.");
+      return;
+    } else if (!validateBirthday(birthday)) {
+      setError("Please enter a valid birthday.");
       return;
     }
 
@@ -117,22 +115,34 @@ export default function HandlerInformationScreen(props: any) {
           />
 
           <Text style={styles.label}>What describes you best?*</Text>
-          <DropDownPicker
-            open={dropDownOpen}
-            setOpen={setDropDownOpen}
-            items={dropDownItems}
-            value={dropDownValue}
-            setValue={setDropDownValue}
-            style={styles.input}
-            dropDownDirection="AUTO"
-            placeholderStyle={{
-              color: "#999999",
+
+          <SolidDropDown
+            items={{
+              Veteran: HandlerType.HANDLER_VETERAN,
+              "First Responder/LEO": HandlerType.HANDLER_CHILD,
+              "Surviving Family Member":
+                HandlerType.HANDLER_SURVIVING_FAMILY_MEMBER,
+              Child: HandlerType.HANDLER_CHILD,
+              Civilian: HandlerType.HANDLER_CIVILIAN,
             }}
-            dropDownContainerStyle={styles.dropDownContainer}
-            onOpen={() => {
-              Keyboard.dismiss();
+            placeholder={"Select An Option"}
+            isMultiselect={false}
+            callbackFunction={(
+              values: string | string[],
+              keys: string | string[]
+            ) => {
+              setDropDownValue(values as HandlerType);
             }}
           />
+          <View style={styles.birthdayContainer}>
+            <Text style={styles.label}>When is your birthday?*</Text>
+            <DateInput
+              autofill={false}
+              callbackFunction={(date) => {
+                setBirthday(date);
+              }}
+            />
+          </View>
         </View>
       }
     />
@@ -215,5 +225,9 @@ const styles = StyleSheet.create({
   failedText: {
     fontSize: 12,
     fontWeight: "300",
+  },
+  birthdayContainer: {
+    marginTop: 10,
+    marginBottom: 10,
   },
 });

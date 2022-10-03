@@ -9,6 +9,7 @@ export const userCreateAnimal = async (
   name: string,
   totalHours?: number,
   subHandler?: SubHandler,
+  dateOfTrainingClass?: Date,
   dateOfBirth?: Date,
   dateOfAdoption?: Date,
   microchipExpiration?: Date,
@@ -22,6 +23,7 @@ export const userCreateAnimal = async (
       name,
       totalHours,
       subHandler,
+      dateOfTrainingClass,
       dateOfBirth,
       dateOfAdoption,
       microchipExpiration,
@@ -29,6 +31,7 @@ export const userCreateAnimal = async (
     },
   });
 };
+
 
 export const userUpdateAnimal = async (
   _id: Types.ObjectId,
@@ -85,5 +88,14 @@ export const adminUpdateAnimal = async (
       microchipExpiration,
       checkUpDate,
     },
+  });
+};
+
+
+export const userGetAnimal = async () => {
+  return internalRequest<ServiceAnimal>({
+    url: animalUrl,
+    method: HttpMethod.GET,
+    authRequired: true,
   });
 };

@@ -8,6 +8,7 @@ export async function createAnimal(
   name: string,
   totalHours?: number,
   subHandler?: SubHandler,
+  dateOfTrainingClass?: Date,
   dateOfBirth?: Date,
   dateOfAdoption?: Date,
   microchipExpiration?: Date,
@@ -19,6 +20,7 @@ export async function createAnimal(
     name: name,
     totalHours: totalHours,
     subHandler: subHandler,
+    dateOfTrainingClass: dateOfTrainingClass,
     dateOfBirth: dateOfBirth,
     dateOfAdoption: dateOfAdoption,
     microchipExpiration: microchipExpiration,
@@ -27,6 +29,7 @@ export async function createAnimal(
 
   return animal;
 }
+
 
 export async function findAnimal(_id: Types.ObjectId) {
   await dbConnect();
@@ -63,4 +66,10 @@ export async function updateAnimal(
   );
 
   return res;
+
+export async function findAnimalByUserId(id: Types.ObjectId) {
+  await dbConnect();
+
+  return AnimalModel.findOne({ handler: id }).exec();
+
 }

@@ -38,6 +38,10 @@ const AnimalSchema = new mongoose.Schema<ServiceAnimal>({
     type: Date,
     required: false,
   },
+  dateOfTrainingClass: {
+    type: Date,
+    required: false,
+  },
   microchipExpiration: {
     type: Date,
     required: false,

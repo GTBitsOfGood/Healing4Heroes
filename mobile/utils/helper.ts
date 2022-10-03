@@ -31,3 +31,11 @@ export const validateEmail = (email: string) => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 };
+
+export const convertToMegabytes = (fileSize: number) => {
+  return fileSize / 1024 / 1024;
+};
+
+export const validateBirthday = (date: Date | undefined) => {
+  return date && date <= new Date() && date.toString() !== "Invalid Date";
+};

@@ -1,51 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import OnboardingOverlay from "../components/OnboardingOverlay";
 
 export default function LandingScreen(props: any) {
   return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <View style={styles.logoContainer}></View>
-      </View>
-      <View style={styles.bodyContainer}>
-        <View style={styles.loginContainer}>
-          <Text style={styles.headerText}>Welcome to Healing 4 Heroes!</Text>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate("Login")}
-              style={styles.loginBtn}
-            >
-              <Text style={styles.loginBtnText}>Log In</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate("Sign Up")}
-              style={styles.signupBtn}
-            >
-              <Text style={styles.signupBtnText}>Sign Up</Text>
-            </TouchableOpacity>
+    <OnboardingOverlay
+      showBackDrop={true}
+      footerSubText={""}
+      footerMainText={""}
+      headerText={""}
+      footerCallback={() => {}}
+      pageBody={
+        <View style={styles.bodyContainer}>
+          <View style={styles.loginContainer}>
+            <Text style={styles.headerText}>Welcome to Healing 4 Heroes!</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("Login")}
+                style={styles.loginBtn}
+              >
+                <Text style={styles.loginBtnText}>Log In</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("Sign Up")}
+                style={styles.signupBtn}
+              >
+                <Text style={styles.signupBtnText}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-
-      <StatusBar style="auto" />
-    </View>
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#F2F2F2",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  headerContainer: {
-    flex: 1,
-    marginTop: 25,
-  },
-
   bodyContainer: {
     marginTop: 0,
     flex: 3,
@@ -62,7 +52,7 @@ const styles = StyleSheet.create({
   },
 
   loginContainer: {
-    marginTop: 50,
+    marginTop: 0,
     padding: 16,
     borderRadius: 16,
     alignItems: "center",

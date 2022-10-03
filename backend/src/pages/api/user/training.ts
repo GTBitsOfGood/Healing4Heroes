@@ -1,6 +1,10 @@
 import { Types } from "mongoose";
-import { createTrainingLog } from "server/mongodb/actions/TrainingLog";
+import {
+  createTrainingLog,
+  getTrainingLogs,
+} from "server/mongodb/actions/TrainingLog";
 import APIWrapper from "server/utils/APIWrapper";
+import { getUser } from "server/utils/Authentication";
 import { Role, ServiceAnimalBehavior } from "src/utils/types";
 
 export default APIWrapper({
@@ -14,9 +18,9 @@ export default APIWrapper({
       const description: string = req.body.description as string;
       const skills: Array<string> = req.body.skills as Array<string>;
       const trainingHours: number = req.body.trainingHours as number;
-      const behavior: ServiceAnimalBehavior = req.body
-        .behavior as ServiceAnimalBehavior;
+      const behavior: string = req.body.behavior as string;
       const animal: Types.ObjectId = req.body.animal as Types.ObjectId;
+      const handler: Types.ObjectId = req.body.handler as Types.ObjectId;
       const video: string = req.body.video as string;
 
       const trainingLog = await createTrainingLog(
@@ -26,6 +30,7 @@ export default APIWrapper({
         trainingHours,
         behavior,
         animal,
+        handler,
         video
       );
       if (!trainingLog) {
@@ -33,6 +38,25 @@ export default APIWrapper({
       }
 
       return trainingLog;
+    },
+  },
+  GET: {
+    config: {
+      requireToken: true,
+      roles: [Role.NONPROFIT_USER],
+    },
+    handler: async (req) => {
+      const accessToken: string = req.headers.accesstoken as string;
+      const user = await getUser(accessToken);
+
+      if (!user) {
+        throw new Error("User not found in database!");
+      }
+
+      const userId = user._id;
+      const trainingLogs = await getTrainingLogs(userId);
+
+      return trainingLogs;
     },
   },
 });

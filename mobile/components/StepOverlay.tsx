@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   GestureResponderEvent,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 interface StepOverlayProps {
@@ -27,36 +29,42 @@ export default function StepOverlay({
   pageIcon,
 }: StepOverlayProps) {
   return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.header}>{headerName}</Text>
-        {<View style={styles.iconCircle}>{pageIcon}</View>}
-      </View>
-      <ScrollView>{pageBody}</ScrollView>
-
-      {error && (
-        <View style={styles.failedContainer}>
-          <Text style={styles.failedText}>{error}</Text>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.header}>{headerName}</Text>
+          {pageIcon && <View style={styles.iconCircle}>{pageIcon}</View>}
         </View>
-      )}
+        <ScrollView>{pageBody}</ScrollView>
 
-      <TouchableOpacity style={styles.button} onPress={buttonFunction}>
-        {circleCount > numberSelected ? (
-          <Text style={styles.buttonText}>Next</Text>
-        ) : (
-          <Text style={styles.buttonText}>Submit</Text>
+        {error && (
+          <View style={styles.failedContainer}>
+            <Text style={styles.failedText}>{error}</Text>
+          </View>
         )}
-      </TouchableOpacity>
 
-      <View style={styles.circles}>
-        {[...Array(numberSelected).keys()].map((i) => (
-          <View key={i} style={[styles.circle, styles.selected]} />
-        ))}
-        {[...Array(circleCount - numberSelected).keys()].map((i) => (
-          <View key={numberSelected + i} style={[styles.circle]} />
-        ))}
+        <TouchableOpacity style={styles.button} onPress={buttonFunction}>
+          {circleCount > numberSelected ? (
+            <Text style={styles.buttonText}>Next</Text>
+          ) : (
+            <Text style={styles.buttonText}>Submit</Text>
+          )}
+        </TouchableOpacity>
+
+        <View style={styles.circles}>
+          {[...Array(numberSelected).keys()].map((i) => (
+            <View key={i} style={[styles.circle, styles.selected]} />
+          ))}
+          {[...Array(circleCount - numberSelected).keys()].map((i) => (
+            <View key={numberSelected + i} style={[styles.circle]} />
+          ))}
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
