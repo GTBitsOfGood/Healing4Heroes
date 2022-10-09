@@ -12,7 +12,6 @@ export const userCreateTrainingLog = async (
   trainingHours: number,
   behavior: string,
   animal: Types.ObjectId,
-  handler: Types.ObjectId,
   description?: string,
   video?: string
 ) => {
@@ -27,7 +26,6 @@ export const userCreateTrainingLog = async (
       trainingHours,
       behavior,
       animal,
-      handler,
       video,
     },
   });
