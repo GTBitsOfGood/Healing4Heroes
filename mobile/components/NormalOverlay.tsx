@@ -1,29 +1,20 @@
 import React, { ReactElement } from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  TouchableOpacity,
   ScrollView,
-  GestureResponderEvent,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
 
 interface StepOverlayProps {
-  circleCount: number;
-  numberSelected: number;
   headerComponent: ReactElement;
-  error: string;
   pageBody: ReactElement;
   pageIcon?: ReactElement;
 }
 export default function StepOverlay({
-  circleCount,
   headerComponent,
-  numberSelected,
   pageBody,
-  error,
   pageIcon,
 }: StepOverlayProps) {
   return (
@@ -38,21 +29,6 @@ export default function StepOverlay({
           {pageIcon && <View style={styles.iconCircle}>{pageIcon}</View>}
         </View>
         <ScrollView>{pageBody}</ScrollView>
-
-        {error && (
-          <View style={styles.failedContainer}>
-            <Text style={styles.failedText}>{error}</Text>
-          </View>
-        )}
-
-        <View style={styles.circles}>
-          {[...Array(numberSelected).keys()].map((i) => (
-            <View key={i} style={[styles.circle, styles.selected]} />
-          ))}
-          {[...Array(circleCount - numberSelected).keys()].map((i) => (
-            <View key={numberSelected + i} style={[styles.circle]} />
-          ))}
-        </View>
       </View>
     </TouchableWithoutFeedback>
   );
