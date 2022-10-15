@@ -5,8 +5,10 @@ const ProgressBar = (props: any) => {
   return (
     <View style={styles.progressContainer}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text>348/800</Text>
-        <Text>Hours</Text>
+        <Text>
+          {props.complete}/{props.total}
+        </Text>
+        <Text>{props.unit}</Text>
       </View>
       <View>
         <View style={styles.progressBar}>

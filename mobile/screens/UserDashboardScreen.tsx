@@ -16,12 +16,7 @@ import LogButton from "../components/LogButton";
 import ProgressBar from "../components/ProgressBar";
 
 export default function UserDashboardScreen(props: any) {
-  const completed = 348 / 800;
-  const percentageCompleted = Math.round(completed * 100) + " %";
-  const uploadNew = <MaterialIcons name="note-add" size={40} color="blue" />;
-  const viewAll = (
-    <MaterialCommunityIcons name="file-document" size={40} color="blue" />
-  );
+  const [hoursCompleted, setHoursCompleted] = useState(348);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
@@ -49,26 +44,37 @@ export default function UserDashboardScreen(props: any) {
 
           {/* training bar status */}
           <Text style={styles.label}>Training Progress</Text>
-          <ProgressBar filled={percentageCompleted}></ProgressBar>
+          <ProgressBar
+            filled={Math.round((hoursCompleted / 800) * 100) + " %"}
+            complete={hoursCompleted}
+            total={800}
+            unit={"Hours"}
+          />
 
           {/* training log */}
           <Text style={styles.label}>Training Log</Text>
           <View style={styles.logContainer}>
             <LogButton
               text="Add New Log"
-              icon={uploadNew}
+              icon={<MaterialIcons name="note-add" size={40} color="blue" />}
               navigation={props.navigation}
             ></LogButton>
             <LogButton
               text="View All Logs"
-              icon={viewAll}
+              icon={
+                <MaterialCommunityIcons
+                  name="file-document"
+                  size={40}
+                  color="blue"
+                />
+              }
               navigation={props.navigation}
             ></LogButton>
           </View>
 
           {/* animal cards */}
           <Text style={styles.label}>Health Information</Text>
-          <HealthCard></HealthCard>
+          <HealthCard />
         </View>
       }
     ></NormalOverlay>
@@ -97,8 +103,8 @@ const styles = StyleSheet.create({
 
   profileName: {
     flexGrow: 1,
-    paddingLeft: 5,
-    paddingTop: 1,
+    paddingLeft: 10,
+    alignSelf: "center",
     fontFamily: "DMSans-Bold",
   },
 
