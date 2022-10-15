@@ -28,19 +28,24 @@ export default function UploadProfileImageScreen(props: any) {
   const [userAge, setUserAge] = useState<number>(0);
 
   const updateProfileInformation = async () => {
-    const handlerFileName: string = uuidv4();
-    const handlerUpload = await uploadFile(
-      handlerFileName + ".png",
-      StorageLocation.HANDLER_PICTURES,
-      handlerImageUri
-    );
+    if (handlerImageUri) {
+      const handlerFileName: string = uuidv4();
+      const handlerUpload = await uploadFile(
+        handlerFileName + ".png",
+        StorageLocation.HANDLER_PICTURES,
+        handlerImageUri
+      );
+    }
 
     const animalFileName: string = uuidv4();
-    const animalUpload = await uploadFile(
-      animalFileName + ".png",
-      StorageLocation.SERVICE_ANIMAL_PICTURES,
-      animalImageUri
-    );
+
+    if (animalImageUri) {
+      const animalUpload = await uploadFile(
+        animalFileName + ".png",
+        StorageLocation.SERVICE_ANIMAL_PICTURES,
+        animalImageUri
+      );
+    }
 
     // Update these methods after sprint 3
     // userUpdateUser()
@@ -105,10 +110,10 @@ export default function UploadProfileImageScreen(props: any) {
   return (
     <StepOverlay
       headerName="Create Training Log"
-      circleCount={2}
+      circleCount={3}
       error={error}
       buttonFunction={updateProfileInformation}
-      numberSelected={2}
+      numberSelected={3}
       pageBody={
         <View style={styles.container}>
           {/* Handler Image Upload */}

@@ -61,7 +61,7 @@ export default function App() {
           component={StepOverlayExampleScreen}
         />
         <Stack.Screen
-          name="Upload Profile Image Screen"
+          name="Upload Profile Image"
           component={UploadProfileImageScreen}
         />
       </Stack.Navigator>

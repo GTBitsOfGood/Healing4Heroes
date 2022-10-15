@@ -86,7 +86,7 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("Upload Profile Image Screen")}
+        onPress={() => props.navigation.navigate("Upload Profile Image")}
         style={styles.buttonItem}
       >
         <Text>Go To Upload Profile Image Screen</Text>
