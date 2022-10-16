@@ -13,12 +13,13 @@ export const urls = {
       user: "/api/user/user",
       animal: "/api/user/animal",
       training: "/api/user/training",
+      announcement: "api/user/announcement",
     },
     admin: {
       user: "/api/admin/user",
       userVerified: "/api/admin/user/verified",
       animal: "/api/admin/animal",
-      training: "/api/admin/training",
+      announcement: "api/admin/announcement",
     },
   },
 };
