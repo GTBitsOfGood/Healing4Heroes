@@ -70,6 +70,7 @@ export default function SignUpScreen(props: any) {
       }
       return createdUser;
     } catch (e) {
+      console.log(e);
       setErrorMessage(
         "Failed to sign up with email; account may already exist!"
       );

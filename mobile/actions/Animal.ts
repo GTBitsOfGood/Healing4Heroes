@@ -3,7 +3,8 @@ import { internalRequest } from "../utils/requests";
 import { SubHandler, HttpMethod, ServiceAnimal } from "../utils/types";
 import { urls } from "../utils/urls";
 
-const animalUrl = urls.baseUrl + urls.api.user.animal;
+const userAnimalUrl = urls.baseUrl + urls.api.user.animal;
+const adminAnimalUrl = urls.baseUrl + urls.api.admin.animal;
 
 export const userCreateAnimal = async (
   name: string,
@@ -16,7 +17,7 @@ export const userCreateAnimal = async (
   checkUpDate?: Date
 ) => {
   return internalRequest<ServiceAnimal>({
-    url: animalUrl,
+    url: userAnimalUrl,
     method: HttpMethod.POST,
     authRequired: true,
     body: {
@@ -44,7 +45,7 @@ export const userUpdateAnimal = async (
   checkUpDate?: Date
 ) => {
   return internalRequest<ServiceAnimal>({
-    url: animalUrl,
+    url: userAnimalUrl,
     method: HttpMethod.PATCH,
     authRequired: true,
     body: {
@@ -72,7 +73,7 @@ export const adminUpdateAnimal = async (
   dateOfTrainingClass?: Date
 ) => {
   return internalRequest<ServiceAnimal>({
-    url: animalUrl,
+    url: adminAnimalUrl,
     method: HttpMethod.PATCH,
     authRequired: true,
     body: {
@@ -91,7 +92,7 @@ export const adminUpdateAnimal = async (
 
 export const userGetAnimal = async () => {
   return internalRequest<ServiceAnimal>({
-    url: animalUrl,
+    url: userAnimalUrl,
     method: HttpMethod.GET,
     authRequired: true,
   });

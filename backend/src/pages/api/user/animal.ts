@@ -100,6 +100,7 @@ export default APIWrapper({
     handler: async (req) => {
       const accessToken: string = req.headers.accesstoken as string;
       const handler: User = await getUser(accessToken);
+      console.log(handler);
       const animal = await findAnimalByUserId(handler._id);
 
       if (!animal) {

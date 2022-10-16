@@ -18,33 +18,37 @@ export default function AnimalInformationScreen(props: any) {
   const [error, setError] = useState("");
 
   const addAnimal = async () => {
-    const previousAnimal = await userGetAnimal();
+    let animal;
+    try {
+      const previousAnimal = await userGetAnimal();
+      console.log(previousAnimal);
 
-    if (previousAnimal) {
-      const animal = await userUpdateAnimal(
-        previousAnimal._id,
+      if (previousAnimal) {
+        animal = await userUpdateAnimal(
+          previousAnimal._id,
+          animalName,
+          previousAnimal.totalHours,
+          previousAnimal.subHandler,
+          trainingClassDate,
+          animalBirth,
+          animalAdoption,
+          previousAnimal.microchipExpiration
+        );
+
+        return animal;
+      }
+    } catch {
+      animal = await userCreateAnimal(
         animalName,
-        previousAnimal.totalHours,
-        previousAnimal.subHandler,
+        0,
+        undefined,
         trainingClassDate,
         animalBirth,
         animalAdoption,
-        previousAnimal.microchipExpiration
+        undefined,
+        undefined
       );
-
-      return animal;
     }
-
-    const animal = await userCreateAnimal(
-      animalName,
-      0,
-      undefined,
-      trainingClassDate,
-      animalBirth,
-      animalAdoption,
-      undefined,
-      undefined
-    );
 
     return animal;
   };
