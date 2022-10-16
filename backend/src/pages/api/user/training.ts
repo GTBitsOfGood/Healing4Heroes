@@ -31,7 +31,7 @@ export default APIWrapper({
         trainingHours,
         behavior,
         animal,
-        (handler as User)._id,
+        handler._id,
         video
       );
       if (!trainingLog) {

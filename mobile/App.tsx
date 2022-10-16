@@ -16,6 +16,7 @@ import AddTrainingLogScreen from "./screens/AddTrainingLogScreen";
 import UploadVideoScreen from "./screens/UploadVideoScreen";
 import ViewAllLogsScreen from "./screens/ViewAllLogsScreen";
 import ViewSingleLogScreen from "./screens/ViewSingleLogScreen";
+import UploadProfileImageScreen from "./screens/UploadProfileImageScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -68,6 +69,8 @@ export default function App() {
         <Stack.Screen
           name="View Single Log Screen"
           component={ViewSingleLogScreen}
+          name="Upload Profile Image"
+          component={UploadProfileImageScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

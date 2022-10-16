@@ -79,10 +79,17 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("Step Overlay Example Screen")}
+        onPress={() => props.navigation.navigate("Storage Example Screen")}
         style={styles.buttonItem}
       >
-        <Text>Go To Step overlay Example Screen</Text>
+        <Text>Go To Storage Example Screen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("Upload Profile Image")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Upload Profile Image Screen</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

@@ -36,6 +36,11 @@ const UserSchema = new mongoose.Schema<User>({
     enum: Object.values(Role),
     default: [],
   },
+  verifiedByAdmin: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 const UserModel =

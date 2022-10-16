@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { Schema, Types } from "mongoose";
 import UserModel from "server/mongodb/models/User";
 import dbConnect from "server/utils/dbConnect";
 import { HandlerType, Role } from "src/utils/types";
@@ -54,4 +54,26 @@ export async function updateUser(
     birthday: birthday,
   });
   return user;
+}
+
+export async function verifyUser(userId: Types.ObjectId) {
+  await dbConnect();
+
+  const user = UserModel.findByIdAndUpdate(
+    userId,
+    { verifiedByAdmin: true },
+    { new: true }
+  );
+
+  return user;
+}
+
+export async function getUsers(pageSize: number, afterId?: Types.ObjectId) {
+  await dbConnect();
+
+  if (!afterId) {
+    return UserModel.find().limit(pageSize);
+  }
+
+  return UserModel.find({ _id: { $gt: afterId } }).limit(pageSize);
 }

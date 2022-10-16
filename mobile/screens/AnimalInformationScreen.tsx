@@ -41,7 +41,7 @@ export default function AnimalInformationScreen(props: any) {
       setError("");
       const result = await addAnimal();
       if (result) {
-        props.navigation.navigate("User Dashboard");
+        props.navigation.navigate("Upload Profile Image");
       } else {
         setError("Failed to create service animal!");
       }
