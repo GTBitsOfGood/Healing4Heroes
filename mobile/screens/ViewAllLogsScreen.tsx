@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import LogCard from "../components/LogCard";
 
 export default function ViewAllLogsScreen(props: any) {
@@ -9,19 +15,19 @@ export default function ViewAllLogsScreen(props: any) {
       skills: ["Post"],
       trainingHours: 1,
       behavior: "blah blah blah",
-      description: "blah blah"
+      description: "blah blah",
     },
     {
       date: new Date(),
       skills: ["Post", "test"],
       trainingHours: 5,
       behavior: "blah blah blah",
-      description: "blah blah"
+      description: "blah blah",
     },
   ];
 
   // const { logs } = props.route.params;
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>User Log Overview</Text>
@@ -30,16 +36,13 @@ export default function ViewAllLogsScreen(props: any) {
           return (
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate(
-                  "View Single Log Screen",
-                  {
-                    date: log.date,
-                    skills: log.skills,
-                    trainingHours: log.trainingHours,
-                    behavior: log.behavior,
-                    description: log.description
-                  }
-                );
+                props.navigation.navigate("View Single Log Screen", {
+                  date: log.date,
+                  skills: log.skills,
+                  trainingHours: log.trainingHours,
+                  behavior: log.behavior,
+                  description: log.description,
+                });
               }}
               key={index}
             >
@@ -73,4 +76,3 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
-

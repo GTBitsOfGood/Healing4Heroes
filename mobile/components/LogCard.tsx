@@ -2,15 +2,11 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 interface LogCardProps {
-  date: Date,
-  skills: Array<string>,
-  trainingHours: number
+  date: Date;
+  skills: Array<string>;
+  trainingHours: number;
 }
-export default function LogCard({
-  date,
-  skills,
-  trainingHours
-}: LogCardProps) {
+export default function LogCard({ date, skills, trainingHours }: LogCardProps) {
   return (
     <View style={styles.card}>
       <View style={styles.cardRow}>
@@ -24,9 +20,9 @@ export default function LogCard({
           contentContainerStyle={styles.skillsContent}
           horizontal={true}
         >
-          {skills.map((skill: string) => {
+          {skills.map((skill: string, index: number) => {
             return (
-              <View style={styles.cardValue}>
+              <View style={styles.cardValue} key={index}>
                 <Text>{skill}</Text>
               </View>
             );
@@ -36,7 +32,7 @@ export default function LogCard({
       <View style={styles.cardRow}>
         <Text>Training Hours</Text>
         <View style={styles.cardValue}>
-          <Text>{`${trainingHours} Hour${trainingHours == 1 ? '' : 's'}`}</Text>
+          <Text>{`${trainingHours} Hour${trainingHours == 1 ? "" : "s"}`}</Text>
         </View>
       </View>
     </View>
@@ -73,6 +69,6 @@ const styles = StyleSheet.create({
   skillsContent: {
     flexGrow: 1,
     flexDirection: "row",
-    justifyContent: "flex-end"
-  }
+    justifyContent: "flex-end",
+  },
 });

@@ -69,6 +69,8 @@ export default function App() {
         <Stack.Screen
           name="View Single Log Screen"
           component={ViewSingleLogScreen}
+        />
+        <Stack.Screen
           name="Upload Profile Image"
           component={UploadProfileImageScreen}
         />
