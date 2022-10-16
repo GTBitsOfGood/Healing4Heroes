@@ -13,7 +13,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { ResizeMode } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
-import StepOverlay from "../../components/StepOverlay";
+import StepOverlay from "../../components/Overlays/StepOverlay";
 import { calculateAge, convertToMegabytes } from "../../utils/helper";
 import { StorageLocation } from "../../utils/types";
 import { uploadFile } from "../../utils/storage";
@@ -129,7 +129,7 @@ export default function UploadProfileImageScreen(props: any) {
 
   return (
     <StepOverlay
-      headerName="Create Training Log"
+      headerName="Upload Profile Picture Images"
       circleCount={3}
       error={error}
       buttonFunction={updateProfileInformation}

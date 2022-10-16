@@ -15,11 +15,11 @@ import * as ImagePicker from "expo-image-picker";
 import { userCreateTrainingLog } from "../../actions/TrainingLog";
 import { ResizeMode, Video } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
-import StepOverlay from "../../components/StepOverlay";
+import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
 import { StorageLocation } from "../../utils/types";
 import { uploadFile } from "../../utils/storage";
-import { userGetAnimal } from "../../actions/Animal";
+import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 
 export default function TrainingVideoLogScreen(props: any) {
   const [error, setError] = useState("");
@@ -31,12 +31,15 @@ export default function TrainingVideoLogScreen(props: any) {
     props.route.params;
 
   const createTrainingLog = async () => {
-    const fileName: string = uuidv4();
-    const upload = await uploadFile(
-      fileName + ".mp4",
-      StorageLocation.TRAINING_LOG_VIDEOS,
-      videoUri
-    );
+    let upload = undefined;
+    if (videoUri) {
+      const fileName: string = uuidv4();
+      upload = await uploadFile(
+        fileName + ".mp4",
+        StorageLocation.TRAINING_LOG_VIDEOS,
+        videoUri
+      );
+    }
     const animal = await userGetAnimal();
     const trainingLog = await userCreateTrainingLog(
       new Date(),
@@ -47,6 +50,15 @@ export default function TrainingVideoLogScreen(props: any) {
       additionalNotes,
       upload as string
     );
+
+    const updateServiceAnimal = await userUpdateAnimal(
+      undefined,
+      animal.totalHours + parseInt(totalHours)
+    );
+
+    if (!updateServiceAnimal){
+      setError("Failed to add hours to service animal")
+    }
     props.navigation.navigate("User Dashboard");
     return trainingLog;
   };

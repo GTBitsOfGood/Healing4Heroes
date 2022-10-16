@@ -5,11 +5,10 @@ import {
   userGetAnimal,
   userUpdateAnimal,
 } from "../../actions/Animal";
-import StepOverlay from "../../components/StepOverlay";
+import StepOverlay from "../../components/Overlays/StepOverlay";
 import { validateBirthday } from "../../utils/helper";
 import { FontAwesome5 } from "@expo/vector-icons";
 import DateInput from "../../components/DateInput";
-import { userGetUserInfo } from "../../actions/User";
 
 export default function AnimalInformationScreen(props: any) {
   const [animalName, setAnimalName] = useState("");
@@ -25,7 +24,6 @@ export default function AnimalInformationScreen(props: any) {
 
       if (previousAnimal) {
         animal = await userUpdateAnimal(
-          previousAnimal._id,
           animalName,
           previousAnimal.totalHours,
           previousAnimal.subHandler,
@@ -38,7 +36,6 @@ export default function AnimalInformationScreen(props: any) {
         return animal;
       }
     } catch (e) {
-      console.log(e);
       animal = await userCreateAnimal(
         animalName,
         0,

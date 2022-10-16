@@ -30,6 +30,9 @@ export const uploadFile = async (
   return null;
 };
 
-export const getFile = (fileFullPath: string): Promise<string> => {
-  return getDownloadURL(ref(storage, fileFullPath));
+export const getFile = (fileFullPath: string): Promise<string> | null => {
+  if (fileFullPath) {
+    return getDownloadURL(ref(storage, fileFullPath));
+  }
+  return null;
 };

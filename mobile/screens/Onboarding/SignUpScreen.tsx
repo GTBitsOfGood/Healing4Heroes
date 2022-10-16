@@ -13,7 +13,7 @@ import { auth } from "../../utils/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { userCreateUser } from "../../actions/User";
 import { Role } from "../../utils/types";
-import OnboardingOverlay from "../../components/OnboardingOverlay";
+import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 
 export default function SignUpScreen(props: any) {
   const [checkValidRegister, setCheckValidRegister] = useState(true);

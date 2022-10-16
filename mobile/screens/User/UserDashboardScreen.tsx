@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  BackHandler,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image,
-  View,
-} from "react-native";
+import { BackHandler, StyleSheet, Text, View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import NormalOverlay from "../../components/NormalOverlay";
+import DashboardOverlay from "../../components/Overlays/DashboardOverlay";
 import HealthCard from "../../components/HealthCard";
 import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
@@ -19,12 +12,14 @@ import { userGetAnimal } from "../../actions/Animal";
 import { ServiceAnimal, User } from "../../utils/types";
 import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
+import { userGetTrainingLogs } from "../../actions/TrainingLog";
 
 export default function UserDashboardScreen(props: any) {
-  const [hoursCompleted, setHoursCompleted] = useState(348);
+  const [hoursCompleted, setHoursCompleted] = useState(0);
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [animalInfo, setAnimalInfo] = useState<ServiceAnimal | null>(null);
-  const [animalImage, setAnimalImage] = useState<string | undefined>("");
+  const [animalImage, setAnimalImage] = useState<string>("");
+
   useEffect(() => {
     async function getUserDashboardInformation() {
       const user: User = (await userGetUserInfo()) as User;
@@ -34,7 +29,7 @@ export default function UserDashboardScreen(props: any) {
       setAnimalInfo(animal);
       setHoursCompleted(animal?.totalHours);
       const imageData = await getFile(animal?.profileImage as string);
-      setAnimalImage(imageData);
+      setAnimalImage(imageData as string);
     }
 
     getUserDashboardInformation().then().catch();
@@ -43,10 +38,15 @@ export default function UserDashboardScreen(props: any) {
       props.navigation.navigate("User Dashboard");
       return true;
     });
+
+    const unsubscribe = props.navigation.addListener("focus", () => {
+      getUserDashboardInformation().then().catch();
+    });
+    return unsubscribe;
   }, []);
 
   return (
-    <NormalOverlay
+    <DashboardOverlay
       headerComponent={
         <View style={styles.dashboardHeader}>
           <FontAwesome name="user-circle" size={26} color="blue" />
@@ -60,14 +60,16 @@ export default function UserDashboardScreen(props: any) {
         <View style={styles.container}>
           {/* announcment */}
           <View style={styles.announcementContainer}>
-            <Text style={styles.announcementText}>New Announcement</Text>
-            <Text style={styles.announcementText}>#####################</Text>
+            <Text style={styles.announcementTitle}>New Announcements</Text>
+            <Text style={styles.announcementText}>No New Announcements</Text>
           </View>
 
           {/* training bar status */}
           <Text style={styles.label}>Training Progress</Text>
           <ProgressBar
-            filled={Math.round((hoursCompleted / 800) * 100) + " %"}
+            filled={
+              Math.min(Math.round((hoursCompleted / 800) * 100), 100) + " %"
+            }
             complete={hoursCompleted}
             total={800}
             unit={"Hours"}
@@ -80,7 +82,10 @@ export default function UserDashboardScreen(props: any) {
               text="Add New Log"
               icon={<MaterialIcons name="note-add" size={40} color="blue" />}
               navigation={props.navigation}
-            ></LogButton>
+              callbackFunction={() =>
+                props.navigation.navigate("Add Training Log")
+              }
+            />
             <LogButton
               text="View All Logs"
               icon={
@@ -91,7 +96,14 @@ export default function UserDashboardScreen(props: any) {
                 />
               }
               navigation={props.navigation}
-            ></LogButton>
+              callbackFunction={async () => {
+                const trainingLogs = await userGetTrainingLogs();
+                props.navigation.navigate("View All Logs Screen", {
+                  trainingLogs,
+                  previousScreen: "User Dashboard",
+                });
+              }}
+            />
           </View>
 
           {/* animal cards */}
@@ -108,7 +120,7 @@ export default function UserDashboardScreen(props: any) {
           />
         </View>
       }
-    ></NormalOverlay>
+    />
   );
 }
 
@@ -149,10 +161,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 10,
   },
-
+  announcementTitle: {
+    color: "black",
+    fontSize: 12,
+    fontWeight: "500",
+  },
   announcementText: {
     color: "grey",
     fontSize: 12,
+    fontWeight: "400",
   },
 
   logContainer: {

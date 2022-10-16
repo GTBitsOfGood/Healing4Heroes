@@ -13,10 +13,10 @@ import { useFonts } from "expo-font";
 import StorageExampleScreen from "./screens/Development/StorageExampleScreen";
 import StepOverlayExampleScreen from "./screens/Development/StepOverlayExampleScreen";
 import TrainingVideoLogScreen from "./screens/Training/TrainingVideoLogScreen";
-import UploadVideoScreen from "./screens/Training/TrainingVideoLogScreen";
 import ViewAllLogsScreen from "./screens/Training/ViewAllLogsScreen";
 import ViewSingleLogScreen from "./screens/Training/ViewSingleLogScreen";
 import UploadProfileImageScreen from "./screens/Onboarding/UploadProfileImageScreen";
+import AddTrainingLogScreen from "./screens/Training/AddTrainingLogScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -49,9 +49,9 @@ export default function App() {
         />
         <Stack.Screen
           name="Add Training Log"
-          component={TrainingVideoLogScreen}
+          component={AddTrainingLogScreen}
         />
-        <Stack.Screen name="Upload Video Log" component={UploadVideoScreen} />
+        <Stack.Screen name="Upload Video Log" component={TrainingVideoLogScreen} />
         <Stack.Screen name="User Dashboard" component={UserDashboardScreen} />
         <Stack.Screen name="Admin Dashboard" component={AdminDashboardScreen} />
         <Stack.Screen

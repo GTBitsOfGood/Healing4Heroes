@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import OnboardingOverlay from "../../components/OnboardingOverlay";
+import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 
 export default function LandingScreen(props: any) {
   return (

@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { BackHandler, StyleSheet, Text, View } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 
@@ -7,18 +7,32 @@ export default function ViewSingleLogScreen(props: any) {
   const { date, skills, trainingHours, behavior, description } =
     props.route.params;
 
+  const [processedDate, setProcessedDate] = useState<Date | null>();
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", function () {
+      props.navigation.goBack();
+      return true;
+    });
+
+    setProcessedDate(new Date(date));
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
         {/* Invisible edit for positioning purposes */}
         <Text style={{ ...styles.edit, color: "#f2f2f2" }}>Edit</Text>
         <Text style={styles.header}>
-          {`${date.getMonth()}-${date.getDate()}-${date.getFullYear()}`}
+          {`${processedDate?.getMonth()}-${processedDate?.getDate()}-${processedDate?.getFullYear()}`}
         </Text>
         <Text style={styles.edit}>Edit</Text>
       </View>
       <View style={styles.animalCard}>
         <FontAwesome5 name="dog" size={50} color="black" />
+        <Text style={styles.videoText}>
+          Video Logs are Only Available to Nonprofit Admins
+        </Text>
       </View>
       <LogCard date={date} skills={skills} trainingHours={trainingHours} />
       <View style={styles.textCard}>
@@ -63,6 +77,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     fontSize: 16,
     color: "#666666",
+    fontFamily: "DMSans-Regular",
   },
   animalCard: {
     backgroundColor: "#D9D9D9",
@@ -80,5 +95,10 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     borderRadius: 12,
     padding: 16,
+  },
+  videoText: {
+    textAlign: "center",
+    marginTop: 20,
+    fontFamily: "DMSans-Regular",
   },
 });

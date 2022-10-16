@@ -1,10 +1,10 @@
-import React, { Children } from "react";
+import React from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 
 const LogButton = (props: any) => {
   return (
     <TouchableOpacity
-      onPress={() => props.navigation.navigate("Add Training Log")}
+      onPress={props.callbackFunction}
       style={styles.buttonItem}
     >
       {props.icon}

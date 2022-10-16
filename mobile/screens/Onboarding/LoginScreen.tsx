@@ -15,7 +15,7 @@ import { userGetUserInfo } from "../../actions/User";
 import { Role } from "../../utils/types";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
-import OnboardingOverlay from "../../components/OnboardingOverlay";
+import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 
 export default function LoginScreen(props: any) {
   const [email, setEmail] = useState("");
@@ -31,11 +31,13 @@ export default function LoginScreen(props: any) {
         email,
         password
       );
+
       if (!userCredential || !userCredential.user) {
         setErrorMessage(`An error occurred -- Please try again!`);
         setCheckValidUser(false);
         return;
       }
+
       const user = await userGetUserInfo();
       return user;
     } catch (e) {

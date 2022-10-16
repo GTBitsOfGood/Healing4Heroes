@@ -52,7 +52,7 @@ export default function DevelopmentScreen(props: any) {
 
       <TouchableOpacity
         onPress={async () => {
-          const userCredential = await signInWithEmailAndPassword(
+          await signInWithEmailAndPassword(
             auth,
             "testing@example.com",
             "testpassword"

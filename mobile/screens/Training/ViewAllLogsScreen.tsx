@@ -1,36 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   View,
   Text,
   ScrollView,
   TouchableOpacity,
+  BackHandler,
 } from "react-native";
 import LogCard from "../../components/LogCard";
 
 export default function ViewAllLogsScreen(props: any) {
-  const logs = [
-    {
-      date: new Date(),
-      skills: ["Post"],
-      trainingHours: 1,
-      behavior: "blah blah blah",
-      description: "blah blah",
-    },
-    {
-      date: new Date(),
-      skills: ["Post", "test"],
-      trainingHours: 5,
-      behavior: "blah blah blah",
-      description: "blah blah",
-    },
-  ];
+  // const logs = [
+  //   {
+  //     date: new Date(),
+  //     skills: ["Post"],
+  //     trainingHours: 1,
+  //     behavior: "blah blah blah",
+  //     description: "blah blah",
+  //   },
+  //   {
+  //     date: new Date(),
+  //     skills: ["Post", "test"],
+  //     trainingHours: 5,
+  //     behavior: "blah blah blah",
+  //     description: "blah blah",
+  //   },
+  // ];
 
-  // const { logs } = props.route.params;
-
+  const logs = props?.route?.params?.trainingLogs;
+  const previousScreen = props?.route?.params?.previousScreen;
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", function () {
+      props.navigation.navigate(previousScreen);
+      return true;
+    });
+  }, []);
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>User Log Overview</Text>
+      <Text style={styles.header}>Training Log Overview</Text>
       <ScrollView>
         {logs?.map((log: any, index: number) => {
           return (

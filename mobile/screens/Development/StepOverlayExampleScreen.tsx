@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import StepOverlay from "../../components/StepOverlay";
+import { Text, View } from "react-native";
+import StepOverlay from "../../components/Overlays/StepOverlay";
 
 export default function StepOverlayExampleScreen() {
   return (

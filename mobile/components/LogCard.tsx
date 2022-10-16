@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 interface LogCardProps {
@@ -7,11 +7,16 @@ interface LogCardProps {
   trainingHours: number;
 }
 export default function LogCard({ date, skills, trainingHours }: LogCardProps) {
+  const [processedDate, setProcessedDate] = useState<Date | null>();
+  useEffect(() => {
+    setProcessedDate(new Date(date));
+  }, []);
+
   return (
     <View style={styles.card}>
       <View style={styles.cardRow}>
         <Text>Date</Text>
-        <Text>{`${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`}</Text>
+        <Text>{`${processedDate?.getMonth()}/${processedDate?.getDate()}/${processedDate?.getFullYear()}`}</Text>
       </View>
       <View style={styles.cardRow}>
         <Text>Skill</Text>

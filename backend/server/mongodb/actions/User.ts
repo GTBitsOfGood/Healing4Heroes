@@ -1,4 +1,4 @@
-import { Schema, Types } from "mongoose";
+import { Types } from "mongoose";
 import UserModel from "server/mongodb/models/User";
 import dbConnect from "server/utils/dbConnect";
 import { HandlerType, Role } from "src/utils/types";

@@ -12,7 +12,7 @@ interface StepOverlayProps {
   pageBody: ReactElement;
   pageIcon?: ReactElement;
 }
-export default function StepOverlay({
+export default function DashboardOverlay({
   headerComponent,
   pageBody,
   pageIcon,
@@ -28,6 +28,7 @@ export default function StepOverlay({
           <View>{headerComponent}</View>
           {pageIcon && <View style={styles.iconCircle}>{pageIcon}</View>}
         </View>
+
         <ScrollView>{pageBody}</ScrollView>
       </View>
     </TouchableWithoutFeedback>
