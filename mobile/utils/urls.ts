@@ -16,6 +16,7 @@ export const urls = {
     },
     admin: {
       user: "/api/admin/user",
+      userVerified: "/api/admin/user/verified",
       animal: "/api/admin/animal",
       training: "/api/admin/training",
     },

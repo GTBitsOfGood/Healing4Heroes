@@ -37,6 +37,7 @@ export interface User {
   handlerType: HandlerType;
   birthday: Date;
   roles?: Array<Role>;
+  verifiedByAdmin: boolean;
 }
 
 export interface ServiceAnimal {
