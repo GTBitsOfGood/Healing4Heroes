@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
-import { userCreateAnimal } from "../actions/Animal";
-import StepOverlay from "../components/StepOverlay";
-import { validateBirthday } from "../utils/helper";
+import {
+  userCreateAnimal,
+  userGetAnimal,
+  userUpdateAnimal,
+} from "../../actions/Animal";
+import StepOverlay from "../../components/StepOverlay";
+import { validateBirthday } from "../../utils/helper";
 import { FontAwesome5 } from "@expo/vector-icons";
-import DateInput from "../components/DateInput";
+import DateInput from "../../components/DateInput";
 
 export default function AnimalInformationScreen(props: any) {
   const [animalName, setAnimalName] = useState("");
@@ -14,6 +18,23 @@ export default function AnimalInformationScreen(props: any) {
   const [error, setError] = useState("");
 
   const addAnimal = async () => {
+    const previousAnimal = await userGetAnimal();
+
+    if (previousAnimal) {
+      const animal = await userUpdateAnimal(
+        previousAnimal._id,
+        animalName,
+        previousAnimal.totalHours,
+        previousAnimal.subHandler,
+        trainingClassDate,
+        animalBirth,
+        animalAdoption,
+        previousAnimal.microchipExpiration
+      );
+
+      return animal;
+    }
+
     const animal = await userCreateAnimal(
       animalName,
       0,

@@ -39,20 +39,19 @@ export const userUpdateAnimal = async (
   subHandler?: SubHandler,
   dateOfBirth?: Date,
   dateOfAdoption?: Date,
+  dateOfTrainingClass?: Date,
   microchipExpiration?: Date,
   checkUpDate?: Date
 ) => {
-  const stringId = _id.toString();
-
   return internalRequest<ServiceAnimal>({
     url: animalUrl,
     method: HttpMethod.PATCH,
     authRequired: true,
     body: {
-      stringId,
       name,
       totalHours,
       subHandler,
+      dateOfTrainingClass,
       dateOfBirth,
       dateOfAdoption,
       microchipExpiration,

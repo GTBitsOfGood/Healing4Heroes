@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import {
   createAnimal,
   updateAnimal,
@@ -18,9 +17,6 @@ export default APIWrapper({
       const accessToken: string = req.headers.accesstoken as string;
       const handler: User = await getUser(accessToken);
 
-      if (!handler) {
-        throw new Error("User not found in database!");
-      }
       const name: string = req.body.name as string;
       const totalHours: number = req.body.totalHours as number;
       const subHandler: SubHandler = req.body.subHandler as SubHandler;
@@ -58,24 +54,16 @@ export default APIWrapper({
       const accessToken: string = req.headers.accesstoken as string;
       const handler: User = await getUser(accessToken);
 
-      if (!handler) {
-        throw new Error("User not found in database!");
-      }
-
-      const _id: Types.ObjectId = new Types.ObjectId(
-        req.body.stringId as string
-      );
-
       const name: string = req.body.name as string;
       const totalHours: number = req.body.totalHours as number;
       const subHandler: SubHandler = req.body.subHandler as SubHandler;
+      const dateOfTrainingClass: Date = req.body.dateOfTrainingClass as Date;
       const dateOfBirth: Date = req.body.dateOfBirth as Date;
       const dateOfAdoption: Date = req.body.dateOfAdoption as Date;
       const microchipExpiration: Date = req.body.microchipExpiration as Date;
-      const dateOfTrainingClass: Date = req.body.dateOfTrainingClass as Date;
       const checkUpDate: Date = req.body.checkUpDate as Date;
 
-      const animal = await findAnimalByUserId(_id);
+      const animal = await findAnimalByUserId(handler._id);
 
       if (!animal) {
         throw new Error("Failed to update service animal's information.");
@@ -86,15 +74,15 @@ export default APIWrapper({
       }
 
       const res = await updateAnimal(
-        _id,
+        animal._id,
         name,
         totalHours,
         subHandler,
+        dateOfTrainingClass,
         dateOfBirth,
         dateOfAdoption,
         microchipExpiration,
-        checkUpDate,
-        dateOfTrainingClass
+        checkUpDate
       );
 
       if (res.modifiedCount == 0) {
@@ -112,11 +100,6 @@ export default APIWrapper({
     handler: async (req) => {
       const accessToken: string = req.headers.accesstoken as string;
       const handler: User = await getUser(accessToken);
-
-      if (!handler) {
-        throw new Error("User not found in database!");
-      }
-
       const animal = await findAnimalByUserId(handler._id);
 
       if (!animal) {

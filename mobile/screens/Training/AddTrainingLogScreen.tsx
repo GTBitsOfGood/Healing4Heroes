@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import BubbleList from "../components/BubbleList";
-import SolidDropDown from "../components/SolidDropDown";
-import StepOverlay from "../components/StepOverlay";
-import { ServiceAnimalSkills } from "../utils/types";
+import BubbleList from "../../components/BubbleList";
+import SolidDropDown from "../../components/SolidDropDown";
+import StepOverlay from "../../components/StepOverlay";
+import { ServiceAnimalSkills } from "../../utils/types";
 
 export default function AddTrainingLogScreen(props: any) {
   const [totalHours, setTotalHours] = useState("");

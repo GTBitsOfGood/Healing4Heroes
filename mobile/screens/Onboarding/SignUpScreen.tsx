@@ -8,12 +8,12 @@ import {
 } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
-import { validateEmail } from "../utils/helper";
-import { auth } from "../utils/firebase";
+import { validateEmail } from "../../utils/helper";
+import { auth } from "../../utils/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { userCreateUser } from "../actions/User";
-import { Role } from "../utils/types";
-import OnboardingOverlay from "../components/OnboardingOverlay";
+import { userCreateUser } from "../../actions/User";
+import { Role } from "../../utils/types";
+import OnboardingOverlay from "../../components/OnboardingOverlay";
 
 export default function SignUpScreen(props: any) {
   const [checkValidRegister, setCheckValidRegister] = useState(true);

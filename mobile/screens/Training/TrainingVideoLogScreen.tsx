@@ -12,16 +12,16 @@ import {
   TextInput,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { userCreateTrainingLog } from "../actions/TrainingLog";
+import { userCreateTrainingLog } from "../../actions/TrainingLog";
 import { ResizeMode, Video } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
-import StepOverlay from "../components/StepOverlay";
-import { convertToMegabytes } from "../utils/helper";
-import { StorageLocation } from "../utils/types";
-import { uploadFile } from "../utils/storage";
-import { userGetAnimal } from "../actions/Animal";
+import StepOverlay from "../../components/StepOverlay";
+import { convertToMegabytes } from "../../utils/helper";
+import { StorageLocation } from "../../utils/types";
+import { uploadFile } from "../../utils/storage";
+import { userGetAnimal } from "../../actions/Animal";
 
-export default function AddTrainingLogScreen(props: any) {
+export default function TrainingVideoLogScreen(props: any) {
   const [error, setError] = useState("");
   const [videoUri, setVideoUri] = useState<string>("");
   const [additionalNotes, setAdditionalNotes] = React.useState("");

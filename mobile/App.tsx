@@ -1,22 +1,22 @@
 import React from "react";
-import LoginScreen from "./screens/LoginScreen";
+import LoginScreen from "./screens/Onboarding/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import SignUpScreen from "./screens/SignUpScreen";
-import HandlerInformationScreen from "./screens/HandlerInformationScreen";
-import AnimalInformationScreen from "./screens/AnimalInformationScreen";
-import UserDashboardScreen from "./screens/UserDashboardScreen";
-import AdminDashboardScreen from "./screens/AdminDashboardScreen";
-import LandingScreen from "./screens/LandingScreen";
-import DevelopmentScreen from "./screens/DevelopmentScreen";
+import SignUpScreen from "./screens/Onboarding/SignUpScreen";
+import HandlerInformationScreen from "./screens/Onboarding/HandlerInformationScreen";
+import AnimalInformationScreen from "./screens/Onboarding/AnimalInformationScreen";
+import UserDashboardScreen from "./screens/User/UserDashboardScreen";
+import AdminDashboardScreen from "./screens/Admin/AdminDashboardScreen";
+import LandingScreen from "./screens/Onboarding/LandingScreen";
+import DevelopmentScreen from "./screens/Development/DevelopmentScreen";
 import { useFonts } from "expo-font";
-import StorageExampleScreen from "./screens/StorageExampleScreen";
-import StepOverlayExampleScreen from "./screens/StepOverlayExampleScreen";
-import AddTrainingLogScreen from "./screens/AddTrainingLogScreen";
-import UploadVideoScreen from "./screens/UploadVideoScreen";
-import ViewAllLogsScreen from "./screens/ViewAllLogsScreen";
-import ViewSingleLogScreen from "./screens/ViewSingleLogScreen";
-import UploadProfileImageScreen from "./screens/UploadProfileImageScreen";
+import StorageExampleScreen from "./screens/Development/StorageExampleScreen";
+import StepOverlayExampleScreen from "./screens/Development/StepOverlayExampleScreen";
+import TrainingVideoLogScreen from "./screens/Training/TrainingVideoLogScreen";
+import UploadVideoScreen from "./screens/Training/TrainingVideoLogScreen";
+import ViewAllLogsScreen from "./screens/Training/ViewAllLogsScreen";
+import ViewSingleLogScreen from "./screens/Training/ViewSingleLogScreen";
+import UploadProfileImageScreen from "./screens/Onboarding/UploadProfileImageScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -49,7 +49,7 @@ export default function App() {
         />
         <Stack.Screen
           name="Add Training Log"
-          component={AddTrainingLogScreen}
+          component={TrainingVideoLogScreen}
         />
         <Stack.Screen name="Upload Video Log" component={UploadVideoScreen} />
         <Stack.Screen name="User Dashboard" component={UserDashboardScreen} />

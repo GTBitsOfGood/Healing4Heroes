@@ -9,13 +9,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { auth } from "../utils/firebase";
+import { auth } from "../../utils/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { userGetUserInfo } from "../actions/User";
-import { Role } from "../utils/types";
+import { userGetUserInfo } from "../../actions/User";
+import { Role } from "../../utils/types";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
-import OnboardingOverlay from "../components/OnboardingOverlay";
+import OnboardingOverlay from "../../components/OnboardingOverlay";
 
 export default function LoginScreen(props: any) {
   const [email, setEmail] = useState("");

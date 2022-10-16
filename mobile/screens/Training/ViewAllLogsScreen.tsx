@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import LogCard from "../components/LogCard";
+import LogCard from "../../components/LogCard";
 
 export default function ViewAllLogsScreen(props: any) {
   const logs = [

@@ -43,11 +43,11 @@ export async function updateAnimal(
   name?: string,
   totalHours?: number,
   subHandler?: SubHandler,
+  dateOfTrainingClass?: Date,
   dateOfBirth?: Date,
   dateOfAdoption?: Date,
   microchipExpiration?: Date,
-  checkUpDate?: Date,
-  dateOfTrainingClass?: Date
+  checkUpDate?: Date
 ) {
   await dbConnect();
   const animal = AnimalModel.updateOne(

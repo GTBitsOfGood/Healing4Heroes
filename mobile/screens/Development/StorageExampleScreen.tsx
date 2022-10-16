@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, View, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { getFile, uploadFile } from "../utils/storage";
-import { StorageLocation } from "../utils/types";
+import { getFile, uploadFile } from "../../utils/storage";
+import { StorageLocation } from "../../utils/types";
 export default function StorageExampleScreen() {
   const [image, setImage] = useState("");
 

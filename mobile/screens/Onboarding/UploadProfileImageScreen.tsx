@@ -13,13 +13,13 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { ResizeMode } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
-import StepOverlay from "../components/StepOverlay";
-import { calculateAge, convertToMegabytes } from "../utils/helper";
-import { StorageLocation } from "../utils/types";
-import { uploadFile } from "../utils/storage";
+import StepOverlay from "../../components/StepOverlay";
+import { calculateAge, convertToMegabytes } from "../../utils/helper";
+import { StorageLocation } from "../../utils/types";
+import { uploadFile } from "../../utils/storage";
 import { Image } from "react-native";
-import { userGetUserInfo, userUpdateUser } from "../actions/User";
-import { userUpdateAnimal } from "../actions/Animal";
+import { userGetUserInfo, userUpdateUser } from "../../actions/User";
+import { userUpdateAnimal } from "../../actions/Animal";
 
 export default function UploadProfileImageScreen(props: any) {
   const [error, setError] = useState("");
@@ -57,7 +57,7 @@ export default function UploadProfileImageScreen(props: any) {
   useEffect(() => {
     const setUserInfo = async () => {
       const user = await userGetUserInfo();
-      const age = calculateAge(user.birthday);
+      const age = calculateAge(new Date(user.birthday));
       setUserAge(age);
     };
 

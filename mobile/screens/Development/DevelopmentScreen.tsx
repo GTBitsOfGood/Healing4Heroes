@@ -1,7 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { auth } from "../utils/firebase";
+import { auth } from "../../utils/firebase";
 
 export default function DevelopmentScreen(props: any) {
   const [accessToken, setAccessToken] = useState("No Access Token Set Yet");
@@ -16,41 +16,6 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("Login")}
-        style={styles.buttonItem}
-      >
-        <Text>Go To Login Page</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate("Sign Up")}
-        style={styles.buttonItem}
-      >
-        <Text>Go To Sign Up Page</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate("Handler Information")}
-        style={styles.buttonItem}
-      >
-        <Text>Go To Handler Info Page</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate("Add Training Log")}
-        style={styles.buttonItem}
-      >
-        <Text>Go To Add Training Log Page</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate("Upload Video Log")}
-        style={styles.buttonItem}
-      >
-        <Text>Go Upload Video Log Page</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
         onPress={() => props.navigation.navigate("Animal Information")}
         style={styles.buttonItem}
       >
@@ -58,24 +23,10 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("User Dashboard")}
-        style={styles.buttonItem}
-      >
-        <Text>Go To User Dashboard Page</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
         onPress={() => props.navigation.navigate("Admin Dashboard")}
         style={styles.buttonItem}
       >
         <Text>Go To Admin Dashboard Page</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate("Storage Example Screen")}
-        style={styles.buttonItem}
-      >
-        <Text>Go To Storage Example Screen</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

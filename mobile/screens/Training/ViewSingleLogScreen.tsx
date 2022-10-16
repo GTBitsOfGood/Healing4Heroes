@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import LogCard from "../components/LogCard";
+import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function ViewSingleLogScreen(props: any) {

@@ -10,10 +10,10 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import NormalOverlay from "../components/NormalOverlay";
-import HealthCard from "../components/HealthCard";
-import LogButton from "../components/LogButton";
-import ProgressBar from "../components/ProgressBar";
+import NormalOverlay from "../../components/NormalOverlay";
+import HealthCard from "../../components/HealthCard";
+import LogButton from "../../components/LogButton";
+import ProgressBar from "../../components/ProgressBar";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(348);
