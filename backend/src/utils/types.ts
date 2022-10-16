@@ -23,6 +23,7 @@ export interface User {
   handlerType: HandlerType;
   birthday: Date;
   roles?: Array<Role>;
+  profileImage?: string;
   verifiedByAdmin: boolean;
 }
 
@@ -37,6 +38,7 @@ export interface ServiceAnimal {
   dateOfAdoption?: Date;
   microchipExpiration?: Date;
   checkUpDate?: Date;
+  profileImage?: string;
 }
 
 export interface SubHandler {

@@ -14,11 +14,31 @@ import NormalOverlay from "../../components/NormalOverlay";
 import HealthCard from "../../components/HealthCard";
 import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
+import { userGetUserInfo } from "../../actions/User";
+import { userGetAnimal } from "../../actions/Animal";
+import { ServiceAnimal, User } from "../../utils/types";
+import { calculateAge } from "../../utils/helper";
+import { getFile } from "../../utils/storage";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(348);
-
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [animalInfo, setAnimalInfo] = useState<ServiceAnimal | null>(null);
+  const [animalImage, setAnimalImage] = useState<string | undefined>("");
   useEffect(() => {
+    async function getUserDashboardInformation() {
+      const user: User = (await userGetUserInfo()) as User;
+      const animal: ServiceAnimal = (await userGetAnimal()) as ServiceAnimal;
+
+      setUserInfo(user);
+      setAnimalInfo(animal);
+      setHoursCompleted(animal?.totalHours);
+      const imageData = await getFile(animal?.profileImage as string);
+      setAnimalImage(imageData);
+    }
+
+    getUserDashboardInformation().then().catch();
+
     BackHandler.addEventListener("hardwareBackPress", function () {
       props.navigation.navigate("User Dashboard");
       return true;
@@ -30,7 +50,9 @@ export default function UserDashboardScreen(props: any) {
       headerComponent={
         <View style={styles.dashboardHeader}>
           <FontAwesome name="user-circle" size={26} color="blue" />
-          <Text style={styles.profileName}>Jason Statham</Text>
+          <Text style={styles.profileName}>
+            {userInfo?.firstName} {userInfo?.lastName}
+          </Text>
           <MaterialCommunityIcons name="bell-badge" size={26} color="blue" />
         </View>
       }
@@ -74,7 +96,16 @@ export default function UserDashboardScreen(props: any) {
 
           {/* animal cards */}
           <Text style={styles.label}>Health Information</Text>
-          <HealthCard />
+          <HealthCard
+            handlerName={userInfo?.firstName + " " + userInfo?.lastName}
+            animalName={animalInfo?.name as string}
+            animalAge={
+              animalInfo?.dateOfBirth
+                ? calculateAge(new Date(animalInfo?.dateOfBirth)) + " years old"
+                : "Age Not Specified"
+            }
+            animalImage={animalImage as string}
+          />
         </View>
       }
     ></NormalOverlay>

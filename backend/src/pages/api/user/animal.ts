@@ -25,6 +25,7 @@ export default APIWrapper({
       const dateOfAdoption: Date = req.body.dateOfAdoption as Date;
       const microchipExpiration: Date = req.body.microchipExpiration as Date;
       const checkUpDate: Date = req.body.checkUpDate as Date;
+      const profileImage: string = req.body.profileImage as string;
 
       const animal = await createAnimal(
         handler._id,
@@ -35,7 +36,8 @@ export default APIWrapper({
         dateOfBirth,
         dateOfAdoption,
         microchipExpiration,
-        checkUpDate
+        checkUpDate,
+        profileImage
       );
 
       if (!animal) {
@@ -62,15 +64,12 @@ export default APIWrapper({
       const dateOfAdoption: Date = req.body.dateOfAdoption as Date;
       const microchipExpiration: Date = req.body.microchipExpiration as Date;
       const checkUpDate: Date = req.body.checkUpDate as Date;
+      const profileImage: string = req.body.profileImage as string;
 
       const animal = await findAnimalByUserId(handler._id);
 
       if (!animal) {
         throw new Error("Failed to update service animal's information.");
-      }
-
-      if (animal.handler !== handler) {
-        throw new Error("User not authorized to update this animal.");
       }
 
       const res = await updateAnimal(
@@ -82,7 +81,8 @@ export default APIWrapper({
         dateOfBirth,
         dateOfAdoption,
         microchipExpiration,
-        checkUpDate
+        checkUpDate,
+        profileImage
       );
 
       return res;

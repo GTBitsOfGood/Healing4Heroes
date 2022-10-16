@@ -12,7 +12,8 @@ export async function createAnimal(
   dateOfBirth?: Date,
   dateOfAdoption?: Date,
   microchipExpiration?: Date,
-  checkUpDate?: Date
+  checkUpDate?: Date,
+  profileImage?: string
 ) {
   await dbConnect();
   const animal = await AnimalModel.create({
@@ -25,6 +26,7 @@ export async function createAnimal(
     dateOfAdoption: dateOfAdoption,
     microchipExpiration: microchipExpiration,
     checkUpDate: checkUpDate,
+    profileImage: profileImage,
   });
 
   return animal;
@@ -47,7 +49,8 @@ export async function updateAnimal(
   dateOfBirth?: Date,
   dateOfAdoption?: Date,
   microchipExpiration?: Date,
-  checkUpDate?: Date
+  checkUpDate?: Date,
+  profileImage?: string
 ) {
   await dbConnect();
   const animal = AnimalModel.findByIdAndUpdate(
@@ -61,6 +64,7 @@ export async function updateAnimal(
       microchipExpiration: microchipExpiration,
       checkUpDate: checkUpDate,
       dateOfTrainingClass: dateOfTrainingClass,
+      profileImage: profileImage,
     },
     {
       new: true,

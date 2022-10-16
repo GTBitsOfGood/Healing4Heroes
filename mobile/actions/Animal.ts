@@ -14,7 +14,8 @@ export const userCreateAnimal = async (
   dateOfBirth?: Date,
   dateOfAdoption?: Date,
   microchipExpiration?: Date,
-  checkUpDate?: Date
+  checkUpDate?: Date,
+  profileImage?: string
 ) => {
   return internalRequest<ServiceAnimal>({
     url: userAnimalUrl,
@@ -29,12 +30,12 @@ export const userCreateAnimal = async (
       dateOfAdoption,
       microchipExpiration,
       checkUpDate,
+      profileImage,
     },
   });
 };
 
 export const userUpdateAnimal = async (
-  _id: Types.ObjectId,
   name?: string,
   totalHours?: number,
   subHandler?: SubHandler,
@@ -42,7 +43,8 @@ export const userUpdateAnimal = async (
   dateOfAdoption?: Date,
   dateOfTrainingClass?: Date,
   microchipExpiration?: Date,
-  checkUpDate?: Date
+  checkUpDate?: Date,
+  profileImage?: string
 ) => {
   return internalRequest<ServiceAnimal>({
     url: userAnimalUrl,
@@ -57,6 +59,7 @@ export const userUpdateAnimal = async (
       dateOfAdoption,
       microchipExpiration,
       checkUpDate,
+      profileImage,
     },
   });
 };
@@ -70,7 +73,8 @@ export const adminUpdateAnimal = async (
   dateOfAdoption?: Date,
   microchipExpiration?: Date,
   checkUpDate?: Date,
-  dateOfTrainingClass?: Date
+  dateOfTrainingClass?: Date,
+  profileImage?: string
 ) => {
   return internalRequest<ServiceAnimal>({
     url: adminAnimalUrl,
@@ -86,6 +90,7 @@ export const adminUpdateAnimal = async (
       microchipExpiration,
       checkUpDate,
       dateOfTrainingClass,
+      profileImage,
     },
   });
 };

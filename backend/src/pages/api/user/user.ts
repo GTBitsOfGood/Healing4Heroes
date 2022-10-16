@@ -34,6 +34,7 @@ export default APIWrapper({
       const firstName: string = req.body.firstName as string;
       const lastName: string = req.body.lastName as string;
       const handlerType: HandlerType = req.body.handlerType as HandlerType;
+      const profileImage: string = req.body.profileImage as string;
 
       const dbUser = await findUserByFirebaseUid(firebaseUid);
       if (dbUser) {
@@ -47,7 +48,8 @@ export default APIWrapper({
         birthday,
         firstName,
         lastName,
-        handlerType
+        handlerType,
+        profileImage
       );
       if (!user) {
         throw new Error("Failed to create user!");
@@ -68,6 +70,7 @@ export default APIWrapper({
       const lastName: string = req.body.lastName as string;
       const handlerType: HandlerType = req.body.handlerType as HandlerType;
       const roles: Array<Role> = req.body.roles as Array<Role>;
+      const profileImage: string = req.body.profileImage as string;
 
       const user = await getUser(accessToken);
 
@@ -81,7 +84,8 @@ export default APIWrapper({
         roles,
         firstName,
         lastName,
-        handlerType
+        handlerType,
+        profileImage
       );
 
       if (!updatedUser?.modifiedPaths) {

@@ -9,6 +9,7 @@ import StepOverlay from "../../components/StepOverlay";
 import { validateBirthday } from "../../utils/helper";
 import { FontAwesome5 } from "@expo/vector-icons";
 import DateInput from "../../components/DateInput";
+import { userGetUserInfo } from "../../actions/User";
 
 export default function AnimalInformationScreen(props: any) {
   const [animalName, setAnimalName] = useState("");
@@ -21,7 +22,6 @@ export default function AnimalInformationScreen(props: any) {
     let animal;
     try {
       const previousAnimal = await userGetAnimal();
-      console.log(previousAnimal);
 
       if (previousAnimal) {
         animal = await userUpdateAnimal(
@@ -37,7 +37,8 @@ export default function AnimalInformationScreen(props: any) {
 
         return animal;
       }
-    } catch {
+    } catch (e) {
+      console.log(e);
       animal = await userCreateAnimal(
         animalName,
         0,

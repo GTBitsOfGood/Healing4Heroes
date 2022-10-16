@@ -50,6 +50,10 @@ const AnimalSchema = new mongoose.Schema<ServiceAnimal>({
     type: Date,
     required: false,
   },
+  profileImage: {
+    type: String,
+    required: false,
+  },
 });
 
 const AnimalModel =

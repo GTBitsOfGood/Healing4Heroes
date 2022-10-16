@@ -24,8 +24,9 @@ export default APIWrapper({
       const checkUpDate: Date = req.body.checkUpDate as Date;
       const dateOfTrainingClass: Date = req.body.dateOfTrainingClass as Date;
       const animal = (await findAnimalByUserId(userId)) as ServiceAnimal;
+      const profileImage: string = req.body.profileImage as string;
 
-      const res = await updateAnimal(
+      const updatedAnimal = await updateAnimal(
         animal._id,
         name,
         totalHours,
@@ -34,14 +35,10 @@ export default APIWrapper({
         dateOfAdoption,
         microchipExpiration,
         checkUpDate,
-        dateOfTrainingClass
+        dateOfTrainingClass,
+        profileImage
       );
 
-      if (res.modifiedCount == 0) {
-        throw new Error("Failed to update service animal's information.");
-      }
-
-      const updatedAnimal = findAnimalByUserId(userId);
       return updatedAnimal;
     },
   },

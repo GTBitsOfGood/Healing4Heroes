@@ -1,21 +1,33 @@
 import React from "react";
 import { Image, View, StyleSheet, Text } from "react-native";
 
-const HealthCard = () => {
+interface HealthCardProps {
+  handlerName: string;
+  animalName: string;
+  animalAge: string;
+  animalImage: string;
+}
+
+const HealthCard = ({
+  handlerName,
+  animalName,
+  animalAge,
+  animalImage,
+}: HealthCardProps) => {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardImgContainer}>
         <Image
           source={{
-            uri: "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg",
+            uri: animalImage,
           }}
           style={styles.cardImg}
         />
       </View>
       <View style={styles.cardInfoContainer}>
-        <Text style={styles.text}>Jason Statham</Text>
-        <Text style={styles.text}>Tobby</Text>
-        <Text style={styles.text}>2 years old</Text>
+        <Text style={styles.text}>{handlerName}</Text>
+        <Text style={styles.text}>{animalName}</Text>
+        <Text style={styles.text}>{animalAge}</Text>
         <Text style={styles.linkText}>View Details </Text>
       </View>
     </View>

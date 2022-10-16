@@ -29,21 +29,41 @@ export default function UploadProfileImageScreen(props: any) {
 
   const updateProfileInformation = async () => {
     if (handlerImageUri) {
-      const handlerFileName: string = uuidv4();
+      const handlerFileName: string = uuidv4() + ".png";
       const handlerUpload = await uploadFile(
-        handlerFileName + ".png",
+        handlerFileName,
         StorageLocation.HANDLER_PICTURES,
         handlerImageUri
       );
+
+      await userUpdateUser(
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        handlerUpload as string
+      );
     }
 
-    const animalFileName: string = uuidv4();
+    const animalFileName: string = uuidv4() + ".png";
 
     if (animalImageUri) {
       const animalUpload = await uploadFile(
-        animalFileName + ".png",
+        animalFileName,
         StorageLocation.SERVICE_ANIMAL_PICTURES,
         animalImageUri
+      );
+      await userUpdateAnimal(
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        animalUpload as string
       );
     }
 

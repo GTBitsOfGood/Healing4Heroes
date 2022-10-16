@@ -41,6 +41,10 @@ const UserSchema = new mongoose.Schema<User>({
     required: true,
     default: false,
   },
+  profileImage: {
+    type: String,
+    required: false,
+  },
 });
 
 const UserModel =

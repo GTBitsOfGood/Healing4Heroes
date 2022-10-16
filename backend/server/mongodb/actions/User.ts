@@ -22,7 +22,8 @@ export async function createUser(
   birthday?: Date,
   firstName?: string,
   lastName?: string,
-  handlerType?: HandlerType
+  handlerType?: HandlerType,
+  profileImage?: string
 ) {
   await dbConnect();
   const user = await UserModel.create({
@@ -33,6 +34,7 @@ export async function createUser(
     firstName: firstName,
     lastName: lastName,
     handlerType: handlerType,
+    profileImage: profileImage,
   });
   return user;
 }
@@ -43,7 +45,8 @@ export async function updateUser(
   roles?: Array<Role>,
   firstName?: string,
   lastName?: string,
-  handlerType?: HandlerType
+  handlerType?: HandlerType,
+  profileImage?: string
 ) {
   await dbConnect();
   const user = UserModel.findByIdAndUpdate(userId, {
@@ -52,6 +55,7 @@ export async function updateUser(
     lastName: lastName,
     handlerType: handlerType,
     birthday: birthday,
+    profileImage: profileImage,
   });
   return user;
 }
