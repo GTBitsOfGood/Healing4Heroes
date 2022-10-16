@@ -14,6 +14,8 @@ import StorageExampleScreen from "./screens/StorageExampleScreen";
 import StepOverlayExampleScreen from "./screens/StepOverlayExampleScreen";
 import AddTrainingLogScreen from "./screens/AddTrainingLogScreen";
 import UploadVideoScreen from "./screens/UploadVideoScreen";
+import ViewAllLogsScreen from "./screens/ViewAllLogsScreen";
+import ViewSingleLogScreen from "./screens/ViewSingleLogScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +60,14 @@ export default function App() {
         <Stack.Screen
           name="Step Overlay Example Screen"
           component={StepOverlayExampleScreen}
+        />
+        <Stack.Screen
+          name="View All Logs Screen"
+          component={ViewAllLogsScreen}
+        />
+        <Stack.Screen
+          name="View Single Log Screen"
+          component={ViewSingleLogScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
