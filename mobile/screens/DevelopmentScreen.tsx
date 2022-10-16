@@ -93,6 +93,13 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={() => props.navigation.navigate("View All Logs Screen")}
+        style={styles.buttonItem}
+      >
+        <Text>View All Logs Screen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
         onPress={async () => {
           const userCredential = await signInWithEmailAndPassword(
             auth,

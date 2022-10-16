@@ -1,7 +1,7 @@
 import { internalRequest } from "../utils/requests";
 import { HandlerType, HttpMethod, Role, User } from "../utils/types";
 import { urls } from "../utils/urls";
-import {Types} from "mongoose";
+import { Types } from "mongoose";
 
 const userUserUrl = urls.baseUrl + urls.api.user.user;
 const adminUserUrl = urls.baseUrl + urls.api.admin.user;
@@ -62,7 +62,7 @@ export const userUpdateUser = async (
 
 export const adminGetUsers = async (
   pageSize: number,
-  afterId?: Types.ObjectId,
+  afterId?: Types.ObjectId
 ) => {
   return internalRequest<User[]>({
     url: adminUserUrl,
@@ -73,11 +73,9 @@ export const adminGetUsers = async (
       pageSize,
     },
   });
-}
+};
 
-export const adminVerifyUser = async (
-  userId: Types.ObjectId,
-) => {
+export const adminVerifyUser = async (userId: Types.ObjectId) => {
   return internalRequest<User[]>({
     url: adminUserVerifiedUrl,
     method: HttpMethod.PATCH,
@@ -86,4 +84,4 @@ export const adminVerifyUser = async (
       userId,
     },
   });
-}
+};

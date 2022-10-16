@@ -32,7 +32,7 @@ export const userCreateTrainingLog = async (
 };
 
 export const userGetTrainingLogs = async () => {
-  return internalRequest<TrainingLog>({
+  return internalRequest<Array<TrainingLog>>({
     url: userTrainingLogUrl,
     method: HttpMethod.GET,
     authRequired: true,
