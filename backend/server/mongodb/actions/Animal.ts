@@ -50,19 +50,20 @@ export async function updateAnimal(
   checkUpDate?: Date
 ) {
   await dbConnect();
-  const animal = AnimalModel.updateOne(
-    { _id: _id },
+  const animal = AnimalModel.findByIdAndUpdate(
+    _id,
     {
-      $set: {
-        name: name,
-        totalHours: totalHours,
-        subHandler: subHandler,
-        dateOfBirth: dateOfBirth,
-        dateOfAdoption: dateOfAdoption,
-        microchipExpiration: microchipExpiration,
-        checkUpDate: checkUpDate,
-        dateOfTrainingClass: dateOfTrainingClass,
-      },
+      name: name,
+      totalHours: totalHours,
+      subHandler: subHandler,
+      dateOfBirth: dateOfBirth,
+      dateOfAdoption: dateOfAdoption,
+      microchipExpiration: microchipExpiration,
+      checkUpDate: checkUpDate,
+      dateOfTrainingClass: dateOfTrainingClass,
+    },
+    {
+      new: true,
     }
   );
 
