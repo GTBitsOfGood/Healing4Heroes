@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { Announcement } from "src/utils/types";
 
 const AnnouncementSchema = new mongoose.Schema<Announcement>({
   sender: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     required: true,
   },
   title: {
