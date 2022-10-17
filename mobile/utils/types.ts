@@ -73,6 +73,14 @@ export interface TrainingLog {
   video?: string;
 }
 
+export interface Announcement {
+  _id: Types.ObjectId;
+  title: string;
+  description: string;
+  date: Date;
+  sender: Types.ObjectId;
+}
+
 export interface ServiceAnimalBehavior {
   description: string;
   repeat: number;
