@@ -56,8 +56,8 @@ export default function TrainingVideoLogScreen(props: any) {
       animal.totalHours + parseInt(totalHours)
     );
 
-    if (!updateServiceAnimal){
-      setError("Failed to add hours to service animal")
+    if (!updateServiceAnimal) {
+      setError("Failed to add hours to service animal");
     }
     props.navigation.navigate("User Dashboard");
     return trainingLog;

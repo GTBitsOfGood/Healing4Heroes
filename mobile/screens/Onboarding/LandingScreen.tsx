@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 
   headerText: {
     margin: 10,
-    fontSize: 15,
+    fontSize: 18,
     paddingTop: 20,
     fontWeight: "bold",
   },
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
 
   loginBtn: {
     marginTop: 20,
-    backgroundColor: "#666666",
+    backgroundColor: "#3F3BED",
     width: "100%",
     padding: 15,
     borderRadius: 10,
@@ -85,16 +85,22 @@ const styles = StyleSheet.create({
 
   signupBtn: {
     marginTop: 20,
-    backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     width: "100%",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
+    borderColor: "#3F3BED",
+    borderWidth: 1,
   },
 
   loginBtnText: {
     color: "white",
+    fontSize: 16,
   },
 
-  signupBtnText: {},
+  signupBtnText: {
+    color: "#3F3BED",
+    fontSize: 16,
+  },
 });

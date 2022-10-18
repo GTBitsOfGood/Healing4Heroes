@@ -6,6 +6,7 @@ import {
   ScrollView,
   Keyboard,
   TouchableWithoutFeedback,
+  Image,
 } from "react-native";
 
 interface OnboardingOverlayProps {
@@ -51,27 +52,40 @@ export default function OnboardingOverlay({
       }}
     >
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <View style={styles.logoContainer}></View>
-        </View>
-        {headerText && <Text style={styles.headerText}>{headerText}</Text>}
-        <ScrollView>{pageBody}</ScrollView>
+        {showBackDrop && (
+          <Image
+            style={styles.backDrop}
+            source={require("./../../assets/images/BackDrop.jpg")}
+          />
+        )}
+        <View style={styles.innerContainer}>
+          <View style={styles.headerContainer}>
+            <View style={styles.logoContainer}>
+              <Image
+                style={styles.logoImage}
+                source={require("./../../assets/images/Logo.jpg")}
+              />
+            </View>
+          </View>
+          {headerText && <Text style={styles.headerText}>{headerText}</Text>}
+          <ScrollView>{pageBody}</ScrollView>
 
-        {!isKeyboardVisible && footerMainText && (
-          <Text style={styles.footerMainText}>{footerMainText}</Text>
-        )}
-        {!isKeyboardVisible && footerSubText && (
-          <Text
-            style={styles.footerSubText}
-            onPress={() => {
-              if (footerCallback) {
-                footerCallback();
-              }
-            }}
-          >
-            {footerSubText}
-          </Text>
-        )}
+          {!isKeyboardVisible && footerMainText && (
+            <Text style={styles.footerMainText}>{footerMainText}</Text>
+          )}
+          {!isKeyboardVisible && footerSubText && (
+            <Text
+              style={styles.footerSubText}
+              onPress={() => {
+                if (footerCallback) {
+                  footerCallback();
+                }
+              }}
+            >
+              {footerSubText}
+            </Text>
+          )}
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -83,20 +97,37 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     flexDirection: "column",
     paddingVertical: 0,
-    paddingHorizontal: 34,
     alignItems: "center",
+  },
+  backDrop: {
+    backgroundColor: "#d9d9d9",
+    height: "41%",
+    width: "100%",
+    borderBottomRightRadius: 35,
+    borderBottomLeftRadius: 35,
+    position: "absolute",
+  },
+  innerContainer: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    paddingHorizontal: 34,
   },
   headerContainer: {
     marginTop: 75,
     marginBottom: 75,
   },
   logoContainer: {
-    padding: 16,
+    padding: 6,
     borderRadius: 16,
     alignItems: "center",
-    width: 120,
-    height: 120,
-    backgroundColor: "#666666",
+    width: 130,
+    height: 130,
+    backgroundColor: "white",
+  },
+  logoImage: {
+    width: "100%",
+    height: "100%",
   },
   footerMainText: {
     marginTop: "auto",

@@ -51,7 +51,10 @@ export default function App() {
           name="Add Training Log"
           component={AddTrainingLogScreen}
         />
-        <Stack.Screen name="Upload Video Log" component={TrainingVideoLogScreen} />
+        <Stack.Screen
+          name="Upload Video Log"
+          component={TrainingVideoLogScreen}
+        />
         <Stack.Screen name="User Dashboard" component={UserDashboardScreen} />
         <Stack.Screen name="Admin Dashboard" component={AdminDashboardScreen} />
         <Stack.Screen
