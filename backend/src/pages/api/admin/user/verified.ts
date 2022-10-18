@@ -12,7 +12,7 @@ export default APIWrapper({
     handler: async (req) => {
       const userId: Types.ObjectId = req.body.userId as Types.ObjectId;
 
-      const users = verifyUser(userId);
+      const users = await verifyUser(userId);
 
       return users;
     },

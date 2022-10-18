@@ -17,7 +17,7 @@ import { ResizeMode, Video } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
-import { StorageLocation } from "../../utils/types";
+import { ServiceAnimal, StorageLocation } from "../../utils/types";
 import { uploadFile } from "../../utils/storage";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 
@@ -40,20 +40,20 @@ export default function TrainingVideoLogScreen(props: any) {
         videoUri
       );
     }
-    const animal = await userGetAnimal();
+    const animal: ServiceAnimal = await userGetAnimal();
     const trainingLog = await userCreateTrainingLog(
       new Date(),
       skillValuesSelected,
       totalHours,
       behaviorDescription,
-      animal._id,
+      (animal as ServiceAnimal)._id,
       additionalNotes,
       upload as string
     );
 
     const updateServiceAnimal = await userUpdateAnimal(
       undefined,
-      animal.totalHours + parseInt(totalHours)
+      (animal as ServiceAnimal).totalHours + parseInt(totalHours)
     );
 
     if (!updateServiceAnimal) {

@@ -1,4 +1,6 @@
 import { getAuth } from "firebase-admin/auth";
+import nodemailer, { TransportOptions } from "nodemailer";
+import Mail from "nodemailer/lib/mailer";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";
 
@@ -21,4 +23,32 @@ export const getUser = async (accessToken: string) => {
     throw new Error("Could not find user in database!");
   }
   return user;
+};
+
+export const sendEmail = async (
+  recipient: string,
+  emailSubject: string,
+  emailBody: string
+) => {
+  const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_SERVER_HOST,
+    port: process.env.EMAIL_SERVER_PORT,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_SERVER_USER,
+      pass: process.env.EMAIL_SERVER_PASSWORD,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  } as TransportOptions);
+
+  const res = await transporter.sendMail({
+    from: process.env.EMAIL_FROM,
+    to: recipient,
+    subject: emailSubject,
+    text: emailBody,
+  } as Mail.Options);
+
+  return res;
 };

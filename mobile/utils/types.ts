@@ -86,6 +86,10 @@ export interface ServiceAnimalBehavior {
   repeat: number;
 }
 
+export interface UserContextType{
+  user: User | null;
+  animal: ServiceAnimal | null;
+}
 /* Internal Request & API Wrapper Types */
 
 export enum HttpMethod {
