@@ -10,7 +10,6 @@ import {
 import LogCard from "../../components/LogCard";
 
 export default function ViewAllLogsScreen(props: any) {
-
   const logs = props?.route?.params?.trainingLogs;
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {

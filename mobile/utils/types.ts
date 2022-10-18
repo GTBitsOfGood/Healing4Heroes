@@ -86,7 +86,7 @@ export interface ServiceAnimalBehavior {
   repeat: number;
 }
 
-export interface UserContextType{
+export interface UserContextType {
   user: User | null;
   animal: ServiceAnimal | null;
 }

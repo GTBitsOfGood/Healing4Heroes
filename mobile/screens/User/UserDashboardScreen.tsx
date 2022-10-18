@@ -13,7 +13,6 @@ import { ServiceAnimal, User } from "../../utils/types";
 import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
 import { userGetTrainingLogs } from "../../actions/TrainingLog";
-import UserProvider from "../../contexts/UserContext";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -46,80 +45,80 @@ export default function UserDashboardScreen(props: any) {
   }, []);
 
   return (
-      <DashboardOverlay
-        headerComponent={
-          <View style={styles.dashboardHeader}>
-            <FontAwesome name="user-circle" size={26} color="blue" />
-            <Text style={styles.profileName}>
-              {userInfo?.firstName} {userInfo?.lastName}
-            </Text>
-            <MaterialCommunityIcons name="bell-badge" size={26} color="blue" />
+    <DashboardOverlay
+      headerComponent={
+        <View style={styles.dashboardHeader}>
+          <FontAwesome name="user-circle" size={26} color="blue" />
+          <Text style={styles.profileName}>
+            {userInfo?.firstName} {userInfo?.lastName}
+          </Text>
+          <MaterialCommunityIcons name="bell-badge" size={26} color="blue" />
+        </View>
+      }
+      pageBody={
+        <View style={styles.container}>
+          {/* announcment */}
+          <View style={styles.announcementContainer}>
+            <Text style={styles.announcementTitle}>New Announcements</Text>
+            <Text style={styles.announcementText}>No New Announcements</Text>
           </View>
-        }
-        pageBody={
-          <View style={styles.container}>
-            {/* announcment */}
-            <View style={styles.announcementContainer}>
-              <Text style={styles.announcementTitle}>New Announcements</Text>
-              <Text style={styles.announcementText}>No New Announcements</Text>
-            </View>
 
-            {/* training bar status */}
-            <Text style={styles.label}>Training Progress</Text>
-            <ProgressBar
-              filled={
-                Math.min(Math.round((hoursCompleted / 800) * 100), 100) + " %"
+          {/* training bar status */}
+          <Text style={styles.label}>Training Progress</Text>
+          <ProgressBar
+            filled={
+              Math.min(Math.round((hoursCompleted / 800) * 100), 100) + " %"
+            }
+            complete={hoursCompleted}
+            total={800}
+            unit={"Hours"}
+          />
+
+          {/* training log */}
+          <Text style={styles.label}>Training Log</Text>
+          <View style={styles.logContainer}>
+            <LogButton
+              text="Add New Log"
+              icon={<MaterialIcons name="note-add" size={40} color="blue" />}
+              navigation={props.navigation}
+              callbackFunction={() =>
+                props.navigation.navigate("Add Training Log")
               }
-              complete={hoursCompleted}
-              total={800}
-              unit={"Hours"}
             />
-
-            {/* training log */}
-            <Text style={styles.label}>Training Log</Text>
-            <View style={styles.logContainer}>
-              <LogButton
-                text="Add New Log"
-                icon={<MaterialIcons name="note-add" size={40} color="blue" />}
-                navigation={props.navigation}
-                callbackFunction={() =>
-                  props.navigation.navigate("Add Training Log")
-                }
-              />
-              <LogButton
-                text="View All Logs"
-                icon={
-                  <MaterialCommunityIcons
-                    name="file-document"
-                    size={40}
-                    color="blue"
-                  />
-                }
-                navigation={props.navigation}
-                callbackFunction={async () => {
-                  const trainingLogs = await userGetTrainingLogs();
-                  props.navigation.navigate("View All Logs Screen", {
-                    trainingLogs,
-                  });
-                }}
-              />
-            </View>
-
-            {/* animal cards */}
-            <Text style={styles.label}>Health Information</Text>
-            <HealthCard
-              handlerName={userInfo?.firstName + " " + userInfo?.lastName}
-              animalName={animalInfo?.name as string}
-              animalAge={
-                animalInfo?.dateOfBirth
-                  ? calculateAge(new Date(animalInfo?.dateOfBirth)) + " years old"
-                  : "Age Not Specified"
+            <LogButton
+              text="View All Logs"
+              icon={
+                <MaterialCommunityIcons
+                  name="file-document"
+                  size={40}
+                  color="blue"
+                />
               }
-              animalImage={animalImage as string}
+              navigation={props.navigation}
+              callbackFunction={async () => {
+                const trainingLogs = await userGetTrainingLogs();
+                props.navigation.navigate("View All Logs Screen", {
+                  trainingLogs,
+                });
+              }}
             />
           </View>
-        }
-      />
+
+          {/* animal cards */}
+          <Text style={styles.label}>Health Information</Text>
+          <HealthCard
+            handlerName={userInfo?.firstName + " " + userInfo?.lastName}
+            animalName={animalInfo?.name as string}
+            animalAge={
+              animalInfo?.dateOfBirth
+                ? calculateAge(new Date(animalInfo?.dateOfBirth)) + " years old"
+                : "Age Not Specified"
+            }
+            animalImage={animalImage as string}
+          />
+        </View>
+      }
+    />
   );
 }
 

@@ -4,29 +4,29 @@ import { userGetUserInfo } from "../actions/User";
 import { ServiceAnimal, User, UserContextType } from "../utils/types";
 
 export const UserContext = createContext<UserContextType>({
-    user: null,
-    animal: null,
-  });
-  
-  const UserProvider = ({ children }: { children: React.ReactNode}) => {    
-    const [user, setUser] = useState<User | null>(null);
-    const [animal, setAnimal] = useState<ServiceAnimal | null>(null)
+  user: null,
+  animal: null,
+});
 
-    useEffect(() => {
-        async function loadUserContext() {
-            const userInfo = await userGetUserInfo();
-            const animalInfo = await userGetAnimal();
-            setUser(userInfo);
-            setAnimal(animalInfo);
-        }
+const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [animal, setAnimal] = useState<ServiceAnimal | null>(null);
 
-        loadUserContext().then().catch();
-    }, [])
-    return (
-      <UserContext.Provider value={{ user, animal }}>
-        {children}
-      </UserContext.Provider>
-    );
-  };
-  
-  export default UserProvider;
+  useEffect(() => {
+    async function loadUserContext() {
+      const userInfo = await userGetUserInfo();
+      const animalInfo = await userGetAnimal();
+      setUser(userInfo);
+      setAnimal(animalInfo);
+    }
+
+    loadUserContext().then().catch();
+  }, []);
+  return (
+    <UserContext.Provider value={{ user, animal }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+export default UserProvider;
