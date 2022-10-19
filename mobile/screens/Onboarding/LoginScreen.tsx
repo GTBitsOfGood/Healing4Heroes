@@ -22,7 +22,7 @@ export default function LoginScreen(props: any) {
   const [password, setPassword] = useState("");
   const [checkValidUser, setCheckValidUser] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [loginDisabled, setLoginDisable] = useState(false);
   const handleLogin = async () => {
     try {
       await signOut(auth).then().catch();
@@ -91,9 +91,18 @@ export default function LoginScreen(props: any) {
                 ) : (
                   <View></View>
                 )}
-                <View style={styles.buttonContainer}>
+                <View
+                  style={[
+                    styles.buttonContainer,
+                    loginDisabled
+                      ? styles.disabledButton
+                      : styles.buttonContainer,
+                  ]}
+                >
                   <TouchableOpacity
+                    disabled={loginDisabled}
                     onPress={async () => {
+                      setLoginDisable(true);
                       const result = await handleLogin();
                       if (result) {
                         // If they signed up but haven't set their user information
@@ -105,11 +114,15 @@ export default function LoginScreen(props: any) {
                           )
                         ) {
                           props.navigation.navigate("Handler Information");
-                        } else if (result.roles?.includes(Role.NONPROFIT_ADMIN))
+                        } else if (
+                          result.roles?.includes(Role.NONPROFIT_ADMIN)
+                        ) {
                           props.navigation.navigate("Admin Dashboard");
-                      } else {
-                        props.navigation.navigate("User Dashboard");
+                        } else {
+                          props.navigation.navigate("User Dashboard");
+                        }
                       }
+                      setLoginDisable(false);
                     }}
                     style={styles.button}
                   >
@@ -237,5 +250,8 @@ const styles = StyleSheet.create({
 
   signupText: {
     fontWeight: "400",
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
 });

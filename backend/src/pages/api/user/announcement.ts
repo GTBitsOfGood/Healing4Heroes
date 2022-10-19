@@ -1,8 +1,4 @@
-import { Types } from "mongoose";
-import {
-  createAnnouncement,
-  getAnnouncements,
-} from "server/mongodb/actions/Announcement";
+import { getAnnouncements } from "server/mongodb/actions/Announcement";
 import APIWrapper from "server/utils/APIWrapper";
 import { Role } from "src/utils/types";
 

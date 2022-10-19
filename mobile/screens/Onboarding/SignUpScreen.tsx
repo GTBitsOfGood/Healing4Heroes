@@ -21,7 +21,7 @@ export default function SignUpScreen(props: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [signUpDisabled, setSignUpDisabled] = useState(false);
   const validateInput = () => {
     setCheckValidRegister(true);
     if (!validateEmail(email)) {
@@ -133,10 +133,19 @@ export default function SignUpScreen(props: any) {
               ) : (
                 <View></View>
               )}
-              <View style={styles.buttonContainer}>
+              <View
+                style={[
+                  styles.buttonContainer,
+                  signUpDisabled
+                    ? styles.disabledButton
+                    : styles.buttonContainer,
+                ]}
+              >
                 <TouchableOpacity
+                  disabled={signUpDisabled}
                   style={styles.button}
                   onPress={async () => {
+                    setSignUpDisabled(true);
                     const validInputs = validateInput();
                     if (validInputs) {
                       const user = await handleSignUp();
@@ -149,6 +158,7 @@ export default function SignUpScreen(props: any) {
                         });
                       }
                     }
+                    setSignUpDisabled(false);
                   }}
                 >
                   <Text style={styles.btnText}>Sign Up</Text>
@@ -266,5 +276,8 @@ const styles = StyleSheet.create({
 
   signupText: {
     fontWeight: "400",
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
 });

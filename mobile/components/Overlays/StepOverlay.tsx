@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -28,6 +28,7 @@ export default function StepOverlay({
   error,
   pageIcon,
 }: StepOverlayProps) {
+  const [disableButton, setDisableButton] = useState(false);
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -47,7 +48,21 @@ export default function StepOverlay({
           </View>
         )}
 
-        <TouchableOpacity style={styles.button} onPress={buttonFunction}>
+        <TouchableOpacity
+          disabled={disableButton}
+          style={[
+            styles.button,
+            disableButton ? styles.disabledButton : styles.button,
+          ]}
+          onPress={async (e) => {
+            setDisableButton(true);
+            if (buttonFunction) {
+              await buttonFunction(e);
+            }
+
+            setDisableButton(true);
+          }}
+        >
           {circleCount > numberSelected ? (
             <Text style={styles.buttonText}>Next</Text>
           ) : (
@@ -150,5 +165,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
 });

@@ -120,10 +120,7 @@ export default function HandlerInformationScreen(props: any) {
             }}
             placeholder={"Select An Option"}
             isMultiselect={false}
-            callbackFunction={(
-              values: string | string[],
-              keys: string | string[]
-            ) => {
+            callbackFunction={(values: string | string[]) => {
               setDropDownValue(values as HandlerType);
             }}
           />

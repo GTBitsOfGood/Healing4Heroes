@@ -21,7 +21,7 @@ import AddTrainingLogScreen from "./screens/Training/AddTrainingLogScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  useFonts({
     "DMSans-Bold": require("./assets/fonts/DMSans-Bold.ttf"),
     "DMSans-Medium": require("./assets/fonts/DMSans-Medium.ttf"),
     "DMSans-Regular": require("./assets/fonts/DMSans-Regular.ttf"),

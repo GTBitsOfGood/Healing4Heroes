@@ -1,7 +1,6 @@
 import { urls } from "../utils/urls";
 import { HttpMethod, Announcement } from "../utils/types";
 import { internalRequest } from "../utils/requests";
-import { Types } from "mongoose";
 
 const userAnnouncementUrl = urls.baseUrl + urls.api.user.announcement;
 const adminAnnouncementUrl = urls.baseUrl + urls.api.admin.announcement;
