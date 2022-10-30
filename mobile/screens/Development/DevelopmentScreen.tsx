@@ -15,6 +15,14 @@ export default function DevelopmentScreen(props: any) {
         <Text>Go To Landing Page</Text>
       </TouchableOpacity>
 
+      {/* needs to be deleted */}
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("User Dashboard")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To User Dashboard Screen</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => props.navigation.navigate("Animal Information")}
         style={styles.buttonItem}
@@ -41,6 +49,13 @@ export default function DevelopmentScreen(props: any) {
         style={styles.buttonItem}
       >
         <Text>Go To Admin User Verification Page</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("Detailed User Screen")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Detailed User Screen</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

@@ -19,6 +19,7 @@ import UploadProfileImageScreen from "./screens/Onboarding/UploadProfileImageScr
 import AddTrainingLogScreen from "./screens/Training/AddTrainingLogScreen";
 import AdminUserList from "./screens/Admin/AdminUserListScreen";
 import AdminUserVerificationScreen from "./screens/Admin/AdminUserVerificationScreen";
+import AdminDetailedUserScreen from "./screens/Admin/AdminDetailedUserScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,11 @@ export default function App() {
         <Stack.Screen name="User Dashboard" component={UserDashboardScreen} />
         <Stack.Screen name="Admin Dashboard" component={AdminDashboardScreen} />
         <Stack.Screen name="Admin User List" component={AdminUserList} />
+        <Stack.Screen
+          name="Detailed User Screen"
+          component={AdminDetailedUserScreen}
+        />
+
         <Stack.Screen
           name="Admin User Verification"
           component={AdminUserVerificationScreen}
