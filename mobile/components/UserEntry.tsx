@@ -4,8 +4,8 @@ import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 
 const UserEntry = () => {
   return (
-    <TouchableOpacity onPress={undefined} style={styles.userInfoContainer}>
-      <View style={styles.userInfo}>
+    <TouchableOpacity onPress={undefined} style={styles.userEntryContainer}>
+      <View style={styles.userEntry}>
         <FontAwesome name="user-circle" size={24} color="grey" />
         <Text style={styles.userLogText}>User Name</Text>
         <Text style={styles.userLogText}>test@gmail.com</Text>
@@ -15,15 +15,19 @@ const UserEntry = () => {
 };
 
 const styles = StyleSheet.create({
-  userInfoContainer: {
+  userEntryContainer: {
     borderRadius: 10,
     backgroundColor: "white",
-    marginTop: 30,
+    marginTop: 15,
     paddingTop: 20,
     paddingBottom: 20,
+    shadowColor: "#171717",
+    shadowOffset: { width: -2, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 0.5,
   },
 
-  userInfo: {
+  userEntry: {
     flexDirection: "row",
     justifyContent: "space-around",
   },

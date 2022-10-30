@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 
-const DashboardButton = (props: any) => {
+const IconButton = (props: any) => {
   return (
     <TouchableOpacity onPress={undefined} style={styles.button}>
       {props.icon}
@@ -15,4 +15,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DashboardButton;
+export default IconButton;
