@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { BackHandler, StyleSheet, Text, View } from "react-native";
 import UserEntry from "../../components/UserEntry";
 import LogOverlay from "../../components/Overlays/UserOverlay";
-import { Ionicons } from "@expo/vector-icons";
-import IconButton from "../../components/IconButton";
 
 export default function AdminUserList(props: any) {
   useEffect(() => {
@@ -15,15 +13,6 @@ export default function AdminUserList(props: any) {
 
   return (
     <LogOverlay
-      headerComponent={
-        <View>
-          <IconButton
-            icon={
-              <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
-            }
-          ></IconButton>
-        </View>
-      }
       pageBody={
         <View style={styles.container}>
           <Text style={styles.title}>All Users</Text>

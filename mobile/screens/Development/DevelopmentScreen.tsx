@@ -30,6 +30,20 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={() => props.navigation.navigate("Admin User List")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Admin User List Page</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("Admin User Verification")}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Admin User Verification Page</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
         onPress={() => props.navigation.navigate("Storage Example Screen")}
         style={styles.buttonItem}
       >

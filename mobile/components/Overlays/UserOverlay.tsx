@@ -10,15 +10,10 @@ import { Ionicons } from "@expo/vector-icons";
 import IconButton from "../IconButton";
 
 interface StepOverlayProps {
-  headerComponent: ReactElement;
   pageBody: ReactElement;
   pageIcon?: ReactElement;
 }
-export default function LogOverlay({
-  headerComponent,
-  pageBody,
-  pageIcon,
-}: StepOverlayProps) {
+export default function LogOverlay({ pageBody }: StepOverlayProps) {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -27,7 +22,11 @@ export default function LogOverlay({
     >
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <View>{headerComponent}</View>
+          <IconButton
+            icon={
+              <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
+            }
+          ></IconButton>
         </View>
         <ScrollView>{pageBody}</ScrollView>
         <View style={styles.footerContainer}>
