@@ -28,7 +28,7 @@ export default function LogCard({ date, skills, trainingHours }: LogCardProps) {
           {skills.map((skill: string, index: number) => {
             return (
               <View style={styles.cardValue} key={index}>
-                <Text>{skill}</Text>
+                <Text style={styles.cardText}>{skill}</Text>
               </View>
             );
           })}
@@ -37,7 +37,9 @@ export default function LogCard({ date, skills, trainingHours }: LogCardProps) {
       <View style={styles.cardRow}>
         <Text>Training Hours</Text>
         <View style={styles.cardValue}>
-          <Text>{`${trainingHours} Hour${trainingHours == 1 ? "" : "s"}`}</Text>
+          <Text style={styles.cardText}>{`${trainingHours} Hour${
+            trainingHours == 1 ? "" : "s"
+          }`}</Text>
         </View>
       </View>
     </View>
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   cardValue: {
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#E6E6FA",
     paddingHorizontal: 16,
     paddingVertical: 1,
     borderRadius: 20,
@@ -75,5 +77,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexDirection: "row",
     justifyContent: "flex-end",
+  },
+
+  cardText: {
+    color: "blue",
   },
 });
