@@ -8,7 +8,11 @@ const UserEntry = (props: any) => {
     <TouchableOpacity onPress={undefined} style={styles.userEntryContainer}>
       <View style={styles.userEntry}>
         <FontAwesome name="user-circle" size={24} color="grey" />
-        <Text style={styles.userLogText}>User Name</Text>
+        {props.username ? (
+          <Text style={styles.userLogText}>{props.username}</Text>
+        ) : (
+          <Text style={styles.userLogText}>No username found</Text>
+        )}
         {props.isVerification ? (
           <View style={styles.userLogIcon}>
             <IconButton
@@ -19,7 +23,13 @@ const UserEntry = (props: any) => {
             ></IconButton>
           </View>
         ) : (
-          <Text style={styles.userLogText}>test@gmail.com</Text>
+          <View>
+            {props.userEmail ? (
+              <Text style={styles.userLogText}>{props.userEmail}</Text>
+            ) : (
+              <Text style={styles.userLogText}>No email found</Text>
+            )}
+          </View>
         )}
       </View>
     </TouchableOpacity>

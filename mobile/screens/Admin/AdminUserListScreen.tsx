@@ -16,7 +16,10 @@ export default function AdminUserList(props: any) {
       pageBody={
         <View style={styles.container}>
           <Text style={styles.title}>All Users</Text>
-          <UserEntry></UserEntry>
+          <UserEntry
+            username={"dummy"}
+            userEmail={"dummy@gmail.com"}
+          ></UserEntry>
           <UserEntry></UserEntry>
         </View>
       }

@@ -9,11 +9,10 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "../IconButton";
 
-interface StepOverlayProps {
+interface UserOverlayProps {
   pageBody: ReactElement;
-  pageIcon?: ReactElement;
 }
-export default function LogOverlay({ pageBody }: StepOverlayProps) {
+export default function LogOverlay({ pageBody }: UserOverlayProps) {
   return (
     <TouchableWithoutFeedback
       onPress={() => {

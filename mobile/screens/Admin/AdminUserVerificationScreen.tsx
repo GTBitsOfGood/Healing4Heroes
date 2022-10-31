@@ -16,8 +16,8 @@ export default function AdminUserVerificationScreen(props: any) {
       pageBody={
         <View style={styles.container}>
           <Text style={styles.title}>User Verification Portal</Text>
-          <UserEntry isVerification={true}></UserEntry>
-          <UserEntry isVerification={true}></UserEntry>
+          <UserEntry username={"dummy"} isVerification={true}></UserEntry>
+          <UserEntry username={"dummy"} isVerification={true}></UserEntry>
         </View>
       }
     ></LogOverlay>
