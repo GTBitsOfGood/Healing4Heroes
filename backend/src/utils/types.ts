@@ -25,6 +25,7 @@ export interface User {
   roles?: Array<Role>;
   profileImage?: string;
   verifiedByAdmin: boolean;
+  emailVerified: boolean;
 }
 
 export interface ServiceAnimal {
@@ -86,6 +87,23 @@ export enum ServiceAnimalSkills {
   SKILL_TOUCH = "Touch",
   SKILL_TUCK = "Tuck",
   SKILL_HEEL = "Heel",
+}
+
+export enum UserVerificationLogType {
+  EMAIL_VERIFICATION = "email verification",
+  PASSWORD_RESET = "password reset",
+}
+
+export interface VerificationLog {
+  _id: Types.ObjectId; // ObjectId of the Verification Log
+  code: number; // randomly generated 6-digit code the user receives in the email
+  user: Types.ObjectId; // _id of the user we sent the code to
+  email: string; // email the code is sent to
+  type: UserVerificationLogType; // two values (for now) --> UserVerificationLogType.EMAIL_VERIFICATION or UserVerificationLogType.PASSWORD_RESET
+  issueDate: Date; // the day and time the code was issued
+  expirationDate: Date; // The day and time the code expires (should always be 60 mins after the issueDate)
+  isVerified: boolean; // Used to indicate if the verification attempt succeeded (i.e. the user sent the right 6 digit code)
+  expired: boolean; // Used to indicate if the verification log has already been used / expired --> if so, it cannot be reused and the user must request a new one
 }
 
 /* Internal Request & API Wrapper Types */
