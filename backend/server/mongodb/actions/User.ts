@@ -81,3 +81,15 @@ export async function getUsers(pageSize: number, afterId?: Types.ObjectId) {
 
   return UserModel.find({ _id: { $gt: afterId } }).limit(pageSize);
 }
+
+export async function verifyUserEmail(userId: Types.ObjectId) {
+  await dbConnect();
+
+  const user = UserModel.findByIdAndUpdate(
+    userId,
+    { emailVerified: true },
+    { new: true }
+  );
+
+  return user;
+}
