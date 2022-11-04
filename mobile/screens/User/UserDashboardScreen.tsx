@@ -13,6 +13,7 @@ import { ServiceAnimal, User } from "../../utils/types";
 import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
 import { userGetTrainingLogs } from "../../actions/TrainingLog";
+import IconButton from "../../components/IconButton";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -52,7 +53,15 @@ export default function UserDashboardScreen(props: any) {
           <Text style={styles.profileName}>
             {userInfo?.firstName} {userInfo?.lastName}
           </Text>
-          <MaterialCommunityIcons name="bell-badge" size={26} color="blue" />
+          <IconButton
+            icon={
+              <MaterialCommunityIcons
+                name="bell-badge"
+                size={26}
+                color="blue"
+              />
+            }
+          ></IconButton>
         </View>
       }
       pageBody={
