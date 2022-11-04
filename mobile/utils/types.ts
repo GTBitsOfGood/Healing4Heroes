@@ -81,6 +81,13 @@ export interface Announcement {
   sender: Types.ObjectId;
 }
 
+export interface ReadLog {
+  _id: Types.ObjectId;
+  announcement: Types.ObjectId;
+  user: Types.ObjectId;
+  readAt: Date;
+}
+
 export interface ServiceAnimalBehavior {
   description: string;
   repeat: number;
