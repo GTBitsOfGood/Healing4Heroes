@@ -9,6 +9,9 @@ function getBaseURL() {
 export const urls = {
   baseUrl: getBaseURL(),
   api: {
+    auth: {
+      verify: "/api/auth/verify",
+    },
     user: {
       user: "/api/user/user",
       animal: "/api/user/animal",

@@ -45,6 +45,11 @@ const UserSchema = new mongoose.Schema<User>({
     type: String,
     required: false,
   },
+  emailVerified: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 const UserModel =
