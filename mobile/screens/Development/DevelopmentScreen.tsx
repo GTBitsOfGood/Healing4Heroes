@@ -16,10 +16,10 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("Animal Information")}
+        onPress={() => props.navigation.navigate("Handler Information")}
         style={styles.buttonItem}
       >
-        <Text>Go To Animal Info Page</Text>
+        <Text>Go To Handler Info Page</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

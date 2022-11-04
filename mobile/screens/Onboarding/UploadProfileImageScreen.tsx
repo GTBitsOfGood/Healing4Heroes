@@ -101,7 +101,7 @@ export default function UploadProfileImageScreen(props: any) {
     // All images must be smaller than 1GB
     if (convertToMegabytes(imageSize as number) > 1024) {
       setError(
-        "Image is too large -- consider uploading a lower quality image."
+        "Image is too large - consider uploading a lower quality image."
       );
       return;
     }
@@ -120,7 +120,7 @@ export default function UploadProfileImageScreen(props: any) {
     // All images must be smaller than 1GB
     if (convertToMegabytes(imageSize as number) > 1024) {
       setError(
-        "Image is too large -- consider uploading a lower quality image."
+        "Image is too large - consider uploading a lower quality image."
       );
       return;
     }
@@ -129,7 +129,7 @@ export default function UploadProfileImageScreen(props: any) {
 
   return (
     <StepOverlay
-      headerName="Upload Profile Picture Images"
+      headerName="Getting Started"
       circleCount={3}
       error={error}
       buttonFunction={updateProfileInformation}
@@ -146,7 +146,7 @@ export default function UploadProfileImageScreen(props: any) {
                 style={styles.uploadBtn}
                 onPress={handlerPickImage}
               >
-                <Ionicons name="add-circle-outline" size={30} color="grey" />
+                <Ionicons name="image-outline" size={30} color="grey" />
                 {!handlerImageUri ? (
                   <Text style={styles.uploadText}> Upload Handler Picture</Text>
                 ) : (
@@ -175,11 +175,11 @@ export default function UploadProfileImageScreen(props: any) {
               style={styles.uploadBtn}
               onPress={animalPickImage}
             >
-              <Ionicons name="add-circle-outline" size={30} color="grey" />
+              <Ionicons name="image-outline" size={30} color="grey" />
               {!animalImageUri ? (
-                <Text style={styles.uploadText}> Upload Animal Picture</Text>
+                <Text style={styles.uploadText}> Upload picture here</Text>
               ) : (
-                <Text style={styles.uploadText}> Upload A Different File</Text>
+                <Text style={styles.uploadText}> Upload a different picture</Text>
               )}
             </TouchableOpacity>
           </View>

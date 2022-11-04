@@ -7,7 +7,7 @@ import {
   Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
+
 interface SolidDropDownProps {
   items: Record<string, string>;
   isMultiselect: boolean;
@@ -24,7 +24,7 @@ export default function SolidDropDown({
 }: SolidDropDownProps) {
   const [fieldValue, setFieldValue] = React.useState(placeholder);
   const [selectedOptions, setSelectedOptions] = React.useState<Set<string>>(
-    new Set()
+    new Set("Veteran")
   );
   const [open, setOpen] = React.useState(false);
 
@@ -103,15 +103,14 @@ export default function SolidDropDown({
                 }}
               >
                 <View style={styles.itemContainer}>
-                  <Text style={styles.dropdownItem}>{item}</Text>
-                  {selectedOptions.has(item) && (
-                    <Entypo
-                      name="check"
-                      size={24}
-                      color="black"
-                      style={styles.checkMark}
-                    />
-                  )}
+                  <Text 
+                    style={[
+                      styles.dropdownItem, 
+                      selectedOptions.has(item) && styles.dropdownItemSelected,
+                    ]}
+                  >
+                    {item}
+                  </Text>
                 </View>
               </TouchableOpacity>
             );
@@ -144,20 +143,19 @@ const styles = StyleSheet.create({
     color: "#999999",
   },
   dropdownItem: {
-    backgroundColor: "white",
     paddingHorizontal: 16,
     paddingVertical: 12,
-    borderRadius: 12,
+  },
+  dropdownItemSelected: {
+    backgroundColor: "#EEEDFD",
+    color: "#3F3BED",
   },
   dropDownItemsContainer: {
     marginTop: 5,
     backgroundColor: "white",
-    borderRadius: 10,
     marginBottom: 10,
   },
   itemContainer: {
-    display: "flex",
     flex: 1,
-    flexDirection: "row",
   },
 });
