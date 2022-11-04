@@ -5,7 +5,10 @@ import { internalRequest } from "../utils/requests";
 
 const authVerifyUrl = urls.baseUrl + urls.api.auth.verify;
 
-export const authCreateVerificationLog = async (userId: Types.ObjectId, type: UserVerificationLogType) => {
+export const authCreateVerificationLog = async (
+  userId: Types.ObjectId,
+  type: UserVerificationLogType
+) => {
   return internalRequest<Date>({
     url: authVerifyUrl,
     method: HttpMethod.POST,
@@ -13,11 +16,14 @@ export const authCreateVerificationLog = async (userId: Types.ObjectId, type: Us
     body: {
       userId,
       type,
-    }
-  })
-}
+    },
+  });
+};
 
-export const authAttemptVerification = async (userId: Types.ObjectId, code: number) => {
+export const authAttemptVerification = async (
+  userId: Types.ObjectId,
+  code: number
+) => {
   return internalRequest<Date>({
     url: authVerifyUrl,
     method: HttpMethod.PATCH,
@@ -25,6 +31,6 @@ export const authAttemptVerification = async (userId: Types.ObjectId, code: numb
     body: {
       userId,
       code,
-    }
-  })
-}
+    },
+  });
+};
