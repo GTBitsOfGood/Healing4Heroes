@@ -59,7 +59,7 @@ export default function StepOverlay({
             if (buttonFunction) {
               try {
                 await buttonFunction(e);
-              } catch(error) {
+              } catch (error) {
                 setDisableButton(false);
               }
             }

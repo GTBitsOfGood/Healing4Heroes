@@ -77,9 +77,7 @@ export default function SignUpScreen(props: any) {
       return createdUser;
     } catch (e) {
       console.log(e);
-      setErrorMessage(
-        "Registration failed - Account already exists"
-      );
+      setErrorMessage("Registration failed - Account already exists");
       setCheckValidRegister(false);
       return;
     }
@@ -265,7 +263,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF8E8E50",
     borderColor: "#C63636",
   },
-  
+
   failedText: {
     fontSize: 12,
     fontWeight: "400",

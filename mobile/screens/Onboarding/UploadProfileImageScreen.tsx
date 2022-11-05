@@ -179,7 +179,10 @@ export default function UploadProfileImageScreen(props: any) {
               {!animalImageUri ? (
                 <Text style={styles.uploadText}> Upload picture here</Text>
               ) : (
-                <Text style={styles.uploadText}> Upload a different picture</Text>
+                <Text style={styles.uploadText}>
+                  {" "}
+                  Upload a different picture
+                </Text>
               )}
             </TouchableOpacity>
           </View>

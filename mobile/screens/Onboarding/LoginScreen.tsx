@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF8E8E50",
     borderColor: "#C63636",
   },
-  
+
   failedText: {
     fontSize: 12,
     fontWeight: "400",

@@ -103,9 +103,9 @@ export default function SolidDropDown({
                 }}
               >
                 <View style={styles.itemContainer}>
-                  <Text 
+                  <Text
                     style={[
-                      styles.dropdownItem, 
+                      styles.dropdownItem,
                       selectedOptions.has(item) && styles.dropdownItemSelected,
                     ]}
                   >
