@@ -24,7 +24,7 @@ export default function SolidDropDown({
 }: SolidDropDownProps) {
   const [fieldValue, setFieldValue] = React.useState(placeholder);
   const [selectedOptions, setSelectedOptions] = React.useState<Set<string>>(
-    new Set("Veteran")
+    new Set()
   );
   const [open, setOpen] = React.useState(false);
 
