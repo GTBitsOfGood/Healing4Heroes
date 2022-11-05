@@ -202,20 +202,6 @@ const styles = StyleSheet.create({
   selected: {
     backgroundColor: "#666666",
   },
-  failedContainer: {
-    marginTop: 12,
-    alignItems: "center",
-    marginBottom: 12,
-    padding: 8,
-    borderRadius: 10,
-    borderWidth: 0.5,
-    minWidth: "85%",
-    backgroundColor: "#D9D9D9",
-  },
-  failedText: {
-    fontSize: 12,
-    fontWeight: "300",
-  },
   birthdayContainer: {
     marginTop: 10,
     marginBottom: 10,

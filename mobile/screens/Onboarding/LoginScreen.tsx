@@ -33,7 +33,7 @@ export default function LoginScreen(props: any) {
       );
 
       if (!userCredential || !userCredential.user) {
-        setErrorMessage(`An error occurred -- Please try again!`);
+        setErrorMessage(`Login Failed - Please try again!`);
         setCheckValidUser(false);
         return;
       }
@@ -41,7 +41,7 @@ export default function LoginScreen(props: any) {
       const user = await userGetUserInfo();
       return user;
     } catch (e) {
-      setErrorMessage(`Account email or password combination is incorrect!`);
+      setErrorMessage(`Login Failed - Invalid email or password`);
       setCheckValidUser(false);
       return;
     }
@@ -50,7 +50,7 @@ export default function LoginScreen(props: any) {
     <OnboardingOverlay
       showBackDrop={false}
       footerMainText={"Don't have an account?"}
-      footerSubText={"Create an Account"}
+      footerSubText={"Sign up here"}
       headerText={"Login to Your Account"}
       footerCallback={() => {
         props.navigation.navigate("Sign Up");
@@ -130,7 +130,7 @@ export default function LoginScreen(props: any) {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.forgotContainer}>
-                  <Text>Forgot your password?</Text>
+                  <Text style={styles.forgotText}>Forgot your password?</Text>
                 </View>
               </View>
             </KeyboardAvoidingView>
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     minWidth: "100%",
-    backgroundColor: "#666666",
+    backgroundColor: "#3F3BED",
   },
 
   btnText: {
@@ -224,19 +224,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  forgotText: {
+    color: "#666666",
+    fontWeight: "400",
+  },
+
   failedContainer: {
+    marginTop: 24,
     alignItems: "center",
-    marginTop: 25,
     padding: 8,
     borderRadius: 10,
-    borderWidth: 0.5,
+    borderWidth: 1,
     minWidth: "100%",
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#FF8E8E50",
+    borderColor: "#C63636",
   },
 
   failedText: {
-    fontSize: 10,
-    fontWeight: "300",
+    fontSize: 12,
+    fontWeight: "400",
+    color: "#C63636",
   },
 
   footerTextContainer: {
