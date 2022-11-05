@@ -40,8 +40,8 @@ export const validateBirthday = (date: Date | undefined) => {
   return date && date <= new Date() && date.toString() !== "Invalid Date";
 };
 
-export const calculateAge = (birthday: Date | any) => {
-  const ageDifMs = Date.now() - birthday;
+export const calculateAge = (birthday: Date) => {
+  const ageDifMs = Date.now() - (birthday as unknown as number);
   const ageDate = new Date(ageDifMs);
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 };

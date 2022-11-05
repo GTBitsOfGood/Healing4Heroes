@@ -3,7 +3,7 @@ import UserModel from "server/mongodb/models/User";
 import dbConnect from "server/utils/dbConnect";
 import { HandlerType, Role } from "src/utils/types";
 
-export async function findUserById(userId: Types.ObjectId) {
+export async function findUserById(userId: Types.ObjectId | string) {
   await dbConnect();
   const user = await UserModel.findById(userId);
   return user;

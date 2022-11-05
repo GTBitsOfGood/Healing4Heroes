@@ -5,7 +5,6 @@ import IconButton from "../../components/IconButton";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
 import HealthCard from "../../components/HealthCard";

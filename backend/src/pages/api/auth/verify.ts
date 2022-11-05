@@ -5,7 +5,7 @@ import {
   updateVerificationLog,
 } from "server/mongodb/actions/VerificationLog";
 import APIWrapper from "server/utils/APIWrapper";
-import { sendEmail } from "server/utils/Authentication";
+import { getWebToken, sendEmail } from "server/utils/Authentication";
 import {
   VERIFICATION_EMAIL_BODY,
   VERIFICATION_EMAIL_SUBJECT,
@@ -63,10 +63,12 @@ export default APIWrapper({
       }
 
       await updateVerificationLog(latestLog._id, true, true);
-
-      return {
-        userId,
+      const webToken = getWebToken({
+        userId: userId.toString(),
         authorized: true,
+      });
+      return {
+        webToken,
       };
     },
   },

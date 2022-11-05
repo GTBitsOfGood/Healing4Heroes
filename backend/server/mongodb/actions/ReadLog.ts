@@ -21,7 +21,7 @@ export async function hasReadLog(
   user: Types.ObjectId
 ) {
   await dbConnect();
-  const readLog = await ReadLogModel.find({
+  await ReadLogModel.find({
     announcement: announcement,
     user: user,
   });

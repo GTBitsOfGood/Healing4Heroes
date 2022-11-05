@@ -15,6 +15,7 @@ interface SolidDropDownProps {
   showAllValues?: boolean;
   placeholder?: string;
 }
+
 export default function SolidDropDown({
   items,
   isMultiselect,
@@ -107,6 +108,9 @@ export default function SolidDropDown({
                     style={[
                       styles.dropdownItem,
                       selectedOptions.has(item) && styles.dropdownItemSelected,
+                      index === 0 && styles.roundedItemFirst,
+                      Object.keys(items).length - 1 === index &&
+                        styles.roundedItemLast,
                     ]}
                   >
                     {item}
@@ -154,8 +158,18 @@ const styles = StyleSheet.create({
     marginTop: 5,
     backgroundColor: "white",
     marginBottom: 10,
+    borderRadius: 10,
   },
   itemContainer: {
     flex: 1,
+  },
+
+  roundedItemFirst: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  roundedItemLast: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });
