@@ -10,9 +10,9 @@ export default function BubbleList({ items }: BubbleListProps) {
       <View style={styles.bubbleContainer}>
         {items.map((item, index) => {
           return (
-            <Text key={index} style={styles.bubble}>
-              {item}
-            </Text>
+            <View key={index} style={styles.bubble}>
+              <Text style={styles.bubbleText}>{item}</Text>
+            </View>
           );
         })}
       </View>
@@ -34,10 +34,14 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   bubble: {
-    backgroundColor: "white",
+    backgroundColor: "#E6E6FA",
     marginRight: 10,
     marginBottom: 10,
     padding: 10,
     borderRadius: 10,
+  },
+
+  bubbleText: {
+    color: "blue",
   },
 });

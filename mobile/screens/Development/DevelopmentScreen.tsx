@@ -51,6 +51,20 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={() => props.navigation.navigate("View Single Log Screen")}
+        style={styles.buttonItem}
+      >
+        <Text>View Single Log Screen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate("Add Training Log")}
+        style={styles.buttonItem}
+      >
+        <Text>View Add Training Log Screen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
         onPress={async () => {
           await signInWithEmailAndPassword(
             auth,

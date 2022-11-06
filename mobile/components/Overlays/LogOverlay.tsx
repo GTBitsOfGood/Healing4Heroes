@@ -10,7 +10,7 @@ import {
   Keyboard,
 } from "react-native";
 
-interface StepOverlayProps {
+interface LogOverlayProps {
   circleCount: number;
   numberSelected: number;
   headerName: string;
@@ -19,7 +19,7 @@ interface StepOverlayProps {
   pageBody: ReactElement;
   pageIcon?: ReactElement;
 }
-export default function StepOverlay({
+export default function LogOverlay({
   circleCount,
   headerName,
   numberSelected,
@@ -27,7 +27,7 @@ export default function StepOverlay({
   pageBody,
   error,
   pageIcon,
-}: StepOverlayProps) {
+}: LogOverlayProps) {
   const [disableButton, setDisableButton] = useState(false);
   return (
     <TouchableWithoutFeedback

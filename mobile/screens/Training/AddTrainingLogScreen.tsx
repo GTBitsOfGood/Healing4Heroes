@@ -4,12 +4,18 @@ import BubbleList from "../../components/BubbleList";
 import SolidDropDown from "../../components/SolidDropDown";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { ServiceAnimalSkills } from "../../utils/types";
+import LogOverlay from "../../components/Overlays/LogOverlay";
 
 export default function AddTrainingLogScreen(props: any) {
   const [totalHours, setTotalHours] = useState("");
   const [skillKeysSelected, setSkillKeysSelected] = useState<string[]>([]);
   const [skillValuesSelected, setSkillValuesSelected] = useState<string[]>([]);
-  const [behaviorDescription, setBehaviorDescription] = useState("");
+  const [behaviorKeysSelected, setBehaviorKeysSelected] = useState<string[]>(
+    []
+  );
+  const [behaviorValuesSelected, setBehaviorValuesSelected] = useState<
+    string[]
+  >([]);
 
   const [error, setError] = useState("");
 
@@ -20,8 +26,8 @@ export default function AddTrainingLogScreen(props: any) {
     } else if (!skillKeysSelected) {
       setError("Please select at least one skill displayed.");
       return;
-    } else if (!behaviorDescription) {
-      setError("Please enter a description of the dog's behavior");
+    } else if (!behaviorKeysSelected) {
+      setError("Please select at least one dog behavior");
     } else {
       setError("");
       return true;
@@ -34,18 +40,18 @@ export default function AddTrainingLogScreen(props: any) {
       props.navigation.navigate("Upload Video Log", {
         totalHours: totalHours,
         skillValuesSelected: skillValuesSelected,
-        behaviorDescription: behaviorDescription,
+        behaviorValuesSelected: behaviorValuesSelected,
       });
     }
   };
 
   return (
-    <StepOverlay
+    <LogOverlay
+      headerName={"Create New Training Log"}
       error={error}
       circleCount={2}
       numberSelected={1}
       buttonFunction={submitTrainingLogInfo}
-      headerName={"Create New Training Log"}
       pageBody={
         <View style={styles.container}>
           <Text style={styles.label}>Total Training Hours*</Text>
@@ -82,13 +88,27 @@ export default function AddTrainingLogScreen(props: any) {
           <BubbleList items={skillKeysSelected} />
 
           <Text style={styles.label}>Behavior Description*</Text>
-          <TextInput
-            style={styles.input}
-            value={behaviorDescription}
-            onChangeText={setBehaviorDescription}
-            placeholder="Enter Behavior Description"
-            placeholderTextColor={"#999999"}
+          <SolidDropDown
+            items={{
+              "Post/Block": ServiceAnimalSkills.SKILL_POST_BLOCK,
+              "Lead/Follow": ServiceAnimalSkills.SKILL_LEAD_FOLLOW,
+              "Stay/Sit/Down": ServiceAnimalSkills.SKILL_STAY_SIT_DOWN,
+              Touch: ServiceAnimalSkills.SKILL_TOUCH,
+              Tuck: ServiceAnimalSkills.SKILL_TUCK,
+              Heel: ServiceAnimalSkills.SKILL_HEEL,
+            }}
+            isMultiselect={true}
+            placeholder="Select to Add"
+            callbackFunction={(
+              values: string[] | string,
+              keys: string[] | string
+            ) => {
+              setBehaviorValuesSelected([...(values as string[])]);
+              setBehaviorKeysSelected([...keys]);
+            }}
           />
+
+          <BubbleList items={behaviorValuesSelected} />
         </View>
       }
     />
