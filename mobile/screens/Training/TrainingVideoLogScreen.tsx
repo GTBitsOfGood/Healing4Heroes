@@ -20,6 +20,7 @@ import { convertToMegabytes } from "../../utils/helper";
 import { ServiceAnimal, StorageLocation } from "../../utils/types";
 import { uploadFile } from "../../utils/storage";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
+import LogOverlay from "../../components/Overlays/LogOverlay";
 
 export default function TrainingVideoLogScreen(props: any) {
   const [error, setError] = useState("");
@@ -92,9 +93,9 @@ export default function TrainingVideoLogScreen(props: any) {
   };
 
   return (
-    <StepOverlay
-      headerName="Create Training Log"
+    <LogOverlay
       circleCount={2}
+      parentProps={props}
       error={error}
       buttonFunction={createTrainingLog}
       numberSelected={2}
@@ -236,6 +237,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "white",
+    minHeight: 150,
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 12,

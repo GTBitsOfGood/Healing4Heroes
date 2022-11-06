@@ -19,7 +19,7 @@ export default function ViewAllLogsScreen(props: any) {
   }, []);
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Training Log Overview</Text>
+      <Text style={styles.header}>User Log Overview</Text>
       <ScrollView>
         {logs?.map((log: any, index: number) => {
           return (

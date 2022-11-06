@@ -12,7 +12,7 @@ import IconButton from "../IconButton";
 interface UserOverlayProps {
   pageBody: ReactElement;
 }
-export default function LogOverlay({ pageBody }: UserOverlayProps) {
+export default function UserOverlay({ pageBody }: UserOverlayProps) {
   return (
     <TouchableWithoutFeedback
       onPress={() => {

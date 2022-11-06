@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, Text, View } from "react-native";
+import {
+  BackHandler,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 export default function ViewSingleLogScreen(props: any) {
   const { date, skills, trainingHours, behavior, description } =
@@ -22,11 +30,18 @@ export default function ViewSingleLogScreen(props: any) {
     <View style={styles.container}>
       <View style={styles.top}>
         {/* Invisible edit for positioning purposes */}
-        <Text style={{ ...styles.edit, color: "#f2f2f2" }}>Edit</Text>
+        <TouchableOpacity onPress={() => props.navigation.goBack()}>
+          <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
+        </TouchableOpacity>
         <Text style={styles.header}>
           {`${processedDate?.getMonth()}-${processedDate?.getDate()}-${processedDate?.getFullYear()}`}
         </Text>
-        <Text style={styles.edit}>Edit</Text>
+        {/* <Text style={styles.edit}>Edit</Text> */}
+        <TouchableOpacity
+        // onPress={() => props.navigation.navigate("View All Logs Screen")}
+        >
+          <Feather name="edit-3" size={22} color="grey" />
+        </TouchableOpacity>
       </View>
       <View style={styles.animalCard}>
         <FontAwesome5 name="dog" size={50} color="black" />

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BackHandler, StyleSheet, Text, View } from "react-native";
 import UserEntry from "../../components/UserEntry";
-import LogOverlay from "../../components/Overlays/UserOverlay";
+import UserOverlay from "../../components/Overlays/UserOverlay";
 
 export default function AdminUserList(props: any) {
   useEffect(() => {
@@ -12,7 +12,7 @@ export default function AdminUserList(props: any) {
   }, []);
 
   return (
-    <LogOverlay
+    <UserOverlay
       pageBody={
         <View style={styles.container}>
           <Text style={styles.title}>All Users</Text>
@@ -23,7 +23,7 @@ export default function AdminUserList(props: any) {
           <UserEntry></UserEntry>
         </View>
       }
-    ></LogOverlay>
+    ></UserOverlay>
   );
 }
 

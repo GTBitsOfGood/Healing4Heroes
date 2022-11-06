@@ -47,10 +47,10 @@ export default function AddTrainingLogScreen(props: any) {
 
   return (
     <LogOverlay
-      headerName={"Create New Training Log"}
       error={error}
       circleCount={2}
       numberSelected={1}
+      parentProps={props}
       buttonFunction={submitTrainingLogInfo}
       pageBody={
         <View style={styles.container}>

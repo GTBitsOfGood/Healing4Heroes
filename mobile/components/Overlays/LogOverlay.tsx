@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,26 +9,33 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 interface LogOverlayProps {
   circleCount: number;
   numberSelected: number;
-  headerName: string;
   error: string;
   buttonFunction: ((event: GestureResponderEvent) => void) | undefined;
   pageBody: ReactElement;
   pageIcon?: ReactElement;
+  parentProps: any;
 }
 export default function LogOverlay({
   circleCount,
-  headerName,
   numberSelected,
   buttonFunction,
   pageBody,
   error,
   pageIcon,
+  parentProps,
 }: LogOverlayProps) {
   const [disableButton, setDisableButton] = useState(false);
+  const [processedDate, setProcessedDate] = useState<Date | null>();
+
+  useEffect(() => {
+    setProcessedDate(new Date());
+  }, []);
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -37,7 +44,29 @@ export default function LogOverlay({
     >
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <Text style={styles.header}>{headerName}</Text>
+          <View style={styles.topContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                parentProps.navigation.goBack();
+              }}
+            >
+              <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
+            </TouchableOpacity>
+
+            <View style={styles.textTitle}>
+              <Text style={styles.header}>Add New Log</Text>
+            </View>
+
+            <TouchableOpacity
+            // onPress={() => props.navigation.navigate("Add Training Log")}
+            >
+              <Ionicons name="ios-chevron-back-sharp" size={26} color="white" />
+            </TouchableOpacity>
+          </View>
+
+          <Text style={styles.headerDate}>
+            {`${processedDate?.getMonth()}-${processedDate?.getDate()}-${processedDate?.getFullYear()}`}
+          </Text>
           {pageIcon && <View style={styles.iconCircle}>{pageIcon}</View>}
         </View>
         <ScrollView>{pageBody}</ScrollView>
@@ -91,6 +120,12 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     paddingHorizontal: 34,
   },
+
+  topContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
   header: {
     alignSelf: "center",
     fontSize: 16,
@@ -99,6 +134,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  headerDate: {
+    color: "blue",
+    fontWeight: "bold",
+  },
+  backIcon: {
+    flex: 0.5,
+  },
+  textTitle: {
+    flex: 10,
+  },
+
   input: {
     backgroundColor: "white",
     paddingVertical: 12,

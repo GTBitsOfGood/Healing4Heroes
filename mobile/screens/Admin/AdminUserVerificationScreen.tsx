@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BackHandler, StyleSheet, Text, View } from "react-native";
 import UserEntry from "../../components/UserEntry";
-import LogOverlay from "../../components/Overlays/UserOverlay";
+import UserOverlay from "../../components/Overlays/UserOverlay";
 
 export default function AdminUserVerificationScreen(props: any) {
   useEffect(() => {
@@ -12,7 +12,7 @@ export default function AdminUserVerificationScreen(props: any) {
   }, []);
 
   return (
-    <LogOverlay
+    <UserOverlay
       pageBody={
         <View style={styles.container}>
           <Text style={styles.title}>User Verification Portal</Text>
@@ -20,7 +20,7 @@ export default function AdminUserVerificationScreen(props: any) {
           <UserEntry username={"dummy"} isVerification={true}></UserEntry>
         </View>
       }
-    ></LogOverlay>
+    ></UserOverlay>
   );
 }
 

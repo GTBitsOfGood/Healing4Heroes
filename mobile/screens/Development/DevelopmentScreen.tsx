@@ -23,7 +23,7 @@ export default function DevelopmentScreen(props: any) {
         <Text>Go To User Dashboard Screen</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => props.navigation.navigate("Handler Information")}
         style={styles.buttonItem}
       >
@@ -35,7 +35,7 @@ export default function DevelopmentScreen(props: any) {
         style={styles.buttonItem}
       >
         <Text>Go To Admin Dashboard Page</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         onPress={() => props.navigation.navigate("Admin User List")}
