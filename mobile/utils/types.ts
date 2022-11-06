@@ -39,6 +39,7 @@ export interface User {
   roles?: Array<Role>;
   profileImage?: string;
   verifiedByAdmin: boolean;
+  emailVerified: boolean;
 }
 
 export interface ServiceAnimal {
@@ -81,6 +82,13 @@ export interface Announcement {
   sender: Types.ObjectId;
 }
 
+export interface ReadLog {
+  _id: Types.ObjectId;
+  announcement: Types.ObjectId;
+  user: Types.ObjectId;
+  readAt: Date;
+}
+
 export interface ServiceAnimalBehavior {
   description: string;
   repeat: number;
@@ -90,6 +98,12 @@ export interface UserContextType {
   user: User | null;
   animal: ServiceAnimal | null;
 }
+
+export enum UserVerificationLogType {
+  EMAIL_VERIFICATION = "email verification",
+  PASSWORD_RESET = "password reset",
+}
+
 /* Internal Request & API Wrapper Types */
 
 export enum HttpMethod {

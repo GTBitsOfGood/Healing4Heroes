@@ -3,7 +3,7 @@ import UserModel from "server/mongodb/models/User";
 import dbConnect from "server/utils/dbConnect";
 import { HandlerType, Role } from "src/utils/types";
 
-export async function findUserById(userId: Types.ObjectId) {
+export async function findUserById(userId: Types.ObjectId | string) {
   await dbConnect();
   const user = await UserModel.findById(userId);
   return user;
@@ -80,4 +80,16 @@ export async function getUsers(pageSize: number, afterId?: Types.ObjectId) {
   }
 
   return UserModel.find({ _id: { $gt: afterId } }).limit(pageSize);
+}
+
+export async function verifyUserEmail(userId: Types.ObjectId) {
+  await dbConnect();
+
+  const user = UserModel.findByIdAndUpdate(
+    userId,
+    { emailVerified: true },
+    { new: true }
+  );
+
+  return user;
 }

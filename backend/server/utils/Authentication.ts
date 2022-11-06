@@ -1,4 +1,5 @@
 import { getAuth } from "firebase-admin/auth";
+import jwt from "jsonwebtoken";
 import nodemailer, { TransportOptions } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import UserModel from "server/mongodb/models/User";
@@ -23,6 +24,16 @@ export const getUser = async (accessToken: string) => {
     throw new Error("Could not find user in database!");
   }
   return user;
+};
+
+export const getWebToken = (data: Record<string, string | boolean>) => {
+  data.authorized = true;
+  return jwt.sign(data, process.env.APP_SECRET as string);
+};
+
+export const verifyWebToken = (webToken: string) => {
+  const data = jwt.verify(webToken, process.env.APP_SECRET as string);
+  return data as Record<string, string | boolean>;
 };
 
 export const sendEmail = async (

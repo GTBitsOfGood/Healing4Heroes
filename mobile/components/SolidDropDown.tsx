@@ -7,7 +7,7 @@ import {
   Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
+
 interface SolidDropDownProps {
   items: Record<string, string>;
   isMultiselect: boolean;
@@ -15,6 +15,7 @@ interface SolidDropDownProps {
   showAllValues?: boolean;
   placeholder?: string;
 }
+
 export default function SolidDropDown({
   items,
   isMultiselect,
@@ -103,15 +104,17 @@ export default function SolidDropDown({
                 }}
               >
                 <View style={styles.itemContainer}>
-                  <Text style={styles.dropdownItem}>{item}</Text>
-                  {selectedOptions.has(item) && (
-                    <Entypo
-                      name="check"
-                      size={24}
-                      color="black"
-                      style={styles.checkMark}
-                    />
-                  )}
+                  <Text
+                    style={[
+                      styles.dropdownItem,
+                      selectedOptions.has(item) && styles.dropdownItemSelected,
+                      index === 0 && styles.roundedItemFirst,
+                      Object.keys(items).length - 1 === index &&
+                        styles.roundedItemLast,
+                    ]}
+                  >
+                    {item}
+                  </Text>
                 </View>
               </TouchableOpacity>
             );
@@ -144,20 +147,29 @@ const styles = StyleSheet.create({
     color: "#999999",
   },
   dropdownItem: {
-    backgroundColor: "white",
     paddingHorizontal: 16,
     paddingVertical: 12,
-    borderRadius: 12,
+  },
+  dropdownItemSelected: {
+    backgroundColor: "#EEEDFD",
+    color: "#3F3BED",
   },
   dropDownItemsContainer: {
     marginTop: 5,
     backgroundColor: "white",
-    borderRadius: 10,
     marginBottom: 10,
+    borderRadius: 10,
   },
   itemContainer: {
-    display: "flex",
     flex: 1,
-    flexDirection: "row",
+  },
+
+  roundedItemFirst: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  roundedItemLast: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });

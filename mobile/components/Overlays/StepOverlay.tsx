@@ -57,10 +57,14 @@ export default function StepOverlay({
           onPress={async (e) => {
             setDisableButton(true);
             if (buttonFunction) {
-              await buttonFunction(e);
+              try {
+                await buttonFunction(e);
+              } catch (error) {
+                setDisableButton(false);
+              }
             }
 
-            setDisableButton(true);
+            setDisableButton(false);
           }}
         >
           {circleCount > numberSelected ? (
@@ -153,13 +157,15 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     padding: 8,
     borderRadius: 10,
-    borderWidth: 0.5,
+    borderWidth: 1,
     minWidth: "85%",
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#FF8E8E50",
+    borderColor: "#C63636",
   },
   failedText: {
     fontSize: 12,
-    fontWeight: "300",
+    fontWeight: "400",
+    color: "#C63636",
   },
   headerContainer: {
     display: "flex",

@@ -30,7 +30,10 @@ const styles = StyleSheet.create({
   },
 
   text: {
+    marginTop: 5,
     fontFamily: "DMSans-Bold",
+    textAlign: "center",
+    fontSize: 10,
   },
 });
 

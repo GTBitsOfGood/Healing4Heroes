@@ -130,12 +130,15 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   footerMainText: {
+    color: "#999999",
     marginTop: "auto",
     fontWeight: "400",
   },
   footerSubText: {
-    fontWeight: "200",
-    marginBottom: 20,
+    color: "#3F3BED",
+    fontWeight: "400",
+    marginBottom: 30,
+    marginTop: 4,
   },
   headerText: {
     fontWeight: "bold",
