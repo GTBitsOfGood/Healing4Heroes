@@ -18,7 +18,6 @@ export const userGetUserInfo = async () => {
 export const userCreateUser = async (
   email: string,
   firebaseUid: string,
-  roles: Array<Role>,
   birthday?: Date,
   firstName?: string,
   lastName?: string,
@@ -31,7 +30,6 @@ export const userCreateUser = async (
     body: {
       email,
       firebaseUid,
-      roles,
       firstName,
       lastName,
       handlerType,

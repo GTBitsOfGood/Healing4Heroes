@@ -30,7 +30,6 @@ export default APIWrapper({
       const email: string = req.body.email as string;
       const birthday: Date = req.body.birthday as Date;
       const firebaseUid: string = req.body.firebaseUid as string;
-      const roles: Array<Role> = req.body.roles as Array<Role>;
       const firstName: string = req.body.firstName as string;
       const lastName: string = req.body.lastName as string;
       const handlerType: HandlerType = req.body.handlerType as HandlerType;
@@ -39,6 +38,11 @@ export default APIWrapper({
       const dbUser = await findUserByFirebaseUid(firebaseUid);
       if (dbUser) {
         throw new Error("User already exists in database!");
+      }
+
+      const roles = [Role.NONPROFIT_USER];
+      if (email.endsWith("@healing4heroes.org")) {
+        roles.push(Role.NONPROFIT_ADMIN);
       }
 
       const user = await createUser(
@@ -81,7 +85,7 @@ export default APIWrapper({
       const updatedUser = await updateUser(
         user._id,
         birthday,
-        roles,
+        user.roles,
         firstName,
         lastName,
         handlerType,
