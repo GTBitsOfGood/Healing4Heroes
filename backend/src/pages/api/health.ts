@@ -3,8 +3,8 @@ import APIWrapper from "server/utils/APIWrapper";
 export default APIWrapper({
   GET: {
     config: {
-      requireToken: true,
-      requireAdminVerification: true,
+      requireToken: false,
+      requireAdminVerification: false
     },
     handler: async () => {
       return {

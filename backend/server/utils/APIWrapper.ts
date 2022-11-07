@@ -91,7 +91,7 @@ function APIWrapper(
           }
         }
 
-        if (config?.requireAdminVerification) {
+        if (config?.requireAdminVerification !== false) {
           if (!user.verifiedByAdmin) {
             return res.status(403).json({
               success: false,
