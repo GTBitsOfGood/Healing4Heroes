@@ -4,7 +4,7 @@ export default APIWrapper({
   GET: {
     config: {
       requireToken: false,
-      requireAdminVerification: false
+      requireAdminVerification: false,
     },
     handler: async () => {
       return {
