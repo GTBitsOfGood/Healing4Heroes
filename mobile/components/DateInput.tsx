@@ -4,7 +4,7 @@ interface DateInputProps {
   autofill: boolean;
   callbackFunction: (date: Date) => void;
 }
-export default function SolidDropDown({
+export default function DateInput({
   autofill,
   callbackFunction,
 }: DateInputProps) {
