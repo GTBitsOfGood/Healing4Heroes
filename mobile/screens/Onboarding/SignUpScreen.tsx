@@ -60,20 +60,8 @@ export default function SignUpScreen(props: any) {
       }
 
       const user = userCredential.user;
-      const isAdmin = email.endsWith("@healing4heroes.org");
       const firebaseUid = user.uid;
-
-      let createdUser;
-      if (isAdmin) {
-        createdUser = await userCreateUser(email, firebaseUid, [
-          Role.NONPROFIT_USER,
-          Role.NONPROFIT_ADMIN,
-        ]);
-      } else {
-        createdUser = await userCreateUser(email, firebaseUid, [
-          Role.NONPROFIT_USER,
-        ]);
-      }
+      const createdUser = await userCreateUser(email, firebaseUid);
       return createdUser;
     } catch (e) {
       console.log(e);
