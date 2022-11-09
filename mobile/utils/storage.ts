@@ -6,8 +6,8 @@ import {
   userInitFileUpload,
   userGetFileUploadUrls,
   userCompleteFileUpload,
+  adminGetFileDownloadUrl,
 } from "../actions/File";
-import { internalRequest } from "../utils/requests";
 
 export const uploadFile = async (
   fileName: string,
@@ -46,20 +46,29 @@ export const getFile = (fileFullPath: string): Promise<string> | null => {
 
 export const uploadVideo = async (
   filename: string,
+  storageLocation: StorageLocation,
   fileUri: string
 ): Promise<string> => {
-  const fileData = await FileSystem.readAsStringAsync(fileUri, {
-    encoding: FileSystem.EncodingType.Base64,
+  // obtain file data from uri
+  const fileData = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function () {
+      reject(new TypeError("Network request failed"));
+    };
+    xhr.responseType = "blob";
+    xhr.open("GET", fileUri, true);
+    xhr.send(null);
   });
 
-  console.log("hello");
-
-  const multipart = await userInitFileUpload(filename);
+  // get upload session
+  const multipart = await userInitFileUpload(storageLocation + filename);
   const chunkSize = 1024 * 1024 * 8; // 8MB
   const uploadId = multipart.UploadId;
   const key = multipart.Key;
 
-  console.log("uploadId:" + uploadId);
   const numParts = Math.ceil(
     ((await FileSystem.getInfoAsync(fileUri)).size as number) / chunkSize
   );
@@ -68,42 +77,42 @@ export const uploadVideo = async (
 
   const signedUrls = await userGetFileUploadUrls(uploadId, key, numParts);
 
+  // upload file in parts
   for (let index = 0; index < signedUrls.length; index++) {
     const start = index * chunkSize;
     const end = (index + 1) * chunkSize;
 
     const blob =
-      index < signedUrls.length
-        ? fileData.slice(start, end)
-        : fileData.slice(start);
-
-    console.log("signedUrl: " + signedUrls[index]);
+      index < signedUrls.length - 1
+        ? (fileData as Uint8Array).slice(start, end)
+        : (fileData as Uint8Array).slice(start);
 
     promises.push(
-      internalRequest<string>({
-        url: signedUrls[index],
-        method: HttpMethod.POST,
-        authRequired: false,
-        body: {
-          blob,
-        },
+      fetch(signedUrls[index], {
+        method: "PUT",
+        headers: { "x-amz-storage-class": "glacier_ir" },
+        body: blob,
       })
     );
   }
 
   const res = await Promise.all(promises);
 
-  console.log("storage: " + JSON.stringify(signedUrls));
-  console.log("storage: " + res);
-
   const uploadedParts = res.map((part, index) => {
     return {
-      ETag: (part as any).headers.etag as string,
+      ETag: (part as any).headers.map.etag as string,
       PartNumber: (index + 1) as number,
     };
   });
 
-  const arn = await userCompleteFileUpload(uploadId, key, uploadedParts);
+  // trigger assemble of uploaded parts
+  const fileKey = await userCompleteFileUpload(uploadId, key, uploadedParts);
 
-  return arn;
+  return fileKey;
+};
+
+export const getVideo = async (filename: string, storageLocation: string) => {
+  const signedUrl = await adminGetFileDownloadUrl(storageLocation + filename);
+
+  return signedUrl;
 };

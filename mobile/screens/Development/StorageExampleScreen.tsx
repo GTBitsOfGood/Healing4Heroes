@@ -25,9 +25,11 @@ export default function StorageExampleScreen() {
       // );
 
       const videoSize = (await FileSystem.getInfoAsync(result.uri)).size;
-      console.log("videoSize: " + videoSize);
-      const res = await uploadVideo(uuidv4() as string, result.uri);
-      // console.log(res);
+      const res = await uploadVideo(
+        uuidv4() as string,
+        StorageLocation.TRAINING_LOG_VIDEOS,
+        result.uri
+      );
 
       // Use the download URL as the source
       // const res2 = await getFile(res as string);

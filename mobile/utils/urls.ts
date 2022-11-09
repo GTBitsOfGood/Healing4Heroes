@@ -1,5 +1,5 @@
 function getBaseURL() {
-  return `https://healing4heroes-6c9tr5utg-samratsahoo.vercel.app`;
+  return `https://healing4heroes.vercel.app`;
   if (process.env.NODE_ENV === "production") {
     return `https://healing4heroes.vercel.app`;
   }
@@ -30,6 +30,7 @@ export const urls = {
       animal: "/api/admin/animal",
       training: "/api/admin/training",
       announcement: "/api/admin/announcement",
+      fileDownload: "/api/admin/file/download",
     },
   },
 };

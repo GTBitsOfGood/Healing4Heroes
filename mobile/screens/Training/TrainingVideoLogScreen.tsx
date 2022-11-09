@@ -18,7 +18,7 @@ import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
 import { ServiceAnimal, StorageLocation } from "../../utils/types";
-import { uploadFile, uploadVideo } from "../../utils/storage";
+import { uploadVideo } from "../../utils/storage";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 
 export default function TrainingVideoLogScreen(props: any) {
@@ -39,7 +39,11 @@ export default function TrainingVideoLogScreen(props: any) {
       //   StorageLocation.TRAINING_LOG_VIDEOS,
       //   videoUri
       // );
-      upload = await uploadVideo(fileName + ".mp4", videoUri);
+      upload = await uploadVideo(
+        fileName + ".mp4",
+        StorageLocation.TRAINING_LOG_VIDEOS,
+        videoUri
+      );
     }
     const animal: ServiceAnimal = await userGetAnimal();
     const trainingLog = await userCreateTrainingLog(

@@ -1,4 +1,4 @@
-import { S3, UploadPartCommand } from "@aws-sdk/client-s3";
+import { S3, GetObjectCommand, UploadPartCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { MultipartUpload, UploadedPart } from "src/utils/types";
 
@@ -28,7 +28,7 @@ export const initMultipartUpload = async (
   };
 };
 
-export const getMultipartPresignedUrls = async (
+export const getMultipartUploadPresignedUrls = async (
   uploadId: string,
   key: string,
   parts: number
@@ -64,5 +64,16 @@ export const completeMultipartUpload = async (
     },
   });
 
-  return res.Location as string;
+  return res.Key as string;
+};
+
+export const getDownloadPresignedUrl = async (key: string) => {
+  const cmd = new GetObjectCommand({
+    Bucket: BUCKET,
+    Key: key,
+  });
+
+  const signedUrl = await getSignedUrl(s3client, cmd);
+
+  return signedUrl;
 };

@@ -7,6 +7,8 @@ const userGetFileUploadUrlsUrl = urls.baseUrl + urls.api.user.fileUpload.urls;
 const userCompleteFileUploadUrl =
   urls.baseUrl + urls.api.user.fileUpload.complete;
 
+const adminGetFileDownloadUrlUrl = urls.baseUrl + urls.api.admin.fileDownload;
+
 export const userInitFileUpload = async (filename: string) => {
   return internalRequest<MultipartUpload>({
     url: userInitFileUploadUrl,
@@ -48,6 +50,17 @@ export const userCompleteFileUpload = async (
       uploadId,
       key,
       parts,
+    },
+  });
+};
+
+export const adminGetFileDownloadUrl = async (filename: string) => {
+  return internalRequest<string>({
+    url: adminGetFileDownloadUrlUrl,
+    method: HttpMethod.POST,
+    authRequired: true,
+    body: {
+      filename,
     },
   });
 };
