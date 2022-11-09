@@ -13,6 +13,8 @@
     "secrets:get": "bw sync && bw get item Healing4Heroes/development/backend/.env | fx .notes > \".env\" && bw get item Healing4Heroes/development/backend/firebase-service-account.json | fx .notes > \"server/utils/firebase-service-account.json\""
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.204.0",
+    "@aws-sdk/s3-request-presigner": "^3.204.0",
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "firebase-admin": "^11.0.1",
