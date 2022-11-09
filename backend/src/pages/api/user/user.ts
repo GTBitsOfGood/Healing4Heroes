@@ -11,6 +11,7 @@ export default APIWrapper({
   GET: {
     config: {
       requireToken: true,
+      requireAdminVerification: false,
       roles: [Role.NONPROFIT_USER],
     },
     handler: async (req) => {
@@ -25,7 +26,9 @@ export default APIWrapper({
     },
   },
   POST: {
-    config: {},
+    config: {
+      requireAdminVerification: false,
+    },
     handler: async (req) => {
       const email: string = req.body.email as string;
       const birthday: Date = req.body.birthday as Date;
@@ -65,6 +68,7 @@ export default APIWrapper({
   PATCH: {
     config: {
       requireToken: true,
+      requireAdminVerification: false,
       roles: [Role.NONPROFIT_USER],
     },
     handler: async (req) => {
