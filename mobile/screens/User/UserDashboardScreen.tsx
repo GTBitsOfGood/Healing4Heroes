@@ -49,7 +49,7 @@ export default function UserDashboardScreen(props: any) {
     <DashboardOverlay
       headerComponent={
         <View style={styles.dashboardHeader}>
-          <FontAwesome name="user-circle" size={26} color="blue" />
+          <FontAwesome name="user-circle" size={26} color="#3F3BED" />
           <Text style={styles.profileName}>
             {userInfo?.firstName} {userInfo?.lastName}
           </Text>
@@ -58,7 +58,7 @@ export default function UserDashboardScreen(props: any) {
               <MaterialCommunityIcons
                 name="bell-badge"
                 size={26}
-                color="blue"
+                color="#3F3BED"
               />
             }
           ></IconButton>
@@ -88,7 +88,7 @@ export default function UserDashboardScreen(props: any) {
           <View style={styles.logContainer}>
             <LogButton
               text="Add New Log"
-              icon={<MaterialIcons name="note-add" size={40} color="blue" />}
+              icon={<MaterialIcons name="note-add" size={40} color="#3F3BED" />}
               navigation={props.navigation}
               callbackFunction={() =>
                 props.navigation.navigate("Add Training Log")
@@ -100,7 +100,7 @@ export default function UserDashboardScreen(props: any) {
                 <MaterialCommunityIcons
                   name="file-document"
                   size={40}
-                  color="blue"
+                  color="#3F3BED"
                 />
               }
               navigation={props.navigation}

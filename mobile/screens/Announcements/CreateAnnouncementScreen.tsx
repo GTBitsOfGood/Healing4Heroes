@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, BackHandler } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  BackHandler,
+} from "react-native";
 import IconButton from "../../components/IconButton";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -25,10 +32,11 @@ export default function CreateAnnouncementScreen(props: any) {
             icon={
               <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
             }
-            onPress={() => props.navigation.goBack()} // might not work
           />
           <Text style={styles.label}>
-            {`${date?.getMonth() as number + 1}-${date?.getDate()}-${date?.getFullYear()}`}
+            {`${
+              (date?.getMonth() as number) + 1
+            }-${date?.getDate()}-${date?.getFullYear()}`}
           </Text>
           {/* Hidden View for Styling */}
           <View style={{ width: 26, height: 26 }}></View>
