@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TextInput, BackHandler } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
 import { HandlerType, Role, User } from "../../utils/types";
 import { userGetUserInfo, userUpdateUser } from "../../actions/User";
 import StepOverlay from "../../components/Overlays/StepOverlay";
@@ -17,7 +16,6 @@ export default function HandlerInformationScreen(props: any) {
   const [user, setUser] = useState<User>();
   const [birthday, setBirthday] = useState<Date>();
   useEffect(() => {
-    DropDownPicker.setListMode("SCROLLVIEW");
     async function getUser() {
       const user = await userGetUserInfo();
       return user;
