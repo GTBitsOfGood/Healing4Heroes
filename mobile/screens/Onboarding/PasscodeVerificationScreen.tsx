@@ -2,18 +2,21 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import PasscodeInput from "../../components/PasscodeInput";
-import { authCreateVerificationLog } from "../../actions/Auth";
+import {
+  authAttemptVerification,
+  authCreateVerificationLog,
+} from "../../actions/Auth";
+import { UserVerificationLogType } from "../../utils/types";
 
 export default function PasscodeVerificationScreen(props: any) {
   const [checkValidRegister, setCheckValidRegister] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [passcode, setPassword] = useState("");
+  const [passcode, setPasscode] = useState("");
   const [signUpDisabled, setSignUpDisabled] = useState(false);
+  const { verificationType, email } = props.route.params;
 
   useEffect(() => {
-    // async function sendVerification() {
-    //   await authCreateVerificationLog();
-    // }
+    console.log(props.route.params);
   }, []);
 
   const verifyPasscode = async () => {
@@ -23,6 +26,20 @@ export default function PasscodeVerificationScreen(props: any) {
       setErrorMessage("Passcode Cannot be Partially Empty!");
       return;
     }
+
+    authAttemptVerification(email, Number(passcode))
+      .then(() => {
+        if (verificationType === UserVerificationLogType.EMAIL_VERIFICATION) {
+          props.navigation.navigate("Handler Information");
+        } else if (
+          verificationType === UserVerificationLogType.PASSWORD_RESET
+        ) {
+          props.navigation.navigate("Landing");
+        }
+      })
+      .catch((e) => {
+        setErrorMessage("Wrong Verification Token!");
+      });
   };
   return (
     <OnboardingOverlay
@@ -43,7 +60,7 @@ export default function PasscodeVerificationScreen(props: any) {
               <View>
                 <PasscodeInput
                   callbackFunction={(value: string) => {
-                    setPassword(value);
+                    setPasscode(value);
                   }}
                 ></PasscodeInput>
               </View>

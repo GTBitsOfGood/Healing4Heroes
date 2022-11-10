@@ -71,3 +71,7 @@ export const sendEmail = async (
   } as Mail.Options);
   return res;
 };
+
+export const resetPassword = (email: string, newPassword: string) => {
+  return true;
+};

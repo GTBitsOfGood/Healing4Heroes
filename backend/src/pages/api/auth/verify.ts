@@ -1,5 +1,4 @@
-import { Types } from "mongoose";
-import { findUserByEmail } from "server/mongodb/actions/User";
+import { findUserByEmail, verifyUserEmail } from "server/mongodb/actions/User";
 import {
   createVerificationLog,
   getLatestVerificationLog,
@@ -24,6 +23,7 @@ export default APIWrapper({
   POST: {
     config: {
       requireToken: false,
+      requireAdminVerification: false,
     },
     handler: async (req) => {
       const email: string = req.body.email as string;
@@ -61,7 +61,7 @@ export default APIWrapper({
             .split("")
             .join(" "),
         });
-        await sendEmail("samratsahoo2013@gmail.com", emailSubject, emailBody);
+        await sendEmail(email, emailSubject, emailBody);
       }
 
       return verificationLog.expirationDate;
@@ -72,11 +72,17 @@ export default APIWrapper({
       requireToken: false,
     },
     handler: async (req) => {
-      const userId: Types.ObjectId = req.body.userId as Types.ObjectId;
+      const email: string = req.body.email as string;
       const code = Number(req.body.code);
 
+      const user: User = (await findUserByEmail(email)) as User;
+
+      if (!user) {
+        throw new Error("User Does Not Exist!");
+      }
+
       const latestLog: VerificationLog = (await getLatestVerificationLog(
-        userId
+        user._id
       )) as VerificationLog;
 
       if (!latestLog) {
@@ -93,8 +99,13 @@ export default APIWrapper({
       }
 
       await updateVerificationLog(latestLog._id, true, true);
+
+      if (latestLog.type === UserVerificationLogType.EMAIL_VERIFICATION) {
+        await verifyUserEmail(user._id);
+      }
+
       const webToken = getWebToken({
-        userId: userId.toString(),
+        userId: user._id.toString(),
         authorized: true,
       });
       return {

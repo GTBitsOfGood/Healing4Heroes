@@ -20,16 +20,13 @@ export const authCreateVerificationLog = async (
   });
 };
 
-export const authAttemptVerification = async (
-  userId: Types.ObjectId,
-  code: number
-) => {
+export const authAttemptVerification = async (email: string, code: number) => {
   return internalRequest<Date>({
     url: authVerifyUrl,
     method: HttpMethod.PATCH,
     authRequired: false,
     body: {
-      userId,
+      email,
       code,
     },
   });
