@@ -142,7 +142,7 @@ export default function SignUpScreen(props: any) {
                     if (validInputs) {
                       const user = await handleSignUp();
                       if (user) {
-                        props.navigation.navigate("Handler Information", {
+                        props.navigation.navigate("Passcode Screen", {
                           params: {
                             userId: user?._id,
                             roles: user?.roles,

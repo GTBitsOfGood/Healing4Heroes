@@ -24,10 +24,10 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate("Handler Information")}
+        onPress={() => props.navigation.navigate("Passcode Screen")}
         style={styles.buttonItem}
       >
-        <Text>Go To Handler Info Page</Text>
+        <Text>Go To Passcode Verification Page</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

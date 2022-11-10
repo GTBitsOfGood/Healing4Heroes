@@ -1,16 +1,23 @@
 import { Types } from "mongoose";
+import { findUserByEmail } from "server/mongodb/actions/User";
 import {
   createVerificationLog,
   getLatestVerificationLog,
   updateVerificationLog,
 } from "server/mongodb/actions/VerificationLog";
 import APIWrapper from "server/utils/APIWrapper";
-import { getWebToken, sendEmail } from "server/utils/Authentication";
 import {
-  VERIFICATION_EMAIL_BODY,
-  VERIFICATION_EMAIL_SUBJECT,
-} from "src/utils/constants";
-import { UserVerificationLogType, VerificationLog } from "src/utils/types";
+  getWebToken,
+  parseEmailTemplate,
+  sendEmail,
+} from "server/utils/Authentication";
+import {
+  EmailSubject,
+  EmailType,
+  User,
+  UserVerificationLogType,
+  VerificationLog,
+} from "src/utils/types";
 
 export default APIWrapper({
   POST: {
@@ -18,21 +25,43 @@ export default APIWrapper({
       requireToken: false,
     },
     handler: async (req) => {
-      const userId: Types.ObjectId = req.body.userId as Types.ObjectId;
+      const email: string = req.body.email as string;
       const type: UserVerificationLogType = req.body
         .type as UserVerificationLogType;
 
-      const verificationLog = await createVerificationLog(userId, type);
+      const user: User = (await findUserByEmail(email)) as User;
+
+      if (!user) {
+        throw new Error(`Could not find user with email: ${email}`);
+      }
+      const verificationLog = await createVerificationLog(user._id, type);
 
       if (!verificationLog) {
         throw new Error("Failed to create verification log");
       }
 
-      await sendEmail(
-        verificationLog.email,
-        VERIFICATION_EMAIL_SUBJECT,
-        VERIFICATION_EMAIL_BODY(verificationLog.code)
-      );
+      let emailSubject;
+      let emailType;
+      switch (type) {
+        case UserVerificationLogType.EMAIL_VERIFICATION:
+          emailSubject = EmailSubject.EMAIL_VERIFICATION;
+          emailType = EmailType.EMAIL_VERIFICATION;
+          break;
+        case UserVerificationLogType.PASSWORD_RESET:
+          emailSubject = EmailSubject.PASSWORD_RESET;
+          emailType = EmailType.PASSWORD_RESET;
+          break;
+      }
+
+      if (emailSubject && emailType) {
+        const emailBody = parseEmailTemplate(emailType, {
+          VERIFICATION_CODE: verificationLog.code
+            .toString()
+            .split("")
+            .join(" "),
+        });
+        await sendEmail("samratsahoo2013@gmail.com", emailSubject, emailBody);
+      }
 
       return verificationLog.expirationDate;
     },
