@@ -7,6 +7,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Image,
+  TouchableOpacity,
 } from "react-native";
 
 interface OnboardingOverlayProps {
@@ -16,6 +17,9 @@ interface OnboardingOverlayProps {
   pageBody: ReactElement;
   footerCallback?: () => void | undefined;
   headerText: string;
+  errorMessage?: string;
+  nextStepText?: string;
+  nextStepCallback?: () => Promise<void> | void | undefined;
 }
 export default function OnboardingOverlay({
   pageBody,
@@ -24,6 +28,9 @@ export default function OnboardingOverlay({
   footerSubText,
   footerCallback,
   headerText,
+  errorMessage,
+  nextStepText,
+  nextStepCallback,
 }: OnboardingOverlayProps) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useEffect(() => {
@@ -69,6 +76,25 @@ export default function OnboardingOverlay({
           </View>
           {headerText && <Text style={styles.headerText}>{headerText}</Text>}
           <ScrollView>{pageBody}</ScrollView>
+          {errorMessage && (
+            <View style={styles.failedContainer}>
+              <Text style={styles.failedText}>{errorMessage}</Text>
+            </View>
+          )}
+
+          {nextStepText && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={async () => {
+                if (nextStepCallback) {
+                  nextStepCallback();
+                  return;
+                }
+              }}
+            >
+              <Text style={styles.btnText}>{nextStepText}</Text>
+            </TouchableOpacity>
+          )}
 
           {!isKeyboardVisible && footerMainText && (
             <Text style={styles.footerMainText}>{footerMainText}</Text>
@@ -144,5 +170,33 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     marginBottom: 15,
-  }
+  },
+  failedContainer: {
+    marginTop: 12,
+    alignItems: "center",
+    marginBottom: 12,
+    padding: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    minWidth: "100%",
+    backgroundColor: "#FF8E8E50",
+    borderColor: "#C63636",
+  },
+  failedText: {
+    fontSize: 12,
+    fontWeight: "400",
+    color: "#C63636",
+  },
+  button: {
+    padding: 15,
+    marginBottom: 10,
+    alignItems: "center",
+    borderRadius: 10,
+    minWidth: "100%",
+    backgroundColor: "#3F3BED",
+  },
+
+  btnText: {
+    color: "white",
+  },
 });

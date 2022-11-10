@@ -1,14 +1,8 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { SimpleLineIcons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import PasscodeInput from "../../components/PasscodeInput";
+import { authCreateVerificationLog } from "../../actions/Auth";
 
 export default function PasscodeVerificationScreen(props: any) {
   const [checkValidRegister, setCheckValidRegister] = useState(true);
@@ -16,26 +10,46 @@ export default function PasscodeVerificationScreen(props: any) {
   const [passcode, setPassword] = useState("");
   const [signUpDisabled, setSignUpDisabled] = useState(false);
 
+  useEffect(() => {
+    // async function sendVerification() {
+    //   await authCreateVerificationLog();
+    // }
+  }, []);
+
+  const verifyPasscode = async () => {
+    setErrorMessage("");
+
+    if (passcode.length !== 6) {
+      setErrorMessage("Passcode Cannot be Partially Empty!");
+      return;
+    }
+  };
   return (
     <OnboardingOverlay
       showBackDrop={false}
       headerText="Verify Your Account"
       footerMainText="Already have an account?"
       footerSubText="Sign in Here"
+      nextStepCallback={verifyPasscode}
+      nextStepText={"Next"}
       footerCallback={() => {
         props.navigation.navigate("Login");
       }}
+      errorMessage={errorMessage}
       pageBody={
         <View>
           <View style={styles.container}>
             <View style={styles.bodyContainer}>
               <View>
-              <PasscodeInput></PasscodeInput>
+                <PasscodeInput
+                  callbackFunction={(value: string) => {
+                    setPassword(value);
+                  }}
+                ></PasscodeInput>
               </View>
 
               <Text style={styles.noCodeQuestion}>Did Not Receive Code?</Text>
               <Text style={styles.resendButton}>Resend Code</Text>
-
 
               {!checkValidRegister ? (
                 <View style={styles.failedContainer}>
@@ -51,15 +65,7 @@ export default function PasscodeVerificationScreen(props: any) {
                     ? styles.disabledButton
                     : styles.buttonContainer,
                 ]}
-              >
-                <TouchableOpacity
-                  disabled={signUpDisabled}
-                  style={styles.button}
-                  onPress={async () => {}}
-                >
-                  <Text style={styles.btnText}>Next</Text>
-                </TouchableOpacity>
-              </View>
+              ></View>
             </View>
           </View>
         </View>
@@ -75,7 +81,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#F2F2F2",
-    marginBottom: 10
+    marginBottom: 10,
   },
 
   headerContainer: {
@@ -141,7 +147,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     minWidth: "100%",
-    backgroundColor: "#3F3BED"
+    backgroundColor: "#3F3BED",
   },
 
   btnText: {
@@ -186,8 +192,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   resendButton: {
-    color: "#999999",
+    color: "#3F3BED",
     fontWeight: "500",
-    marginTop: 3
-  }
+    marginTop: 3,
+  },
 });
