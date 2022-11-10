@@ -9,17 +9,29 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { User } from "../../utils/types";
+import { Announcement, User } from "../../utils/types";
 import { userGetUserInfo } from "../../actions/User";
 import DashboardOverlay from "../../components/Overlays/DashboardOverlay";
 import IconButton from "../../components/IconButton";
+import { adminGetAnnouncements } from "../../actions/Announcement";
+import { auth } from "../../utils/firebase";
 
 export default function AdminDashboardScreen(props: any) {
   const [userInfo, setUserInfo] = useState<User>();
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
   useEffect(() => {
     async function getAdminDashboardInfo() {
       const user: User = (await userGetUserInfo()) as User;
+      const announcementList: Announcement[] =
+        (await adminGetAnnouncements()) as Announcement[];
+
+      announcementList.sort((first: Announcement, second: Announcement) => {
+        return second.date.getTime() - first.date.getTime();
+      });
+
+      setAnnouncements(announcementList);
+
       setUserInfo(user);
     }
 
@@ -44,12 +56,12 @@ export default function AdminDashboardScreen(props: any) {
             {userInfo?.firstName} {userInfo?.lastName}
           </Text>
           <IconButton
+            callbackFunction={async () => {
+              await auth.signOut().then().catch();
+              props.navigation.navigate("Landing");
+            }}
             icon={
-              <MaterialCommunityIcons
-                name="bell-badge"
-                size={26}
-                color="#3F3BED"
-              />
+              <MaterialCommunityIcons name="logout" size={26} color="#3F3BED" />
             }
           ></IconButton>
         </View>
@@ -59,8 +71,16 @@ export default function AdminDashboardScreen(props: any) {
           <Text style={styles.label}>Announcements</Text>
           <View style={styles.announcementContainer}>
             <TouchableOpacity style={styles.announcementBox}>
-              <Text style={styles.announcementTitle}>New Announcements</Text>
-              <Text style={styles.announcementText}>No New Announcements</Text>
+              <Text style={styles.announcementTitle} numberOfLines={1}>
+                {announcements && announcements.length
+                  ? announcements[0].title
+                  : "Announcements"}
+              </Text>
+              <Text style={styles.announcementText} numberOfLines={1}>
+                {announcements && announcements.length
+                  ? announcements[0].description
+                  : "No New Announcements"}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.addButton}
@@ -141,8 +161,9 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   announcementText: {
-    size: 12,
-    color: "#666666",
+    color: "grey",
+    fontSize: 12,
+    fontWeight: "400",
   },
   addButton: {
     backgroundColor: "#3F3BED",

@@ -23,7 +23,7 @@ export const adminCreateAnnouncement = async (
 };
 
 export const adminGetAnnouncements = async () => {
-  return internalRequest<Announcement>({
+  return internalRequest<Announcement[]>({
     url: adminAnnouncementUrl,
     method: HttpMethod.GET,
     authRequired: true,
@@ -31,7 +31,7 @@ export const adminGetAnnouncements = async () => {
 };
 
 export const userGetAnnouncements = async () => {
-  return internalRequest<Array<Announcement>>({
+  return internalRequest<Announcement[]>({
     url: userAnnouncementUrl,
     method: HttpMethod.GET,
     authRequired: true,
