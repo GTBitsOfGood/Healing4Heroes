@@ -1,14 +1,12 @@
-import fs from "fs";
 import { getAuth } from "firebase-admin/auth";
 import jwt from "jsonwebtoken";
 import nodemailer, { TransportOptions } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import UserModel from "server/mongodb/models/User";
-import { EmailType } from "src/utils/types";
 import dbConnect, { firebaseConnect } from "./dbConnect";
 
-export const parseEmailTemplate = (email: EmailType, options?: any) => {
-  let emailData = fs.readFileSync(email, "utf8");
+export const parseEmailTemplate = (email: string, options?: any) => {
+  let emailData: string = email;
   if (options) {
     for (const [key, value] of Object.entries(options)) {
       emailData = emailData.replaceAll("{{" + key + "}}", value as string);

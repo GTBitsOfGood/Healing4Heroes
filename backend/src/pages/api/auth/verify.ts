@@ -11,9 +11,10 @@ import {
   parseEmailTemplate,
   sendEmail,
 } from "server/utils/Authentication";
+import { EMAIL_VERIFICATION_TEMPLATE } from "server/utils/emails/EmailVerification";
+import { PASSWORD_RESET_TEMPLATE } from "server/utils/emails/PasswordReset";
 import {
   EmailSubject,
-  EmailType,
   User,
   UserVerificationLogType,
   VerificationLog,
@@ -41,20 +42,20 @@ export default APIWrapper({
       }
 
       let emailSubject;
-      let emailType;
+      let emailTemplate;
       switch (type) {
         case UserVerificationLogType.EMAIL_VERIFICATION:
           emailSubject = EmailSubject.EMAIL_VERIFICATION;
-          emailType = EmailType.EMAIL_VERIFICATION;
+          emailTemplate = EMAIL_VERIFICATION_TEMPLATE;
           break;
         case UserVerificationLogType.PASSWORD_RESET:
           emailSubject = EmailSubject.PASSWORD_RESET;
-          emailType = EmailType.PASSWORD_RESET;
+          emailTemplate = PASSWORD_RESET_TEMPLATE;
           break;
       }
 
-      if (emailSubject && emailType) {
-        const emailBody = parseEmailTemplate(emailType, {
+      if (emailSubject && emailTemplate) {
+        const emailBody = parseEmailTemplate(emailTemplate, {
           VERIFICATION_CODE: verificationLog.code
             .toString()
             .split("")

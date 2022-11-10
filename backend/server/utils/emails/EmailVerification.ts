@@ -1,3 +1,4 @@
+export const EMAIL_VERIFICATION_TEMPLATE = `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="font-family:arial, 'helvetica neue', helvetica, sans-serif">
 <head>
@@ -93,13 +94,13 @@ padding:10px 30px 10px 30px!important;
 <td style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px;font-size:0px" align="center"><img src="https://aijtot.stripocdn.email/content/guids/CABINET_6f77fb684f93ce5f263b2aad18159a48/images/h4hlogo.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="100"></td>
 </tr>
 <tr>
-<td class="es-m-txt-c" align="center" style="padding:0;Margin:0;padding-bottom:10px"><h1 style="Margin:0;line-height:46px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:46px;font-style:normal;font-weight:bold;color:#333333">Reset Your Password</h1></td>
+<td class="es-m-txt-c" align="center" style="padding:0;Margin:0;padding-bottom:10px"><h1 style="Margin:0;line-height:46px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:46px;font-style:normal;font-weight:bold;color:#333333">Verify Your Email</h1></td>
 </tr>
 <tr>
-<td class="es-m-p0r es-m-p0l" align="center" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">You’ve received this message because you have requested to reset your password. Please enter the code below to verify your email so you can reset your password.</p></td>
+<td class="es-m-p0r es-m-p0l" align="center" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">You’ve received this message because your email address has been registered with our app. Please enter the code below to verify your email.</p></td>
 </tr>
 <tr>
-<td align="center" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">If you did not request to reset your password, please disregard this email.</p></td>
+<td align="center" style="padding:0;Margin:0;padding-bottom:5px;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">If you did not register with us, please disregard this email.</p></td>
 </tr>
 <tr>
 <td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px"><!--[if mso]><a href="" target="_blank" hidden>
@@ -111,7 +112,7 @@ style="height:62px; v-text-anchor:middle; width:230px" arcsize="10%" stroke="f" 
 <![endif]--><!--[if !mso]><!-- --><span class="msohide es-button-border" style="border-style:solid;border-color:#2CB543;background:#3f3bed;border-width:0px;display:inline-block;border-radius:6px;width:auto;mso-hide:all"><a href="" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:36px;border-style:solid;border-color:#3f3bed;border-width:10px 30px 10px 30px;display:inline-block;background:#3f3bed;border-radius:6px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:43px;width:auto;text-align:center;border-left-width:30px;border-right-width:30px">{{VERIFICATION_CODE}}</a></span><!--<![endif]--></td>
 </tr>
 <tr>
-<td class="es-m-p0r es-m-p0l" align="center" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Once confirmed, you will be able to reset your password.</p></td>
+<td class="es-m-p0r es-m-p0l" align="center" style="Margin:0;padding-top:5px;padding-bottom:5px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Once confirmed, this email will be uniquely associated with your account.</p></td>
 </tr>
 </table></td>
 </tr>
@@ -125,3 +126,4 @@ style="height:62px; v-text-anchor:middle; width:230px" arcsize="10%" stroke="f" 
 </div>
 </body>
 </html>
+`;
