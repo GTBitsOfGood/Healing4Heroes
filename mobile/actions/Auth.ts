@@ -6,7 +6,7 @@ import { internalRequest } from "../utils/requests";
 const authVerifyUrl = urls.baseUrl + urls.api.auth.verify;
 
 export const authCreateVerificationLog = async (
-  userId: Types.ObjectId,
+  email: string,
   type: UserVerificationLogType
 ) => {
   return internalRequest<Date>({
@@ -14,7 +14,7 @@ export const authCreateVerificationLog = async (
     method: HttpMethod.POST,
     authRequired: false,
     body: {
-      userId,
+      email,
       type,
     },
   });

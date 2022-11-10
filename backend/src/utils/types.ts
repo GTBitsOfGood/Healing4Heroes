@@ -132,3 +132,14 @@ export interface InternalResponseData<T> {
   message?: string;
   payload?: T;
 }
+
+/* Email Utils*/
+export enum EmailType {
+  EMAIL_VERIFICATION = "server/utils/emails/email_verification.html",
+  PASSWORD_RESET = "server/utils/emails/password_reset.html",
+}
+
+export enum EmailSubject {
+  EMAIL_VERIFICATION = "Verify Your Email for Healing4Heroes",
+  PASSWORD_RESET = "Reset Your Password for Healing4Heroes",
+}

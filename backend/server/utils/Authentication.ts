@@ -1,10 +1,21 @@
+import fs from "fs";
 import { getAuth } from "firebase-admin/auth";
 import jwt from "jsonwebtoken";
 import nodemailer, { TransportOptions } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import UserModel from "server/mongodb/models/User";
+import { EmailType } from "src/utils/types";
 import dbConnect, { firebaseConnect } from "./dbConnect";
 
+export const parseEmailTemplate = (email: EmailType, options?: any) => {
+  let emailData = fs.readFileSync(email, "utf8");
+  if (options) {
+    for (const [key, value] of Object.entries(options)) {
+      emailData = emailData.replaceAll("{{" + key + "}}", value as string);
+    }
+  }
+  return emailData;
+};
 export const getUser = async (accessToken: string) => {
   if (!accessToken) {
     throw new Error("This API endpoint requires an access token!");
@@ -58,8 +69,7 @@ export const sendEmail = async (
     from: process.env.EMAIL_FROM,
     to: recipient,
     subject: emailSubject,
-    text: emailBody,
+    html: emailBody,
   } as Mail.Options);
-
   return res;
 };
