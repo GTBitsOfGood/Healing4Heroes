@@ -17,7 +17,7 @@ import { ResizeMode, Video } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
-import { ServiceAnimal, StorageLocation } from "../../utils/types";
+import { Screens, ServiceAnimal, StorageLocation } from "../../utils/types";
 import { uploadFile } from "../../utils/storage";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 
@@ -59,13 +59,13 @@ export default function TrainingVideoLogScreen(props: any) {
     if (!updateServiceAnimal) {
       setError("Failed to add hours to service animal");
     }
-    props.navigation.navigate("User Dashboard");
+    props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
     return trainingLog;
   };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("Add Training Log");
+      props.navigation.navigate(Screens.ADD_TRAINING_LOG_SCREEN);
       return true;
     });
   }, []);

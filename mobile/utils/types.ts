@@ -104,6 +104,30 @@ export enum UserVerificationLogType {
   PASSWORD_RESET = "password reset",
 }
 
+/* Screen Information*/
+export enum Screens{
+  LANDING_SCREEN = "Landing",
+  DEVELOPMENT_SCREEN = "Development",
+  LOGIN_SCREEN = "Login",
+  SIGN_UP_SCREEN = "Sign Up",
+  HANDLER_INFORMATION_SCREEN = "Handler Information",
+  ANIMAL_INFORMATION_SCREEN = "Animal Information",
+  ADD_TRAINING_LOG_SCREEN = "Add Training Log",
+  UPLOAD_VIDEO_LOG_SCREEN = "Upload Video Log",
+  USER_DASHBOARD_SCREEN = "User Dashboard",
+  ADMIN_DASHBOARD_SCREEN = "Admin Dashboard",
+  ADMIN_USER_LIST_SCREEN = "Admin User List",
+  ADMIN_DETAILED_USER_SCREEN = "Detailed User Screen",
+  ADMIN_USER_VERIFICATION_SCREEN = "Admin User Verification",
+  STORAGE_EXAMPLE_SCREEN = "Storage Example Screen",
+  STEP_OVERLAY_EXAMPLE_SCREEN = "Step Overlay Example Screen",
+  VIEW_ALL_LOGS_SCREEN = "View All Logs Screen",
+  VIEW_SINGLE_LOG_SCREEN = "View Single Log Screen",
+  PASSCODE_VALIDATION_SCREEN = "Passcode Screen",
+  UPLOAD_PROFILE_IMAGE_SCREEN = "Upload Profile Image Screen",
+  CREATE_ANNOUNCEMENT_SCREEN = "Create Announcement"
+}
+
 /* Internal Request & API Wrapper Types */
 
 export enum HttpMethod {

@@ -8,6 +8,7 @@ import {
   BackHandler,
 } from "react-native";
 import LogCard from "../../components/LogCard";
+import { Screens } from "../../utils/types";
 
 export default function ViewAllLogsScreen(props: any) {
   const logs = props?.route?.params?.trainingLogs;
@@ -25,7 +26,7 @@ export default function ViewAllLogsScreen(props: any) {
           return (
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate("View Single Log Screen", {
+                props.navigation.navigate(Screens.VIEW_SINGLE_LOG_SCREEN, {
                   date: log.date,
                   skills: log.skills,
                   trainingHours: log.trainingHours,

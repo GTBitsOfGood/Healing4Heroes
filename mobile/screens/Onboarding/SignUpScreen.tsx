@@ -12,7 +12,7 @@ import { validateEmail } from "../../utils/helper";
 import { auth } from "../../utils/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { userCreateUser } from "../../actions/User";
-import { Role, UserVerificationLogType } from "../../utils/types";
+import { Role, Screens, UserVerificationLogType } from "../../utils/types";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { authCreateVerificationLog } from "../../actions/Auth";
 
@@ -83,7 +83,7 @@ export default function SignUpScreen(props: any) {
       footerMainText="Already have an account?"
       footerSubText="Sign in Here"
       footerCallback={() => {
-        props.navigation.navigate("Login");
+        props.navigation.navigate(Screens.LOGIN_SCREEN);
       }}
       pageBody={
         <View>
@@ -147,7 +147,7 @@ export default function SignUpScreen(props: any) {
                     if (validInputs) {
                       const user = await handleSignUp();
                       if (user) {
-                        props.navigation.navigate("Passcode Screen", {
+                        props.navigation.navigate(Screens.PASSCODE_VALIDATION_SCREEN, {
                           verificationType:
                             UserVerificationLogType.EMAIL_VERIFICATION,
                           email: user.email,

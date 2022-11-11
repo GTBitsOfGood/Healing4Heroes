@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import BubbleList from "../../components/BubbleList";
 import SolidDropDown from "../../components/SolidDropDown";
 import StepOverlay from "../../components/Overlays/StepOverlay";
-import { ServiceAnimalSkills } from "../../utils/types";
+import { Screens, ServiceAnimalSkills } from "../../utils/types";
 
 export default function AddTrainingLogScreen(props: any) {
   const [totalHours, setTotalHours] = useState("");
@@ -31,7 +31,7 @@ export default function AddTrainingLogScreen(props: any) {
   const submitTrainingLogInfo = () => {
     const validInput = validateInput();
     if (validInput) {
-      props.navigation.navigate("Upload Video Log", {
+      props.navigation.navigate(Screens.UPLOAD_VIDEO_LOG_SCREEN, {
         totalHours: totalHours,
         skillValuesSelected: skillValuesSelected,
         behaviorDescription: behaviorDescription,

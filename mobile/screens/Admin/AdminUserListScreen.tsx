@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { BackHandler, StyleSheet, Text, View } from "react-native";
 import UserEntry from "../../components/UserEntry";
 import LogOverlay from "../../components/Overlays/UserOverlay";
+import { Screens } from "../../utils/types";
 
 export default function AdminUserList(props: any) {
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("Admin Dashboard");
+      props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
       return true;
     });
   }, []);

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
+import { Screens } from "../../utils/types";
 
 export default function LandingScreen(props: any) {
   return (
@@ -15,13 +16,13 @@ export default function LandingScreen(props: any) {
             <Text style={styles.headerText}>Welcome to Healing 4 Heroes!</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
-                onPress={() => props.navigation.navigate("Login")}
+                onPress={() => props.navigation.navigate(Screens.LOGIN_SCREEN)}
                 style={styles.loginBtn}
               >
                 <Text style={styles.loginBtnText}>Log In</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => props.navigation.navigate("Sign Up")}
+                onPress={() => props.navigation.navigate(Screens.SIGN_UP_SCREEN)}
                 style={styles.signupBtn}
               >
                 <Text style={styles.signupBtnText}>Sign Up</Text>

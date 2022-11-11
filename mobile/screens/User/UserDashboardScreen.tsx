@@ -15,7 +15,7 @@ import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
 import { userGetUserInfo } from "../../actions/User";
 import { userGetAnimal } from "../../actions/Animal";
-import { Announcement, ServiceAnimal, User } from "../../utils/types";
+import { Announcement, Screens, ServiceAnimal, User } from "../../utils/types";
 import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
 import { userGetTrainingLogs } from "../../actions/TrainingLog";
@@ -52,7 +52,7 @@ export default function UserDashboardScreen(props: any) {
 
     getUserDashboardInformation().then().catch();
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("User Dashboard");
+      props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
       return true;
     });
 
@@ -73,7 +73,7 @@ export default function UserDashboardScreen(props: any) {
           <IconButton
             callbackFunction={async () => {
               await auth.signOut().then().catch();
-              props.navigation.navigate("Landing");
+              props.navigation.navigate(Screens.LANDING_SCREEN);
             }}
             icon={
               <MaterialCommunityIcons name="logout" size={26} color="#3F3BED" />
@@ -123,7 +123,7 @@ export default function UserDashboardScreen(props: any) {
               navigation={props.navigation}
               disabled={!isEnabled}
               callbackFunction={() =>
-                props.navigation.navigate("Add Training Log")
+                props.navigation.navigate(Screens.ADD_TRAINING_LOG_SCREEN)
               }
             />
             <LogButton
@@ -139,7 +139,7 @@ export default function UserDashboardScreen(props: any) {
               navigation={props.navigation}
               callbackFunction={async () => {
                 const trainingLogs = await userGetTrainingLogs();
-                props.navigation.navigate("View All Logs Screen", {
+                props.navigation.navigate(Screens.VIEW_ALL_LOGS_SCREEN, {
                   trainingLogs,
                 });
               }}

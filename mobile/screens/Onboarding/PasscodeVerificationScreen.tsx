@@ -6,7 +6,7 @@ import {
   authAttemptVerification,
   authCreateVerificationLog,
 } from "../../actions/Auth";
-import { UserVerificationLogType } from "../../utils/types";
+import { Screens, UserVerificationLogType } from "../../utils/types";
 
 export default function PasscodeVerificationScreen(props: any) {
   const [checkValidRegister, setCheckValidRegister] = useState(true);
@@ -16,25 +16,25 @@ export default function PasscodeVerificationScreen(props: any) {
   const { verificationType, email } = props.route.params;
 
   useEffect(() => {
-    console.log(props.route.params);
   }, []);
 
   const verifyPasscode = async () => {
     setErrorMessage("");
 
     if (passcode.length !== 6) {
-      setErrorMessage("Passcode Cannot be Partially Empty!");
+      setErrorMessage("Verification Code Cannot be Partially Empty!");
       return;
     }
 
     authAttemptVerification(email, Number(passcode))
       .then(() => {
         if (verificationType === UserVerificationLogType.EMAIL_VERIFICATION) {
-          props.navigation.navigate("Handler Information");
+          props.navigation.navigate(Screens.HANDLER_INFORMATION_SCREEN);
         } else if (
           verificationType === UserVerificationLogType.PASSWORD_RESET
         ) {
-          props.navigation.navigate("Landing");
+          // Change to password reset screen
+          props.navigation.navigate(Screens.LANDING_SCREEN);
         }
       })
       .catch((e) => {
@@ -50,7 +50,7 @@ export default function PasscodeVerificationScreen(props: any) {
       nextStepCallback={verifyPasscode}
       nextStepText={"Next"}
       footerCallback={() => {
-        props.navigation.navigate("Login");
+        props.navigation.navigate(Screens.LOGIN_SCREEN);
       }}
       errorMessage={errorMessage}
       pageBody={
