@@ -141,7 +141,7 @@ export interface MultipartUpload {
 export interface UploadedPart {
   ETag: string;
   PartNumber: number;
-
+}
 /* Email Utils*/
 
 export enum EmailSubject {

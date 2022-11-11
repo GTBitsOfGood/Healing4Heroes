@@ -98,7 +98,7 @@ export default function TrainingVideoLogScreen(props: any) {
 
   return (
     <StepOverlay
-      headerName='Create Training Log'
+      headerName="Create Training Log"
       circleCount={2}
       error={error}
       buttonFunction={createTrainingLog}
@@ -108,7 +108,7 @@ export default function TrainingVideoLogScreen(props: any) {
           <Text style={styles.label}>Video Log</Text>
           <View style={styles.videoUploadContainer}>
             <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-              <Ionicons name='add-circle-outline' size={30} color='grey' />
+              <Ionicons name="add-circle-outline" size={30} color="grey" />
               {!videoUri ? (
                 <Text style={styles.uploadText}>
                   {" "}
@@ -136,7 +136,7 @@ export default function TrainingVideoLogScreen(props: any) {
             style={styles.input}
             value={additionalNotes}
             onChangeText={setAdditionalNotes}
-            placeholder='Additional Notes'
+            placeholder="Additional Notes"
             placeholderTextColor={"#D9D9D9"}
             multiline={true}
           />
