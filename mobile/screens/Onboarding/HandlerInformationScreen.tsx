@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TextInput, BackHandler } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
-import { HandlerType, Role, User } from "../../utils/types";
+import { HandlerType, Role, Screens, User } from "../../utils/types";
 import { userGetUserInfo, userUpdateUser } from "../../actions/User";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,7 +16,6 @@ export default function HandlerInformationScreen(props: any) {
   const [user, setUser] = useState<User>();
   const [birthday, setBirthday] = useState<Date>();
   useEffect(() => {
-    DropDownPicker.setListMode("SCROLLVIEW");
     async function getUser() {
       const user = await userGetUserInfo();
       return user;
@@ -25,7 +23,7 @@ export default function HandlerInformationScreen(props: any) {
     getUser().then((result) => setUser(result));
 
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("Handler Information");
+      props.navigation.navigate(Screens.HANDLER_INFORMATION_SCREEN);
       return true;
     });
   }, []);
@@ -63,9 +61,9 @@ export default function HandlerInformationScreen(props: any) {
       const userUpdate = await updateUserInfo();
       if (userUpdate) {
         if ((user as User).roles?.includes(Role.NONPROFIT_ADMIN)) {
-          props.navigation.navigate("Admin Dashboard");
+          props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
         } else {
-          props.navigation.navigate("Animal Information", {
+          props.navigation.navigate(Screens.ANIMAL_INFORMATION_SCREEN, {
             params: {
               handlerId: (user as User)._id,
             },

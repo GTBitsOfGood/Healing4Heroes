@@ -9,6 +9,7 @@ import StepOverlay from "../../components/Overlays/StepOverlay";
 import { validateBirthday } from "../../utils/helper";
 import { FontAwesome5 } from "@expo/vector-icons";
 import DateInput from "../../components/DateInput";
+import { Screens } from "../../utils/types";
 
 export default function AnimalInformationScreen(props: any) {
   const [animalName, setAnimalName] = useState("");
@@ -64,7 +65,7 @@ export default function AnimalInformationScreen(props: any) {
       setError("");
       const result = await addAnimal();
       if (result) {
-        props.navigation.navigate("Upload Profile Image");
+        props.navigation.navigate(Screens.UPLOAD_PROFILE_IMAGE_SCREEN);
       } else {
         setError("Failed to create service animal!");
       }

@@ -8,13 +8,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
 import HealthCard from "../../components/HealthCard";
+import { Screens } from "../../utils/types";
 
 export default function AdminDetailedUserScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(348);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("Admin Dashboard");
+      props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
       return true;
     });
   }, []);

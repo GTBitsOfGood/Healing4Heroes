@@ -18,7 +18,7 @@ const ProgressBar = (props: any) => {
               padding: 1.5,
               width: props.filled,
               height: 1,
-              backgroundColor: "blue",
+              backgroundColor: "#3F3BED",
               borderRadius: 10,
             }}
           ></View>

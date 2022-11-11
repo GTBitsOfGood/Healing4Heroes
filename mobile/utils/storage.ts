@@ -98,9 +98,12 @@ export const uploadVideo = async (
   const res = await Promise.all(promises);
 
   const uploadedParts = res.map((part, index) => {
+    if (part.status !== 200) {
+      throw new Error("Video upload failed");
+    }
     return {
       ETag: (part as any).headers.map.etag as string,
-      PartNumber: (index + 1) as number,
+      PartNumber: index + 1,
     };
   });
 

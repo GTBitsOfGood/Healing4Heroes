@@ -3,7 +3,7 @@ import UserModel from "server/mongodb/models/User";
 import VerificationLogModel from "server/mongodb/models/VerificationLog";
 import dbConnect from "server/utils/dbConnect";
 import { VERIFICATION_LOG_EXPIRATION_MINUTES } from "src/utils/constants";
-import { UserVerificationLogType } from "src/utils/types";
+import { User, UserVerificationLogType } from "src/utils/types";
 
 export async function createVerificationLog(
   userId: Types.ObjectId,
@@ -12,13 +12,8 @@ export async function createVerificationLog(
   await dbConnect();
 
   const user = await UserModel.findById(userId).exec();
-
-  if (user === null) {
-    throw new Error("User not found in database!");
-  }
-
   const code = Math.floor(100000 + Math.random() * 900000);
-  const email = user.email;
+  const email = (user as User).email;
   const issueDate = new Date();
   const expirationDate = new Date(
     issueDate.getTime() + VERIFICATION_LOG_EXPIRATION_MINUTES * 60000

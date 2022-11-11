@@ -20,7 +20,9 @@ import AddTrainingLogScreen from "./screens/Training/AddTrainingLogScreen";
 import AdminUserList from "./screens/Admin/AdminUserListScreen";
 import AdminUserVerificationScreen from "./screens/Admin/AdminUserVerificationScreen";
 import AdminDetailedUserScreen from "./screens/Admin/AdminDetailedUserScreen";
-
+import PasscodeVerificationScreen from "./screens/Onboarding/PasscodeVerificationScreen";
+import CreateAnnouncementScreen from "./screens/Announcements/CreateAnnouncementScreen";
+import { Screens } from "./utils/types";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -38,58 +40,79 @@ export default function App() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Development" component={DevelopmentScreen} />
-        <Stack.Screen name="Landing" component={LandingScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Sign Up" component={SignUpScreen} />
         <Stack.Screen
-          name="Handler Information"
+          name={Screens.DEVELOPMENT_SCREEN}
+          component={DevelopmentScreen}
+        />
+        <Stack.Screen name={Screens.LANDING_SCREEN} component={LandingScreen} />
+        <Stack.Screen name={Screens.LOGIN_SCREEN} component={LoginScreen} />
+        <Stack.Screen name={Screens.SIGN_UP_SCREEN} component={SignUpScreen} />
+        <Stack.Screen
+          name={Screens.HANDLER_INFORMATION_SCREEN}
           component={HandlerInformationScreen}
         />
         <Stack.Screen
-          name="Animal Information"
+          name={Screens.ANIMAL_INFORMATION_SCREEN}
           component={AnimalInformationScreen}
         />
         <Stack.Screen
-          name="Add Training Log"
+          name={Screens.ADD_TRAINING_LOG_SCREEN}
           component={AddTrainingLogScreen}
         />
         <Stack.Screen
-          name="Upload Video Log"
+          name={Screens.UPLOAD_VIDEO_LOG_SCREEN}
           component={TrainingVideoLogScreen}
         />
-        <Stack.Screen name="User Dashboard" component={UserDashboardScreen} />
-        <Stack.Screen name="Admin Dashboard" component={AdminDashboardScreen} />
-        <Stack.Screen name="Admin User List" component={AdminUserList} />
         <Stack.Screen
-          name="Detailed User Screen"
+          name={Screens.USER_DASHBOARD_SCREEN}
+          component={UserDashboardScreen}
+        />
+        <Stack.Screen
+          name={Screens.ADMIN_DASHBOARD_SCREEN}
+          component={AdminDashboardScreen}
+        />
+        <Stack.Screen
+          name={Screens.ADMIN_USER_LIST_SCREEN}
+          component={AdminUserList}
+        />
+        <Stack.Screen
+          name={Screens.ADMIN_DETAILED_USER_SCREEN}
           component={AdminDetailedUserScreen}
         />
 
         <Stack.Screen
-          name="Admin User Verification"
+          name={Screens.ADMIN_USER_VERIFICATION_SCREEN}
           component={AdminUserVerificationScreen}
         />
 
         <Stack.Screen
-          name="Storage Example Screen"
+          name={Screens.STORAGE_EXAMPLE_SCREEN}
           component={StorageExampleScreen}
         />
         <Stack.Screen
-          name="Step Overlay Example Screen"
+          name={Screens.STEP_OVERLAY_EXAMPLE_SCREEN}
           component={StepOverlayExampleScreen}
         />
         <Stack.Screen
-          name="View All Logs Screen"
+          name={Screens.VIEW_ALL_LOGS_SCREEN}
           component={ViewAllLogsScreen}
         />
         <Stack.Screen
-          name="View Single Log Screen"
+          name={Screens.VIEW_SINGLE_LOG_SCREEN}
           component={ViewSingleLogScreen}
         />
         <Stack.Screen
-          name="Upload Profile Image"
+          name={Screens.PASSCODE_VALIDATION_SCREEN}
+          component={PasscodeVerificationScreen}
+        />
+
+        <Stack.Screen
+          name={Screens.UPLOAD_PROFILE_IMAGE_SCREEN}
           component={UploadProfileImageScreen}
+        />
+        <Stack.Screen
+          name={Screens.CREATE_ANNOUNCEMENT_SCREEN}
+          component={CreateAnnouncementScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

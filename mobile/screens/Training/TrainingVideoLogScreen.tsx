@@ -17,8 +17,8 @@ import { ResizeMode, Video } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
-import { ServiceAnimal, StorageLocation } from "../../utils/types";
 import { uploadVideo } from "../../utils/storage";
+import { Screens, ServiceAnimal, StorageLocation } from "../../utils/types";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 
 export default function TrainingVideoLogScreen(props: any) {
@@ -64,13 +64,13 @@ export default function TrainingVideoLogScreen(props: any) {
     if (!updateServiceAnimal) {
       setError("Failed to add hours to service animal");
     }
-    props.navigation.navigate("User Dashboard");
+    props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
     return trainingLog;
   };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("Add Training Log");
+      props.navigation.navigate(Screens.ADD_TRAINING_LOG_SCREEN);
       return true;
     });
   }, []);
@@ -98,7 +98,7 @@ export default function TrainingVideoLogScreen(props: any) {
 
   return (
     <StepOverlay
-      headerName='Create Training Log'
+      headerName="Create Training Log"
       circleCount={2}
       error={error}
       buttonFunction={createTrainingLog}
@@ -108,7 +108,7 @@ export default function TrainingVideoLogScreen(props: any) {
           <Text style={styles.label}>Video Log</Text>
           <View style={styles.videoUploadContainer}>
             <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-              <Ionicons name='add-circle-outline' size={30} color='grey' />
+              <Ionicons name="add-circle-outline" size={30} color="grey" />
               {!videoUri ? (
                 <Text style={styles.uploadText}>
                   {" "}
@@ -136,7 +136,7 @@ export default function TrainingVideoLogScreen(props: any) {
             style={styles.input}
             value={additionalNotes}
             onChangeText={setAdditionalNotes}
-            placeholder='Additional Notes'
+            placeholder="Additional Notes"
             placeholderTextColor={"#D9D9D9"}
             multiline={true}
           />

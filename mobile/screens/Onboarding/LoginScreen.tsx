@@ -12,7 +12,7 @@ import {
 import { auth } from "../../utils/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { userGetUserInfo } from "../../actions/User";
-import { Role } from "../../utils/types";
+import { Role, Screens } from "../../utils/types";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
@@ -53,7 +53,7 @@ export default function LoginScreen(props: any) {
       footerSubText={"Sign up here"}
       headerText={"Login to Your Account"}
       footerCallback={() => {
-        props.navigation.navigate("Sign Up");
+        props.navigation.navigate(Screens.SIGN_UP_SCREEN);
       }}
       pageBody={
         <TouchableWithoutFeedback
@@ -113,13 +113,19 @@ export default function LoginScreen(props: any) {
                             result.handlerType
                           )
                         ) {
-                          props.navigation.navigate("Handler Information");
+                          props.navigation.navigate(
+                            Screens.HANDLER_INFORMATION_SCREEN
+                          );
                         } else if (
                           result.roles?.includes(Role.NONPROFIT_ADMIN)
                         ) {
-                          props.navigation.navigate("Admin Dashboard");
+                          props.navigation.navigate(
+                            Screens.ADMIN_DASHBOARD_SCREEN
+                          );
                         } else {
-                          props.navigation.navigate("User Dashboard");
+                          props.navigation.navigate(
+                            Screens.USER_DASHBOARD_SCREEN
+                          );
                         }
                       }
                       setLoginDisable(false);
