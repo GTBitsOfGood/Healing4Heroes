@@ -19,6 +19,8 @@ import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
 import { ServiceAnimal, StorageLocation } from "../../utils/types";
 import { uploadVideo } from "../../utils/storage";
+import { Screens, ServiceAnimal, StorageLocation } from "../../utils/types";
+import { uploadFile } from "../../utils/storage";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 
 export default function TrainingVideoLogScreen(props: any) {
@@ -64,13 +66,13 @@ export default function TrainingVideoLogScreen(props: any) {
     if (!updateServiceAnimal) {
       setError("Failed to add hours to service animal");
     }
-    props.navigation.navigate("User Dashboard");
+    props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
     return trainingLog;
   };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("Add Training Log");
+      props.navigation.navigate(Screens.ADD_TRAINING_LOG_SCREEN);
       return true;
     });
   }, []);

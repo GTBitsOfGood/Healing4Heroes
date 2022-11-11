@@ -15,7 +15,7 @@ import { ResizeMode } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { calculateAge, convertToMegabytes } from "../../utils/helper";
-import { StorageLocation } from "../../utils/types";
+import { Screens, StorageLocation } from "../../utils/types";
 import { uploadFile } from "../../utils/storage";
 import { Image } from "react-native";
 import { userGetUserInfo, userUpdateUser } from "../../actions/User";
@@ -67,11 +67,7 @@ export default function UploadProfileImageScreen(props: any) {
       );
     }
 
-    // Update these methods after sprint 3
-    // userUpdateUser()
-    // userUpdateAnimal()
-
-    props.navigation.navigate("User Dashboard");
+    props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
   };
 
   useEffect(() => {
@@ -82,7 +78,7 @@ export default function UploadProfileImageScreen(props: any) {
     };
 
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("Animal Information");
+      props.navigation.navigate(Screens.ANIMAL_INFORMATION_SCREEN);
       return true;
     });
 

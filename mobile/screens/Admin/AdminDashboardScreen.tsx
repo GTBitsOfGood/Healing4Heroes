@@ -9,7 +9,7 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Announcement, User } from "../../utils/types";
+import { Announcement, Screens, User } from "../../utils/types";
 import { userGetUserInfo } from "../../actions/User";
 import DashboardOverlay from "../../components/Overlays/DashboardOverlay";
 import IconButton from "../../components/IconButton";
@@ -37,7 +37,7 @@ export default function AdminDashboardScreen(props: any) {
 
     getAdminDashboardInfo().then().catch();
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("Admin Dashboard");
+      props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
       return true;
     });
 
@@ -58,7 +58,7 @@ export default function AdminDashboardScreen(props: any) {
           <IconButton
             callbackFunction={async () => {
               await auth.signOut().then().catch();
-              props.navigation.navigate("Landing");
+              props.navigation.navigate(Screens.LANDING_SCREEN);
             }}
             icon={
               <MaterialCommunityIcons name="logout" size={26} color="#3F3BED" />
@@ -84,7 +84,9 @@ export default function AdminDashboardScreen(props: any) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() => props.navigation.navigate("Create Announcement")}
+              onPress={() =>
+                props.navigation.navigate(Screens.CREATE_ANNOUNCEMENT_SCREEN)
+              }
             >
               <Feather name="plus" size={24} color="white" />
             </TouchableOpacity>
