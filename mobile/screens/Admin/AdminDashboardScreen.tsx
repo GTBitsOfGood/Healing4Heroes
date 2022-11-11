@@ -84,7 +84,9 @@ export default function AdminDashboardScreen(props: any) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() => props.navigation.navigate(Screens.CREATE_ANNOUNCEMENT_SCREEN)}
+              onPress={() =>
+                props.navigation.navigate(Screens.CREATE_ANNOUNCEMENT_SCREEN)
+              }
             >
               <Feather name="plus" size={24} color="white" />
             </TouchableOpacity>

@@ -22,7 +22,9 @@ export default function LandingScreen(props: any) {
                 <Text style={styles.loginBtnText}>Log In</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => props.navigation.navigate(Screens.SIGN_UP_SCREEN)}
+                onPress={() =>
+                  props.navigation.navigate(Screens.SIGN_UP_SCREEN)
+                }
                 style={styles.signupBtn}
               >
                 <Text style={styles.signupBtnText}>Sign Up</Text>

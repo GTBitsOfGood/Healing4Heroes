@@ -105,7 +105,7 @@ export enum UserVerificationLogType {
 }
 
 /* Screen Information*/
-export enum Screens{
+export enum Screens {
   LANDING_SCREEN = "Landing",
   DEVELOPMENT_SCREEN = "Development",
   LOGIN_SCREEN = "Login",
@@ -125,7 +125,7 @@ export enum Screens{
   VIEW_SINGLE_LOG_SCREEN = "View Single Log Screen",
   PASSCODE_VALIDATION_SCREEN = "Passcode Screen",
   UPLOAD_PROFILE_IMAGE_SCREEN = "Upload Profile Image Screen",
-  CREATE_ANNOUNCEMENT_SCREEN = "Create Announcement"
+  CREATE_ANNOUNCEMENT_SCREEN = "Create Announcement",
 }
 
 /* Internal Request & API Wrapper Types */

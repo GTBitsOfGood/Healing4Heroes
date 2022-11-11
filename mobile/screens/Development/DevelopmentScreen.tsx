@@ -25,49 +25,63 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate(Screens.PASSCODE_VALIDATION_SCREEN)}
+        onPress={() =>
+          props.navigation.navigate(Screens.PASSCODE_VALIDATION_SCREEN)
+        }
         style={styles.buttonItem}
       >
         <Text>Go To Passcode Verification Page</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN)}
+        onPress={() =>
+          props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN)
+        }
         style={styles.buttonItem}
       >
         <Text>Go To Admin Dashboard Page</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN)}
+        onPress={() =>
+          props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN)
+        }
         style={styles.buttonItem}
       >
         <Text>Go To Admin User List Page</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate(Screens.ADMIN_USER_VERIFICATION_SCREEN)}
+        onPress={() =>
+          props.navigation.navigate(Screens.ADMIN_USER_VERIFICATION_SCREEN)
+        }
         style={styles.buttonItem}
       >
         <Text>Go To Admin User Verification Page</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate(Screens.ADMIN_DETAILED_USER_SCREEN)}
+        onPress={() =>
+          props.navigation.navigate(Screens.ADMIN_DETAILED_USER_SCREEN)
+        }
         style={styles.buttonItem}
       >
         <Text>Go To Detailed User Screen</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate(Screens.STORAGE_EXAMPLE_SCREEN)}
+        onPress={() =>
+          props.navigation.navigate(Screens.STORAGE_EXAMPLE_SCREEN)
+        }
         style={styles.buttonItem}
       >
         <Text>Go To Storage Example Screen</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => props.navigation.navigate(Screens.UPLOAD_PROFILE_IMAGE_SCREEN)}
+        onPress={() =>
+          props.navigation.navigate(Screens.UPLOAD_PROFILE_IMAGE_SCREEN)
+        }
         style={styles.buttonItem}
       >
         <Text>Go To Upload Profile Image Screen</Text>

@@ -40,7 +40,10 @@ export default function App() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name={Screens.DEVELOPMENT_SCREEN} component={DevelopmentScreen} />
+        <Stack.Screen
+          name={Screens.DEVELOPMENT_SCREEN}
+          component={DevelopmentScreen}
+        />
         <Stack.Screen name={Screens.LANDING_SCREEN} component={LandingScreen} />
         <Stack.Screen name={Screens.LOGIN_SCREEN} component={LoginScreen} />
         <Stack.Screen name={Screens.SIGN_UP_SCREEN} component={SignUpScreen} />
@@ -60,9 +63,18 @@ export default function App() {
           name={Screens.UPLOAD_VIDEO_LOG_SCREEN}
           component={TrainingVideoLogScreen}
         />
-        <Stack.Screen name={Screens.USER_DASHBOARD_SCREEN} component={UserDashboardScreen} />
-        <Stack.Screen name={Screens.ADMIN_DASHBOARD_SCREEN} component={AdminDashboardScreen} />
-        <Stack.Screen name={Screens.ADMIN_USER_LIST_SCREEN} component={AdminUserList} />
+        <Stack.Screen
+          name={Screens.USER_DASHBOARD_SCREEN}
+          component={UserDashboardScreen}
+        />
+        <Stack.Screen
+          name={Screens.ADMIN_DASHBOARD_SCREEN}
+          component={AdminDashboardScreen}
+        />
+        <Stack.Screen
+          name={Screens.ADMIN_USER_LIST_SCREEN}
+          component={AdminUserList}
+        />
         <Stack.Screen
           name={Screens.ADMIN_DETAILED_USER_SCREEN}
           component={AdminDetailedUserScreen}

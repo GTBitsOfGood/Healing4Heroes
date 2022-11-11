@@ -113,13 +113,19 @@ export default function LoginScreen(props: any) {
                             result.handlerType
                           )
                         ) {
-                          props.navigation.navigate(Screens.HANDLER_INFORMATION_SCREEN);
+                          props.navigation.navigate(
+                            Screens.HANDLER_INFORMATION_SCREEN
+                          );
                         } else if (
                           result.roles?.includes(Role.NONPROFIT_ADMIN)
                         ) {
-                          props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
+                          props.navigation.navigate(
+                            Screens.ADMIN_DASHBOARD_SCREEN
+                          );
                         } else {
-                          props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
+                          props.navigation.navigate(
+                            Screens.USER_DASHBOARD_SCREEN
+                          );
                         }
                       }
                       setLoginDisable(false);

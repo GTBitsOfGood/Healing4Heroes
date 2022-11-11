@@ -147,11 +147,14 @@ export default function SignUpScreen(props: any) {
                     if (validInputs) {
                       const user = await handleSignUp();
                       if (user) {
-                        props.navigation.navigate(Screens.PASSCODE_VALIDATION_SCREEN, {
-                          verificationType:
-                            UserVerificationLogType.EMAIL_VERIFICATION,
-                          email: user.email,
-                        });
+                        props.navigation.navigate(
+                          Screens.PASSCODE_VALIDATION_SCREEN,
+                          {
+                            verificationType:
+                              UserVerificationLogType.EMAIL_VERIFICATION,
+                            email: user.email,
+                          }
+                        );
                       }
                     }
                     setSignUpDisabled(false);

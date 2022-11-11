@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import PasscodeInput from "../../components/PasscodeInput";
-import {
-  authAttemptVerification,
-  authCreateVerificationLog,
-} from "../../actions/Auth";
+import { authAttemptVerification } from "../../actions/Auth";
 import { Screens, UserVerificationLogType } from "../../utils/types";
 
 export default function PasscodeVerificationScreen(props: any) {
@@ -14,9 +11,6 @@ export default function PasscodeVerificationScreen(props: any) {
   const [passcode, setPasscode] = useState("");
   const [signUpDisabled, setSignUpDisabled] = useState(false);
   const { verificationType, email } = props.route.params;
-
-  useEffect(() => {
-  }, []);
 
   const verifyPasscode = async () => {
     setErrorMessage("");
