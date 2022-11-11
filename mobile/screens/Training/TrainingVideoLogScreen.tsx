@@ -17,8 +17,8 @@ import { ResizeMode, Video } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
+import { uploadVideo } from "../../utils/storage";
 import { Screens, ServiceAnimal, StorageLocation } from "../../utils/types";
-import { uploadFile } from "../../utils/storage";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 
 export default function TrainingVideoLogScreen(props: any) {
@@ -34,7 +34,12 @@ export default function TrainingVideoLogScreen(props: any) {
     let upload = undefined;
     if (videoUri) {
       const fileName: string = uuidv4();
-      upload = await uploadFile(
+      // upload = await uploadFile(
+      //   fileName + ".mp4",
+      //   StorageLocation.TRAINING_LOG_VIDEOS,
+      //   videoUri
+      // );
+      upload = await uploadVideo(
         fileName + ".mp4",
         StorageLocation.TRAINING_LOG_VIDEOS,
         videoUri

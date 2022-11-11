@@ -133,6 +133,15 @@ export interface InternalResponseData<T> {
   payload?: T;
 }
 
+export interface MultipartUpload {
+  UploadId: string;
+  Key: string;
+}
+
+export interface UploadedPart {
+  ETag: string;
+  PartNumber: number;
+}
 /* Email Utils*/
 
 export enum EmailSubject {

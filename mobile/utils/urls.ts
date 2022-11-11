@@ -18,6 +18,11 @@ export const urls = {
       training: "/api/user/training",
       announcement: "/api/user/announcement",
       readLog: "/api/user/announcements/read",
+      fileUpload: {
+        init: "/api/user/file/upload/init",
+        urls: "/api/user/file/upload/urls",
+        complete: "/api/user/file/upload/complete",
+      },
     },
     admin: {
       user: "/api/admin/user",
@@ -25,6 +30,7 @@ export const urls = {
       animal: "/api/admin/animal",
       training: "/api/admin/training",
       announcement: "/api/admin/announcement",
+      fileDownload: "/api/admin/file/download",
     },
   },
 };

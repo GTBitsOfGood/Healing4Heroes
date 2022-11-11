@@ -151,3 +151,13 @@ export interface InternalResponseData<T> {
   message?: string;
   payload?: T;
 }
+
+export interface MultipartUpload {
+  UploadId: string;
+  Key: string;
+}
+
+export interface UploadedPart {
+  ETag: string;
+  PartNumber: number;
+}
