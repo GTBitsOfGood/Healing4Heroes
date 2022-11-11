@@ -17,10 +17,8 @@ import { ResizeMode, Video } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
-import { ServiceAnimal, StorageLocation } from "../../utils/types";
 import { uploadVideo } from "../../utils/storage";
 import { Screens, ServiceAnimal, StorageLocation } from "../../utils/types";
-import { uploadFile } from "../../utils/storage";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 
 export default function TrainingVideoLogScreen(props: any) {
