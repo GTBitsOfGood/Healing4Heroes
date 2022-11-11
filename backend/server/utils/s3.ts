@@ -20,6 +20,7 @@ export const initMultipartUpload = async (
   const multipartUpload = await s3client.createMultipartUpload({
     Bucket: BUCKET,
     Key: filename,
+    StorageClass: "GLACIER_IR",
   });
 
   return {

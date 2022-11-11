@@ -90,7 +90,6 @@ export const uploadVideo = async (
     promises.push(
       fetch(signedUrls[index], {
         method: "PUT",
-        headers: { "x-amz-storage-class": "glacier_ir" },
         body: blob,
       })
     );
