@@ -20,6 +20,8 @@ import AddTrainingLogScreen from "./screens/Training/AddTrainingLogScreen";
 import AdminUserList from "./screens/Admin/AdminUserListScreen";
 import AdminUserVerificationScreen from "./screens/Admin/AdminUserVerificationScreen";
 import AdminDetailedUserScreen from "./screens/Admin/AdminDetailedUserScreen";
+import PasscodeVerificationScreen from "./screens/Onboarding/PasscodeVerificationScreen";
+import CreateAnnouncementScreen from "./screens/Announcements/CreateAnnouncementScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -88,8 +90,17 @@ export default function App() {
           component={ViewSingleLogScreen}
         />
         <Stack.Screen
+          name="Passcode Screen"
+          component={PasscodeVerificationScreen}
+        />
+
+        <Stack.Screen
           name="Upload Profile Image"
           component={UploadProfileImageScreen}
+        />
+        <Stack.Screen
+          name="Create Announcement"
+          component={CreateAnnouncementScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

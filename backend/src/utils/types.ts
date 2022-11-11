@@ -141,4 +141,10 @@ export interface MultipartUpload {
 export interface UploadedPart {
   ETag: string;
   PartNumber: number;
+
+/* Email Utils*/
+
+export enum EmailSubject {
+  EMAIL_VERIFICATION = "Verify Your Email for Healing4Heroes",
+  PASSWORD_RESET = "Reset Your Password for Healing4Heroes",
 }

@@ -11,6 +11,7 @@ export default APIWrapper({
   GET: {
     config: {
       requireToken: true,
+      requireAdminVerification: false,
       roles: [Role.NONPROFIT_USER],
     },
     handler: async (req) => {
@@ -25,7 +26,9 @@ export default APIWrapper({
     },
   },
   POST: {
-    config: {},
+    config: {
+      requireAdminVerification: false,
+    },
     handler: async (req) => {
       const email: string = req.body.email as string;
       const birthday: Date = req.body.birthday as Date;
@@ -41,7 +44,8 @@ export default APIWrapper({
       }
 
       const roles = [Role.NONPROFIT_USER];
-      if (email.endsWith("@healing4heroes.org")) {
+      const isAdmin = email.endsWith("@healing4heroes.org");
+      if (isAdmin) {
         roles.push(Role.NONPROFIT_ADMIN);
       }
 
@@ -53,7 +57,8 @@ export default APIWrapper({
         firstName,
         lastName,
         handlerType,
-        profileImage
+        profileImage,
+        isAdmin
       );
       if (!user) {
         throw new Error("Failed to create user!");
@@ -65,6 +70,7 @@ export default APIWrapper({
   PATCH: {
     config: {
       requireToken: true,
+      requireAdminVerification: false,
       roles: [Role.NONPROFIT_USER],
     },
     handler: async (req) => {
@@ -73,7 +79,6 @@ export default APIWrapper({
       const firstName: string = req.body.firstName as string;
       const lastName: string = req.body.lastName as string;
       const handlerType: HandlerType = req.body.handlerType as HandlerType;
-      const roles: Array<Role> = req.body.roles as Array<Role>;
       const profileImage: string = req.body.profileImage as string;
 
       const user = await getUser(accessToken);

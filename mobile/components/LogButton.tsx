@@ -5,10 +5,11 @@ const LogButton = (props: any) => {
   return (
     <TouchableOpacity
       onPress={props.callbackFunction}
-      style={styles.buttonItem}
+      disabled={props.disabled}
+      style={[styles.buttonItem]}
     >
       {props.icon}
-      <Text style={styles.text}>{props.text}</Text>
+      <Text style={[styles.text]}>{props.text}</Text>
     </TouchableOpacity>
   );
 };

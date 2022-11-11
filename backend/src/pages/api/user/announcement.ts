@@ -6,6 +6,7 @@ export default APIWrapper({
   GET: {
     config: {
       requireToken: true,
+      requireAdminVerification: false,
       roles: [Role.NONPROFIT_USER],
     },
     handler: async () => {
