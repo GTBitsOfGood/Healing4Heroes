@@ -96,9 +96,7 @@ export default function AdminDashboardScreen(props: any) {
             <Text style={styles.bigButtonText}>View All Users</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.bigButton}>
-            <Text style={styles.bigButtonText}>
-              Users with Negative Behavior
-            </Text>
+            <Text style={styles.bigButtonText}>View Admin Users</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.bigButton}>
             <Text style={styles.bigButtonText}>

@@ -29,7 +29,7 @@ export const urls = {
     },
     admin: {
       user: "/api/admin/user",
-      userVerified: "/api/admin/user/verified",
+      userVerified: "/api/admin/user/verify",
       animal: "/api/admin/animal",
       training: "/api/admin/training",
       announcement: "/api/admin/announcement",

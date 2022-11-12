@@ -69,7 +69,6 @@ export default function SignUpScreen(props: any) {
       );
       return createdUser;
     } catch (e) {
-      console.log(e);
       setErrorMessage("Registration failed - Account already exists");
       setCheckValidRegister(false);
       return;

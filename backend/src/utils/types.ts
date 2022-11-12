@@ -148,3 +148,12 @@ export enum EmailSubject {
   EMAIL_VERIFICATION = "Verify Your Email for Healing4Heroes",
   PASSWORD_RESET = "Reset Your Password for Healing4Heroes",
 }
+
+/* User Retrieval */
+
+export enum UserFilter {
+  NONPROFIT_USERS = "users",
+  NONPROFIT_ADMINS = "admins",
+  UNVERIFIED_USERS = "unverified users",
+  WITH_800_HOURS_USERS = "users with 800 users",
+}

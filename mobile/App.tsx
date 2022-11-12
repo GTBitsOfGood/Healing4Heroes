@@ -24,6 +24,7 @@ import PasscodeVerificationScreen from "./screens/Onboarding/PasscodeVerificatio
 import CreateAnnouncementScreen from "./screens/Announcements/CreateAnnouncementScreen";
 import { Screens } from "./utils/types";
 import ForgotPasswordScreen from "./screens/Onboarding/ForgotPasswordScreen";
+import ResetPasswordScreen from "./screens/Onboarding/ResetPasswordScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -118,6 +119,10 @@ export default function App() {
         <Stack.Screen
           name={Screens.FORGOT_PASSWORD_SCREEN}
           component={ForgotPasswordScreen}
+        />
+        <Stack.Screen
+          name={Screens.RESET_PASSWORD_SCREEN}
+          component={ResetPasswordScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

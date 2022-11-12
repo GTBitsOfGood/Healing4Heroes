@@ -35,6 +35,7 @@ export default function OnboardingOverlay({
   notError,
 }: OnboardingOverlayProps) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [nextStatus, setNextStatus] = useState(false);
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -94,12 +95,14 @@ export default function OnboardingOverlay({
 
           {nextStepText && (
             <TouchableOpacity
+              disabled={nextStatus}
               style={styles.button}
               onPress={async () => {
+                setNextStatus(true);
                 if (nextStepCallback) {
-                  nextStepCallback();
-                  return;
+                  await nextStepCallback();
                 }
+                setNextStatus(false);
               }}
             >
               <Text style={styles.btnText}>{nextStepText}</Text>

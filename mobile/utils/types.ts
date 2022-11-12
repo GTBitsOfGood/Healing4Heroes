@@ -127,6 +127,14 @@ export enum Screens {
   UPLOAD_PROFILE_IMAGE_SCREEN = "Upload Profile Image Screen",
   CREATE_ANNOUNCEMENT_SCREEN = "Create Announcement",
   FORGOT_PASSWORD_SCREEN = "Forgot Password",
+  RESET_PASSWORD_SCREEN = "Reset Password",
+}
+
+export enum UserFilter {
+  NONPROFIT_USERS = "users",
+  NONPROFIT_ADMINS = "admins",
+  UNVERIFIED_USERS = "unverified users",
+  WITH_800_HOURS_USERS = "users with 800 users",
 }
 
 /* Internal Request & API Wrapper Types */

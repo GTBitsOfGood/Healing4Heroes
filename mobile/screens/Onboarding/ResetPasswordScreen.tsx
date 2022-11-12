@@ -1,82 +1,50 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import PasscodeInput from "../../components/PasscodeInput";
-import {
-  authAttemptVerification,
-  authCreateVerificationLog,
-} from "../../actions/Auth";
+import { authResetPassword } from "../../actions/Auth";
 import { Screens, UserVerificationLogType } from "../../utils/types";
+import { validateEmail } from "../../utils/helper";
 
-export default function PasscodeVerificationScreen(props: any) {
+export default function ResetPasswordScreen(props: any) {
+  const [checkValidRegister, setCheckValidRegister] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [passcode, setPasscode] = useState("");
-  const { verificationType, email } = props.route.params;
-  const [notAnError, setNotAnError] = useState(false);
-  const verifyPasscode = async () => {
-    setErrorMessage("");
+  const [password, setPassword] = useState("");
+  const [signUpDisabled, setSignUpDisabled] = useState(false);
+  const { webToken } = props.route.params;
 
-    if (passcode.length !== 6) {
-      setNotAnError(false);
-      setErrorMessage("Verification Code Cannot be Partially Empty!");
-      return;
-    }
-
-    authAttemptVerification(email, Number(passcode))
-      .then((e) => {
-        if (verificationType === UserVerificationLogType.EMAIL_VERIFICATION) {
-          props.navigation.navigate(Screens.HANDLER_INFORMATION_SCREEN);
-        } else if (
-          verificationType === UserVerificationLogType.PASSWORD_RESET
-        ) {
-          // Change to password reset screen
-          props.navigation.navigate(Screens.RESET_PASSWORD_SCREEN, {
-            webToken: (e as any).webToken,
-          });
-        }
+  const sendAuthResetPassword = async () => {
+    authResetPassword(webToken, password)
+      .then(() => {
+        props.navigation.navigate(Screens.LOGIN_SCREEN);
       })
-      .catch((e) => {
-        setNotAnError(false);
-        setErrorMessage("Wrong Verification Token!");
+      .catch(() => {
+        setErrorMessage("Failed to Reset Password");
       });
   };
   return (
     <OnboardingOverlay
       showBackDrop={false}
-      headerText="Verify Your Account"
+      headerText="Reset Your Password"
       footerMainText="Already have an account?"
       footerSubText="Sign in Here"
-      nextStepCallback={verifyPasscode}
+      nextStepCallback={sendAuthResetPassword}
       nextStepText={"Next"}
       footerCallback={() => {
         props.navigation.navigate(Screens.LOGIN_SCREEN);
       }}
       errorMessage={errorMessage}
-      notError={notAnError}
       pageBody={
         <View>
           <View style={styles.container}>
             <View style={styles.bodyContainer}>
               <View>
-                <PasscodeInput
-                  callbackFunction={(value: string) => {
-                    setPasscode(value);
-                  }}
-                ></PasscodeInput>
+                <TextInput
+                  placeholder="Enter Your New Password"
+                  style={styles.inputContainer}
+                  onChangeText={setPassword}
+                ></TextInput>
               </View>
-              <Text style={styles.noCodeQuestion}>Did Not Receive Code?</Text>
-              <TouchableOpacity
-                onPress={async () => {
-                  const verificationLog = await authCreateVerificationLog(
-                    email,
-                    verificationType
-                  );
-                  setErrorMessage("New Code Sent!");
-                  setNotAnError(true);
-                }}
-              >
-                <Text style={styles.resendButton}>Resend Code</Text>
-              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -94,7 +62,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F2",
     marginBottom: 10,
   },
-
   headerContainer: {
     flex: 2,
     marginTop: 75,
@@ -106,7 +73,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-
   footerContainer: {
     flex: 1,
     marginTop: 225,
@@ -128,7 +94,6 @@ const styles = StyleSheet.create({
 
   inputContainer: {
     flexDirection: "row",
-    marginTop: 15,
     paddingVertical: 10,
     paddingLeft: 10,
     borderRadius: 10,

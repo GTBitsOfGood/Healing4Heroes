@@ -1,7 +1,8 @@
 import { Types } from "mongoose";
 import UserModel from "server/mongodb/models/User";
+import AnimalModel from "server/mongodb/models/Animal";
 import dbConnect from "server/utils/dbConnect";
-import { HandlerType, Role } from "src/utils/types";
+import { HandlerType, Role, UserFilter } from "src/utils/types";
 
 export async function findUserById(userId: Types.ObjectId | string) {
   await dbConnect();
@@ -80,14 +81,60 @@ export async function verifyUser(userId: Types.ObjectId) {
   return user;
 }
 
-export async function getUsers(pageSize: number, afterId?: Types.ObjectId) {
+export async function adminGetUsers(
+  pageSize: number,
+  afterId?: Types.ObjectId,
+  filter?: UserFilter
+) {
   await dbConnect();
 
-  if (!afterId) {
-    return UserModel.find().limit(pageSize);
+  if (!filter || filter === UserFilter.NONPROFIT_USERS) {
+    return afterId
+      ? UserModel.find({
+          _id: { $gt: afterId },
+          roles: { $nin: [Role.NONPROFIT_ADMIN] },
+        }).limit(pageSize)
+      : UserModel.find({ roles: { $nin: [Role.NONPROFIT_ADMIN] } }).limit(
+          pageSize
+        );
   }
 
-  return UserModel.find({ _id: { $gt: afterId } }).limit(pageSize);
+  if (filter === UserFilter.UNVERIFIED_USERS) {
+    return afterId
+      ? UserModel.find({ _id: { $gt: afterId }, verifiedByAdmin: false })
+      : UserModel.find({ verifiedByAdmin: false }).limit(pageSize);
+  }
+
+  // Hours is on the Animal, not the users
+  if (filter === UserFilter.WITH_800_HOURS_USERS) {
+    const handlers = afterId
+      ? await AnimalModel.find({
+          _id: { $gt: afterId },
+          totalHours: { $gte: 800 },
+        })
+          .limit(pageSize)
+          .select("handler")
+      : await AnimalModel.find({ totalHours: { $gt: 800 } })
+          .limit(pageSize)
+          .select("handler");
+
+    return UserModel.find({
+      _id: {
+        $in: handlers,
+      },
+    });
+  }
+
+  if (filter === UserFilter.NONPROFIT_ADMINS) {
+    return afterId
+      ? UserModel.find({
+          _id: { $gt: afterId },
+          roles: { $in: [Role.NONPROFIT_ADMIN] },
+        }).limit(pageSize)
+      : UserModel.find({ roles: { $in: [Role.NONPROFIT_ADMIN] } }).limit(
+          pageSize
+        );
+  }
 }
 
 export async function verifyUserEmail(userId: Types.ObjectId) {
