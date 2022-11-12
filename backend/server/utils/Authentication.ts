@@ -88,3 +88,8 @@ export const resetPassword = async (email: string, newPassword: string) => {
     return false;
   }
 };
+
+export const removeUserFromFirebase = async (firebaseUid: string) => {
+  firebaseConnect();
+  await getAuth().deleteUser(firebaseUid);
+};

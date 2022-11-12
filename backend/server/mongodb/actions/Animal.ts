@@ -73,3 +73,13 @@ export async function updateAnimal(
 
   return animal;
 }
+
+export async function deleteAnimalByUserId(userId: Types.ObjectId) {
+  await dbConnect();
+
+  const animal = AnimalModel.findOneAndDelete({
+    handler: userId,
+  });
+
+  return animal;
+}

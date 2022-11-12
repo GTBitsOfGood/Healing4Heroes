@@ -31,12 +31,16 @@ export default function LogOverlay({ pageBody }: UserOverlayProps) {
         <View style={styles.footerContainer}>
           <IconButton
             icon={
-              <Ionicons name="md-chevron-back-circle" size={50} color="grey" />
+              <View style={styles.backgroundCircle}>
+                <Ionicons name="chevron-back" size={40} color="white" />
+                </View>
             }
           ></IconButton>
           <IconButton
             icon={
-              <Ionicons name="chevron-forward-circle" size={50} color="grey" />
+              <View style={styles.backgroundCircle}>
+                <Ionicons name="chevron-forward" size={40} color="white" />
+                </View>
             }
           ></IconButton>
         </View>
@@ -120,4 +124,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  backgroundCircle: {
+    backgroundColor: "black",
+    borderRadius: 1000,
+    width: 50,
+    height: 50,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });

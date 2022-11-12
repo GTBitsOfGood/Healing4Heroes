@@ -15,7 +15,7 @@ export default function AdminDetailedUserScreen(props: any) {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
+      props.navigation.goBack();
       return true;
     });
   }, []);
@@ -33,7 +33,7 @@ export default function AdminDetailedUserScreen(props: any) {
         <View style={styles.container}>
           {/* profile picture  */}
           <View style={styles.profileContainer}>
-            <FontAwesome name="user-circle" size={80} color="grey" />
+            <FontAwesome name="user-circle" size={80} color="blue" />
             <Text style={styles.usernameText}>User name</Text>
           </View>
           {/* training progress bar */}
@@ -53,7 +53,7 @@ export default function AdminDetailedUserScreen(props: any) {
                 <MaterialCommunityIcons
                   name="file-document"
                   size={40}
-                  color="grey"
+                  color="blue"
                 />
               }
               navigation={props.navigation}
@@ -64,7 +64,7 @@ export default function AdminDetailedUserScreen(props: any) {
                 <MaterialCommunityIcons
                   name="file-document"
                   size={40}
-                  color="grey"
+                  color="blue"
                 />
               }
               navigation={props.navigation}

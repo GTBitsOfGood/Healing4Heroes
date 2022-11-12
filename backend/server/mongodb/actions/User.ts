@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import UserModel from "server/mongodb/models/User";
 import AnimalModel from "server/mongodb/models/Animal";
+import UserModel from "server/mongodb/models/User";
 import dbConnect from "server/utils/dbConnect";
 import { HandlerType, Role, UserFilter } from "src/utils/types";
 
@@ -120,7 +120,7 @@ export async function adminGetUsers(
 
     return UserModel.find({
       _id: {
-        $in: handlers,
+        $in: handlers.map((item) => item.handler),
       },
     });
   }
@@ -145,6 +145,14 @@ export async function verifyUserEmail(userId: Types.ObjectId) {
     { emailVerified: true },
     { new: true }
   );
+
+  return user;
+}
+
+export async function deleteUserByUserId(userId: Types.ObjectId) {
+  await dbConnect();
+
+  const user = UserModel.findByIdAndDelete(userId);
 
   return user;
 }

@@ -2,32 +2,65 @@ import React from "react";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import IconButton from "./IconButton";
+import { adminDeleteUser, adminVerifyUser } from "../actions/User";
 
 const UserEntry = (props: any) => {
   return (
-    <TouchableOpacity onPress={undefined} style={styles.userEntryContainer}>
+    <TouchableOpacity onPress={() => {
+      if (props.callbackFunction){
+        props.callbackFunction();
+      }
+    }} style={styles.userEntryContainer}>
       <View style={styles.userEntry}>
-        <FontAwesome name="user-circle" size={24} color="grey" />
-        {props.username ? (
-          <Text style={styles.userLogText}>{props.username}</Text>
-        ) : (
-          <Text style={styles.userLogText}>No username found</Text>
-        )}
+        <View style={styles.nameIconContainer}>
+          <FontAwesome
+            name="user-circle"
+            size={24}
+            color="blue"
+            style={styles.userIcon}
+          />
+          {props.username ? (
+            <Text style={styles.userLogText}>
+              {props.isVerification ? props.userEmail : props.username}
+            </Text>
+          ) : (
+            <Text style={styles.userLogText}>No username found</Text>
+          )}
+        </View>
         {props.isVerification ? (
           <View style={styles.userLogIcon}>
-            <IconButton
-              icon={<Ionicons name="checkmark-circle" size={30} color="grey" />}
-            ></IconButton>
-            <IconButton
-              icon={<Ionicons name="close-circle" size={30} color="grey" />}
-            ></IconButton>
+              <IconButton
+                icon={
+                  <Ionicons name="checkmark-circle" size={30} color="green" />
+                }
+                callbackFunction={async () => {
+                  await adminVerifyUser(props.userId)
+                  if (props.verifyCallback){
+                    props.verifyCallback(props.userId);
+                  }
+    
+                }}
+              />
+            <TouchableOpacity onPress={async () => {
+
+            }}>
+              <IconButton
+                icon={<Ionicons name="close-circle" size={30} color="red"/>}
+                callbackFunction={async () => {
+                  await adminDeleteUser(props.userId)
+                  if (props.verifyCallback){
+                    props.verifyCallback(props.userId);
+                  }
+                }}
+              />
+            </TouchableOpacity>
           </View>
         ) : (
           <View>
             {props.userEmail ? (
-              <Text style={styles.userLogText}>{props.userEmail}</Text>
+              <Text style={[styles.userLogText]}>{props.userEmail}</Text>
             ) : (
-              <Text style={styles.userLogText}>No email found</Text>
+              <Text style={[styles.userLogText]}>No email found</Text>
             )}
           </View>
         )}
@@ -48,10 +81,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 0.5,
   },
-
+  userIcon: {
+    marginHorizontal: 15,
+  },
   userEntry: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    paddingRight: 15,
     alignItems: "center",
   },
 
@@ -65,6 +101,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginRight: 0,
+  },
+  nameIconContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 

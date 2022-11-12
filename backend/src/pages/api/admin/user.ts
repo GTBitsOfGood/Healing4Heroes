@@ -4,7 +4,7 @@ import APIWrapper from "server/utils/APIWrapper";
 import { Role, UserFilter } from "src/utils/types";
 
 export default APIWrapper({
-  GET: {
+  POST: {
     config: {
       requireToken: false,
       roles: [Role.NONPROFIT_ADMIN],

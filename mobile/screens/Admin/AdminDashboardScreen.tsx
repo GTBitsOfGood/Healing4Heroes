@@ -9,8 +9,8 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Announcement, Screens, User } from "../../utils/types";
-import { userGetUserInfo } from "../../actions/User";
+import { Announcement, Screens, User, UserFilter } from "../../utils/types";
+import { adminGetUsers, userGetUserInfo } from "../../actions/User";
 import DashboardOverlay from "../../components/Overlays/DashboardOverlay";
 import IconButton from "../../components/IconButton";
 import { adminGetAnnouncements } from "../../actions/Announcement";
@@ -92,18 +92,46 @@ export default function AdminDashboardScreen(props: any) {
             </TouchableOpacity>
           </View>
           <Text style={styles.label}>User Summary</Text>
-          <TouchableOpacity style={styles.bigButton}>
+          <TouchableOpacity
+            style={styles.bigButton}
+            onPress={() => {
+              props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN, {
+                filter: UserFilter.NONPROFIT_USERS,
+              });
+            }}
+          >
             <Text style={styles.bigButtonText}>View All Users</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bigButton}>
+          <TouchableOpacity
+            style={styles.bigButton}
+            onPress={() => {
+              props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN, {
+                filter: UserFilter.NONPROFIT_ADMINS,
+              });
+            }}
+          >
             <Text style={styles.bigButtonText}>View Admin Users</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bigButton}>
+          <TouchableOpacity
+            style={styles.bigButton}
+            onPress={() => {
+              props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN, {
+                filter: UserFilter.UNVERIFIED_USERS,
+              });
+            }}
+          >
             <Text style={styles.bigButtonText}>
               New User Verification Portal
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bigButton}>
+          <TouchableOpacity
+            style={styles.bigButton}
+            onPress={() => {
+              props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN, {
+                filter: UserFilter.WITH_800_HOURS_USERS,
+              });
+            }}
+          >
             <Text style={styles.bigButtonText}>Users with 800 Hours</Text>
           </TouchableOpacity>
         </View>
