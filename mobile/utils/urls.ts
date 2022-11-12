@@ -11,6 +11,9 @@ export const urls = {
   api: {
     auth: {
       verify: "/api/auth/verify",
+      password: {
+        reset: "/api/auth/password/reset",
+      },
     },
     user: {
       user: "/api/user/user",

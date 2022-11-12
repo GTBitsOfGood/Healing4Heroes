@@ -20,6 +20,7 @@ interface OnboardingOverlayProps {
   errorMessage?: string;
   nextStepText?: string;
   nextStepCallback?: () => Promise<void> | void | undefined;
+  notError?: boolean;
 }
 export default function OnboardingOverlay({
   pageBody,
@@ -31,6 +32,7 @@ export default function OnboardingOverlay({
   errorMessage,
   nextStepText,
   nextStepCallback,
+  notError,
 }: OnboardingOverlayProps) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useEffect(() => {
@@ -77,8 +79,16 @@ export default function OnboardingOverlay({
           {headerText && <Text style={styles.headerText}>{headerText}</Text>}
           <ScrollView>{pageBody}</ScrollView>
           {errorMessage && (
-            <View style={styles.failedContainer}>
-              <Text style={styles.failedText}>{errorMessage}</Text>
+            <View
+              style={[
+                notError ? styles.notErrorContainer : styles.failedContainer,
+              ]}
+            >
+              <Text
+                style={[notError ? styles.notErrorText : styles.failedText]}
+              >
+                {errorMessage}
+              </Text>
             </View>
           )}
 
@@ -175,7 +185,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     alignItems: "center",
     marginBottom: 12,
-    padding: 8,
+    padding: 12,
     borderRadius: 10,
     borderWidth: 1,
     minWidth: "100%",
@@ -186,6 +196,22 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "400",
     color: "#C63636",
+  },
+  notErrorContainer: {
+    marginTop: 12,
+    alignItems: "center",
+    marginBottom: 12,
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    minWidth: "100%",
+    backgroundColor: "#E6E6FA",
+    borderColor: "blue",
+  },
+  notErrorText: {
+    fontSize: 12,
+    fontWeight: "400",
+    color: "blue",
   },
   button: {
     padding: 15,

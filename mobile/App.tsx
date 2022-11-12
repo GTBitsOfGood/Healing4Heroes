@@ -23,6 +23,7 @@ import AdminDetailedUserScreen from "./screens/Admin/AdminDetailedUserScreen";
 import PasscodeVerificationScreen from "./screens/Onboarding/PasscodeVerificationScreen";
 import CreateAnnouncementScreen from "./screens/Announcements/CreateAnnouncementScreen";
 import { Screens } from "./utils/types";
+import ForgotPasswordScreen from "./screens/Onboarding/ForgotPasswordScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -113,6 +114,10 @@ export default function App() {
         <Stack.Screen
           name={Screens.CREATE_ANNOUNCEMENT_SCREEN}
           component={CreateAnnouncementScreen}
+        />
+        <Stack.Screen
+          name={Screens.FORGOT_PASSWORD_SCREEN}
+          component={ForgotPasswordScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

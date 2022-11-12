@@ -46,6 +46,7 @@ export default function LoginScreen(props: any) {
       return;
     }
   };
+
   return (
     <OnboardingOverlay
       showBackDrop={false}
@@ -136,7 +137,13 @@ export default function LoginScreen(props: any) {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.forgotContainer}>
-                  <Text style={styles.forgotText}>Forgot your password?</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate(Screens.FORGOT_PASSWORD_SCREEN);
+                    }}
+                  >
+                    <Text style={styles.forgotText}>Forgot your password?</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </KeyboardAvoidingView>

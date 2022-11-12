@@ -126,6 +126,7 @@ export enum Screens {
   PASSCODE_VALIDATION_SCREEN = "Passcode Screen",
   UPLOAD_PROFILE_IMAGE_SCREEN = "Upload Profile Image Screen",
   CREATE_ANNOUNCEMENT_SCREEN = "Create Announcement",
+  FORGOT_PASSWORD_SCREEN = "Forgot Password",
 }
 
 /* Internal Request & API Wrapper Types */

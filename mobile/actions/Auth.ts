@@ -4,6 +4,7 @@ import { HttpMethod, UserVerificationLogType } from "../utils/types";
 import { internalRequest } from "../utils/requests";
 
 const authVerifyUrl = urls.baseUrl + urls.api.auth.verify;
+const authResetPasswordUrl = urls.baseUrl + urls.api.auth.password.reset;
 
 export const authCreateVerificationLog = async (
   email: string,
@@ -28,6 +29,21 @@ export const authAttemptVerification = async (email: string, code: number) => {
     body: {
       email,
       code,
+    },
+  });
+};
+
+export const authResetPassword = async (
+  webToken: string,
+  newPassword: string
+) => {
+  return internalRequest<boolean>({
+    url: authResetPasswordUrl,
+    method: HttpMethod.POST,
+    authRequired: false,
+    body: {
+      webToken,
+      newPassword,
     },
   });
 };
