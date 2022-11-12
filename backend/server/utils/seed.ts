@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { getAuth } from "firebase-admin/lib/auth";
+import { getAuth } from "firebase-admin/auth";
 import { createAnimal } from "server/mongodb/actions/Animal";
 import { createTrainingLog } from "server/mongodb/actions/TrainingLog";
 import { createUser } from "server/mongodb/actions/User";
@@ -11,6 +11,7 @@ import {
   TrainingLog,
   ServiceAnimalSkills,
 } from "src/utils/types";
+import { firebaseConnect } from "./dbConnect";
 
 /* num users */
 const NUM_NONPROFIT_USERS = 15;
@@ -34,7 +35,7 @@ async function generateUsers(): Promise<User[]> {
     const birthday = faker.date.birthdate();
     const profileImage = faker.image.people();
     const email = faker.internet.email(firstName, lastName);
-
+    firebaseConnect();
     const firebaseUser = await getAuth().createUser({
       email,
       password: PASSWORD,
@@ -159,14 +160,14 @@ export async function seedDatabase() {
   console.log("Seeding database...");
 
   const users = await generateUsers();
-  const animals = await generateAnimals(users);
-  await generateTrainingLogs(animals);
+  // const animals = await generateAnimals(users);
+  // await generateTrainingLogs(animals);
 
   console.log("Seeding complete.");
 }
 
 function randomEnum<T>(anEnum: T): T[keyof T] {
-  const enumValues = Object.keys(anEnum)
+  const enumValues = Object.keys(anEnum as any)
     .map((n) => Number.parseInt(n))
     .filter((n) => !Number.isNaN(n)) as unknown as T[keyof T][];
   const randomIndex = Math.floor(Math.random() * enumValues.length);
