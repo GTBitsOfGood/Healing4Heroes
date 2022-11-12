@@ -48,7 +48,9 @@ export async function updateVerificationLog(
   return verificationLog;
 }
 
-export async function getLatestVerificationLog(userId: Types.ObjectId) {
+export async function getLatestVerificationLog(
+  userId: Types.ObjectId | string
+) {
   await dbConnect();
 
   const logs = await VerificationLogModel.find({ user: userId }).exec();

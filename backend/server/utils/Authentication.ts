@@ -37,11 +37,15 @@ export const getUser = async (accessToken: string) => {
 
 export const getWebToken = (data: Record<string, string | boolean>) => {
   data.authorized = true;
-  return jwt.sign(data, process.env.APP_SECRET as string);
+  return jwt.sign(data, process.env.APP_SECRET as string, {
+    expiresIn: "1h",
+  });
 };
 
 export const verifyWebToken = (webToken: string) => {
-  const data = jwt.verify(webToken, process.env.APP_SECRET as string);
+  const data = jwt.verify(webToken, process.env.APP_SECRET as string, {
+    ignoreExpiration: false,
+  });
   return data as Record<string, string | boolean>;
 };
 
@@ -72,6 +76,15 @@ export const sendEmail = async (
   return res;
 };
 
-export const resetPassword = (email: string, newPassword: string) => {
-  return true;
+export const resetPassword = async (email: string, newPassword: string) => {
+  firebaseConnect();
+  try {
+    const user = await getAuth().getUserByEmail(email);
+    const update = await getAuth().updateUser(user.uid, {
+      password: newPassword,
+    });
+    return update;
+  } catch {
+    return false;
+  }
 };
