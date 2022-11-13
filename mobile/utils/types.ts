@@ -68,9 +68,10 @@ export interface TrainingLog {
   description: string;
   skills: Array<string>;
   trainingHours: number;
-  behavior: ServiceAnimalBehavior;
+  behavior: BehaviorTypes;
   animal: Types.ObjectId;
   handler: Types.ObjectId;
+  behaviorNote?: string;
   video?: string;
 }
 
@@ -102,6 +103,17 @@ export interface UserContextType {
 export enum UserVerificationLogType {
   EMAIL_VERIFICATION = "email verification",
   PASSWORD_RESET = "password reset",
+}
+
+export enum BehaviorTypes {
+  NO_NEGATIVE_BEHAVIOR = "No Negative Behavior",
+  BITING = "Biting",
+  UNPROVOKED_BARKING = "Unprovoked Barking",
+  AGRESSIVE_PULLING = "Agressive Pulling",
+  UNCONTROLLED_JUMPING = "Uncontrolled Jumping",
+  GETTING_TRASH_TOILET = "Getting Into Trash / Toilet",
+  GROWLING_AGRESSIVE_BEHAVIOR = "Growling or Showing Agressive Behavior",
+  OTHER = "Other",
 }
 
 /* Screen Information*/

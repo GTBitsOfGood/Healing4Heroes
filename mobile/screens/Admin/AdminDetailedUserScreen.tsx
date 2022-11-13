@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, Text, View } from "react-native";
+import { BackHandler, StyleSheet, Text, View, Image } from "react-native";
 import DashboardOverlay from "../../components/Overlays/DashboardOverlay";
 import IconButton from "../../components/IconButton";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,16 +8,44 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
 import HealthCard from "../../components/HealthCard";
-import { Screens } from "../../utils/types";
+import { Screens, ServiceAnimal, TrainingLog } from "../../utils/types";
+import { adminGetAnimalInfo, adminGetTrainingLogs } from "../../actions/Admin";
+import { calculateAge } from "../../utils/helper";
+import { getFile } from "../../utils/storage";
 
 export default function AdminDetailedUserScreen(props: any) {
-  const [hoursCompleted, setHoursCompleted] = useState(348);
+  const [hoursCompleted, setHoursCompleted] = useState(0);
+  const [animalInfo, setAnimalInfo] = useState<ServiceAnimal | null>(null);
+  const [trainingLogs, setTrainingLogs] = useState<TrainingLog[]>([]);
+  const [animalImage, setAnimalImage] = useState<string>("");
+  const [userImage, setUserImage] = useState<string>("");
 
+  const { user } = props.route.params;
   useEffect(() => {
+    async function loadDetails() {
+      const animal: ServiceAnimal = (await adminGetAnimalInfo(
+        user._id
+      )) as ServiceAnimal;
+      setHoursCompleted(animal.totalHours);
+      const trainingLogs: TrainingLog[] = await adminGetTrainingLogs(user._id);
+      const animalImageData: string = (await getFile(
+        animal?.profileImage as string
+      )) as string;
+      const userImageData: string = (await getFile(
+        user?.profileImage as string
+      )) as string;
+      setAnimalInfo(animal);
+      setAnimalImage(animalImageData);
+      setUserImage(userImageData);
+      setTrainingLogs(trainingLogs);
+    }
+
     BackHandler.addEventListener("hardwareBackPress", function () {
       props.navigation.goBack();
       return true;
     });
+
+    loadDetails().then().catch();
   }, []);
 
   return (
@@ -33,13 +61,26 @@ export default function AdminDetailedUserScreen(props: any) {
         <View style={styles.container}>
           {/* profile picture  */}
           <View style={styles.profileContainer}>
-            <FontAwesome name="user-circle" size={80} color="blue" />
-            <Text style={styles.usernameText}>User name</Text>
+            {userImage ? (
+              <Image
+                source={{
+                  uri: userImage,
+                }}
+                style={styles.userImage}
+              />
+            ) : (
+              <FontAwesome name="user-circle" size={80} color="blue" />
+            )}
+            <Text style={styles.usernameText}>
+              {user.firstName} {user.lastName}
+            </Text>
           </View>
           {/* training progress bar */}
           <Text style={styles.label}>Training Progress</Text>
           <ProgressBar
-            filled={Math.round((hoursCompleted / 800) * 100) + " %"}
+            filled={
+              Math.min(Math.round((hoursCompleted / 800) * 100), 100) + " %"
+            }
             complete={hoursCompleted}
             total={800}
             unit={"Hours"}
@@ -56,6 +97,11 @@ export default function AdminDetailedUserScreen(props: any) {
                   color="blue"
                 />
               }
+              callbackFunction={async () => {
+                props.navigation.navigate(Screens.VIEW_ALL_LOGS_SCREEN, {
+                  trainingLogs,
+                });
+              }}
               navigation={props.navigation}
             ></LogButton>
             <LogButton
@@ -73,10 +119,14 @@ export default function AdminDetailedUserScreen(props: any) {
           {/* health information section */}
           <Text style={styles.label}>Health Information</Text>
           <HealthCard
-            handlerName={"Jason Statham"}
-            animalName={"Tobby"}
-            animalAge={"2 years old"}
-            animalImage={""}
+            handlerName={user?.firstName + " " + user?.lastName}
+            animalName={animalInfo?.name as string}
+            animalAge={
+              animalInfo?.dateOfBirth
+                ? calculateAge(new Date(animalInfo?.dateOfBirth)) + " years old"
+                : "Age Not Specified"
+            }
+            animalImage={animalImage as string}
           />
         </View>
       }
@@ -133,5 +183,10 @@ const styles = StyleSheet.create({
   logContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  userImage: {
+    borderRadius: 100,
+    width: 80,
+    height: 80,
   },
 });

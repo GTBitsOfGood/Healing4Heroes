@@ -10,11 +10,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Announcement, Screens, User, UserFilter } from "../../utils/types";
-import { adminGetUsers, userGetUserInfo } from "../../actions/User";
+import { adminGetUsers } from "../../actions/Admin";
 import DashboardOverlay from "../../components/Overlays/DashboardOverlay";
 import IconButton from "../../components/IconButton";
 import { adminGetAnnouncements } from "../../actions/Announcement";
 import { auth } from "../../utils/firebase";
+import { userGetUserInfo } from "../../actions/User";
 
 export default function AdminDashboardScreen(props: any) {
   const [userInfo, setUserInfo] = useState<User>();

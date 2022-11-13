@@ -31,6 +31,7 @@ export default function ViewAllLogsScreen(props: any) {
                   skills: log.skills,
                   trainingHours: log.trainingHours,
                   behavior: log.behavior,
+                  behaviorNote: log.behaviorNote,
                   description: log.description,
                 });
               }}
@@ -40,6 +41,7 @@ export default function ViewAllLogsScreen(props: any) {
                 date={log.date}
                 skills={log.skills}
                 trainingHours={log.trainingHours}
+                behaviors={log.behavior}
               />
             </TouchableOpacity>
           );

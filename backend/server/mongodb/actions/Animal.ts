@@ -32,7 +32,7 @@ export async function createAnimal(
   return animal;
 }
 
-export async function findAnimalByUserId(handlerId: Types.ObjectId) {
+export async function findAnimalByUserId(handlerId: Types.ObjectId | string) {
   await dbConnect();
 
   const animal = AnimalModel.findOne({ handler: handlerId });

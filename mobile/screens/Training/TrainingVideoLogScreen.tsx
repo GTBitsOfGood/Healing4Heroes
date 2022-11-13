@@ -27,8 +27,13 @@ export default function TrainingVideoLogScreen(props: any) {
   const [additionalNotes, setAdditionalNotes] = React.useState("");
 
   //input propagated from addTrainingLogPage
-  const { totalHours, skillValuesSelected, behaviorDescription } =
-    props.route.params;
+  const {
+    totalHours,
+    skillValuesSelected,
+    behavior,
+    behaviorNote,
+    trainingLogDate,
+  } = props.route.params;
 
   const createTrainingLog = async () => {
     let upload = undefined;
@@ -47,10 +52,11 @@ export default function TrainingVideoLogScreen(props: any) {
     }
     const animal: ServiceAnimal = await userGetAnimal();
     const trainingLog = await userCreateTrainingLog(
-      new Date(),
+      new Date(trainingLogDate),
       skillValuesSelected,
       totalHours,
-      behaviorDescription,
+      behavior,
+      behaviorNote,
       (animal as ServiceAnimal)._id,
       additionalNotes,
       upload as string

@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { BehaviorTypes } from "../utils/types";
 
 interface LogCardProps {
   date: Date;
   skills: Array<string>;
+  behaviors: Array<BehaviorTypes>;
   trainingHours: number;
 }
-export default function LogCard({ date, skills, trainingHours }: LogCardProps) {
+export default function LogCard({
+  date,
+  skills,
+  trainingHours,
+  behaviors,
+}: LogCardProps) {
   const [processedDate, setProcessedDate] = useState<Date | null>();
   useEffect(() => {
     setProcessedDate(new Date(date));
@@ -16,7 +23,9 @@ export default function LogCard({ date, skills, trainingHours }: LogCardProps) {
     <View style={styles.card}>
       <View style={styles.cardRow}>
         <Text>Date</Text>
-        <Text>{`${processedDate?.getMonth()}/${processedDate?.getDate()}/${processedDate?.getFullYear()}`}</Text>
+        <Text>{`${
+          (processedDate?.getMonth() as number) + 1
+        }/${processedDate?.getDate()}/${processedDate?.getFullYear()}`}</Text>
       </View>
       <View style={styles.cardRow}>
         <Text>Skill</Text>
@@ -34,6 +43,24 @@ export default function LogCard({ date, skills, trainingHours }: LogCardProps) {
           })}
         </ScrollView>
       </View>
+
+      <View style={styles.cardRow}>
+        <Text>Negative Behaviors</Text>
+        <ScrollView
+          style={styles.skills}
+          contentContainerStyle={styles.skillsContent}
+          horizontal={true}
+        >
+          {behaviors.map((behavior: string, index: number) => {
+            return (
+              <View style={styles.cardValue} key={index}>
+                <Text>{behavior}</Text>
+              </View>
+            );
+          })}
+        </ScrollView>
+      </View>
+
       <View style={styles.cardRow}>
         <Text>Training Hours</Text>
         <View style={styles.cardValue}>

@@ -2,15 +2,18 @@ import React from "react";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import IconButton from "./IconButton";
-import { adminDeleteUser, adminVerifyUser } from "../actions/User";
+import { adminDeleteUser, adminVerifyUser } from "../actions/Admin";
 
 const UserEntry = (props: any) => {
   return (
-    <TouchableOpacity onPress={() => {
-      if (props.callbackFunction){
-        props.callbackFunction();
-      }
-    }} style={styles.userEntryContainer}>
+    <TouchableOpacity
+      onPress={() => {
+        if (props.callbackFunction) {
+          props.callbackFunction();
+        }
+      }}
+      style={styles.userEntryContainer}
+    >
       <View style={styles.userEntry}>
         <View style={styles.nameIconContainer}>
           <FontAwesome
@@ -29,31 +32,26 @@ const UserEntry = (props: any) => {
         </View>
         {props.isVerification ? (
           <View style={styles.userLogIcon}>
-              <IconButton
-                icon={
-                  <Ionicons name="checkmark-circle" size={30} color="green" />
+            <IconButton
+              icon={
+                <Ionicons name="checkmark-circle" size={30} color="green" />
+              }
+              callbackFunction={async () => {
+                await adminVerifyUser(props.userId);
+                if (props.verifyCallback) {
+                  props.verifyCallback(props.userId);
                 }
-                callbackFunction={async () => {
-                  await adminVerifyUser(props.userId)
-                  if (props.verifyCallback){
-                    props.verifyCallback(props.userId);
-                  }
-    
-                }}
-              />
-            <TouchableOpacity onPress={async () => {
-
-            }}>
-              <IconButton
-                icon={<Ionicons name="close-circle" size={30} color="red"/>}
-                callbackFunction={async () => {
-                  await adminDeleteUser(props.userId)
-                  if (props.verifyCallback){
-                    props.verifyCallback(props.userId);
-                  }
-                }}
-              />
-            </TouchableOpacity>
+              }}
+            />
+            <IconButton
+              icon={<Ionicons name="close-circle" size={30} color="red" />}
+              callbackFunction={async () => {
+                await adminDeleteUser(props.userId);
+                if (props.verifyCallback) {
+                  props.verifyCallback(props.userId);
+                }
+              }}
+            />
           </View>
         ) : (
           <View>

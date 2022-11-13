@@ -54,9 +54,10 @@ export interface TrainingLog {
   description: string;
   skills: Array<string>;
   trainingHours: number;
-  behavior: ServiceAnimalBehavior;
+  behavior: BehaviorTypes[];
   animal: Types.ObjectId;
   handler: Types.ObjectId;
+  behaviorNote?: string;
   video?: string;
 }
 
@@ -73,11 +74,6 @@ export interface ReadLog {
   announcement: Types.ObjectId;
   user: Types.ObjectId;
   readAt: Date;
-}
-
-export interface ServiceAnimalBehavior {
-  description: string;
-  repeat: number;
 }
 
 export enum ServiceAnimalSkills {
@@ -104,6 +100,17 @@ export interface VerificationLog {
   expirationDate: Date; // The day and time the code expires (should always be 60 mins after the issueDate)
   isVerified: boolean; // Used to indicate if the verification attempt succeeded (i.e. the user sent the right 6 digit code)
   expired: boolean; // Used to indicate if the verification log has already been used / expired --> if so, it cannot be reused and the user must request a new one
+}
+
+export enum BehaviorTypes {
+  NO_NEGATIVE_BEHAVIOR = "No Negative Behavior",
+  BITING = "Biting",
+  UNPROVOKED_BARKING = "Unprovoked Barking",
+  AGRESSIVE_PULLING = "Agressive Pulling",
+  UNCONTROLLED_JUMPING = "Uncontrolled Jumping",
+  GETTING_TRASH_TOILET = "Getting Into Trash / Toilet",
+  GROWLING_AGRESSIVE_BEHAVIOR = "Growling or Showing Agressive Behavior",
+  OTHER = "Other",
 }
 
 /* Internal Request & API Wrapper Types */

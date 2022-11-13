@@ -4,7 +4,7 @@ import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function ViewSingleLogScreen(props: any) {
-  const { date, skills, trainingHours, behavior, description } =
+  const { date, skills, trainingHours, behavior, description, behaviorNote } =
     props.route.params;
 
   const [processedDate, setProcessedDate] = useState<Date | null>();
@@ -24,7 +24,9 @@ export default function ViewSingleLogScreen(props: any) {
         {/* Invisible edit for positioning purposes */}
         <Text style={{ ...styles.edit, color: "#f2f2f2" }}>Edit</Text>
         <Text style={styles.header}>
-          {`${processedDate?.getMonth()}-${processedDate?.getDate()}-${processedDate?.getFullYear()}`}
+          {`${
+            (processedDate?.getMonth() as number) + 1
+          }-${processedDate?.getDate()}-${processedDate?.getFullYear()}`}
         </Text>
         <Text style={styles.edit}>Edit</Text>
       </View>
@@ -34,11 +36,18 @@ export default function ViewSingleLogScreen(props: any) {
           Video Logs are Only Available to Nonprofit Admins
         </Text>
       </View>
-      <LogCard date={date} skills={skills} trainingHours={trainingHours} />
-      <View style={styles.textCard}>
-        <Text style={{ marginBottom: 5 }}>Behavior</Text>
-        <Text>{behavior}</Text>
-      </View>
+      <LogCard
+        date={date}
+        skills={skills}
+        trainingHours={trainingHours}
+        behaviors={behavior}
+      />
+      {behaviorNote && (
+        <View style={styles.textCard}>
+          <Text style={{ marginBottom: 5 }}>Behavior</Text>
+          <Text>{behaviorNote}</Text>
+        </View>
+      )}
       {description && (
         <View style={styles.textCard}>
           <Text style={{ marginBottom: 5 }}>Additional Notes</Text>

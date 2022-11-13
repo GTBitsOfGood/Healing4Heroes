@@ -1,13 +1,15 @@
 import { Types } from "mongoose";
 import TrainingLogModel from "server/mongodb/models/TrainingLog";
 import dbConnect from "server/utils/dbConnect";
+import { BehaviorTypes } from "src/utils/types";
 
 export async function createTrainingLog(
   date: Date,
   description: string,
   skills: Array<string>,
   trainingHours: number,
-  behavior: string,
+  behavior: BehaviorTypes[],
+  behaviorNote: string,
   animal: Types.ObjectId,
   handler: Types.ObjectId,
   video: string
@@ -19,6 +21,7 @@ export async function createTrainingLog(
     skills,
     trainingHours,
     behavior,
+    behaviorNote,
     animal,
     handler,
     video,
@@ -26,7 +29,7 @@ export async function createTrainingLog(
   return trainingLog;
 }
 
-export async function getTrainingLogs(userId: Types.ObjectId) {
+export async function getTrainingLogs(userId: Types.ObjectId | string) {
   await dbConnect();
   const trainingLogs = await TrainingLogModel.find({ handler: userId });
   return trainingLogs;

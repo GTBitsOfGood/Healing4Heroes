@@ -10,8 +10,6 @@ import { urls } from "../utils/urls";
 import { Types } from "mongoose";
 
 const userUserUrl = urls.baseUrl + urls.api.user.user;
-const adminUserUrl = urls.baseUrl + urls.api.admin.user;
-const adminUserVerifiedUrl = urls.baseUrl + urls.api.admin.userVerified;
 
 export const userGetUserInfo = async () => {
   return internalRequest<User>({
@@ -64,45 +62,6 @@ export const userUpdateUser = async (
       lastName,
       handlerType,
       profileImage,
-    },
-  });
-};
-
-export const adminGetUsers = async (
-  pageSize: number,
-  afterId?: Types.ObjectId | string,
-  filter?: UserFilter
-) => {
-  return internalRequest<User[]>({
-    url: adminUserUrl,
-    method: HttpMethod.POST,
-    authRequired: true,
-    body: {
-      afterId,
-      pageSize,
-      filter,
-    },
-  });
-};
-
-export const adminVerifyUser = async (userId: Types.ObjectId) => {
-  return internalRequest<User[]>({
-    url: adminUserVerifiedUrl,
-    method: HttpMethod.PATCH,
-    authRequired: true,
-    body: {
-      userId,
-    },
-  });
-};
-
-export const adminDeleteUser = async (userId: Types.ObjectId | string) => {
-  return internalRequest<User>({
-    url: adminUserVerifiedUrl,
-    method: HttpMethod.DELETE,
-    authRequired: true,
-    body: {
-      userId,
     },
   });
 };
