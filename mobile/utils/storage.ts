@@ -113,8 +113,8 @@ export const uploadVideo = async (
   return fileKey;
 };
 
-export const getVideo = async (filename: string, storageLocation: string) => {
-  const signedUrl = await adminGetFileDownloadUrl(storageLocation + filename);
+export const getVideo = async (filename: string) => {
+  const signedUrl = await adminGetFileDownloadUrl(filename);
 
   return signedUrl;
 };

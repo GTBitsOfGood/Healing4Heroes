@@ -33,6 +33,7 @@ export default function ViewAllLogsScreen(props: any) {
                   behavior: log.behavior,
                   behaviorNote: log.behaviorNote,
                   description: log.description,
+                  video: log.video,
                 });
               }}
               key={index}

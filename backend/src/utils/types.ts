@@ -59,6 +59,7 @@ export interface TrainingLog {
   handler: Types.ObjectId;
   behaviorNote?: string;
   video?: string;
+  videoThumbnail?: string;
 }
 
 export interface Announcement {

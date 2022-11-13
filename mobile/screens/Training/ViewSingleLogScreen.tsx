@@ -2,19 +2,39 @@ import React, { useEffect, useState } from "react";
 import { BackHandler, StyleSheet, Text, View } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { userGetUserInfo } from "../../actions/User";
+import { Role, StorageLocation } from "../../utils/types";
+import { getVideo } from "../../utils/storage";
+import { ResizeMode, Video } from "expo-av";
 
 export default function ViewSingleLogScreen(props: any) {
-  const { date, skills, trainingHours, behavior, description, behaviorNote } =
-    props.route.params;
+  const {
+    date,
+    skills,
+    trainingHours,
+    behavior,
+    description,
+    behaviorNote,
+    video,
+  } = props.route.params;
 
   const [processedDate, setProcessedDate] = useState<Date | null>();
-
+  const [videoUrl, setVideoUrl] = useState<string>("");
   useEffect(() => {
+    async function loadLogInformation() {
+      const user = await userGetUserInfo();
+      if (user.roles?.includes(Role.NONPROFIT_ADMIN)) {
+        if (video) {
+          const videoLog = await getVideo(video);
+          setVideoUrl(videoLog);
+        }
+      }
+    }
     BackHandler.addEventListener("hardwareBackPress", function () {
       props.navigation.goBack();
       return true;
     });
-
+    loadLogInformation().then().catch();
     setProcessedDate(new Date(date));
   }, []);
 
@@ -30,12 +50,24 @@ export default function ViewSingleLogScreen(props: any) {
         </Text>
         <Text style={styles.edit}>Edit</Text>
       </View>
-      <View style={styles.animalCard}>
-        <FontAwesome5 name="dog" size={50} color="black" />
-        <Text style={styles.videoText}>
-          Video Logs are Only Available to Nonprofit Admins
-        </Text>
-      </View>
+      {videoUrl ? (
+        <Video
+          style={styles.animalCard}
+          source={{
+            uri: videoUrl,
+          }}
+          resizeMode={ResizeMode.CONTAIN}
+          useNativeControls
+          isLooping
+        />
+      ) : (
+        <View style={styles.animalCard}>
+          <FontAwesome5 name="dog" size={50} color="black" />
+          <Text style={styles.videoText}>
+            Video Unavailable
+          </Text>
+        </View>
+      )}
       <LogCard
         date={date}
         skills={skills}

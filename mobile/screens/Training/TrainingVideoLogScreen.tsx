@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  Platform,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { userCreateTrainingLog } from "../../actions/TrainingLog";
@@ -17,13 +18,16 @@ import { ResizeMode, Video } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
-import { uploadVideo } from "../../utils/storage";
+import { uploadFile, uploadVideo } from "../../utils/storage";
 import { Screens, ServiceAnimal, StorageLocation } from "../../utils/types";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
+import * as VideoThumbnails from "expo-video-thumbnails";
 
 export default function TrainingVideoLogScreen(props: any) {
   const [error, setError] = useState("");
   const [videoUri, setVideoUri] = useState<string>("");
+  const [thumbnail, setThumbnail] = useState<string>("");
+
   const [additionalNotes, setAdditionalNotes] = React.useState("");
 
   //input propagated from addTrainingLogPage
@@ -37,13 +41,18 @@ export default function TrainingVideoLogScreen(props: any) {
 
   const createTrainingLog = async () => {
     let upload = undefined;
+    let videoThumbnail = undefined;
+
+    if (thumbnail) {
+      videoThumbnail = await uploadFile(
+        uuidv4() + ".png",
+        StorageLocation.TRAINING_LOG_THUMBNAILS,
+        thumbnail
+      );
+    }
+
     if (videoUri) {
       const fileName: string = uuidv4();
-      // upload = await uploadFile(
-      //   fileName + ".mp4",
-      //   StorageLocation.TRAINING_LOG_VIDEOS,
-      //   videoUri
-      // );
       upload = await uploadVideo(
         fileName + ".mp4",
         StorageLocation.TRAINING_LOG_VIDEOS,
@@ -59,14 +68,14 @@ export default function TrainingVideoLogScreen(props: any) {
       behaviorNote,
       (animal as ServiceAnimal)._id,
       additionalNotes,
-      upload as string
+      upload as string,
+      videoThumbnail as string
     );
 
     const updateServiceAnimal = await userUpdateAnimal(
       undefined,
       (animal as ServiceAnimal).totalHours + parseInt(totalHours)
     );
-
     if (!updateServiceAnimal) {
       setError("Failed to add hours to service animal");
     }
@@ -99,6 +108,15 @@ export default function TrainingVideoLogScreen(props: any) {
         return;
       }
       setVideoUri(videoLocation);
+
+      // For Whatever Reason Only IOS is Able to Get Thumbnails
+      // You will want to follow up with the Expo team
+      if (Platform.OS === "ios") {
+        if (!result.cancelled) {
+          const { uri } = await VideoThumbnails.getThumbnailAsync(result.uri);
+          setThumbnail(uri);
+        }
+      }
     }
   };
 

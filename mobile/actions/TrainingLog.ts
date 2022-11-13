@@ -18,7 +18,8 @@ export const userCreateTrainingLog = async (
   behaviorNote: string,
   animal: Types.ObjectId,
   description?: string,
-  video?: string
+  video?: string,
+  videoThumbnail?: string
 ) => {
   return internalRequest<TrainingLog>({
     url: userTrainingLogUrl,
@@ -33,6 +34,7 @@ export const userCreateTrainingLog = async (
       behaviorNote,
       animal,
       video,
+      videoThumbnail,
     },
   });
 };

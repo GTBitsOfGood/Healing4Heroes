@@ -17,6 +17,7 @@ export enum StorageLocation {
   HANDLER_PICTURES = "HandlerPictures/",
   SERVICE_ANIMAL_PICTURES = "ServiceAnimalPictures/",
   TRAINING_LOG_VIDEOS = "TrainingLogVideos/",
+  TRAINING_LOG_THUMBNAILS = "TrainingLogThumbnail/",
 }
 
 export enum ServiceAnimalSkills {
@@ -73,6 +74,7 @@ export interface TrainingLog {
   handler: Types.ObjectId;
   behaviorNote?: string;
   video?: string;
+  videoThumbnail?: string;
 }
 
 export interface Announcement {

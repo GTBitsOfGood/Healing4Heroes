@@ -60,7 +60,7 @@ export const adminGetFileDownloadUrl = async (filename: string) => {
     method: HttpMethod.POST,
     authRequired: true,
     body: {
-      filename,
+      key: filename,
     },
   });
 };

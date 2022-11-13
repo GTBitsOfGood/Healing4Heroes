@@ -41,6 +41,7 @@ export default function LoginScreen(props: any) {
       const user = await userGetUserInfo();
       return user;
     } catch (e) {
+      console.log(e);
       setErrorMessage(`Login Failed - Invalid email or password`);
       setCheckValidUser(false);
       return;

@@ -41,6 +41,10 @@ const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
     type: String,
     required: false,
   },
+  videoThumbnail: {
+    type: String,
+    required: false,
+  },
 });
 
 const TrainingLogModel =

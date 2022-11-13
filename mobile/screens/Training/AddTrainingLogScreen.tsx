@@ -20,11 +20,15 @@ export default function AddTrainingLogScreen(props: any) {
     if (!totalHours) {
       setError("Please enter your total hours.");
       return;
-    } else if (!skillKeysSelected) {
+    } else if (skillKeysSelected.length === 0) {
       setError("Please select at least one skill displayed.");
       return;
-    } else if (!behavior) {
+    } else if (behavior.length === 0) {
       setError("Please enter a description of the dog's behavior");
+      return;
+    } else if (isNaN(trainingLogDate.getTime() as number)) {
+      setError("Set a Valid Date!");
+      return;
     } else {
       setError("");
       return true;
@@ -85,13 +89,13 @@ export default function AddTrainingLogScreen(props: any) {
               keys: string[] | string
             ) => {
               setSkillValuesSelected([...(values as string[])]);
-              setSkillKeysSelected([...keys]);
+              setSkillKeysSelected([...(keys as string[])]);
             }}
           />
 
           <BubbleList items={skillKeysSelected} />
 
-          <Text style={styles.label}>Behavior Type</Text>
+          <Text style={styles.label}>Behavior Type*</Text>
           <SolidDropDown
             items={{
               "No Negative Behavior": BehaviorTypes.NO_NEGATIVE_BEHAVIOR,

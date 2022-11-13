@@ -22,6 +22,7 @@ export default APIWrapper({
       const behaviorNote: string = req.body.behaviorNote as string;
       const animal: Types.ObjectId = req.body.animal as Types.ObjectId;
       const video: string = req.body.video as string;
+      const videoThumbnail: string = req.body.videoThumbnail as string;
 
       const handler: User = await getUser(req.headers.accesstoken as string);
 
@@ -34,7 +35,8 @@ export default APIWrapper({
         behaviorNote,
         animal,
         handler._id,
-        video
+        video,
+        videoThumbnail
       );
       if (!trainingLog) {
         throw new Error("Failed to create training log");

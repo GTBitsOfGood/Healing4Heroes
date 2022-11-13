@@ -12,7 +12,8 @@ export async function createTrainingLog(
   behaviorNote: string,
   animal: Types.ObjectId,
   handler: Types.ObjectId,
-  video: string
+  video: string,
+  videoThumbnail: string
 ) {
   await dbConnect();
   const trainingLog = await TrainingLogModel.create({
@@ -25,6 +26,7 @@ export async function createTrainingLog(
     animal,
     handler,
     video,
+    videoThumbnail,
   });
   return trainingLog;
 }
