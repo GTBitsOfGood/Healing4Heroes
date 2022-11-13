@@ -8,7 +8,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
 import HealthCard from "../../components/HealthCard";
-import { Screens, ServiceAnimal, TrainingLog } from "../../utils/types";
+import {
+  BehaviorTypes,
+  Screens,
+  ServiceAnimal,
+  TrainingLog,
+} from "../../utils/types";
 import { adminGetAnimalInfo, adminGetTrainingLogs } from "../../actions/Admin";
 import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
@@ -55,6 +60,9 @@ export default function AdminDetailedUserScreen(props: any) {
           icon={
             <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
           }
+          callbackFunction={() => {
+            props.navigation.goBack();
+          }}
         ></IconButton>
       }
       pageBody={
@@ -113,6 +121,15 @@ export default function AdminDetailedUserScreen(props: any) {
                   color="blue"
                 />
               }
+              callbackFunction={async () => {
+                props.navigation.navigate(Screens.VIEW_ALL_LOGS_SCREEN, {
+                  trainingLogs: trainingLogs.filter(
+                    (log) =>
+                      log.behavior.length &&
+                      log.behavior.includes(BehaviorTypes.NO_NEGATIVE_BEHAVIOR)
+                  ),
+                });
+              }}
               navigation={props.navigation}
             ></LogButton>
           </View>

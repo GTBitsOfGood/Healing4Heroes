@@ -35,6 +35,7 @@ export default function AdminUserList(props: any) {
 
   return (
     <UserOverlay
+      navigationProp={props.navigation}
       pageBody={
         <View style={styles.container}>
           <Text style={styles.title}>All Users</Text>

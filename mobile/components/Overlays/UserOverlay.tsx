@@ -5,14 +5,25 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
+  Text
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "../IconButton";
 
 interface UserOverlayProps {
   pageBody: ReactElement;
+  footer?: ReactElement;
+  navigationProp?: any;
+  noPaginatedButtons?: boolean;
+  headerTitle?: string;
 }
-export default function LogOverlay({ pageBody }: UserOverlayProps) {
+export default function UserOverlay({
+  pageBody,
+  navigationProp,
+  noPaginatedButtons,
+  headerTitle,
+  footer
+}: UserOverlayProps) {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -25,25 +36,37 @@ export default function LogOverlay({ pageBody }: UserOverlayProps) {
             icon={
               <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
             }
+            callbackFunction={() => {
+              if (navigationProp) {
+                navigationProp.goBack();
+              }
+            }}
           ></IconButton>
+          <Text style={styles.headerText}>{headerTitle}</Text>
+          <View></View>
         </View>
         <ScrollView>{pageBody}</ScrollView>
         <View style={styles.footerContainer}>
-          <IconButton
-            icon={
-              <View style={styles.backgroundCircle}>
-                <Ionicons name="chevron-back" size={40} color="white" />
-              </View>
-            }
-          ></IconButton>
-          <IconButton
-            icon={
-              <View style={styles.backgroundCircle}>
-                <Ionicons name="chevron-forward" size={40} color="white" />
-              </View>
-            }
-          ></IconButton>
+          {!noPaginatedButtons && (
+            <IconButton
+              icon={
+                <View style={styles.backgroundCircle}>
+                  <Ionicons name="chevron-back" size={40} color="white" />
+                </View>
+              }
+            ></IconButton>
+          )}
+          {!noPaginatedButtons && (
+            <IconButton
+              icon={
+                <View style={styles.backgroundCircle}>
+                  <Ionicons name="chevron-forward" size={40} color="white" />
+                </View>
+              }
+            ></IconButton>
+          )}
         </View>
+        {footer && <View>{footer}</View>}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -117,12 +140,20 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     marginTop: 20,
-    marginBottom: 45,
+    marginBottom: 25,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
-
+  headerText:{
+    fontFamily: "DMSans-Bold",
+    color: "grey",
+  },
   footerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    paddingTop: 10,
   },
   backgroundCircle: {
     backgroundColor: "black",

@@ -6,7 +6,7 @@ import { Types } from "mongoose";
 const userReadLogUrl = urls.baseUrl + urls.api.user.readLog;
 
 export const userCreateReadLog = async (
-  announcement: Types.ObjectId,
+  announcement: Types.ObjectId | string,
   date?: Date
 ) => {
   return internalRequest<ReadLog>({
@@ -21,7 +21,7 @@ export const userCreateReadLog = async (
 };
 
 export const userGetReadAnnouncements = async () => {
-  return internalRequest<Array<Types.ObjectId>>({
+  return internalRequest<Array<any>>({
     url: userReadLogUrl,
     method: HttpMethod.GET,
     authRequired: true,

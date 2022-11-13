@@ -142,6 +142,8 @@ export enum Screens {
   CREATE_ANNOUNCEMENT_SCREEN = "Create Announcement",
   FORGOT_PASSWORD_SCREEN = "Forgot Password",
   RESET_PASSWORD_SCREEN = "Reset Password",
+  VIEW_ALL_ANNOUNCEMENTS_SCREEN = "View All Announcements",
+  VIEW_SINGLE_ANNOUNCEMENT_SCREEN = "View Single Announcement",
 }
 
 export enum UserFilter {

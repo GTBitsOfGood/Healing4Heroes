@@ -84,7 +84,12 @@ export default function UserDashboardScreen(props: any) {
       pageBody={
         <View style={styles.container}>
           {/* announcment */}
-          <TouchableOpacity style={styles.announcementContainer}>
+          <TouchableOpacity
+            style={styles.announcementContainer}
+            onPress={() => {
+              props.navigation.navigate(Screens.VIEW_ALL_ANNOUNCEMENTS_SCREEN);
+            }}
+          >
             <Text style={styles.announcementTitle} numberOfLines={1}>
               {announcements && announcements.length
                 ? announcements[0].title

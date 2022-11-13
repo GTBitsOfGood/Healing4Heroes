@@ -34,7 +34,7 @@ const UserEntry = (props: any) => {
           <View style={styles.userLogIcon}>
             <IconButton
               icon={
-                <Ionicons name="checkmark-circle" size={30} color="green" />
+                <Ionicons name="checkmark-circle" size={30} color="#28B305" />
               }
               callbackFunction={async () => {
                 await adminVerifyUser(props.userId);
@@ -44,7 +44,7 @@ const UserEntry = (props: any) => {
               }}
             />
             <IconButton
-              icon={<Ionicons name="close-circle" size={30} color="red" />}
+              icon={<Ionicons name="close-circle" size={30} color="#FF3939" />}
               callbackFunction={async () => {
                 await adminDeleteUser(props.userId);
                 if (props.verifyCallback) {

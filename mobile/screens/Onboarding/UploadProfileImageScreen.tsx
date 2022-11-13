@@ -91,17 +91,19 @@ export default function UploadProfileImageScreen(props: any) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
-
-    const imageLocation = (result as ImageInfo).uri;
-    const imageSize = (await FileSystem.getInfoAsync(imageLocation)).size;
-    // All images must be smaller than 1GB
-    if (convertToMegabytes(imageSize as number) > 1024) {
-      setError(
-        "Image is too large - consider uploading a lower quality image."
-      );
-      return;
+    const assets = result?.assets as ImagePicker.ImagePickerAsset[];
+    if (assets?.length > 0) {
+      const imageLocation = (assets[0] as ImagePicker.ImagePickerAsset).uri;
+      const imageSize = (await FileSystem.getInfoAsync(imageLocation)).size;
+      // All images must be smaller than 1GB
+      if (convertToMegabytes(imageSize as number) > 1024) {
+        setError(
+          "Image is too large - consider uploading a lower quality image."
+        );
+        return;
+      }
+      setAnimalImageUri(imageLocation);
     }
-    setAnimalImageUri(imageLocation);
   };
 
   const handlerPickImage = async () => {
@@ -110,17 +112,19 @@ export default function UploadProfileImageScreen(props: any) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
-
-    const imageLocation = (result as ImageInfo).uri;
-    const imageSize = (await FileSystem.getInfoAsync(imageLocation)).size;
-    // All images must be smaller than 1GB
-    if (convertToMegabytes(imageSize as number) > 1024) {
-      setError(
-        "Image is too large - consider uploading a lower quality image."
-      );
-      return;
+    const assets = result?.assets as ImagePicker.ImagePickerAsset[];
+    if (assets?.length > 0) {
+      const imageLocation = (result as ImagePicker.ImagePickerAsset).uri;
+      const imageSize = (await FileSystem.getInfoAsync(imageLocation)).size;
+      // All images must be smaller than 1GB
+      if (convertToMegabytes(imageSize as number) > 1024) {
+        setError(
+          "Image is too large - consider uploading a lower quality image."
+        );
+        return;
+      }
+      setHandlerImageUri(imageLocation);
     }
-    setHandlerImageUri(imageLocation);
   };
 
   return (

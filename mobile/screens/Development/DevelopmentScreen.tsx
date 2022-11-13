@@ -71,11 +71,11 @@ export default function DevelopmentScreen(props: any) {
 
       <TouchableOpacity
         onPress={() =>
-          props.navigation.navigate(Screens.STORAGE_EXAMPLE_SCREEN)
+          props.navigation.navigate(Screens.VIEW_ALL_ANNOUNCEMENTS_SCREEN)
         }
         style={styles.buttonItem}
       >
-        <Text>Go To Storage Example Screen</Text>
+        <Text>Go To View All Announcements</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

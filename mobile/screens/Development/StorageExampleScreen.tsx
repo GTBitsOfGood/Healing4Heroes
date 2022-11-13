@@ -14,8 +14,9 @@ export default function StorageExampleScreen() {
       allowsEditing: true,
       quality: 1,
     });
+    const assets = result?.assets as ImagePicker.ImagePickerAsset[];
 
-    if (!result.cancelled) {
+    if (assets.length > 0) {
       // Usually shouldn't upload until a submit button or next button is pressed
       // This is the result you will want to save in the database
       // const res = await uploadFile(
@@ -24,11 +25,11 @@ export default function StorageExampleScreen() {
       //   result.uri
       // );
 
-      const videoSize = (await FileSystem.getInfoAsync(result.uri)).size;
+      const videoSize = (await FileSystem.getInfoAsync(assets[0].uri)).size;
       const res = await uploadVideo(
         uuidv4() as string,
         StorageLocation.TRAINING_LOG_VIDEOS,
-        result.uri
+        assets[0].uri
       );
 
       // Use the download URL as the source

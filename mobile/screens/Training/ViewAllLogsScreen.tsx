@@ -26,7 +26,6 @@ export default function ViewAllLogsScreen(props: any) {
           return (
             <TouchableOpacity
               onPress={() => {
-                console.log(log);
                 props.navigation.navigate(Screens.VIEW_SINGLE_LOG_SCREEN, {
                   date: log.date,
                   skills: log.skills,

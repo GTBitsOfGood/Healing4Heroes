@@ -21,12 +21,12 @@ export async function hasReadLog(
   user: Types.ObjectId
 ) {
   await dbConnect();
-  await ReadLogModel.find({
+  const foundAnnouncement = await ReadLogModel.find({
     announcement: announcement,
     user: user,
   });
 
-  if (announcement) return true;
+  if (foundAnnouncement.length) return true;
   return false;
 }
 

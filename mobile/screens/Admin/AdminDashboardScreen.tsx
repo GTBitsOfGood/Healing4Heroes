@@ -10,7 +10,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Announcement, Screens, User, UserFilter } from "../../utils/types";
-import { adminGetUsers } from "../../actions/Admin";
 import DashboardOverlay from "../../components/Overlays/DashboardOverlay";
 import IconButton from "../../components/IconButton";
 import { adminGetAnnouncements } from "../../actions/Announcement";
@@ -28,7 +27,7 @@ export default function AdminDashboardScreen(props: any) {
         (await adminGetAnnouncements()) as Announcement[];
 
       announcementList.sort((first: Announcement, second: Announcement) => {
-        return second.date.getTime() - first.date.getTime();
+        return new Date(second.date).getTime() - new Date(first.date).getTime();
       });
 
       setAnnouncements(announcementList);
@@ -71,7 +70,14 @@ export default function AdminDashboardScreen(props: any) {
         <View style={styles.container}>
           <Text style={styles.label}>Announcements</Text>
           <View style={styles.announcementContainer}>
-            <TouchableOpacity style={styles.announcementBox}>
+            <TouchableOpacity
+              style={styles.announcementBox}
+              onPress={() => {
+                props.navigation.navigate(
+                  Screens.VIEW_ALL_ANNOUNCEMENTS_SCREEN
+                );
+              }}
+            >
               <Text style={styles.announcementTitle} numberOfLines={1}>
                 {announcements && announcements.length
                   ? announcements[0].title

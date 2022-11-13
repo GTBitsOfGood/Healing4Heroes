@@ -59,7 +59,6 @@ export default function TrainingVideoLogScreen(props: any) {
         videoUri
       );
     }
-    console.log(videoThumbnail);
     const animal: ServiceAnimal = await userGetAnimal();
     const trainingLog = await userCreateTrainingLog(
       new Date(trainingLogDate),
@@ -97,9 +96,9 @@ export default function TrainingVideoLogScreen(props: any) {
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       quality: 1,
     });
-
-    if (!result.cancelled) {
-      const videoLocation = (result as ImageInfo).uri;
+    const assets = result?.assets as ImagePicker.ImagePickerAsset[];
+    if (assets?.length > 0) {
+      const videoLocation = (assets[0] as ImagePicker.ImagePickerAsset).uri;
       const videoSize = (await FileSystem.getInfoAsync(videoLocation)).size;
       // All Videos must be smaller than 1GB
       if (convertToMegabytes(videoSize as number) > 1024) {
@@ -109,13 +108,8 @@ export default function TrainingVideoLogScreen(props: any) {
         return;
       }
       setVideoUri(videoLocation);
-
-      const assets = result?.assets as ImagePicker.ImagePickerAsset[];
-      if (assets?.length > 0) {
-        console.log(assets[0]);
-        const data = await VideoThumbnails.getThumbnailAsync(assets[0].uri);
-        setThumbnail(data.uri);
-      }
+      const data = await VideoThumbnails.getThumbnailAsync(assets[0].uri);
+      setThumbnail(data.uri);
     }
   };
 
