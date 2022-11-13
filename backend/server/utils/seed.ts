@@ -3,6 +3,7 @@ import { getAuth } from "firebase-admin/auth";
 import { createAnimal } from "server/mongodb/actions/Animal";
 import { createTrainingLog } from "server/mongodb/actions/TrainingLog";
 import { createUser } from "server/mongodb/actions/User";
+import AnimalModel from "server/mongodb/models/Animal";
 import {
   HandlerType,
   Role,
@@ -149,6 +150,11 @@ async function generateTrainingLogs(
         ""
       );
 
+      await AnimalModel.findByIdAndUpdate(
+        { _id: animal._id },
+        { $inc: { totalHours: trainingHours } }
+      ).exec();
+
       trainingLogs.push(trainingLog);
     }
   }
@@ -160,8 +166,8 @@ export async function seedDatabase() {
   console.log("Seeding database...");
 
   const users = await generateUsers();
-  // const animals = await generateAnimals(users);
-  // await generateTrainingLogs(animals);
+  const animals = await generateAnimals(users);
+  await generateTrainingLogs(animals);
 
   console.log("Seeding complete.");
 }
