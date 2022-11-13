@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import { getTrainingLogs } from "server/mongodb/actions/TrainingLog";
 import APIWrapper from "server/utils/APIWrapper";
 import { Role } from "src/utils/types";

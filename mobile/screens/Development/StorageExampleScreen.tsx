@@ -3,7 +3,7 @@ import { Button, View, Image } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import { v4 as uuidv4 } from "uuid";
-import { getFile, uploadFile, uploadVideo } from "../../utils/storage";
+import { uploadVideo } from "../../utils/storage";
 import { StorageLocation } from "../../utils/types";
 export default function StorageExampleScreen() {
   const [image, setImage] = useState("");

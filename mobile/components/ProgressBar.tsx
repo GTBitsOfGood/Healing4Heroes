@@ -5,10 +5,10 @@ const ProgressBar = (props: any) => {
   return (
     <View style={styles.progressContainer}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text>
+        <Text style={styles.regularText}>
           {props.complete}/{props.total}
         </Text>
-        <Text>{props.unit}</Text>
+        <Text style={styles.regularText}>{props.unit}</Text>
       </View>
       <View>
         <View style={styles.progressBar}>
@@ -47,6 +47,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#A9A9A9",
     borderRadius: 10,
     justifyContent: "center",
+  },
+  regularText: {
+    fontFamily: "DMSans-Regular",
   },
 
   progressBarFilled: {

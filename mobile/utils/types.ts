@@ -153,6 +153,11 @@ export enum UserFilter {
   WITH_800_HOURS_USERS = "users with 800 users",
 }
 
+export enum ButtonDirection {
+  BUTTON_FORWARD = "forward",
+  BUTTON_BACKWARD = "backward",
+}
+
 /* Internal Request & API Wrapper Types */
 
 export enum HttpMethod {

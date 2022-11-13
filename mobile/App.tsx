@@ -134,7 +134,6 @@ export default function App() {
           name={Screens.VIEW_SINGLE_ANNOUNCEMENT_SCREEN}
           component={ViewSingleAnnouncementScreen}
         />
-
       </Stack.Navigator>
     </NavigationContainer>
   );

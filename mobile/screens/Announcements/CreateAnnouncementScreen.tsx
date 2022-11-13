@@ -18,14 +18,14 @@ export default function CreateAnnouncementScreen(props: any) {
   const [date, setDate] = useState<Date>(new Date());
 
   const sendAnnouncement = async () => {
-    if (!title || !description){
+    if (!title || !description) {
       return;
     }
 
     await adminCreateAnnouncement(title, description, date);
 
     props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
-  }
+  };
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
       props.navigation.goBack();
@@ -41,27 +41,31 @@ export default function CreateAnnouncementScreen(props: any) {
       navigationProp={props.navigation}
       headerTitle={getFormattedDate(new Date())}
       pageBody={
-      <View style={styles.container}>
+        <View style={styles.container}>
           <View>
             <Text style={styles.label}>Announcement</Text>
-            <TextInput style={styles.input}
-            placeholder={"Announcement Title"} 
-            onChangeText={setTitle}></TextInput>
+            <TextInput
+              style={styles.input}
+              placeholder={"Announcement Title"}
+              onChangeText={setTitle}
+            ></TextInput>
             <View style={styles.multilineInput}>
-              <TextInput  style={styles.textInput}
-                          multiline={true}
-                          placeholder={"Announcement Title"}
-                          onChangeText={setDescription}/>
+              <TextInput
+                style={styles.textInput}
+                multiline={true}
+                placeholder={"Announcement Title"}
+                onChangeText={setDescription}
+              />
             </View>
           </View>
-
-      </View>}
-      footer={          
-      <TouchableOpacity style={styles.button} onPress={sendAnnouncement}>
-      <Text style={styles.buttonText}>Submit</Text>
-    </TouchableOpacity>
-}
-      />
+        </View>
+      }
+      footer={
+        <TouchableOpacity style={styles.button} onPress={sendAnnouncement}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+      }
+    />
   );
 }
 
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#666666",
     fontFamily: "DMSans-Bold",
-    marginBottom: 10
+    marginBottom: 10,
   },
   label2: {
     marginTop: 30,
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "#D9D9D9",
   },
-  
+
   multilineInput: {
     fontSize: 12,
     color: "#666666",
@@ -120,18 +124,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#666666",
     fontFamily: "DMSans-Bold",
-    paddingVertical: 12
+    paddingVertical: 12,
   },
   button: {
     marginBottom: 32,
     width: "100%",
     paddingVertical: 13,
     borderRadius: 8,
-    backgroundColor: "#666666",
+    backgroundColor: "#3F3BED",
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: "auto"
+    marginTop: "auto",
   },
   buttonText: {
     color: "white",

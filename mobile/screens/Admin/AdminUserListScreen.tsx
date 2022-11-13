@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { BackHandler, StyleSheet, Text, View } from "react-native";
 import UserEntry from "../../components/UserEntry";
 import UserOverlay from "../../components/Overlays/UserOverlay";
-import { Screens, User, UserFilter } from "../../utils/types";
+import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
 import { Types } from "mongoose";
 
-const PAGE_SIZE = 7;
+const PAGE_SIZE = 6;
 
 export default function AdminUserList(props: any) {
   const { filter } = props.route.params;
@@ -17,14 +17,13 @@ export default function AdminUserList(props: any) {
       (user) => user._id !== userId
     );
     allUsers[currentPage] = newUserList;
-    setAllUsers(allUsers);
+    setAllUsers([...allUsers]);
   };
   useEffect(() => {
     async function loadUsers() {
       const users = await adminGetUsers(PAGE_SIZE, undefined, filter);
       setAllUsers([users]);
     }
-
     BackHandler.addEventListener("hardwareBackPress", function () {
       props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
       return true;
@@ -32,10 +31,30 @@ export default function AdminUserList(props: any) {
 
     loadUsers().catch().then();
   }, []);
+  const processNext = async (direction: ButtonDirection) => {
+    if (direction === ButtonDirection.BUTTON_BACKWARD) {
+      setCurrentPage(Math.max(currentPage - 1, 0));
+    }
 
+    if (direction === ButtonDirection.BUTTON_FORWARD) {
+      // If we are on last page and have a full page of users, we want to load more users
+      const lastPage = allUsers.length - 1;
+      if (currentPage === lastPage && allUsers[lastPage].length === PAGE_SIZE) {
+        const afterId = allUsers[lastPage][PAGE_SIZE - 1]._id;
+        const newUsers = await adminGetUsers(PAGE_SIZE, afterId, filter);
+        allUsers.push(newUsers);
+        setAllUsers(allUsers);
+        setCurrentPage(currentPage + 1);
+      } else if (currentPage !== lastPage) {
+        // We are in a page in the middle
+        setCurrentPage(currentPage + 1);
+      }
+    }
+  };
   return (
     <UserOverlay
       navigationProp={props.navigation}
+      paginationButtonFunction={processNext}
       pageBody={
         <View style={styles.container}>
           <Text style={styles.title}>All Users</Text>

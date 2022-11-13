@@ -40,6 +40,7 @@ export default APIWrapper({
     config: {
       requireToken: true,
       roles: [Role.NONPROFIT_USER],
+      requireAdminVerification: false,
     },
     handler: async (req) => {
       const accessToken: string = req.headers.accesstoken as string;

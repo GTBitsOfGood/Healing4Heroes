@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   bubble: {
-    backgroundColor: "white",
+    backgroundColor: "#E6E6FA",
+    color: "blue",
     marginRight: 10,
     marginBottom: 10,
     padding: 10,

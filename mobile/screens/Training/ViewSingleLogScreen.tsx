@@ -3,9 +3,11 @@ import { BackHandler, StyleSheet, Text, View, Image } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { userGetUserInfo } from "../../actions/User";
-import { Role, StorageLocation } from "../../utils/types";
+import { Role } from "../../utils/types";
 import { getFile, getVideo } from "../../utils/storage";
 import { ResizeMode, Video } from "expo-av";
+import IconButton from "../../components/IconButton";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function ViewSingleLogScreen(props: any) {
   const {
@@ -49,13 +51,22 @@ export default function ViewSingleLogScreen(props: any) {
     <View style={styles.container}>
       <View style={styles.top}>
         {/* Invisible edit for positioning purposes */}
-        <Text style={{ ...styles.edit, color: "#f2f2f2" }}>Edit</Text>
+        <IconButton
+          icon={
+            <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
+          }
+          callbackFunction={() => {
+            props.navigation.goBack();
+          }}
+        ></IconButton>
+
         <Text style={styles.header}>
           {`${
             (processedDate?.getMonth() as number) + 1
           }-${processedDate?.getDate()}-${processedDate?.getFullYear()}`}
         </Text>
-        <Text style={styles.edit}>Edit</Text>
+        {/* <Text style={styles.edit}>Edit</Text> */}
+        <View></View>
       </View>
       {videoUrl && (
         <Video
@@ -84,22 +95,28 @@ export default function ViewSingleLogScreen(props: any) {
           <Text style={styles.videoText}>Video Unavailable</Text>
         </View>
       )}
-      <LogCard
-        date={date}
-        skills={skills}
-        trainingHours={trainingHours}
-        behaviors={behavior}
-      />
+      <View style={styles.logCard}>
+        <LogCard
+          date={date}
+          skills={skills}
+          trainingHours={trainingHours}
+          behaviors={behavior}
+        />
+      </View>
       {behaviorNote && (
         <View style={styles.textCard}>
-          <Text style={{ marginBottom: 5 }}>Behavior</Text>
-          <Text>{behaviorNote}</Text>
+          <Text style={[styles.regularText, { marginBottom: 5 }]}>
+            Behavior
+          </Text>
+          <Text style={styles.regularText}>{behaviorNote}</Text>
         </View>
       )}
       {description && (
         <View style={styles.textCard}>
-          <Text style={{ marginBottom: 5 }}>Additional Notes</Text>
-          <Text>{description}</Text>
+          <Text style={[styles.regularText, { marginBottom: 5 }]}>
+            Additional Notes
+          </Text>
+          <Text style={styles.regularText}>{description}</Text>
         </View>
       )}
     </View>
@@ -164,5 +181,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     borderWidth: 1,
+  },
+  logCard: {
+    marginHorizontal: 40,
+  },
+  regularText: {
+    fontFamily: "DMSans-Regular",
   },
 });

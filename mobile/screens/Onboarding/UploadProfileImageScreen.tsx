@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ResizeMode } from "expo-av";
-import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { calculateAge, convertToMegabytes } from "../../utils/helper";
 import { Screens, StorageLocation } from "../../utils/types";

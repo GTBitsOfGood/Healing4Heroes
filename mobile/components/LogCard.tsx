@@ -22,13 +22,13 @@ export default function LogCard({
   return (
     <View style={styles.card}>
       <View style={styles.cardRow}>
-        <Text>Date</Text>
-        <Text>{`${
+        <Text style={styles.regularText}>Date</Text>
+        <Text style={styles.regularText}>{`${
           (processedDate?.getMonth() as number) + 1
         }/${processedDate?.getDate()}/${processedDate?.getFullYear()}`}</Text>
       </View>
       <View style={styles.cardRow}>
-        <Text>Skill</Text>
+        <Text style={styles.regularText}>Skill</Text>
         <ScrollView
           style={styles.skills}
           contentContainerStyle={styles.skillsContent}
@@ -37,7 +37,7 @@ export default function LogCard({
           {skills.map((skill: string, index: number) => {
             return (
               <View style={styles.cardValue} key={index}>
-                <Text>{skill}</Text>
+                <Text style={styles.bubbleText}>{skill}</Text>
               </View>
             );
           })}
@@ -45,7 +45,7 @@ export default function LogCard({
       </View>
 
       <View style={styles.cardRow}>
-        <Text>Negative Behaviors</Text>
+        <Text style={styles.regularText}>Negative Behaviors</Text>
         <ScrollView
           style={styles.skills}
           contentContainerStyle={styles.skillsContent}
@@ -54,7 +54,7 @@ export default function LogCard({
           {behaviors.map((behavior: string, index: number) => {
             return (
               <View style={styles.cardValue} key={index}>
-                <Text>{behavior}</Text>
+                <Text style={styles.bubbleText}>{behavior}</Text>
               </View>
             );
           })}
@@ -62,9 +62,11 @@ export default function LogCard({
       </View>
 
       <View style={styles.cardRow}>
-        <Text>Training Hours</Text>
+        <Text style={styles.regularText}>Training Hours</Text>
         <View style={styles.cardValue}>
-          <Text>{`${trainingHours} Hour${trainingHours == 1 ? "" : "s"}`}</Text>
+          <Text style={styles.bubbleText}>{`${trainingHours} Hour${
+            trainingHours == 1 ? "" : "s"
+          }`}</Text>
         </View>
       </View>
     </View>
@@ -76,12 +78,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "stretch",
     backgroundColor: "white",
-    marginHorizontal: 40,
     marginVertical: 8,
     borderRadius: 12,
     paddingTop: 16,
     paddingBottom: 8,
     paddingHorizontal: 16,
+  },
+  regularText: {
+    fontFamily: "DMSans-Regular",
   },
   cardRow: {
     justifyContent: "space-between",
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   cardValue: {
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#E6E6FA",
     paddingHorizontal: 16,
     paddingVertical: 1,
     borderRadius: 20,
@@ -102,5 +106,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexDirection: "row",
     justifyContent: "flex-end",
+  },
+  bubbleText: {
+    color: "#3F3BED",
+    fontFamily: "DMSans-Regular",
   },
 });

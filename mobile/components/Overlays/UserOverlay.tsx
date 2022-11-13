@@ -5,10 +5,11 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
-  Text
+  Text,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "../IconButton";
+import { ButtonDirection } from "../../utils/types";
 
 interface UserOverlayProps {
   pageBody: ReactElement;
@@ -16,13 +17,15 @@ interface UserOverlayProps {
   navigationProp?: any;
   noPaginatedButtons?: boolean;
   headerTitle?: string;
+  paginationButtonFunction?: (direction: ButtonDirection) => void;
 }
 export default function UserOverlay({
   pageBody,
   navigationProp,
   noPaginatedButtons,
   headerTitle,
-  footer
+  footer,
+  paginationButtonFunction,
 }: UserOverlayProps) {
   return (
     <TouchableWithoutFeedback
@@ -51,18 +54,28 @@ export default function UserOverlay({
             <IconButton
               icon={
                 <View style={styles.backgroundCircle}>
-                  <Ionicons name="chevron-back" size={40} color="white" />
+                  <Ionicons name="chevron-back" size={40} color="black" />
                 </View>
               }
+              callbackFunction={() => {
+                if (paginationButtonFunction) {
+                  paginationButtonFunction(ButtonDirection.BUTTON_BACKWARD);
+                }
+              }}
             ></IconButton>
           )}
           {!noPaginatedButtons && (
             <IconButton
               icon={
                 <View style={styles.backgroundCircle}>
-                  <Ionicons name="chevron-forward" size={40} color="white" />
+                  <Ionicons name="chevron-forward" size={40} color="black" />
                 </View>
               }
+              callbackFunction={() => {
+                if (paginationButtonFunction) {
+                  paginationButtonFunction(ButtonDirection.BUTTON_FORWARD);
+                }
+              }}
             ></IconButton>
           )}
         </View>
@@ -146,9 +159,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  headerText:{
+  headerText: {
     fontFamily: "DMSans-Bold",
     color: "grey",
+    fontSize: 16,
   },
   footerContainer: {
     flexDirection: "row",
@@ -156,7 +170,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   backgroundCircle: {
-    backgroundColor: "black",
+    backgroundColor: "white",
     borderRadius: 1000,
     width: 50,
     height: 50,

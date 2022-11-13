@@ -22,7 +22,7 @@ export default function ViewAllAnnouncementsScreen(props: any) {
       const readLogs = await userGetReadAnnouncements();
       const announcementIds = readLogs.map((value) => value.announcement);
       const read = announcements.filter((announcement) =>
-      announcementIds.includes(announcement._id.toString())
+        announcementIds.includes(announcement._id.toString())
       );
       const unread = announcements.filter(
         (announcement) => !announcementIds.includes(announcement._id)
@@ -42,15 +42,14 @@ export default function ViewAllAnnouncementsScreen(props: any) {
     const log = await userCreateReadLog(announcement._id, new Date());
     setReadAnnouncements(readAnnouncements);
     setUnreadAnnouncements(newUnread);
-    processViewDetail(announcement)
+    processViewDetail(announcement);
   };
 
   const processViewDetail = (announcement: Announcement) => {
     props.navigation.navigate(Screens.VIEW_SINGLE_ANNOUNCEMENT_SCREEN, {
-      announcement: announcement
-    })
-
-  }
+      announcement: announcement,
+    });
+  };
 
   return (
     <UserOverlay

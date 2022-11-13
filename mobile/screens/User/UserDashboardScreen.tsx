@@ -38,7 +38,7 @@ export default function UserDashboardScreen(props: any) {
         (await userGetAnnouncements()) as Announcement[];
 
       announcementList.sort((first: Announcement, second: Announcement) => {
-        return second.date.getTime() - first.date.getTime();
+        return new Date(second.date).getTime() - new Date(first.date).getTime();
       });
 
       setAnnouncements(announcementList);

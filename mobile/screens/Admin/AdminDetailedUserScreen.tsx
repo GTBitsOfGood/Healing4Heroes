@@ -126,7 +126,7 @@ export default function AdminDetailedUserScreen(props: any) {
                   trainingLogs: trainingLogs.filter(
                     (log) =>
                       log.behavior.length &&
-                      log.behavior.includes(BehaviorTypes.NO_NEGATIVE_BEHAVIOR)
+                      !log.behavior.includes(BehaviorTypes.NO_NEGATIVE_BEHAVIOR)
                   ),
                 });
               }}

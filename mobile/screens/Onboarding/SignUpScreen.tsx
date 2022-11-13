@@ -12,7 +12,7 @@ import { validateEmail } from "../../utils/helper";
 import { auth } from "../../utils/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { userCreateUser } from "../../actions/User";
-import { Role, Screens, UserVerificationLogType } from "../../utils/types";
+import { Screens, UserVerificationLogType } from "../../utils/types";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { authCreateVerificationLog } from "../../actions/Auth";
 
