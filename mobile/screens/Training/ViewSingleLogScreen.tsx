@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, Text, View } from "react-native";
+import { BackHandler, StyleSheet, Text, View, Image } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { userGetUserInfo } from "../../actions/User";
 import { Role, StorageLocation } from "../../utils/types";
-import { getVideo } from "../../utils/storage";
+import { getFile, getVideo } from "../../utils/storage";
 import { ResizeMode, Video } from "expo-av";
 
 export default function ViewSingleLogScreen(props: any) {
@@ -16,10 +16,12 @@ export default function ViewSingleLogScreen(props: any) {
     description,
     behaviorNote,
     video,
+    videoThumbnail,
   } = props.route.params;
 
   const [processedDate, setProcessedDate] = useState<Date | null>();
   const [videoUrl, setVideoUrl] = useState<string>("");
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
   useEffect(() => {
     async function loadLogInformation() {
       const user = await userGetUserInfo();
@@ -27,6 +29,11 @@ export default function ViewSingleLogScreen(props: any) {
         if (video) {
           const videoLog = await getVideo(video);
           setVideoUrl(videoLog);
+        }
+      } else {
+        if (videoThumbnail) {
+          const thumbnail = (await getFile(videoThumbnail)) as string;
+          setThumbnailUrl(thumbnail);
         }
       }
     }
@@ -50,7 +57,7 @@ export default function ViewSingleLogScreen(props: any) {
         </Text>
         <Text style={styles.edit}>Edit</Text>
       </View>
-      {videoUrl ? (
+      {videoUrl && (
         <Video
           style={styles.animalCard}
           source={{
@@ -60,12 +67,21 @@ export default function ViewSingleLogScreen(props: any) {
           useNativeControls
           isLooping
         />
-      ) : (
+      )}
+      {thumbnailUrl && (
+        <View style={styles.animalCard}>
+          <Image
+            style={styles.thumbnailCard}
+            source={{
+              uri: thumbnailUrl,
+            }}
+          />
+        </View>
+      )}
+      {!thumbnailUrl && !videoUrl && (
         <View style={styles.animalCard}>
           <FontAwesome5 name="dog" size={50} color="black" />
-          <Text style={styles.videoText}>
-            Video Unavailable
-          </Text>
+          <Text style={styles.videoText}>Video Unavailable</Text>
         </View>
       )}
       <LogCard
@@ -141,5 +157,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
     fontFamily: "DMSans-Regular",
+  },
+  thumbnailCard: {
+    width: "100%",
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 20,
+    borderWidth: 1,
   },
 });

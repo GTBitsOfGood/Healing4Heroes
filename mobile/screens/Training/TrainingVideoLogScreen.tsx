@@ -59,6 +59,7 @@ export default function TrainingVideoLogScreen(props: any) {
         videoUri
       );
     }
+    console.log(videoThumbnail);
     const animal: ServiceAnimal = await userGetAnimal();
     const trainingLog = await userCreateTrainingLog(
       new Date(trainingLogDate),
@@ -109,13 +110,11 @@ export default function TrainingVideoLogScreen(props: any) {
       }
       setVideoUri(videoLocation);
 
-      // For Whatever Reason Only IOS is Able to Get Thumbnails
-      // You will want to follow up with the Expo team
-      if (Platform.OS === "ios") {
-        if (!result.cancelled) {
-          const { uri } = await VideoThumbnails.getThumbnailAsync(result.uri);
-          setThumbnail(uri);
-        }
+      const assets = result?.assets as ImagePicker.ImagePickerAsset[];
+      if (assets?.length > 0) {
+        console.log(assets[0]);
+        const data = await VideoThumbnails.getThumbnailAsync(assets[0].uri);
+        setThumbnail(data.uri);
       }
     }
   };

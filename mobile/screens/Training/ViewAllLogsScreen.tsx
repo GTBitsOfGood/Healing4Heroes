@@ -26,6 +26,7 @@ export default function ViewAllLogsScreen(props: any) {
           return (
             <TouchableOpacity
               onPress={() => {
+                console.log(log);
                 props.navigation.navigate(Screens.VIEW_SINGLE_LOG_SCREEN, {
                   date: log.date,
                   skills: log.skills,
@@ -34,6 +35,7 @@ export default function ViewAllLogsScreen(props: any) {
                   behaviorNote: log.behaviorNote,
                   description: log.description,
                   video: log.video,
+                  videoThumbnail: log.videoThumbnail,
                 });
               }}
               key={index}
