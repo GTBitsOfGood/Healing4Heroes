@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect} from "react";
+import { LogBox } from 'react-native';
 import LoginScreen from "./screens/Onboarding/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -30,6 +31,10 @@ import ViewSingleAnnouncementScreen from "./screens/Announcements/ViewSingleAnno
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  useEffect(() => {
+    LogBox.ignoreAllLogs();//Hide all warning notifications on front-end
+  }, [])
+  
   useFonts({
     "DMSans-Bold": require("./assets/fonts/DMSans-Bold.ttf"),
     "DMSans-Medium": require("./assets/fonts/DMSans-Medium.ttf"),
