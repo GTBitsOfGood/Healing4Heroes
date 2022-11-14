@@ -42,4 +42,20 @@ export default APIWrapper({
       return updatedAnimal;
     },
   },
+  GET: {
+    config: {
+      requireToken: true,
+      roles: [Role.NONPROFIT_ADMIN],
+    },
+    handler: async (req) => {
+      const userId: string = req.query.userId as string;
+      const animal = await findAnimalByUserId(userId);
+
+      if (!animal) {
+        throw new Error("Animal for specified user was not found");
+      }
+
+      return animal;
+    },
+  },
 });

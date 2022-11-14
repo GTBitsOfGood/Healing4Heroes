@@ -5,7 +5,7 @@ import {
 } from "server/mongodb/actions/TrainingLog";
 import APIWrapper from "server/utils/APIWrapper";
 import { getUser } from "server/utils/Authentication";
-import { Role, User } from "src/utils/types";
+import { BehaviorTypes, Role, User } from "src/utils/types";
 
 export default APIWrapper({
   POST: {
@@ -18,9 +18,11 @@ export default APIWrapper({
       const description: string = req.body.description as string;
       const skills: Array<string> = req.body.skills as Array<string>;
       const trainingHours: number = req.body.trainingHours as number;
-      const behavior: string = req.body.behavior as string;
+      const behavior: BehaviorTypes[] = req.body.behavior as BehaviorTypes[];
+      const behaviorNote: string = req.body.behaviorNote as string;
       const animal: Types.ObjectId = req.body.animal as Types.ObjectId;
       const video: string = req.body.video as string;
+      const videoThumbnail: string = req.body.videoThumbnail as string;
 
       const handler: User = await getUser(req.headers.accesstoken as string);
 
@@ -30,9 +32,11 @@ export default APIWrapper({
         skills,
         trainingHours,
         behavior,
+        behaviorNote,
         animal,
         handler._id,
-        video
+        video,
+        videoThumbnail
       );
       if (!trainingLog) {
         throw new Error("Failed to create training log");

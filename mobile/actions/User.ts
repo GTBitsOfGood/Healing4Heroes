@@ -1,11 +1,15 @@
 import { internalRequest } from "../utils/requests";
-import { HandlerType, HttpMethod, Role, User } from "../utils/types";
+import {
+  HandlerType,
+  HttpMethod,
+  Role,
+  User,
+  UserFilter,
+} from "../utils/types";
 import { urls } from "../utils/urls";
 import { Types } from "mongoose";
 
 const userUserUrl = urls.baseUrl + urls.api.user.user;
-const adminUserUrl = urls.baseUrl + urls.api.admin.user;
-const adminUserVerifiedUrl = urls.baseUrl + urls.api.admin.userVerified;
 
 export const userGetUserInfo = async () => {
   return internalRequest<User>({
@@ -18,7 +22,6 @@ export const userGetUserInfo = async () => {
 export const userCreateUser = async (
   email: string,
   firebaseUid: string,
-  roles: Array<Role>,
   birthday?: Date,
   firstName?: string,
   lastName?: string,
@@ -31,7 +34,6 @@ export const userCreateUser = async (
     body: {
       email,
       firebaseUid,
-      roles,
       firstName,
       lastName,
       handlerType,
@@ -60,32 +62,6 @@ export const userUpdateUser = async (
       lastName,
       handlerType,
       profileImage,
-    },
-  });
-};
-
-export const adminGetUsers = async (
-  pageSize: number,
-  afterId?: Types.ObjectId
-) => {
-  return internalRequest<User[]>({
-    url: adminUserUrl,
-    method: HttpMethod.GET,
-    authRequired: true,
-    body: {
-      afterId,
-      pageSize,
-    },
-  });
-};
-
-export const adminVerifyUser = async (userId: Types.ObjectId) => {
-  return internalRequest<User[]>({
-    url: adminUserVerifiedUrl,
-    method: HttpMethod.PATCH,
-    authRequired: true,
-    body: {
-      userId,
     },
   });
 };

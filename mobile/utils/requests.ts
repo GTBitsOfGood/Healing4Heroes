@@ -19,6 +19,7 @@ export async function internalRequest<T>({
         : "",
     },
   };
+
   if (body) {
     requestInfo.body = JSON.stringify(body);
   }

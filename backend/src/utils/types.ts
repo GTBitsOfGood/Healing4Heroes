@@ -25,6 +25,7 @@ export interface User {
   roles?: Array<Role>;
   profileImage?: string;
   verifiedByAdmin: boolean;
+  emailVerified: boolean;
 }
 
 export interface ServiceAnimal {
@@ -53,10 +54,12 @@ export interface TrainingLog {
   description: string;
   skills: Array<string>;
   trainingHours: number;
-  behavior: ServiceAnimalBehavior;
+  behavior: BehaviorTypes[];
   animal: Types.ObjectId;
   handler: Types.ObjectId;
+  behaviorNote?: string;
   video?: string;
+  videoThumbnail?: string;
 }
 
 export interface Announcement {
@@ -67,9 +70,11 @@ export interface Announcement {
   sender: Types.ObjectId;
 }
 
-export interface ServiceAnimalBehavior {
-  description: string;
-  repeat: number;
+export interface ReadLog {
+  _id: Types.ObjectId;
+  announcement: Types.ObjectId;
+  user: Types.ObjectId;
+  readAt: Date;
 }
 
 export enum ServiceAnimalSkills {
@@ -79,6 +84,34 @@ export enum ServiceAnimalSkills {
   SKILL_TOUCH = "Touch",
   SKILL_TUCK = "Tuck",
   SKILL_HEEL = "Heel",
+}
+
+export enum UserVerificationLogType {
+  EMAIL_VERIFICATION = "email verification",
+  PASSWORD_RESET = "password reset",
+}
+
+export interface VerificationLog {
+  _id: Types.ObjectId; // ObjectId of the Verification Log
+  code: number; // randomly generated 6-digit code the user receives in the email
+  user: Types.ObjectId; // _id of the user we sent the code to
+  email: string; // email the code is sent to
+  type: UserVerificationLogType; // two values (for now) --> UserVerificationLogType.EMAIL_VERIFICATION or UserVerificationLogType.PASSWORD_RESET
+  issueDate: Date; // the day and time the code was issued
+  expirationDate: Date; // The day and time the code expires (should always be 60 mins after the issueDate)
+  isVerified: boolean; // Used to indicate if the verification attempt succeeded (i.e. the user sent the right 6 digit code)
+  expired: boolean; // Used to indicate if the verification log has already been used / expired --> if so, it cannot be reused and the user must request a new one
+}
+
+export enum BehaviorTypes {
+  NO_NEGATIVE_BEHAVIOR = "No Negative Behavior",
+  BITING = "Biting",
+  UNPROVOKED_BARKING = "Unprovoked Barking",
+  AGRESSIVE_PULLING = "Agressive Pulling",
+  UNCONTROLLED_JUMPING = "Uncontrolled Jumping",
+  GETTING_TRASH_TOILET = "Getting Into Trash / Toilet",
+  GROWLING_AGRESSIVE_BEHAVIOR = "Growling or Showing Agressive Behavior",
+  OTHER = "Other",
 }
 
 /* Internal Request & API Wrapper Types */
@@ -106,4 +139,29 @@ export interface InternalResponseData<T> {
   success: boolean;
   message?: string;
   payload?: T;
+}
+
+export interface MultipartUpload {
+  UploadId: string;
+  Key: string;
+}
+
+export interface UploadedPart {
+  ETag: string;
+  PartNumber: number;
+}
+/* Email Utils*/
+
+export enum EmailSubject {
+  EMAIL_VERIFICATION = "Verify Your Email for Healing4Heroes",
+  PASSWORD_RESET = "Reset Your Password for Healing4Heroes",
+}
+
+/* User Retrieval */
+
+export enum UserFilter {
+  NONPROFIT_USERS = "users",
+  NONPROFIT_ADMINS = "admins",
+  UNVERIFIED_USERS = "unverified users",
+  WITH_800_HOURS_USERS = "users with 800 users",
 }

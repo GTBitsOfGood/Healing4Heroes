@@ -7,6 +7,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Image,
+  TouchableOpacity,
 } from "react-native";
 
 interface OnboardingOverlayProps {
@@ -16,6 +17,10 @@ interface OnboardingOverlayProps {
   pageBody: ReactElement;
   footerCallback?: () => void | undefined;
   headerText: string;
+  errorMessage?: string;
+  nextStepText?: string;
+  nextStepCallback?: () => Promise<void> | void | undefined;
+  notError?: boolean;
 }
 export default function OnboardingOverlay({
   pageBody,
@@ -24,8 +29,13 @@ export default function OnboardingOverlay({
   footerSubText,
   footerCallback,
   headerText,
+  errorMessage,
+  nextStepText,
+  nextStepCallback,
+  notError,
 }: OnboardingOverlayProps) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [nextStatus, setNextStatus] = useState(false);
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -69,6 +79,35 @@ export default function OnboardingOverlay({
           </View>
           {headerText && <Text style={styles.headerText}>{headerText}</Text>}
           <ScrollView>{pageBody}</ScrollView>
+          {errorMessage && (
+            <View
+              style={[
+                notError ? styles.notErrorContainer : styles.failedContainer,
+              ]}
+            >
+              <Text
+                style={[notError ? styles.notErrorText : styles.failedText]}
+              >
+                {errorMessage}
+              </Text>
+            </View>
+          )}
+
+          {nextStepText && (
+            <TouchableOpacity
+              disabled={nextStatus}
+              style={styles.button}
+              onPress={async () => {
+                setNextStatus(true);
+                if (nextStepCallback) {
+                  await nextStepCallback();
+                }
+                setNextStatus(false);
+              }}
+            >
+              <Text style={styles.btnText}>{nextStepText}</Text>
+            </TouchableOpacity>
+          )}
 
           {!isKeyboardVisible && footerMainText && (
             <Text style={styles.footerMainText}>{footerMainText}</Text>
@@ -130,16 +169,63 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   footerMainText: {
+    color: "#999999",
     marginTop: "auto",
     fontWeight: "400",
   },
   footerSubText: {
-    fontWeight: "200",
-    marginBottom: 20,
+    color: "#3F3BED",
+    fontWeight: "400",
+    marginBottom: 30,
+    marginTop: 4,
   },
   headerText: {
     fontWeight: "bold",
     fontSize: 20,
     marginBottom: 15,
+  },
+  failedContainer: {
+    marginTop: 12,
+    alignItems: "center",
+    marginBottom: 12,
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    minWidth: "100%",
+    backgroundColor: "#FF8E8E50",
+    borderColor: "#C63636",
+  },
+  failedText: {
+    fontSize: 12,
+    fontWeight: "400",
+    color: "#C63636",
+  },
+  notErrorContainer: {
+    marginTop: 12,
+    alignItems: "center",
+    marginBottom: 12,
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    minWidth: "100%",
+    backgroundColor: "#E6E6FA",
+    borderColor: "blue",
+  },
+  notErrorText: {
+    fontSize: 12,
+    fontWeight: "400",
+    color: "blue",
+  },
+  button: {
+    padding: 15,
+    marginBottom: 10,
+    alignItems: "center",
+    borderRadius: 10,
+    minWidth: "100%",
+    backgroundColor: "#3F3BED",
+  },
+
+  btnText: {
+    color: "white",
   },
 });

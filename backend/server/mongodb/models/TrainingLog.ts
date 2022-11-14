@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { TrainingLog } from "src/utils/types";
+import { TrainingLog, BehaviorTypes } from "src/utils/types";
 
 const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
   date: {
@@ -20,8 +20,14 @@ const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
     required: true,
   },
   behavior: {
-    type: String,
+    type: [String],
+    enum: Object.values(BehaviorTypes),
     required: true,
+    default: [],
+  },
+  behaviorNote: {
+    type: String,
+    required: false,
   },
   animal: {
     type: Schema.Types.ObjectId,
@@ -33,6 +39,11 @@ const TrainingLogSchema = new mongoose.Schema<TrainingLog>({
   },
   video: {
     type: String,
+    required: false,
+  },
+  videoThumbnail: {
+    type: String,
+    required: false,
   },
 });
 

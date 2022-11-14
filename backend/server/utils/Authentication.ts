@@ -1,9 +1,19 @@
 import { getAuth } from "firebase-admin/auth";
+import jwt from "jsonwebtoken";
 import nodemailer, { TransportOptions } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";
 
+export const parseEmailTemplate = (email: string, options?: any) => {
+  let emailData: string = email;
+  if (options) {
+    for (const [key, value] of Object.entries(options)) {
+      emailData = emailData.replaceAll("{{" + key + "}}", value as string);
+    }
+  }
+  return emailData;
+};
 export const getUser = async (accessToken: string) => {
   if (!accessToken) {
     throw new Error("This API endpoint requires an access token!");
@@ -23,6 +33,20 @@ export const getUser = async (accessToken: string) => {
     throw new Error("Could not find user in database!");
   }
   return user;
+};
+
+export const getWebToken = (data: Record<string, string | boolean>) => {
+  data.authorized = true;
+  return jwt.sign(data, process.env.APP_SECRET as string, {
+    expiresIn: "1h",
+  });
+};
+
+export const verifyWebToken = (webToken: string) => {
+  const data = jwt.verify(webToken, process.env.APP_SECRET as string, {
+    ignoreExpiration: false,
+  });
+  return data as Record<string, string | boolean>;
 };
 
 export const sendEmail = async (
@@ -47,8 +71,25 @@ export const sendEmail = async (
     from: process.env.EMAIL_FROM,
     to: recipient,
     subject: emailSubject,
-    text: emailBody,
+    html: emailBody,
   } as Mail.Options);
-
   return res;
+};
+
+export const resetPassword = async (email: string, newPassword: string) => {
+  firebaseConnect();
+  try {
+    const user = await getAuth().getUserByEmail(email);
+    const update = await getAuth().updateUser(user.uid, {
+      password: newPassword,
+    });
+    return update;
+  } catch {
+    return false;
+  }
+};
+
+export const removeUserFromFirebase = async (firebaseUid: string) => {
+  firebaseConnect();
+  await getAuth().deleteUser(firebaseUid);
 };

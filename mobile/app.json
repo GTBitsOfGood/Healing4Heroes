@@ -31,7 +31,15 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
+          "photosPermission": "Allow Healing4Heroes to access your photos."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow Healing4Heroes to access your photos.",
+          "savePhotosPermission": "Allow Healing4Heroes to save photos.",
+          "isAccessMediaLocationEnabled": true
         }
       ]
     ]

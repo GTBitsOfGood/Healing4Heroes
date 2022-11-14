@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, Text, View } from "react-native";
+import {
+  BackHandler,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -9,32 +15,44 @@ import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
 import { userGetUserInfo } from "../../actions/User";
 import { userGetAnimal } from "../../actions/Animal";
-import { ServiceAnimal, User } from "../../utils/types";
+import { Announcement, Screens, ServiceAnimal, User } from "../../utils/types";
 import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
 import { userGetTrainingLogs } from "../../actions/TrainingLog";
+import IconButton from "../../components/IconButton";
+import { userGetAnnouncements } from "../../actions/Announcement";
+import { auth } from "../../utils/firebase";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [animalInfo, setAnimalInfo] = useState<ServiceAnimal | null>(null);
   const [animalImage, setAnimalImage] = useState<string>("");
+  const [isEnabled, setEnabled] = useState<boolean>(false);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   useEffect(() => {
     async function getUserDashboardInformation() {
       const user: User = (await userGetUserInfo()) as User;
       const animal: ServiceAnimal = (await userGetAnimal()) as ServiceAnimal;
+      const announcementList: Announcement[] =
+        (await userGetAnnouncements()) as Announcement[];
 
+      announcementList.sort((first: Announcement, second: Announcement) => {
+        return new Date(second.date).getTime() - new Date(first.date).getTime();
+      });
+
+      setAnnouncements(announcementList);
       setUserInfo(user);
       setAnimalInfo(animal);
       setHoursCompleted(animal?.totalHours);
       const imageData = await getFile(animal?.profileImage as string);
       setAnimalImage(imageData as string);
+      setEnabled(user?.emailVerified && user?.verifiedByAdmin);
     }
 
     getUserDashboardInformation().then().catch();
-
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("User Dashboard");
+      props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
       return true;
     });
 
@@ -48,20 +66,41 @@ export default function UserDashboardScreen(props: any) {
     <DashboardOverlay
       headerComponent={
         <View style={styles.dashboardHeader}>
-          <FontAwesome name="user-circle" size={26} color="blue" />
+          <FontAwesome name="user-circle" size={26} color="#3F3BED" />
           <Text style={styles.profileName}>
             {userInfo?.firstName} {userInfo?.lastName}
           </Text>
-          <MaterialCommunityIcons name="bell-badge" size={26} color="blue" />
+          <IconButton
+            callbackFunction={async () => {
+              await auth.signOut().then().catch();
+              props.navigation.navigate(Screens.LANDING_SCREEN);
+            }}
+            icon={
+              <MaterialCommunityIcons name="logout" size={26} color="#3F3BED" />
+            }
+          ></IconButton>
         </View>
       }
       pageBody={
         <View style={styles.container}>
           {/* announcment */}
-          <View style={styles.announcementContainer}>
-            <Text style={styles.announcementTitle}>New Announcements</Text>
-            <Text style={styles.announcementText}>No New Announcements</Text>
-          </View>
+          <TouchableOpacity
+            style={styles.announcementContainer}
+            onPress={() => {
+              props.navigation.navigate(Screens.VIEW_ALL_ANNOUNCEMENTS_SCREEN);
+            }}
+          >
+            <Text style={styles.announcementTitle} numberOfLines={1}>
+              {announcements && announcements.length
+                ? announcements[0].title
+                : "Announcements"}
+            </Text>
+            <Text style={styles.announcementText} numberOfLines={1}>
+              {announcements && announcements.length
+                ? announcements[0].description
+                : "No New Announcements"}
+            </Text>
+          </TouchableOpacity>
 
           {/* training bar status */}
           <Text style={styles.label}>Training Progress</Text>
@@ -79,25 +118,33 @@ export default function UserDashboardScreen(props: any) {
           <View style={styles.logContainer}>
             <LogButton
               text="Add New Log"
-              icon={<MaterialIcons name="note-add" size={40} color="blue" />}
+              icon={
+                <MaterialIcons
+                  name="note-add"
+                  size={40}
+                  color={isEnabled ? "#3F3BED" : "gray"}
+                />
+              }
               navigation={props.navigation}
+              disabled={!isEnabled}
               callbackFunction={() =>
-                props.navigation.navigate("Add Training Log")
+                props.navigation.navigate(Screens.ADD_TRAINING_LOG_SCREEN)
               }
             />
             <LogButton
               text="View All Logs"
+              disabled={!isEnabled}
               icon={
                 <MaterialCommunityIcons
                   name="file-document"
                   size={40}
-                  color="blue"
+                  color={isEnabled ? "#3F3BED" : "gray"}
                 />
               }
               navigation={props.navigation}
               callbackFunction={async () => {
                 const trainingLogs = await userGetTrainingLogs();
-                props.navigation.navigate("View All Logs Screen", {
+                props.navigation.navigate(Screens.VIEW_ALL_LOGS_SCREEN, {
                   trainingLogs,
                 });
               }}

@@ -1,12 +1,12 @@
 import { Types } from "mongoose";
-import { getUsers } from "server/mongodb/actions/User";
+import { adminGetUsers } from "server/mongodb/actions/User";
 import APIWrapper from "server/utils/APIWrapper";
-import { Role } from "src/utils/types";
+import { Role, UserFilter } from "src/utils/types";
 
 export default APIWrapper({
-  GET: {
+  POST: {
     config: {
-      requireToken: true,
+      requireToken: false,
       roles: [Role.NONPROFIT_ADMIN],
     },
     handler: async (req) => {
@@ -14,8 +14,11 @@ export default APIWrapper({
           and if not, indicate that in the response. */
       const afterId: Types.ObjectId = req.body.afterId as Types.ObjectId;
       const pageSize: number = req.body.pageSize as number;
+      const filter: UserFilter | undefined = req.body.filter as
+        | UserFilter
+        | undefined;
 
-      const users = await getUsers(pageSize, afterId);
+      const users = await adminGetUsers(pageSize, afterId, filter);
 
       return users;
     },

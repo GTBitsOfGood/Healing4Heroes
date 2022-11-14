@@ -32,7 +32,7 @@ export async function createAnimal(
   return animal;
 }
 
-export async function findAnimalByUserId(handlerId: Types.ObjectId) {
+export async function findAnimalByUserId(handlerId: Types.ObjectId | string) {
   await dbConnect();
 
   const animal = AnimalModel.findOne({ handler: handlerId });
@@ -70,6 +70,16 @@ export async function updateAnimal(
       new: true,
     }
   );
+
+  return animal;
+}
+
+export async function deleteAnimalByUserId(userId: Types.ObjectId) {
+  await dbConnect();
+
+  const animal = AnimalModel.findOneAndDelete({
+    handler: userId,
+  });
 
   return animal;
 }

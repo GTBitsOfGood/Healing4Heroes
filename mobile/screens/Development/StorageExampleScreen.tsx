@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Button, View, Image } from "react-native";
+import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
-import { getFile, uploadFile } from "../../utils/storage";
+import { v4 as uuidv4 } from "uuid";
+import { uploadVideo } from "../../utils/storage";
 import { StorageLocation } from "../../utils/types";
 export default function StorageExampleScreen() {
   const [image, setImage] = useState("");
@@ -12,20 +14,27 @@ export default function StorageExampleScreen() {
       allowsEditing: true,
       quality: 1,
     });
+    const assets = result?.assets as ImagePicker.ImagePickerAsset[];
 
-    if (!result.cancelled) {
+    if (assets.length > 0) {
       // Usually shouldn't upload until a submit button or next button is pressed
       // This is the result you will want to save in the database
-      const res = await uploadFile(
-        "test.jpg",
-        StorageLocation.HANDLER_PICTURES,
-        result.uri
+      // const res = await uploadFile(
+      //   "icon.png",
+      //   StorageLocation.HANDLER_PICTURES,
+      //   result.uri
+      // );
+
+      const videoSize = (await FileSystem.getInfoAsync(assets[0].uri)).size;
+      const res = await uploadVideo(
+        uuidv4() as string,
+        StorageLocation.TRAINING_LOG_VIDEOS,
+        assets[0].uri
       );
-      console.log(res);
 
       // Use the download URL as the source
-      const res2 = await getFile(res as string);
-      setImage(res2 as string);
+      // const res2 = await getFile(res as string);
+      // setImage(res2 as string);
     }
   };
   return (

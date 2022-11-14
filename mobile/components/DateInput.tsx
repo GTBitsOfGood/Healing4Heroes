@@ -4,7 +4,7 @@ interface DateInputProps {
   autofill: boolean;
   callbackFunction: (date: Date) => void;
 }
-export default function SolidDropDown({
+export default function DateInput({
   autofill,
   callbackFunction,
 }: DateInputProps) {
@@ -17,7 +17,7 @@ export default function SolidDropDown({
     if (autofill) {
       const today = new Date();
       setMonth((today.getMonth() + 1).toString());
-      setDay(today.getDay().toString());
+      setDay(today.getDate().toString());
       setYear(today.getFullYear().toString());
     }
   }, []);

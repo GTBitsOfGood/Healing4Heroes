@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  Platform,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { userCreateTrainingLog } from "../../actions/TrainingLog";
@@ -17,24 +18,42 @@ import { ResizeMode, Video } from "expo-av";
 import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
-import { ServiceAnimal, StorageLocation } from "../../utils/types";
-import { uploadFile } from "../../utils/storage";
+import { uploadFile, uploadVideo } from "../../utils/storage";
+import { Screens, ServiceAnimal, StorageLocation } from "../../utils/types";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
+import * as VideoThumbnails from "expo-video-thumbnails";
 
 export default function TrainingVideoLogScreen(props: any) {
   const [error, setError] = useState("");
   const [videoUri, setVideoUri] = useState<string>("");
+  const [thumbnail, setThumbnail] = useState<string>("");
+
   const [additionalNotes, setAdditionalNotes] = React.useState("");
 
   //input propagated from addTrainingLogPage
-  const { totalHours, skillValuesSelected, behaviorDescription } =
-    props.route.params;
+  const {
+    totalHours,
+    skillValuesSelected,
+    behavior,
+    behaviorNote,
+    trainingLogDate,
+  } = props.route.params;
 
   const createTrainingLog = async () => {
     let upload = undefined;
+    let videoThumbnail = undefined;
+
+    if (thumbnail) {
+      videoThumbnail = await uploadFile(
+        uuidv4() + ".png",
+        StorageLocation.TRAINING_LOG_THUMBNAILS,
+        thumbnail
+      );
+    }
+
     if (videoUri) {
       const fileName: string = uuidv4();
-      upload = await uploadFile(
+      upload = await uploadVideo(
         fileName + ".mp4",
         StorageLocation.TRAINING_LOG_VIDEOS,
         videoUri
@@ -42,30 +61,31 @@ export default function TrainingVideoLogScreen(props: any) {
     }
     const animal: ServiceAnimal = await userGetAnimal();
     const trainingLog = await userCreateTrainingLog(
-      new Date(),
+      new Date(trainingLogDate),
       skillValuesSelected,
       totalHours,
-      behaviorDescription,
+      behavior,
+      behaviorNote,
       (animal as ServiceAnimal)._id,
       additionalNotes,
-      upload as string
+      upload as string,
+      videoThumbnail as string
     );
 
     const updateServiceAnimal = await userUpdateAnimal(
       undefined,
       (animal as ServiceAnimal).totalHours + parseInt(totalHours)
     );
-
     if (!updateServiceAnimal) {
       setError("Failed to add hours to service animal");
     }
-    props.navigation.navigate("User Dashboard");
+    props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
     return trainingLog;
   };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("Add Training Log");
+      props.navigation.navigate(Screens.ADD_TRAINING_LOG_SCREEN);
       return true;
     });
   }, []);
@@ -76,9 +96,9 @@ export default function TrainingVideoLogScreen(props: any) {
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       quality: 1,
     });
-
-    if (!result.cancelled) {
-      const videoLocation = (result as ImageInfo).uri;
+    const assets = result?.assets as ImagePicker.ImagePickerAsset[];
+    if (assets?.length > 0) {
+      const videoLocation = (assets[0] as ImagePicker.ImagePickerAsset).uri;
       const videoSize = (await FileSystem.getInfoAsync(videoLocation)).size;
       // All Videos must be smaller than 1GB
       if (convertToMegabytes(videoSize as number) > 1024) {
@@ -88,6 +108,8 @@ export default function TrainingVideoLogScreen(props: any) {
         return;
       }
       setVideoUri(videoLocation);
+      const data = await VideoThumbnails.getThumbnailAsync(assets[0].uri);
+      setThumbnail(data.uri);
     }
   };
 

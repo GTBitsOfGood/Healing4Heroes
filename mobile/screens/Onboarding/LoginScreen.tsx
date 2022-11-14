@@ -12,7 +12,7 @@ import {
 import { auth } from "../../utils/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { userGetUserInfo } from "../../actions/User";
-import { Role } from "../../utils/types";
+import { Role, Screens } from "../../utils/types";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
@@ -33,7 +33,7 @@ export default function LoginScreen(props: any) {
       );
 
       if (!userCredential || !userCredential.user) {
-        setErrorMessage(`An error occurred -- Please try again!`);
+        setErrorMessage(`Login Failed - Please try again!`);
         setCheckValidUser(false);
         return;
       }
@@ -41,19 +41,21 @@ export default function LoginScreen(props: any) {
       const user = await userGetUserInfo();
       return user;
     } catch (e) {
-      setErrorMessage(`Account email or password combination is incorrect!`);
+      console.log(e);
+      setErrorMessage(`Login Failed - Invalid email or password`);
       setCheckValidUser(false);
       return;
     }
   };
+
   return (
     <OnboardingOverlay
       showBackDrop={false}
       footerMainText={"Don't have an account?"}
-      footerSubText={"Create an Account"}
+      footerSubText={"Sign up here"}
       headerText={"Login to Your Account"}
       footerCallback={() => {
-        props.navigation.navigate("Sign Up");
+        props.navigation.navigate(Screens.SIGN_UP_SCREEN);
       }}
       pageBody={
         <TouchableWithoutFeedback
@@ -113,13 +115,19 @@ export default function LoginScreen(props: any) {
                             result.handlerType
                           )
                         ) {
-                          props.navigation.navigate("Handler Information");
+                          props.navigation.navigate(
+                            Screens.HANDLER_INFORMATION_SCREEN
+                          );
                         } else if (
                           result.roles?.includes(Role.NONPROFIT_ADMIN)
                         ) {
-                          props.navigation.navigate("Admin Dashboard");
+                          props.navigation.navigate(
+                            Screens.ADMIN_DASHBOARD_SCREEN
+                          );
                         } else {
-                          props.navigation.navigate("User Dashboard");
+                          props.navigation.navigate(
+                            Screens.USER_DASHBOARD_SCREEN
+                          );
                         }
                       }
                       setLoginDisable(false);
@@ -130,7 +138,13 @@ export default function LoginScreen(props: any) {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.forgotContainer}>
-                  <Text>Forgot your password?</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate(Screens.FORGOT_PASSWORD_SCREEN);
+                    }}
+                  >
+                    <Text style={styles.forgotText}>Forgot your password?</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </KeyboardAvoidingView>
@@ -212,7 +226,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     minWidth: "100%",
-    backgroundColor: "#666666",
+    backgroundColor: "#3F3BED",
   },
 
   btnText: {
@@ -224,19 +238,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  forgotText: {
+    color: "#666666",
+    fontWeight: "400",
+  },
+
   failedContainer: {
+    marginTop: 24,
     alignItems: "center",
-    marginTop: 25,
     padding: 8,
     borderRadius: 10,
-    borderWidth: 0.5,
+    borderWidth: 1,
     minWidth: "100%",
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#FF8E8E50",
+    borderColor: "#C63636",
   },
 
   failedText: {
-    fontSize: 10,
-    fontWeight: "300",
+    fontSize: 12,
+    fontWeight: "400",
+    color: "#C63636",
   },
 
   footerTextContainer: {

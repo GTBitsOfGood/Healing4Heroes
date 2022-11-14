@@ -12,8 +12,9 @@ import { validateEmail } from "../../utils/helper";
 import { auth } from "../../utils/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { userCreateUser } from "../../actions/User";
-import { Role } from "../../utils/types";
+import { Screens, UserVerificationLogType } from "../../utils/types";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
+import { authCreateVerificationLog } from "../../actions/Auth";
 
 export default function SignUpScreen(props: any) {
   const [checkValidRegister, setCheckValidRegister] = useState(true);
@@ -26,13 +27,19 @@ export default function SignUpScreen(props: any) {
     setCheckValidRegister(true);
     if (!validateEmail(email)) {
       setCheckValidRegister(false);
-      setErrorMessage("Invalid Email Detected!");
+      setErrorMessage("Registration Failed — Invalid email");
+      return false;
+    }
+
+    if (password.trim() === "") {
+      setCheckValidRegister(false);
+      setErrorMessage("Registration Failed — Password cannot be empty");
       return false;
     }
 
     if (confirmPassword !== password) {
       setCheckValidRegister(false);
-      setErrorMessage("Password does not match confirmation!");
+      setErrorMessage("Registration Failed — Passwords don't match");
       return false;
     }
 
@@ -48,32 +55,21 @@ export default function SignUpScreen(props: any) {
         password
       );
       if (!userCredential || !userCredential.user) {
-        setErrorMessage("An error occurred -- Please try again!");
+        setErrorMessage("Registration Failed - Please try again!");
         setCheckValidRegister(false);
         return;
       }
 
       const user = userCredential.user;
-      const isAdmin = email.endsWith("@healing4heroes.org");
       const firebaseUid = user.uid;
-
-      let createdUser;
-      if (isAdmin) {
-        createdUser = await userCreateUser(email, firebaseUid, [
-          Role.NONPROFIT_USER,
-          Role.NONPROFIT_ADMIN,
-        ]);
-      } else {
-        createdUser = await userCreateUser(email, firebaseUid, [
-          Role.NONPROFIT_USER,
-        ]);
-      }
+      const createdUser = await userCreateUser(email, firebaseUid);
+      await authCreateVerificationLog(
+        email,
+        UserVerificationLogType.EMAIL_VERIFICATION
+      );
       return createdUser;
     } catch (e) {
-      console.log(e);
-      setErrorMessage(
-        "Failed to sign up with email; account may already exist!"
-      );
+      setErrorMessage("Registration failed - Account already exists");
       setCheckValidRegister(false);
       return;
     }
@@ -86,7 +82,7 @@ export default function SignUpScreen(props: any) {
       footerMainText="Already have an account?"
       footerSubText="Sign in Here"
       footerCallback={() => {
-        props.navigation.navigate("Login");
+        props.navigation.navigate(Screens.LOGIN_SCREEN);
       }}
       pageBody={
         <View>
@@ -150,12 +146,14 @@ export default function SignUpScreen(props: any) {
                     if (validInputs) {
                       const user = await handleSignUp();
                       if (user) {
-                        props.navigation.navigate("Handler Information", {
-                          params: {
-                            userId: user?._id,
-                            roles: user?.roles,
-                          },
-                        });
+                        props.navigation.navigate(
+                          Screens.PASSCODE_VALIDATION_SCREEN,
+                          {
+                            verificationType:
+                              UserVerificationLogType.EMAIL_VERIFICATION,
+                            email: user.email,
+                          }
+                        );
                       }
                     }
                     setSignUpDisabled(false);
@@ -233,17 +231,16 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    marginTop: 15,
+    marginTop: 24,
     alignItems: "center",
   },
 
   button: {
-    marginTop: 10,
     padding: 15,
     alignItems: "center",
     borderRadius: 10,
     minWidth: "100%",
-    backgroundColor: "#666666",
+    backgroundColor: "#3F3BED",
   },
 
   btnText: {
@@ -251,18 +248,20 @@ const styles = StyleSheet.create({
   },
 
   failedContainer: {
+    marginTop: 24,
     alignItems: "center",
-    marginTop: 25,
     padding: 8,
     borderRadius: 10,
-    borderWidth: 0.5,
+    borderWidth: 1,
     minWidth: "100%",
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#FF8E8E50",
+    borderColor: "#C63636",
   },
 
   failedText: {
-    fontSize: 10,
-    fontWeight: "300",
+    fontSize: 12,
+    fontWeight: "400",
+    color: "#C63636",
   },
 
   changeOptionContainer: {

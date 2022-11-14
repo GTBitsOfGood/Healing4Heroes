@@ -3,25 +3,32 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import BubbleList from "../../components/BubbleList";
 import SolidDropDown from "../../components/SolidDropDown";
 import StepOverlay from "../../components/Overlays/StepOverlay";
-import { ServiceAnimalSkills } from "../../utils/types";
+import { BehaviorTypes, Screens, ServiceAnimalSkills } from "../../utils/types";
+import DateInput from "../../components/DateInput";
 
 export default function AddTrainingLogScreen(props: any) {
   const [totalHours, setTotalHours] = useState("");
   const [skillKeysSelected, setSkillKeysSelected] = useState<string[]>([]);
   const [skillValuesSelected, setSkillValuesSelected] = useState<string[]>([]);
-  const [behaviorDescription, setBehaviorDescription] = useState("");
-
+  const [behavior, setBehaviorValues] = useState<BehaviorTypes[]>([]);
+  const [behaviorKeys, setBehaviorKeys] = useState<string[]>([]);
+  const [behaviorNote, setBehaviorNote] = useState("");
+  const [trainingLogDate, setTrainingLogDate] = useState<Date>(new Date());
   const [error, setError] = useState("");
 
   const validateInput = () => {
     if (!totalHours) {
       setError("Please enter your total hours.");
       return;
-    } else if (!skillKeysSelected) {
+    } else if (skillKeysSelected.length === 0) {
       setError("Please select at least one skill displayed.");
       return;
-    } else if (!behaviorDescription) {
+    } else if (behavior.length === 0) {
       setError("Please enter a description of the dog's behavior");
+      return;
+    } else if (isNaN(trainingLogDate.getTime() as number)) {
+      setError("Set a Valid Date!");
+      return;
     } else {
       setError("");
       return true;
@@ -31,10 +38,12 @@ export default function AddTrainingLogScreen(props: any) {
   const submitTrainingLogInfo = () => {
     const validInput = validateInput();
     if (validInput) {
-      props.navigation.navigate("Upload Video Log", {
+      props.navigation.navigate(Screens.UPLOAD_VIDEO_LOG_SCREEN, {
         totalHours: totalHours,
+        trainingLogDate: trainingLogDate.toString(),
         skillValuesSelected: skillValuesSelected,
-        behaviorDescription: behaviorDescription,
+        behavior: behavior,
+        behaviorNote: behaviorNote,
       });
     }
   };
@@ -48,6 +57,11 @@ export default function AddTrainingLogScreen(props: any) {
       headerName={"Create New Training Log"}
       pageBody={
         <View style={styles.container}>
+          <Text style={styles.label}>Date of Training Log*</Text>
+          <DateInput
+            autofill={true}
+            callbackFunction={setTrainingLogDate}
+          ></DateInput>
           <Text style={styles.label}>Total Training Hours*</Text>
           <TextInput
             style={styles.input}
@@ -75,17 +89,42 @@ export default function AddTrainingLogScreen(props: any) {
               keys: string[] | string
             ) => {
               setSkillValuesSelected([...(values as string[])]);
-              setSkillKeysSelected([...keys]);
+              setSkillKeysSelected([...(keys as string[])]);
             }}
           />
 
           <BubbleList items={skillKeysSelected} />
 
-          <Text style={styles.label}>Behavior Description*</Text>
+          <Text style={styles.label}>Behavior Type*</Text>
+          <SolidDropDown
+            items={{
+              "No Negative Behavior": BehaviorTypes.NO_NEGATIVE_BEHAVIOR,
+              Biting: BehaviorTypes.BITING,
+              "Unprovoked Barking": BehaviorTypes.UNPROVOKED_BARKING,
+              "Agressive Pulling": BehaviorTypes.AGRESSIVE_PULLING,
+              "Uncontrolled Jumping": BehaviorTypes.UNCONTROLLED_JUMPING,
+              "Getting Into Trash / Toilet": BehaviorTypes.NO_NEGATIVE_BEHAVIOR,
+              "Growling or Showing Agressive Behavior":
+                BehaviorTypes.GETTING_TRASH_TOILET,
+              Other: BehaviorTypes.OTHER,
+            }}
+            isMultiselect={true}
+            placeholder="Select to Add"
+            callbackFunction={(
+              values: string[] | string,
+              keys: string[] | string
+            ) => {
+              setBehaviorValues([...(values as BehaviorTypes[])]);
+              setBehaviorKeys([...(keys as string[])]);
+            }}
+          />
+          <BubbleList items={behaviorKeys} />
+
+          <Text style={styles.label}>Behavior Description</Text>
           <TextInput
             style={styles.input}
-            value={behaviorDescription}
-            onChangeText={setBehaviorDescription}
+            value={behaviorNote}
+            onChangeText={setBehaviorNote}
             placeholder="Enter Behavior Description"
             placeholderTextColor={"#999999"}
           />

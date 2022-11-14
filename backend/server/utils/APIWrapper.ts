@@ -14,6 +14,7 @@ interface RouteConfig {
   requireToken?: boolean;
   roles?: Array<Role>;
   handleResponse?: boolean; // handleResponse if the route handles setting status code and body
+  requireAdminVerification?: boolean;
 }
 
 interface Route<T> {
@@ -86,6 +87,15 @@ function APIWrapper(
               success: false,
               message:
                 "User does not have permissions to access this API route",
+            });
+          }
+        }
+
+        if (config?.requireAdminVerification !== false) {
+          if (!user.verifiedByAdmin) {
+            return res.status(403).json({
+              success: false,
+              message: "User has not been verified by admin",
             });
           }
         }

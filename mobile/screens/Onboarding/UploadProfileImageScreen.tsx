@@ -12,10 +12,9 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ResizeMode } from "expo-av";
-import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { calculateAge, convertToMegabytes } from "../../utils/helper";
-import { StorageLocation } from "../../utils/types";
+import { Screens, StorageLocation } from "../../utils/types";
 import { uploadFile } from "../../utils/storage";
 import { Image } from "react-native";
 import { userGetUserInfo, userUpdateUser } from "../../actions/User";
@@ -67,11 +66,7 @@ export default function UploadProfileImageScreen(props: any) {
       );
     }
 
-    // Update these methods after sprint 3
-    // userUpdateUser()
-    // userUpdateAnimal()
-
-    props.navigation.navigate("User Dashboard");
+    props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
   };
 
   useEffect(() => {
@@ -82,7 +77,7 @@ export default function UploadProfileImageScreen(props: any) {
     };
 
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate("Animal Information");
+      props.navigation.navigate(Screens.ANIMAL_INFORMATION_SCREEN);
       return true;
     });
 
@@ -95,17 +90,19 @@ export default function UploadProfileImageScreen(props: any) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
-
-    const imageLocation = (result as ImageInfo).uri;
-    const imageSize = (await FileSystem.getInfoAsync(imageLocation)).size;
-    // All images must be smaller than 1GB
-    if (convertToMegabytes(imageSize as number) > 1024) {
-      setError(
-        "Image is too large -- consider uploading a lower quality image."
-      );
-      return;
+    const assets = result?.assets as ImagePicker.ImagePickerAsset[];
+    if (assets?.length > 0) {
+      const imageLocation = (assets[0] as ImagePicker.ImagePickerAsset).uri;
+      const imageSize = (await FileSystem.getInfoAsync(imageLocation)).size;
+      // All images must be smaller than 1GB
+      if (convertToMegabytes(imageSize as number) > 1024) {
+        setError(
+          "Image is too large - consider uploading a lower quality image."
+        );
+        return;
+      }
+      setAnimalImageUri(imageLocation);
     }
-    setAnimalImageUri(imageLocation);
   };
 
   const handlerPickImage = async () => {
@@ -114,22 +111,24 @@ export default function UploadProfileImageScreen(props: any) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
-
-    const imageLocation = (result as ImageInfo).uri;
-    const imageSize = (await FileSystem.getInfoAsync(imageLocation)).size;
-    // All images must be smaller than 1GB
-    if (convertToMegabytes(imageSize as number) > 1024) {
-      setError(
-        "Image is too large -- consider uploading a lower quality image."
-      );
-      return;
+    const assets = result?.assets as ImagePicker.ImagePickerAsset[];
+    if (assets?.length > 0) {
+      const imageLocation = (result as ImagePicker.ImagePickerAsset).uri;
+      const imageSize = (await FileSystem.getInfoAsync(imageLocation)).size;
+      // All images must be smaller than 1GB
+      if (convertToMegabytes(imageSize as number) > 1024) {
+        setError(
+          "Image is too large - consider uploading a lower quality image."
+        );
+        return;
+      }
+      setHandlerImageUri(imageLocation);
     }
-    setHandlerImageUri(imageLocation);
   };
 
   return (
     <StepOverlay
-      headerName="Upload Profile Picture Images"
+      headerName="Getting Started"
       circleCount={3}
       error={error}
       buttonFunction={updateProfileInformation}
@@ -146,7 +145,7 @@ export default function UploadProfileImageScreen(props: any) {
                 style={styles.uploadBtn}
                 onPress={handlerPickImage}
               >
-                <Ionicons name="add-circle-outline" size={30} color="grey" />
+                <Ionicons name="image-outline" size={30} color="grey" />
                 {!handlerImageUri ? (
                   <Text style={styles.uploadText}> Upload Handler Picture</Text>
                 ) : (
@@ -175,11 +174,14 @@ export default function UploadProfileImageScreen(props: any) {
               style={styles.uploadBtn}
               onPress={animalPickImage}
             >
-              <Ionicons name="add-circle-outline" size={30} color="grey" />
+              <Ionicons name="image-outline" size={30} color="grey" />
               {!animalImageUri ? (
-                <Text style={styles.uploadText}> Upload Animal Picture</Text>
+                <Text style={styles.uploadText}> Upload picture here</Text>
               ) : (
-                <Text style={styles.uploadText}> Upload A Different File</Text>
+                <Text style={styles.uploadText}>
+                  {" "}
+                  Upload a different picture
+                </Text>
               )}
             </TouchableOpacity>
           </View>
