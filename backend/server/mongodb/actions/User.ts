@@ -31,7 +31,8 @@ export async function createUser(
   lastName?: string,
   handlerType?: HandlerType,
   profileImage?: string,
-  verifiedByAdmin?: boolean
+  verifiedByAdmin?: boolean,
+  emailVerified?: boolean
 ) {
   await dbConnect();
   const user = await UserModel.create({
@@ -44,6 +45,7 @@ export async function createUser(
     handlerType: handlerType,
     profileImage: profileImage,
     verifiedByAdmin: verifiedByAdmin,
+    emailVerified: emailVerified,
   });
   return user;
 }
