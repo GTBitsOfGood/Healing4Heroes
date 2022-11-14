@@ -31,18 +31,18 @@ export default function AdminDetailedUserScreen(props: any) {
       const animal: ServiceAnimal = (await adminGetAnimalInfo(
         user._id
       )) as ServiceAnimal;
+      setAnimalInfo(animal);
       setHoursCompleted(animal.totalHours);
       const trainingLogs: TrainingLog[] = await adminGetTrainingLogs(user._id);
+      setTrainingLogs(trainingLogs);
       const animalImageData: string = (await getFile(
         animal?.profileImage as string
       )) as string;
+      setAnimalImage(animalImageData);
       const userImageData: string = (await getFile(
         user?.profileImage as string
       )) as string;
-      setAnimalInfo(animal);
-      setAnimalImage(animalImageData);
       setUserImage(userImageData);
-      setTrainingLogs(trainingLogs);
     }
 
     BackHandler.addEventListener("hardwareBackPress", function () {

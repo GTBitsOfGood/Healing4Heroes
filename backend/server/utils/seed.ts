@@ -11,6 +11,7 @@ import {
   ServiceAnimal,
   TrainingLog,
   ServiceAnimalSkills,
+  BehaviorTypes,
 } from "src/utils/types";
 import { firebaseConnect } from "./dbConnect";
 
@@ -59,7 +60,9 @@ async function generateUsers(): Promise<User[]> {
       firstName,
       lastName,
       randomEnum(HandlerType),
-      profileImage
+      profileImage,
+      randomBoolean(),
+      true
     );
 
     users.push(user);
@@ -137,7 +140,9 @@ async function generateTrainingLogs(
       }
 
       const trainingHours = randomNumber(1, MAX_TRAINING_LOG_HOURS);
-      const behavior = faker.word.adjective();
+      const behavior = [];
+      behavior.push(randomEnum(BehaviorTypes));
+      const behaviorNote = faker.word.adjective();
 
       const trainingLog = await createTrainingLog(
         date,
@@ -145,8 +150,10 @@ async function generateTrainingLogs(
         skills,
         trainingHours,
         behavior,
+        behaviorNote,
         animal._id,
         (animal.handler as User)._id || animal.handler,
+        "",
         ""
       );
 
