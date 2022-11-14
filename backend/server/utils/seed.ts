@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { getAuth } from "firebase-admin/auth";
 import { createAnimal } from "server/mongodb/actions/Animal";
+import { createAnnouncement } from "server/mongodb/actions/Announcement";
 import { createTrainingLog } from "server/mongodb/actions/TrainingLog";
 import { createUser } from "server/mongodb/actions/User";
 import AnimalModel from "server/mongodb/models/Animal";
@@ -12,6 +13,8 @@ import {
   TrainingLog,
   ServiceAnimalSkills,
   BehaviorTypes,
+  SubHandler,
+  Announcement,
 } from "src/utils/types";
 import { firebaseConnect } from "./dbConnect";
 
@@ -26,6 +29,7 @@ const MIN_DOG_AGE = 2;
 const MAX_DOG_AGE = 15;
 const NUM_TRAINING_LOGS_PER_ANIMAL = 10;
 const MAX_TRAINING_LOG_HOURS = 12;
+const NUM_ANNOUNCEMENTS_PER_ADMIN = 2;
 
 const PASSWORD = "h4hpassword";
 
@@ -59,7 +63,7 @@ async function generateUsers(): Promise<User[]> {
       birthday,
       firstName,
       lastName,
-      randomEnum(HandlerType),
+      randomEnum(HandlerType) as HandlerType,
       profileImage,
       randomBoolean(),
       true
@@ -74,6 +78,10 @@ async function generateAnimals(users: User[]): Promise<ServiceAnimal[]> {
   const serviceAnimals = [];
 
   for (const user of users) {
+    if (user.roles?.includes(Role.NONPROFIT_ADMIN)) {
+      continue;
+    }
+
     for (let i = 0; i < NUM_ANIMALS_PER_USER; i++) {
       const name = faker.name.firstName();
 
@@ -105,7 +113,7 @@ async function generateAnimals(users: User[]): Promise<ServiceAnimal[]> {
         user._id,
         name,
         totalHours,
-        subHandler,
+        subHandler as SubHandler,
         dateOfTrainingClass,
         dateOfBirth,
         dateOfAdoption,
@@ -149,7 +157,7 @@ async function generateTrainingLogs(
         description,
         skills,
         trainingHours,
-        behavior,
+        behavior as BehaviorTypes[],
         behaviorNote,
         animal._id,
         (animal.handler as User)._id || animal.handler,
@@ -169,21 +177,46 @@ async function generateTrainingLogs(
   return trainingLogs;
 }
 
+export async function generateAnnouncements(
+  users: User[]
+): Promise<Announcement[]> {
+  const announcements = [];
+  for (const user of users) {
+    if (user.roles?.includes(Role.NONPROFIT_USER)) {
+      continue;
+    }
+
+    for (let i = 0; i < NUM_ANNOUNCEMENTS_PER_ADMIN; i++) {
+      const title = faker.lorem.sentence();
+      const description = faker.lorem.paragraph();
+      const date = faker.date.recent();
+      const announcement = await createAnnouncement(
+        user._id,
+        title,
+        description,
+        date
+      );
+
+      announcements.push(announcement);
+    }
+  }
+
+  return announcements;
+}
 export async function seedDatabase() {
   console.log("Seeding database...");
-
   const users = await generateUsers();
   const animals = await generateAnimals(users);
   await generateTrainingLogs(animals);
-
+  await generateAnnouncements(users);
   console.log("Seeding complete.");
 }
 
-function randomEnum<T>(anEnum: T): T[keyof T] {
-  const enumValues = Object.keys(anEnum as any)
-    .map((n) => Number.parseInt(n))
-    .filter((n) => !Number.isNaN(n)) as unknown as T[keyof T][];
-  const randomIndex = Math.floor(Math.random() * enumValues.length);
+function randomEnum<T>(anEnum: T): string {
+  const enumValues: string[] = Object.values(anEnum as any) as string[];
+  const randomIndex: number = Math.floor(
+    Math.random() * enumValues.length
+  ) as number;
   return enumValues[randomIndex];
 }
 

@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import { LogBox } from 'react-native';
+import React, { useEffect } from "react";
+import { LogBox } from "react-native";
 import LoginScreen from "./screens/Onboarding/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -32,9 +32,9 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   useEffect(() => {
-    LogBox.ignoreAllLogs();//Hide all warning notifications on front-end
-  }, [])
-  
+    LogBox.ignoreAllLogs(); //Hide all warning notifications on front-end
+  }, []);
+
   useFonts({
     "DMSans-Bold": require("./assets/fonts/DMSans-Bold.ttf"),
     "DMSans-Medium": require("./assets/fonts/DMSans-Medium.ttf"),
@@ -44,7 +44,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Development"
+        initialRouteName={Screens.LANDING_SCREEN}
         screenOptions={{
           headerShown: false,
         }}
