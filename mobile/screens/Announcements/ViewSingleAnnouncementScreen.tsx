@@ -1,9 +1,16 @@
-import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { useEffect } from "react";
+import { View, StyleSheet, Text, BackHandler } from "react-native";
 import UserOverlay from "../../components/Overlays/UserOverlay";
 import { getFormattedDate } from "../../utils/helper";
 
 export default function ViewSingleAnnouncementScreen(props: any) {
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", function () {
+      props.navigation.goBack();
+      return true;
+    });
+  });
+
   const { announcement } = props.route.params;
   return (
     <UserOverlay

@@ -12,6 +12,7 @@ export default APIWrapper({
   POST: {
     config: {
       requireToken: true,
+      requireAdminVerification: false,
       roles: [Role.NONPROFIT_USER],
     },
     handler: async (req) => {
