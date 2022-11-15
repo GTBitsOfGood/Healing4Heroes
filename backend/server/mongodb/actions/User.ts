@@ -103,7 +103,9 @@ export async function adminGetUsers(
 
   if (filter === UserFilter.UNVERIFIED_USERS) {
     return afterId
-      ? UserModel.find({ _id: { $gt: afterId }, verifiedByAdmin: false })
+      ? UserModel.find({ _id: { $gt: afterId }, verifiedByAdmin: false }).limit(
+          pageSize
+        )
       : UserModel.find({ verifiedByAdmin: false }).limit(pageSize);
   }
 
