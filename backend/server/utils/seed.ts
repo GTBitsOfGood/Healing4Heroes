@@ -1,4 +1,9 @@
+import * as fs from "fs";
+import * as https from "https";
+import * as path from "path";
 import { faker } from "@faker-js/faker";
+import axios from "axios";
+import { storage } from "firebase-admin";
 import { getAuth } from "firebase-admin/auth";
 import { createAnimal } from "server/mongodb/actions/Animal";
 import { createAnnouncement } from "server/mongodb/actions/Announcement";
@@ -17,13 +22,8 @@ import {
   Announcement,
   StorageLocation,
 } from "src/utils/types";
-import { firebaseConnect } from "./dbConnect";
-import { storage } from "firebase-admin";
-import * as fs from "fs";
-import * as https from "https";
-import * as path from "path";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
+import { firebaseConnect } from "./dbConnect";
 
 /* num users */
 const NUM_NONPROFIT_USERS = 15;
@@ -226,10 +226,8 @@ export async function seedDatabase() {
 }
 
 function randomEnum<T>(anEnum: T): string {
-  const enumValues: string[] = Object.values(anEnum as any) as string[];
-  const randomIndex: number = Math.floor(
-    Math.random() * enumValues.length
-  ) as number;
+  const enumValues: string[] = Object.values(anEnum as any);
+  const randomIndex: number = Math.floor(Math.random() * enumValues.length);
   return enumValues[randomIndex];
 }
 
@@ -241,6 +239,8 @@ function randomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+// Interesting code ahead.
+/*eslint-disable */
 async function uploadImageToFirebase(
   storageLocation: StorageLocation,
   imageUrl: string
@@ -271,3 +271,4 @@ async function uploadImageToFirebase(
 
   return storageLocation + fileId;
 }
+/*eslint-enable */
