@@ -165,3 +165,10 @@ export enum UserFilter {
   UNVERIFIED_USERS = "unverified users",
   WITH_800_HOURS_USERS = "users with 800 users",
 }
+
+export enum StorageLocation {
+  HANDLER_PICTURES = "HandlerPictures/",
+  SERVICE_ANIMAL_PICTURES = "ServiceAnimalPictures/",
+  TRAINING_LOG_VIDEOS = "TrainingLogVideos/",
+  TRAINING_LOG_THUMBNAILS = "TrainingLogThumbnail/",
+}

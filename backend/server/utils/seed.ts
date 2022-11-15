@@ -15,8 +15,15 @@ import {
   BehaviorTypes,
   SubHandler,
   Announcement,
+  StorageLocation,
 } from "src/utils/types";
 import { firebaseConnect } from "./dbConnect";
+import { storage } from "firebase-admin";
+import * as fs from "fs";
+import * as https from "https";
+import * as path from "path";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 /* num users */
 const NUM_NONPROFIT_USERS = 15;
@@ -40,6 +47,10 @@ async function generateUsers(): Promise<User[]> {
     const lastName = faker.name.lastName();
     const birthday = faker.date.birthdate();
     const profileImage = faker.image.people();
+    const profileImageFirebaseLocation = await uploadImageToFirebase(
+      StorageLocation.HANDLER_PICTURES,
+      profileImage
+    );
     const email = faker.internet.email(firstName, lastName);
     firebaseConnect();
     const firebaseUser = await getAuth().createUser({
@@ -49,11 +60,9 @@ async function generateUsers(): Promise<User[]> {
       photoURL: profileImage,
     });
 
-    const roles = [];
+    const roles = [Role.NONPROFIT_USER];
     if (i < NUM_NONPROFIT_ADMINS) {
       roles.push(Role.NONPROFIT_ADMIN);
-    } else {
-      roles.push(Role.NONPROFIT_USER);
     }
 
     const user = await createUser(
@@ -64,7 +73,7 @@ async function generateUsers(): Promise<User[]> {
       firstName,
       lastName,
       randomEnum(HandlerType) as HandlerType,
-      profileImage,
+      profileImageFirebaseLocation,
       randomBoolean(),
       true
     );
@@ -108,6 +117,10 @@ async function generateAnimals(users: User[]): Promise<ServiceAnimal[]> {
       const microchipExpiration = faker.date.future();
       const checkUpDate = faker.date.between(dateOfBirth, new Date());
       const profileImage = faker.image.animals();
+      const profileImageFirebaseLocation = await uploadImageToFirebase(
+        StorageLocation.SERVICE_ANIMAL_PICTURES,
+        profileImage
+      );
 
       const animal = await createAnimal(
         user._id,
@@ -119,7 +132,7 @@ async function generateAnimals(users: User[]): Promise<ServiceAnimal[]> {
         dateOfAdoption,
         microchipExpiration,
         checkUpDate,
-        profileImage
+        profileImageFirebaseLocation
       );
 
       serviceAnimals.push(animal);
@@ -182,7 +195,7 @@ export async function generateAnnouncements(
 ): Promise<Announcement[]> {
   const announcements = [];
   for (const user of users) {
-    if (user.roles?.includes(Role.NONPROFIT_USER)) {
+    if (!user.roles?.includes(Role.NONPROFIT_ADMIN)) {
       continue;
     }
 
@@ -226,4 +239,35 @@ function randomBoolean() {
 
 function randomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+async function uploadImageToFirebase(
+  storageLocation: StorageLocation,
+  imageUrl: string
+) {
+  const url: string = (await axios({
+    method: "GET",
+    url: imageUrl,
+  }).then((response) => {
+    return response.request._redirectable._options.href;
+  })) as string;
+
+  const fileId = uuidv4() + ".jpg";
+  const fileName = path.resolve("server/utils/") + path.sep + fileId;
+  const file = fs.createWriteStream(fileName);
+  https.get(url, (response) => {
+    response.pipe(file);
+    file.on("finish", async () => {
+      file.close();
+      firebaseConnect();
+      await storage()
+        .bucket(process.env.FIREBASE_STORAGE_BUCKET)
+        .upload(fileName, {
+          destination: storageLocation + fileId,
+        });
+      fs.unlink(fileName, () => {});
+    });
+  });
+
+  return storageLocation + fileId;
 }
