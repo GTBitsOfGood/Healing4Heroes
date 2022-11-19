@@ -15,6 +15,7 @@ interface RouteConfig {
   roles?: Array<Role>;
   handleResponse?: boolean; // handleResponse if the route handles setting status code and body
   requireAdminVerification?: boolean;
+  requireEmailVerified?: boolean;
 }
 
 interface Route<T> {
@@ -85,8 +86,7 @@ function APIWrapper(
           ) {
             return res.status(403).json({
               success: false,
-              message:
-                "User does not have permissions to access this API route",
+              message: "You do not have permissions to access this API route",
             });
           }
         }
@@ -95,7 +95,16 @@ function APIWrapper(
           if (!user.verifiedByAdmin) {
             return res.status(403).json({
               success: false,
-              message: "User has not been verified by admin",
+              message: "You have not been verified by admin",
+            });
+          }
+        }
+
+        if (config?.requireEmailVerified !== false) {
+          if (!user.emailVerified) {
+            return res.status(403).json({
+              success: false,
+              message: "You do not have a verified email!",
             });
           }
         }
@@ -109,9 +118,10 @@ function APIWrapper(
       return res.status(200).json({ success: true, payload: data });
     } catch (e) {
       if (e instanceof mongoose.Error) {
-        return res
-          .status(500)
-          .json({ success: false, message: "Internal Server error occurred." });
+        return res.status(500).json({
+          success: false,
+          message: "An Internal Server error occurred.",
+        });
       }
 
       const error = e as Error;

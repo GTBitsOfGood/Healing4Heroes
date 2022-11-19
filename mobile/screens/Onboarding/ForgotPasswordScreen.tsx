@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
-import PasscodeInput from "../../components/PasscodeInput";
-import {
-  authAttemptVerification,
-  authCreateVerificationLog,
-} from "../../actions/Auth";
+import { authCreateVerificationLog } from "../../actions/Auth";
 import { Screens, UserVerificationLogType } from "../../utils/types";
 import { validateEmail } from "../../utils/helper";
 

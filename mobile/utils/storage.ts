@@ -1,6 +1,6 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "./firebase";
-import { StorageLocation, HttpMethod } from "./types";
+import { StorageLocation } from "./types";
 import * as FileSystem from "expo-file-system";
 import {
   userInitFileUpload,

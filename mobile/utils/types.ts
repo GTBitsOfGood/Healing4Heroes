@@ -191,3 +191,10 @@ export interface UploadedPart {
   ETag: string;
   PartNumber: number;
 }
+
+export class EndExecutionError extends Error {
+  constructor(message: string) {
+    super(message); // (1)
+    this.name = "EndExecutionError"; // (2)
+  }
+}

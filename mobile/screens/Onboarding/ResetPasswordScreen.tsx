@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
-import PasscodeInput from "../../components/PasscodeInput";
 import { authResetPassword } from "../../actions/Auth";
-import { Screens, UserVerificationLogType } from "../../utils/types";
-import { validateEmail } from "../../utils/helper";
+import { Screens } from "../../utils/types";
 
 export default function ResetPasswordScreen(props: any) {
-  const [checkValidRegister, setCheckValidRegister] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [password, setPassword] = useState("");
-  const [signUpDisabled, setSignUpDisabled] = useState(false);
   const { webToken } = props.route.params;
 
   const sendAuthResetPassword = async () => {

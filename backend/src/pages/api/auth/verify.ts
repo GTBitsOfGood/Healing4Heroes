@@ -24,6 +24,7 @@ export default APIWrapper({
     config: {
       requireToken: false,
       requireAdminVerification: false,
+      requireEmailVerified: false,
     },
     handler: async (req) => {
       const email: string = req.body.email as string;
@@ -70,6 +71,8 @@ export default APIWrapper({
   PATCH: {
     config: {
       requireToken: false,
+      requireAdminVerification: false,
+      requireEmailVerified: false,
     },
     handler: async (req) => {
       const email: string = req.body.email as string;

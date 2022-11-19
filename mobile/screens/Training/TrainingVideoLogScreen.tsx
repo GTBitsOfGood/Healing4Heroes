@@ -10,12 +10,10 @@ import {
   TouchableOpacity,
   View,
   TextInput,
-  Platform,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { userCreateTrainingLog } from "../../actions/TrainingLog";
 import { ResizeMode, Video } from "expo-av";
-import { ImageInfo } from "expo-image-picker";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
 import { uploadFile, uploadVideo } from "../../utils/storage";
