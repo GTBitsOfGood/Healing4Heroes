@@ -19,6 +19,7 @@ import { uploadFile } from "../../utils/storage";
 import { Image } from "react-native";
 import { userGetUserInfo, userUpdateUser } from "../../actions/User";
 import { userUpdateAnimal } from "../../actions/Animal";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
 
 export default function UploadProfileImageScreen(props: any) {
   const [error, setError] = useState("");
@@ -26,44 +27,83 @@ export default function UploadProfileImageScreen(props: any) {
   const [handlerImageUri, setHandlerImageUri] = useState<string>("");
   const [userAge, setUserAge] = useState<number>(0);
 
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", function () {
+      props.navigation.navigate(Screens.UPLOAD_PROFILE_IMAGE_SCREEN);
+      return true;
+    });
+  }, []);
+
   const updateProfileInformation = async () => {
     if (handlerImageUri) {
-      const handlerFileName: string = uuidv4() + ".png";
-      const handlerUpload = await uploadFile(
-        handlerFileName,
-        StorageLocation.HANDLER_PICTURES,
-        handlerImageUri
-      );
+      try {
+        const handlerFileName: string = uuidv4() + ".png";
+        const handlerUpload = await errorWrapper(
+          uploadFile,
+          setError,
+          [handlerFileName, StorageLocation.HANDLER_PICTURES, handlerImageUri],
+          {
+            default: "Failed to upload handler image",
+          }
+        );
 
-      await userUpdateUser(
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        handlerUpload as string
-      );
+        await errorWrapper(
+          userUpdateUser,
+          setError,
+          [
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            handlerUpload as string,
+          ],
+          {
+            default: "Failed to update user with user image information.",
+          }
+        );
+      } catch (e) {
+        endOfExecutionHandler(e as Error);
+      }
     }
 
     const animalFileName: string = uuidv4() + ".png";
 
     if (animalImageUri) {
-      const animalUpload = await uploadFile(
-        animalFileName,
-        StorageLocation.SERVICE_ANIMAL_PICTURES,
-        animalImageUri
-      );
-      await userUpdateAnimal(
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        animalUpload as string
-      );
+      try {
+        const animalUpload = await errorWrapper(
+          uploadFile,
+          setError,
+          [
+            animalFileName,
+            StorageLocation.SERVICE_ANIMAL_PICTURES,
+            animalImageUri,
+          ],
+          {
+            default: "Failed to upload animal image",
+          }
+        );
+        await errorWrapper(
+          userUpdateAnimal,
+          setError,
+          [
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            animalUpload as string,
+          ],
+          {
+            default: "Failed to update animal with animal image information.",
+          }
+        );
+      } catch (e) {
+        endOfExecutionHandler(e as Error);
+      }
     }
 
     props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);

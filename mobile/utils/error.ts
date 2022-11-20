@@ -20,7 +20,6 @@ export const errorWrapper = async (
   customErrors?: Record<string, string>,
   errorFunctionParams?: Array<any>
 ) => {
-  console.log(customErrors);
   if (!parameters) {
     parameters = [];
   }
@@ -58,4 +57,12 @@ export const errorWrapper = async (
     });
 
   return result;
+};
+
+export const endOfExecutionHandler = (e: Error) => {
+  if (e instanceof EndExecutionError) {
+    return;
+  }
+
+  throw e;
 };

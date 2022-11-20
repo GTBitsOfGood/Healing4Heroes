@@ -141,12 +141,8 @@ const login = async () => {
     );
     return userCredential;
   } catch (error) {
-    if (error instanceof EndExecutionError) {
-      // You want to handle EndExecutionErrors via try catch
-      return;
-    } else {
-      throw error;
-    }
+    // You want to handle EndExecutionErrors via try catch
+    endOfExecutionHandler(error as Error);
   }
 };
 ```

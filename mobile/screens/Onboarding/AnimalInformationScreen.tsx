@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, TextInput, BackHandler } from "react-native";
 import {
   userCreateAnimal,
   userGetAnimal,
@@ -9,7 +9,8 @@ import StepOverlay from "../../components/Overlays/StepOverlay";
 import { validateBirthday } from "../../utils/helper";
 import { FontAwesome5 } from "@expo/vector-icons";
 import DateInput from "../../components/DateInput";
-import { Screens } from "../../utils/types";
+import { EndExecutionError, Screens } from "../../utils/types";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
 
 export default function AnimalInformationScreen(props: any) {
   const [animalName, setAnimalName] = useState("");
@@ -18,38 +19,36 @@ export default function AnimalInformationScreen(props: any) {
   const [animalAdoption, setAnimalAdoption] = useState<Date>();
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", function () {
+      props.navigation.navigate(Screens.ANIMAL_INFORMATION_SCREEN);
+      return true;
+    });
+  });
   const addAnimal = async () => {
     let animal;
     try {
-      const previousAnimal = await userGetAnimal();
-
-      if (previousAnimal) {
-        animal = await userUpdateAnimal(
+      animal = await errorWrapper(
+        userCreateAnimal,
+        setError,
+        [
           animalName,
-          previousAnimal.totalHours,
-          previousAnimal.subHandler,
+          0,
+          undefined,
           trainingClassDate,
           animalBirth,
           animalAdoption,
-          previousAnimal.microchipExpiration
-        );
-
-        return animal;
-      }
-    } catch (e) {
-      animal = await userCreateAnimal(
-        animalName,
-        0,
-        undefined,
-        trainingClassDate,
-        animalBirth,
-        animalAdoption,
-        undefined,
-        undefined
+          undefined,
+          undefined,
+        ],
+        {
+          default: "Failed to Create Service Animal",
+        }
       );
+      return animal;
+    } catch (e) {
+      endOfExecutionHandler(e as Error);
     }
-
-    return animal;
   };
 
   const submitAnimalInformation = async () => {
