@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity, BackHandler } from "react-native";
+import { View, TouchableOpacity, BackHandler } from "react-native";
 import LogCard from "../../components/LogCard";
 import { Screens } from "../../utils/types";
 import UserOverlay from "../../components/Overlays/UserOverlay";

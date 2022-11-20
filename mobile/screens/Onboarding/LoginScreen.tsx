@@ -33,7 +33,11 @@ export default function LoginScreen(props: any) {
         setErrorMessage,
         [auth, email, password],
         {
-          FirebaseError: "Username or Password Does not Exist",
+          "Firebase: Error (auth/invalid-email).": "This email is invalid",
+          "Firebase: Error (auth/internal-error).":
+            "An error occurred when trying to authenticate",
+          "Firebase: Error (auth/wrong-password).":
+            "Invalid email/password combination",
         }
       );
       const user = await errorWrapper(userGetUserInfo, setErrorMessage);

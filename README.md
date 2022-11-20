@@ -124,13 +124,19 @@ export const getUserInfo = async () => {
 Error handling is essential to a better user experience. For that reason, we provide an Error Handler wrapper that makes it easy for you integrate error handling from backend API requests with the frontend. Sample usage can be found below:
 
 ```typescript
-const createAccount = async () => {
+const login = async () => {
   try {
     const userCredential = await errorWrapper(
-      createUserWithEmailAndPassword, // This is the method we want to run
+      signInWithEmailAndPassword, // This is the method we want to run
       setErrorMessage, // Our error handler function
       [auth, email, password], // These are your method parameters
-      { FirebaseError: "An Error Occurred When Creating Your Account" }, // Specify custom error messages based on the error name
+      {
+        "Firebase: Error (auth/invalid-email).": "This email is invalid",
+        "Firebase: Error (auth/internal-error).":
+          "An error occurred when trying to authenticate",
+        "Firebase: Error (auth/wrong-password).":
+          "Invalid email/password combination",
+      }, // Specify custom error messages based on the original error message
       [] // Specify additional parameters for your error function
     );
     return userCredential;

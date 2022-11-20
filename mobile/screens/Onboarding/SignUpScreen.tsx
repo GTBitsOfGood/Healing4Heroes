@@ -54,7 +54,12 @@ export default function SignUpScreen(props: any) {
         createUserWithEmailAndPassword,
         setErrorMessage,
         [auth, email, password],
-        { FirebaseError: "An Error Occurred When Creating Your Account" }
+        {
+          "Firebase: Error (auth/email-already-in-use).":
+            "This email is already in use",
+          "Firebase: Password should be at least 6 characters (auth/weak-password).":
+            "Your password must be at least 6 characters",
+        }
       );
       const user = userCredential.user;
       const firebaseUid = user.uid;
@@ -67,7 +72,7 @@ export default function SignUpScreen(props: any) {
         authCreateVerificationLog,
         setErrorMessage,
         [email, UserVerificationLogType.EMAIL_VERIFICATION],
-        { Error: "Failed To Send Verification Email" }
+        { default: "Failed To Send Verification Email" }
       );
       return createdUser;
     } catch (error) {

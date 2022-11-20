@@ -1,15 +1,19 @@
 import { EndExecutionError } from "./types";
 /*
-asyncFunction: The function you want to execute
+functionToExecute: The function you want to execute
 errorHandler: This is some sort of error handling function -- the first argument passed into
  this will always be the error message
+
  parameters: Additional arguments for our main function
- customErrors: An object allowing you to specify custom error messages based on the type of error
+
+ customErrors: An object allowing you to specify custom error messages based on the original 
+ error message
+
  errorFunctionParams: parameters for your error handler
 */
 export const errorWrapper = async (
   /*eslint-disable */
-  asyncFunction: Function,
+  functionToExecute: Function,
   errorHandler: Function,
   /*eslint-enable */
   parameters?: Array<any>,
@@ -25,17 +29,22 @@ export const errorWrapper = async (
     errorFunctionParams = [];
   }
 
-  const result = await asyncFunction(...parameters)
+  const result = await functionToExecute(...parameters)
     .catch((e: Error) => {
-      console.log(customErrors);
-      if (
-        customErrors &&
-        Object.getOwnPropertyNames(customErrors).includes(e.name)
-      ) {
-        errorHandler(
-          customErrors[e.name],
-          ...(errorFunctionParams as Array<any>)
-        );
+      if (customErrors) {
+        if (Object.getOwnPropertyNames(customErrors).includes(e.message)) {
+          errorHandler(
+            customErrors[e.message],
+            ...(errorFunctionParams as Array<any>)
+          );
+        } else if (
+          Object.getOwnPropertyNames(customErrors).includes("default")
+        ) {
+          errorHandler(
+            customErrors["default"],
+            ...(errorFunctionParams as Array<any>)
+          );
+        }
         throw new EndExecutionError("");
       }
       errorHandler(
