@@ -1,5 +1,4 @@
 import { urls } from "../utils/urls";
-import { Types } from "mongoose";
 import { HttpMethod, UserVerificationLogType } from "../utils/types";
 import { internalRequest } from "../utils/requests";
 

@@ -1,8 +1,6 @@
 import { internalRequest } from "../utils/requests";
 import {
-  HandlerType,
   HttpMethod,
-  Role,
   ServiceAnimal,
   TrainingLog,
   User,

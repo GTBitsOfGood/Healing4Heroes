@@ -54,14 +54,6 @@ export default function ForgotPasswordScreen(props: any) {
                   onChangeText={setEmail}
                 ></TextInput>
               </View>
-
-              {!checkValidRegister ? (
-                <View style={styles.failedContainer}>
-                  <Text style={styles.failedText}>{errorMessage}</Text>
-                </View>
-              ) : (
-                <View></View>
-              )}
               <View
                 style={[
                   styles.buttonContainer,

@@ -17,6 +17,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { errorWrapper } from "../../utils/error";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function LoginScreen(props: any) {
   const [email, setEmail] = useState("");
@@ -88,12 +89,7 @@ export default function LoginScreen(props: any) {
                     ></TextInput>
                   </View>
                 </View>
-                {/* conditional rendering after authentication  */}
-                {errorMessage && (
-                  <View style={styles.failedContainer}>
-                    <Text style={styles.failedText}>{errorMessage}</Text>
-                  </View>
-                )}
+                <ErrorBox errorMessage={errorMessage} />
                 <View
                   style={[
                     styles.buttonContainer,

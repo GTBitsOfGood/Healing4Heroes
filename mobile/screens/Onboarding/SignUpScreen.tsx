@@ -20,6 +20,7 @@ import {
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { authCreateVerificationLog } from "../../actions/Auth";
 import { errorWrapper } from "../../utils/error";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function SignUpScreen(props: any) {
   const [errorMessage, setErrorMessage] = useState("");
@@ -131,11 +132,7 @@ export default function SignUpScreen(props: any) {
                 </View>
               </View>
 
-              {errorMessage && (
-                <View style={styles.failedContainer}>
-                  <Text style={styles.failedText}>{errorMessage}</Text>
-                </View>
-              )}
+              <ErrorBox errorMessage={errorMessage} />
               <View
                 style={[
                   styles.buttonContainer,

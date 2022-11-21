@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import ErrorBox from "../ErrorBox";
 
 interface StepOverlayProps {
   circleCount: number;
@@ -42,11 +43,7 @@ export default function StepOverlay({
         </View>
         <ScrollView>{pageBody}</ScrollView>
 
-        {error && (
-          <View style={styles.failedContainer}>
-            <Text style={styles.failedText}>{error}</Text>
-          </View>
-        )}
+        <ErrorBox errorMessage={error} />
 
         <TouchableOpacity
           disabled={disableButton}

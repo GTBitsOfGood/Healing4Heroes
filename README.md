@@ -121,7 +121,7 @@ export const getUserInfo = async () => {
 
 ## Frontend Error Handling Guide
 
-Error handling is essential to a better user experience. For that reason, we provide an Error Handler wrapper that makes it easy for you integrate error handling from backend API requests with the frontend. Sample usage can be found below:
+Error handling is essential to a better user experience. For that reason, we provide an Error Handler wrapper that makes it easy for you integrate error handling for API requests with the frontend. Sample usage with some Firebase methods can be found below:
 
 ```typescript
 const login = async () => {
@@ -146,6 +146,8 @@ const login = async () => {
   }
 };
 ```
+
+We also provide a generalized Error Box component which you can insert your error message into to display to the user.
 
 ## Additional Information
 
