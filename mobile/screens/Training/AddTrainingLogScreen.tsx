@@ -55,6 +55,7 @@ export default function AddTrainingLogScreen(props: any) {
       numberSelected={1}
       buttonFunction={submitTrainingLogInfo}
       headerName={"Create New Training Log"}
+      navigationProp={props.navigation}
       pageBody={
         <View style={styles.container}>
           <Text style={styles.label}>Date of Training Log*</Text>
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     justifyContent: "space-between",
     flexDirection: "column",
-    paddingVertical: 20,
+    // paddingVertical: 20,
     paddingHorizontal: 0,
   },
   header: {

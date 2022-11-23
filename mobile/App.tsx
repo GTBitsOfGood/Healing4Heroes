@@ -28,6 +28,7 @@ import ForgotPasswordScreen from "./screens/Onboarding/ForgotPasswordScreen";
 import ResetPasswordScreen from "./screens/Onboarding/ResetPasswordScreen";
 import ViewAllAnnouncementsScreen from "./screens/Announcements/ViewAllAnnouncements";
 import ViewSingleAnnouncementScreen from "./screens/Announcements/ViewSingleAnnouncementScreen";
+import BaseOverlayExampleScreen from "./screens/Development/BaseOverlayExampleScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -44,7 +45,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={Screens.LANDING_SCREEN}
+        initialRouteName={Screens.DEVELOPMENT_SCREEN}
         screenOptions={{
           headerShown: false,
         }}
@@ -138,6 +139,10 @@ export default function App() {
         <Stack.Screen
           name={Screens.VIEW_SINGLE_ANNOUNCEMENT_SCREEN}
           component={ViewSingleAnnouncementScreen}
+        />
+        <Stack.Screen
+          name={Screens.BASE_OVERLAY_EXAMPLE_SCREEN}
+          component={BaseOverlayExampleScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

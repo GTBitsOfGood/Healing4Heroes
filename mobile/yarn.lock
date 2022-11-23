@@ -6985,10 +6985,10 @@
   "resolved" "https://registry.npmjs.org/expo-image-loader/-/expo-image-loader-4.0.0.tgz"
   "version" "4.0.0"
 
-"expo-image-picker@~14.0.1":
-  "integrity" "sha512-Qx7Vt00nEZvLwRUC6vknm0dbvYWwnEzqbg3rIRImGxfZ7ki3rWJ3HlWebGpxCyYRpJV6A7rUAgm/Mc0eY4eYzA=="
-  "resolved" "https://registry.npmjs.org/expo-image-picker/-/expo-image-picker-14.0.1.tgz"
-  "version" "14.0.1"
+"expo-image-picker@~14.0.2":
+  "integrity" "sha512-dC0efykReusbjOtcvXYagABrVuwuOFwTfEx87VNjCZejig5aIPPj14UsViSV7xEQ+wkHvVnxyirox5xIbD196w=="
+  "resolved" "https://registry.npmjs.org/expo-image-picker/-/expo-image-picker-14.0.2.tgz"
+  "version" "14.0.2"
   dependencies:
     "expo-image-loader" "~4.0.0"
     "uuid" "7.0.2"

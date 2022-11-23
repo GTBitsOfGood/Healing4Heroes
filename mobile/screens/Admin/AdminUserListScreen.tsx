@@ -5,6 +5,7 @@ import UserOverlay from "../../components/Overlays/UserOverlay";
 import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
 import { Types } from "mongoose";
+import PaginatedOverlay from "../../components/Overlays/PaginatedOverlay";
 
 const PAGE_SIZE = 6;
 
@@ -52,7 +53,7 @@ export default function AdminUserList(props: any) {
     }
   };
   return (
-    <UserOverlay
+    <PaginatedOverlay
       navigationProp={props.navigation}
       paginationButtonFunction={processNext}
       pageBody={

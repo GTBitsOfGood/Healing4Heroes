@@ -4,12 +4,12 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ScrollView,
   GestureResponderEvent,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from "react-native";
 import ErrorBox from "../ErrorBox";
+import IconButton from "../IconButton";
+import BaseOverlay from "./BaseOverlay";
+import { Ionicons } from "@expo/vector-icons";
 
 interface StepOverlayProps {
   circleCount: number;
@@ -19,6 +19,7 @@ interface StepOverlayProps {
   buttonFunction: ((event: GestureResponderEvent) => void) | undefined;
   pageBody: ReactElement;
   pageIcon?: ReactElement;
+  navigationProp?: any;
 }
 export default function StepOverlay({
   circleCount,
@@ -28,59 +29,75 @@ export default function StepOverlay({
   pageBody,
   error,
   pageIcon,
+  navigationProp,
 }: StepOverlayProps) {
   const [disableButton, setDisableButton] = useState(false);
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
-    >
-      <View style={styles.container}>
+    <BaseOverlay
+      header={
         <View style={styles.headerContainer}>
-          <Text style={styles.header}>{headerName}</Text>
+          <View style={styles.innerHeaderContainer}>
+            <IconButton
+              icon={
+                <Ionicons
+                  name="ios-chevron-back-sharp"
+                  size={26}
+                  color="grey"
+                />
+              }
+              callbackFunction={() => {
+                if (navigationProp) {
+                  navigationProp.goBack();
+                }
+              }}
+            ></IconButton>
+            <Text style={styles.header}>{headerName}</Text>
+            <View></View>
+          </View>
           {pageIcon && <View style={styles.iconCircle}>{pageIcon}</View>}
         </View>
-        <ScrollView>{pageBody}</ScrollView>
-
-        <ErrorBox errorMessage={error} />
-
-        <TouchableOpacity
-          disabled={disableButton}
-          style={[
-            styles.button,
-            disableButton ? styles.disabledButton : styles.button,
-          ]}
-          onPress={async (e) => {
-            setDisableButton(true);
-            if (buttonFunction) {
-              try {
-                await buttonFunction(e);
-              } catch (error) {
-                setDisableButton(false);
+      }
+      body={pageBody}
+      footer={
+        <View>
+          <ErrorBox errorMessage={error} />
+          <TouchableOpacity
+            disabled={disableButton}
+            style={[
+              styles.button,
+              disableButton ? styles.disabledButton : styles.button,
+            ]}
+            onPress={async (e) => {
+              setDisableButton(true);
+              if (buttonFunction) {
+                try {
+                  await buttonFunction(e);
+                } catch (error) {
+                  setDisableButton(false);
+                }
               }
-            }
 
-            setDisableButton(false);
-          }}
-        >
-          {circleCount > numberSelected ? (
-            <Text style={styles.buttonText}>Next</Text>
-          ) : (
-            <Text style={styles.buttonText}>Submit</Text>
-          )}
-        </TouchableOpacity>
+              setDisableButton(false);
+            }}
+          >
+            {circleCount > numberSelected ? (
+              <Text style={styles.buttonText}>Next</Text>
+            ) : (
+              <Text style={styles.buttonText}>Submit</Text>
+            )}
+          </TouchableOpacity>
 
-        <View style={styles.circles}>
-          {[...Array(numberSelected).keys()].map((i) => (
-            <View key={i} style={[styles.circle, styles.selected]} />
-          ))}
-          {[...Array(circleCount - numberSelected).keys()].map((i) => (
-            <View key={numberSelected + i} style={[styles.circle]} />
-          ))}
+          <View style={styles.circles}>
+            {[...Array(numberSelected).keys()].map((i) => (
+              <View key={i} style={[styles.circle, styles.selected]} />
+            ))}
+            {[...Array(circleCount - numberSelected).keys()].map((i) => (
+              <View key={numberSelected + i} style={[styles.circle]} />
+            ))}
+          </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      }
+    />
   );
 }
 
@@ -99,6 +116,13 @@ const styles = StyleSheet.create({
     color: "#666666",
     marginTop: 10,
     marginBottom: 10,
+  },
+  innerHeaderContainer: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   input: {
     backgroundColor: "white",
