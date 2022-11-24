@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BackHandler, StyleSheet, Text, View } from "react-native";
 import UserEntry from "../../components/UserEntry";
-import UserOverlay from "../../components/Overlays/UserOverlay";
 import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
 import { Types } from "mongoose";

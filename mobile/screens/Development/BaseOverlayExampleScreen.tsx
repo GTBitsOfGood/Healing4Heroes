@@ -9,7 +9,7 @@ export default function BaseOverlayExample(props: { navigation: any }) {
     <StepOverlay
       circleCount={2}
       numberSelected={2}
-      headerName={"Hello World"}
+      headerTitle={"Hello World"}
       error={""}
       navigationProp={props.navigation}
       buttonFunction={undefined}

@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Platform,
   StatusBar,
+  KeyboardAvoidingView,
 } from "react-native";
 
 interface OnboardingOverlayProps {
@@ -28,12 +29,27 @@ export default function OnboardingOverlay({
         Keyboard.dismiss();
       }}
     >
-      <SafeAreaView style={styles.container}>
-        <View>{header}</View>
-        {!fixedBody && <ScrollView>{body}</ScrollView>}
-        {fixedBody && <View>{body}</View>}
-        {footer && <View>{footer}</View>}
-      </SafeAreaView>
+      {Platform.OS === "ios" ? (
+        <KeyboardAvoidingView behavior="padding">
+          <SafeAreaView>
+            <View style={styles.container}>
+              <View>{header}</View>
+              {!fixedBody && <ScrollView>{body}</ScrollView>}
+              {fixedBody && <View>{body}</View>}
+              {footer && <View>{footer}</View>}
+            </View>
+          </SafeAreaView>
+        </KeyboardAvoidingView>
+      ) : (
+        <SafeAreaView>
+          <View style={styles.container}>
+            <View>{header}</View>
+            {!fixedBody && <ScrollView>{body}</ScrollView>}
+            {fixedBody && <View>{body}</View>}
+            {footer && <View>{footer}</View>}
+          </View>
+        </SafeAreaView>
+      )}
     </TouchableWithoutFeedback>
   );
 }

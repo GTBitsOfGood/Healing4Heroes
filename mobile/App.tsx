@@ -19,7 +19,6 @@ import ViewSingleLogScreen from "./screens/Training/ViewSingleLogScreen";
 import UploadProfileImageScreen from "./screens/Onboarding/UploadProfileImageScreen";
 import AddTrainingLogScreen from "./screens/Training/AddTrainingLogScreen";
 import AdminUserList from "./screens/Admin/AdminUserListScreen";
-import AdminUserVerificationScreen from "./screens/Admin/AdminUserVerificationScreen";
 import AdminDetailedUserScreen from "./screens/Admin/AdminDetailedUserScreen";
 import PasscodeVerificationScreen from "./screens/Onboarding/PasscodeVerificationScreen";
 import CreateAnnouncementScreen from "./screens/Announcements/CreateAnnouncementScreen";
@@ -88,11 +87,6 @@ export default function App() {
         <Stack.Screen
           name={Screens.ADMIN_DETAILED_USER_SCREEN}
           component={AdminDetailedUserScreen}
-        />
-
-        <Stack.Screen
-          name={Screens.ADMIN_USER_VERIFICATION_SCREEN}
-          component={AdminUserVerificationScreen}
         />
 
         <Stack.Screen

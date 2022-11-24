@@ -54,7 +54,7 @@ export default function AddTrainingLogScreen(props: any) {
       circleCount={2}
       numberSelected={1}
       buttonFunction={submitTrainingLogInfo}
-      headerName={"Create New Training Log"}
+      headerTitle={"Create New Training Log"}
       navigationProp={props.navigation}
       pageBody={
         <View style={styles.container}>

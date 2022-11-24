@@ -109,7 +109,7 @@ export default function HandlerInformationScreen(props: any) {
     <StepOverlay
       circleCount={3}
       numberSelected={1}
-      headerName="Getting Started"
+      headerTitle="Getting Started"
       buttonFunction={submitHandlerInformation}
       error={error}
       pageIcon={<Ionicons name="person" size={24} color="black" />}

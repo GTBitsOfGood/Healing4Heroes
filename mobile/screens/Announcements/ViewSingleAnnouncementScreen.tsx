@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Text, BackHandler } from "react-native";
-import UserOverlay from "../../components/Overlays/UserOverlay";
+import GenericHeader from "../../components/GenericHeader";
+import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import { getFormattedDate } from "../../utils/helper";
 
 export default function ViewSingleAnnouncementScreen(props: any) {
@@ -13,11 +14,14 @@ export default function ViewSingleAnnouncementScreen(props: any) {
 
   const { announcement } = props.route.params;
   return (
-    <UserOverlay
-      noPaginatedButtons={true}
-      navigationProp={props.navigation}
-      headerTitle={getFormattedDate(new Date(announcement.date))}
-      pageBody={
+    <BaseOverlay
+      header={
+        <GenericHeader
+          navigationProp={props.navigation}
+          headerTitle={getFormattedDate(new Date(announcement.date))}
+        />
+      }
+      body={
         <View>
           <View style={styles.textCard}>
             <Text style={styles.title}>{announcement.title}</Text>

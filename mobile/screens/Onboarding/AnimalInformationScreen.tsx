@@ -74,7 +74,7 @@ export default function AnimalInformationScreen(props: any) {
     <StepOverlay
       circleCount={3}
       numberSelected={2}
-      headerName="Getting Started"
+      headerTitle="Getting Started"
       buttonFunction={submitAnimalInformation}
       error={error}
       pageIcon={<FontAwesome5 name="dog" size={37.5} color="black" />}

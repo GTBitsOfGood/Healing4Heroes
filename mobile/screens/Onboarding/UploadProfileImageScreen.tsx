@@ -168,7 +168,7 @@ export default function UploadProfileImageScreen(props: any) {
 
   return (
     <StepOverlay
-      headerName="Getting Started"
+      headerTitle="Getting Started"
       circleCount={3}
       error={error}
       buttonFunction={updateProfileInformation}

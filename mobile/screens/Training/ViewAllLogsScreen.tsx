@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { View, TouchableOpacity, BackHandler } from "react-native";
 import LogCard from "../../components/LogCard";
 import { Screens } from "../../utils/types";
-import UserOverlay from "../../components/Overlays/UserOverlay";
+import GenericHeader from "../../components/GenericHeader";
+import BaseOverlay from "../../components/Overlays/BaseOverlay";
 
 export default function ViewAllLogsScreen(props: any) {
   const logs = props?.route?.params?.trainingLogs;
@@ -13,11 +14,14 @@ export default function ViewAllLogsScreen(props: any) {
     });
   }, []);
   return (
-    <UserOverlay
-      noPaginatedButtons={true}
-      headerTitle={"View All Training Logs"}
-      navigationProp={props.navigation}
-      pageBody={
+    <BaseOverlay
+      header={
+        <GenericHeader
+          navigationProp={props.navigation}
+          headerTitle={"View All Training Logs"}
+        />
+      }
+      body={
         <View>
           {logs?.map((log: any, index: number) => {
             return (

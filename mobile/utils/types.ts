@@ -132,7 +132,6 @@ export enum Screens {
   ADMIN_DASHBOARD_SCREEN = "Admin Dashboard",
   ADMIN_USER_LIST_SCREEN = "Admin User List",
   ADMIN_DETAILED_USER_SCREEN = "Detailed User Screen",
-  ADMIN_USER_VERIFICATION_SCREEN = "Admin User Verification",
   STORAGE_EXAMPLE_SCREEN = "Storage Example Screen",
   STEP_OVERLAY_EXAMPLE_SCREEN = "Step Overlay Example Screen",
   VIEW_ALL_LOGS_SCREEN = "View All Logs Screen",

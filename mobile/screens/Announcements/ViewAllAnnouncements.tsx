@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { userGetAnnouncements } from "../../actions/Announcement";
 import {
   userCreateReadLog,
   userGetReadAnnouncements,
 } from "../../actions/ReadLog";
 import AnnouncementCard from "../../components/AnnouncementCard";
-import UserOverlay from "../../components/Overlays/UserOverlay";
+import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import { Announcement, Screens } from "../../utils/types";
+import GenericHeader from "../../components/GenericHeader";
 
 export default function ViewAllAnnouncementsScreen(props: any) {
   const [readAnnouncements, setReadAnnouncements] = useState<Announcement[]>(
@@ -52,11 +53,14 @@ export default function ViewAllAnnouncementsScreen(props: any) {
   };
 
   return (
-    <UserOverlay
-      noPaginatedButtons={true}
-      navigationProp={props.navigation}
-      headerTitle={"All Announcements"}
-      pageBody={
+    <BaseOverlay
+      header={
+        <GenericHeader
+          headerTitle="All Announcements"
+          navigationProp={props.navigation}
+        />
+      }
+      body={
         <View>
           {unreadAnnouncements?.map((announcement, index) => {
             return (
@@ -91,5 +95,18 @@ export default function ViewAllAnnouncementsScreen(props: any) {
 const styles = StyleSheet.create({
   container: {
     margin: 40,
+  },
+  headerContainer: {
+    marginTop: 20,
+    marginBottom: 25,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  header: {
+    fontFamily: "DMSans-Bold",
+    color: "grey",
+    fontSize: 16,
   },
 });

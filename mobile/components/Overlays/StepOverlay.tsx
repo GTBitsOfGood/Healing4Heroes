@@ -10,11 +10,12 @@ import ErrorBox from "../ErrorBox";
 import IconButton from "../IconButton";
 import BaseOverlay from "./BaseOverlay";
 import { Ionicons } from "@expo/vector-icons";
+import GenericHeader from "../GenericHeader";
 
 interface StepOverlayProps {
   circleCount: number;
   numberSelected: number;
-  headerName: string;
+  headerTitle: string;
   error: string;
   buttonFunction: ((event: GestureResponderEvent) => void) | undefined;
   pageBody: ReactElement;
@@ -23,7 +24,7 @@ interface StepOverlayProps {
 }
 export default function StepOverlay({
   circleCount,
-  headerName,
+  headerTitle,
   numberSelected,
   buttonFunction,
   pageBody,
@@ -36,24 +37,10 @@ export default function StepOverlay({
     <BaseOverlay
       header={
         <View style={styles.headerContainer}>
-          <View style={styles.innerHeaderContainer}>
-            <IconButton
-              icon={
-                <Ionicons
-                  name="ios-chevron-back-sharp"
-                  size={26}
-                  color="grey"
-                />
-              }
-              callbackFunction={() => {
-                if (navigationProp) {
-                  navigationProp.goBack();
-                }
-              }}
-            ></IconButton>
-            <Text style={styles.header}>{headerName}</Text>
-            <View></View>
-          </View>
+          <GenericHeader
+            headerTitle={headerTitle}
+            navigationProp={navigationProp}
+          />
           {pageIcon && <View style={styles.iconCircle}>{pageIcon}</View>}
         </View>
       }

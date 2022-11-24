@@ -6,23 +6,24 @@ import {
   TextInput,
   TouchableOpacity,
   BackHandler,
+  Platform,
 } from "react-native";
-import UserOverlay from "../../components/Overlays/UserOverlay";
 import { getFormattedDate } from "../../utils/helper";
 import { adminCreateAnnouncement } from "../../actions/Announcement";
 import { Screens } from "../../utils/types";
+import BaseOverlay from "../../components/Overlays/BaseOverlay";
+import GenericHeader from "../../components/GenericHeader";
 
 export default function CreateAnnouncementScreen(props: any) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState<Date>(new Date());
 
   const sendAnnouncement = async () => {
     if (!title || !description) {
       return;
     }
 
-    await adminCreateAnnouncement(title, description, date);
+    await adminCreateAnnouncement(title, description, new Date());
 
     props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
   };
@@ -31,16 +32,17 @@ export default function CreateAnnouncementScreen(props: any) {
       props.navigation.goBack();
       return true;
     });
-
-    setDate(new Date());
   }, []);
 
   return (
-    <UserOverlay
-      noPaginatedButtons={true}
-      navigationProp={props.navigation}
-      headerTitle={getFormattedDate(new Date())}
-      pageBody={
+    <BaseOverlay
+      header={
+        <GenericHeader
+          headerTitle={getFormattedDate(new Date())}
+          navigationProp={props.navigation}
+        />
+      }
+      body={
         <View style={styles.container}>
           <View>
             <Text style={styles.label}>Announcement</Text>
@@ -53,7 +55,7 @@ export default function CreateAnnouncementScreen(props: any) {
               <TextInput
                 style={styles.textInput}
                 multiline={true}
-                placeholder={"Announcement Title"}
+                placeholder={"Announcement Description"}
                 onChangeText={setDescription}
               />
             </View>
@@ -114,6 +116,7 @@ const styles = StyleSheet.create({
     minHeight: 200,
     backgroundColor: "white",
     paddingBottom: 12,
+    paddingTop: Platform.OS === "ios" ? 8 : 0,
     marginBottom: 12,
     paddingHorizontal: 16,
     borderRadius: 12,
@@ -124,7 +127,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#666666",
     fontFamily: "DMSans-Bold",
-    paddingVertical: 12,
+    paddingVertical: 8,
   },
   button: {
     marginBottom: 32,

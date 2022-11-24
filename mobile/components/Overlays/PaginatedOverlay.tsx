@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import IconButton from "../IconButton";
 import { ButtonDirection } from "../../utils/types";
 import BaseOverlay from "./BaseOverlay";
+import GenericHeader from "../GenericHeader";
 
 interface PaginatedOverlayProps {
   pageBody: ReactElement;
@@ -28,20 +29,10 @@ export default function PaginatedOverlay({
   return (
     <BaseOverlay
       header={
-        <View style={styles.headerContainer}>
-          <IconButton
-            icon={
-              <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
-            }
-            callbackFunction={() => {
-              if (navigationProp) {
-                navigationProp.goBack();
-              }
-            }}
-          />
-          <Text style={styles.headerText}>{headerTitle}</Text>
-          <View></View>
-        </View>
+        <GenericHeader
+          headerTitle="View Users"
+          navigationProp={navigationProp}
+        />
       }
       body={pageBody}
       footer={
@@ -143,7 +134,7 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   headerContainer: {
-    marginTop: 20,
+    // marginTop: 20,
     marginBottom: 25,
     display: "flex",
     flexDirection: "row",

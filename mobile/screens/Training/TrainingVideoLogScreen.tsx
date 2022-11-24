@@ -113,7 +113,7 @@ export default function TrainingVideoLogScreen(props: any) {
 
   return (
     <StepOverlay
-      headerName="Create Training Log"
+      headerTitle="Create Training Log"
       circleCount={2}
       error={error}
       buttonFunction={createTrainingLog}
