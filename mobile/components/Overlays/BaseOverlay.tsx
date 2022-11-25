@@ -34,8 +34,11 @@ export default function OnboardingOverlay({
           <SafeAreaView>
             <View style={styles.container}>
               <View>{header}</View>
-              {!fixedBody && <ScrollView>{body}</ScrollView>}
-              {fixedBody && <View>{body}</View>}
+              {fixedBody ? (
+                <View>{body}</View>
+              ) : (
+                <ScrollView>{body}</ScrollView>
+              )}
               {footer && <View>{footer}</View>}
             </View>
           </SafeAreaView>
@@ -44,8 +47,7 @@ export default function OnboardingOverlay({
         <SafeAreaView>
           <View style={styles.container}>
             <View>{header}</View>
-            {!fixedBody && <ScrollView>{body}</ScrollView>}
-            {fixedBody && <View>{body}</View>}
+            {fixedBody ? <View>{body}</View> : <ScrollView>{body}</ScrollView>}
             {footer && <View>{footer}</View>}
           </View>
         </SafeAreaView>
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 34,
     height: "100%",
+
     paddingTop:
       Platform.OS === "android" ? (StatusBar.currentHeight as number) + 10 : 10,
     paddingBottom: 15,

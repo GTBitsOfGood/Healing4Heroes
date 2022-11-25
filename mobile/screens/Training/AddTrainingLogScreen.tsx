@@ -141,8 +141,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     justifyContent: "space-between",
     flexDirection: "column",
-    // paddingVertical: 20,
-    paddingHorizontal: 0,
   },
   header: {
     alignSelf: "center",

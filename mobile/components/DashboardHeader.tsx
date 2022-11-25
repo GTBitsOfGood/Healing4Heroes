@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   dashboardHeader: {
     flexDirection: "row",
     marginBottom: 25,
+    marginTop: 10,
   },
   profileName: {
     flexGrow: 1,

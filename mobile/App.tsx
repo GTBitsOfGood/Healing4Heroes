@@ -47,11 +47,13 @@ export default function App() {
         initialRouteName={Screens.DEVELOPMENT_SCREEN}
         screenOptions={{
           headerShown: false,
+          gestureEnabled: false,
         }}
       >
         <Stack.Screen
           name={Screens.DEVELOPMENT_SCREEN}
           component={DevelopmentScreen}
+          options={{ gestureEnabled: false }}
         />
         <Stack.Screen name={Screens.LANDING_SCREEN} component={LandingScreen} />
         <Stack.Screen name={Screens.LOGIN_SCREEN} component={LoginScreen} />

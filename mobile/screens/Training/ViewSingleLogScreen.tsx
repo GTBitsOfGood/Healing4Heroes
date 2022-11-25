@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  BackHandler,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-} from "react-native";
+import { BackHandler, StyleSheet, Text, View, Image } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { userGetUserInfo } from "../../actions/User";
 import { Role } from "../../utils/types";
 import { getFile, getVideo } from "../../utils/storage";
 import { ResizeMode, Video } from "expo-av";
-import IconButton from "../../components/IconButton";
-import { Ionicons } from "@expo/vector-icons";
 import GenericHeader from "../../components/GenericHeader";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import BubbleList from "../../components/BubbleList";
+import { getFormattedDate } from "../../utils/helper";
 
 export default function ViewSingleLogScreen(props: any) {
   const {
@@ -31,7 +23,6 @@ export default function ViewSingleLogScreen(props: any) {
     videoThumbnail,
   } = props.route.params;
 
-  const [processedDate, setProcessedDate] = useState<Date | null>();
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
   useEffect(() => {
@@ -54,21 +45,18 @@ export default function ViewSingleLogScreen(props: any) {
       return true;
     });
     loadLogInformation().then().catch();
-    setProcessedDate(new Date(date));
   }, []);
 
   return (
     <BaseOverlay
       header={
         <GenericHeader
-          headerTitle={`${
-            (processedDate?.getMonth() as number) + 1
-          }-${processedDate?.getDate()}-${processedDate?.getFullYear()}`}
+          headerTitle={getFormattedDate(new Date(date))}
           navigationProp={props.navigation}
         />
       }
       body={
-        <View>
+        <View style={styles.container}>
           {videoUrl && (
             <Video
               style={styles.animalCard}
@@ -139,7 +127,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f2f2f2",
-    flexDirection: "column",
+    justifyContent: "space-between",
     marginTop: 20,
   },
   top: {
