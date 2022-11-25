@@ -10,10 +10,8 @@ export default function BubbleList({ items }: BubbleListProps) {
       <View style={styles.bubbleContainer}>
         {items.map((item, index) => {
           return (
-            <View style={styles.bubble}>
-              <Text key={index} style={styles.bubbleText}>
-                {item}
-              </Text>
+            <View style={styles.bubble} key={index}>
+              <Text style={styles.bubbleText}>{item}</Text>
             </View>
           );
         })}
