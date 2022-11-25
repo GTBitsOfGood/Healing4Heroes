@@ -32,11 +32,6 @@ const styles = StyleSheet.create({
   progressContainer: {
     borderRadius: 10,
     backgroundColor: "white",
-    shadowColor: "#171717",
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    marginBottom: 10,
     padding: 10,
   },
 

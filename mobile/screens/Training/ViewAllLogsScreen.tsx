@@ -45,6 +45,7 @@ export default function ViewAllLogsScreen(props: any) {
                   skills={log.skills}
                   trainingHours={log.trainingHours}
                   behaviors={log.behavior}
+                  showDetailed={true}
                 />
               </TouchableOpacity>
             );
