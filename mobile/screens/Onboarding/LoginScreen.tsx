@@ -12,39 +12,43 @@ import {
 import { auth } from "../../utils/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { userGetUserInfo } from "../../actions/User";
-import { Role, Screens } from "../../utils/types";
+import { EndExecutionError, Role, Screens, User } from "../../utils/types";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
+import { errorWrapper } from "../../utils/error";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function LoginScreen(props: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [checkValidUser, setCheckValidUser] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [loginDisabled, setLoginDisable] = useState(false);
+
   const handleLogin = async () => {
     try {
+      setErrorMessage("");
       await signOut(auth).then().catch();
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
+      await errorWrapper(
+        signInWithEmailAndPassword,
+        setErrorMessage,
+        [auth, email, password],
+        {
+          "Firebase: Error (auth/invalid-email).": "This email is invalid",
+          "Firebase: Error (auth/internal-error).":
+            "An error occurred when trying to authenticate",
+          "Firebase: Error (auth/wrong-password).":
+            "Invalid email/password combination",
+        }
       );
-
-      if (!userCredential || !userCredential.user) {
-        setErrorMessage(`Login Failed - Please try again!`);
-        setCheckValidUser(false);
-        return;
-      }
-
-      const user = await userGetUserInfo();
+      const user = await errorWrapper(userGetUserInfo, setErrorMessage);
       return user;
-    } catch (e) {
-      console.log(e);
-      setErrorMessage(`Login Failed - Invalid email or password`);
-      setCheckValidUser(false);
-      return;
+    } catch (error) {
+      if (error instanceof EndExecutionError) {
+        return;
+      } else {
+        throw error;
+      }
     }
   };
 
@@ -85,14 +89,7 @@ export default function LoginScreen(props: any) {
                     ></TextInput>
                   </View>
                 </View>
-                {/* conditional rendering after authentication  */}
-                {!checkValidUser ? (
-                  <View style={styles.failedContainer}>
-                    <Text style={styles.failedText}>{errorMessage}</Text>
-                  </View>
-                ) : (
-                  <View></View>
-                )}
+                <ErrorBox errorMessage={errorMessage} />
                 <View
                   style={[
                     styles.buttonContainer,
@@ -110,16 +107,16 @@ export default function LoginScreen(props: any) {
                         // If they signed up but haven't set their user information
                         if (
                           !(
-                            result.firstName &&
-                            result.lastName &&
-                            result.handlerType
+                            (result as User).firstName &&
+                            (result as User).lastName &&
+                            (result as User).handlerType
                           )
                         ) {
                           props.navigation.navigate(
                             Screens.HANDLER_INFORMATION_SCREEN
                           );
                         } else if (
-                          result.roles?.includes(Role.NONPROFIT_ADMIN)
+                          (result as User).roles?.includes(Role.NONPROFIT_ADMIN)
                         ) {
                           props.navigation.navigate(
                             Screens.ADMIN_DASHBOARD_SCREEN

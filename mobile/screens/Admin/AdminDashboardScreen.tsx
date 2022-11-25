@@ -6,15 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Announcement, Screens, User, UserFilter } from "../../utils/types";
-import DashboardOverlay from "../../components/Overlays/DashboardOverlay";
-import IconButton from "../../components/IconButton";
 import { adminGetAnnouncements } from "../../actions/Announcement";
-import { auth } from "../../utils/firebase";
 import { userGetUserInfo } from "../../actions/User";
+import BaseOverlay from "../../components/Overlays/BaseOverlay";
+import DashboardHeader from "../../components/DashboardHeader";
 
 export default function AdminDashboardScreen(props: any) {
   const [userInfo, setUserInfo] = useState<User>();
@@ -48,25 +45,14 @@ export default function AdminDashboardScreen(props: any) {
   }, []);
 
   return (
-    <DashboardOverlay
-      headerComponent={
-        <View style={styles.dashboardHeader}>
-          <FontAwesome name="user-circle" size={26} color="#3F3BED" />
-          <Text style={styles.profileName}>
-            {userInfo?.firstName} {userInfo?.lastName}
-          </Text>
-          <IconButton
-            callbackFunction={async () => {
-              await auth.signOut().then().catch();
-              props.navigation.navigate(Screens.LANDING_SCREEN);
-            }}
-            icon={
-              <MaterialCommunityIcons name="logout" size={26} color="#3F3BED" />
-            }
-          ></IconButton>
-        </View>
+    <BaseOverlay
+      header={
+        <DashboardHeader
+          userInfo={userInfo as User}
+          navigationProp={props.navigation}
+        />
       }
-      pageBody={
+      body={
         <View style={styles.container}>
           <Text style={styles.label}>Announcements</Text>
           <View style={styles.announcementContainer}>

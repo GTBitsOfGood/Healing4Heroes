@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BackHandler, StyleSheet, Text, View, Image } from "react-native";
-import DashboardOverlay from "../../components/Overlays/DashboardOverlay";
-import IconButton from "../../components/IconButton";
-import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LogButton from "../../components/LogButton";
@@ -17,6 +14,8 @@ import {
 import { adminGetAnimalInfo, adminGetTrainingLogs } from "../../actions/Admin";
 import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
+import BaseOverlay from "../../components/Overlays/BaseOverlay";
+import GenericHeader from "../../components/GenericHeader";
 
 export default function AdminDetailedUserScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -54,18 +53,11 @@ export default function AdminDetailedUserScreen(props: any) {
   }, []);
 
   return (
-    <DashboardOverlay
-      headerComponent={
-        <IconButton
-          icon={
-            <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
-          }
-          callbackFunction={() => {
-            props.navigation.goBack();
-          }}
-        ></IconButton>
+    <BaseOverlay
+      header={
+        <GenericHeader headerTitle={""} navigationProp={props.navigation} />
       }
-      pageBody={
+      body={
         <View style={styles.container}>
           {/* profile picture  */}
           <View style={styles.profileContainer}>
@@ -147,7 +139,7 @@ export default function AdminDetailedUserScreen(props: any) {
           />
         </View>
       }
-    ></DashboardOverlay>
+    />
   );
 }
 

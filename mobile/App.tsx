@@ -19,7 +19,6 @@ import ViewSingleLogScreen from "./screens/Training/ViewSingleLogScreen";
 import UploadProfileImageScreen from "./screens/Onboarding/UploadProfileImageScreen";
 import AddTrainingLogScreen from "./screens/Training/AddTrainingLogScreen";
 import AdminUserList from "./screens/Admin/AdminUserListScreen";
-import AdminUserVerificationScreen from "./screens/Admin/AdminUserVerificationScreen";
 import AdminDetailedUserScreen from "./screens/Admin/AdminDetailedUserScreen";
 import PasscodeVerificationScreen from "./screens/Onboarding/PasscodeVerificationScreen";
 import CreateAnnouncementScreen from "./screens/Announcements/CreateAnnouncementScreen";
@@ -28,6 +27,7 @@ import ForgotPasswordScreen from "./screens/Onboarding/ForgotPasswordScreen";
 import ResetPasswordScreen from "./screens/Onboarding/ResetPasswordScreen";
 import ViewAllAnnouncementsScreen from "./screens/Announcements/ViewAllAnnouncements";
 import ViewSingleAnnouncementScreen from "./screens/Announcements/ViewSingleAnnouncementScreen";
+import BaseOverlayExampleScreen from "./screens/Development/BaseOverlayExampleScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -44,7 +44,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={Screens.LANDING_SCREEN}
+        initialRouteName={Screens.DEVELOPMENT_SCREEN}
         screenOptions={{
           headerShown: false,
         }}
@@ -87,11 +87,6 @@ export default function App() {
         <Stack.Screen
           name={Screens.ADMIN_DETAILED_USER_SCREEN}
           component={AdminDetailedUserScreen}
-        />
-
-        <Stack.Screen
-          name={Screens.ADMIN_USER_VERIFICATION_SCREEN}
-          component={AdminUserVerificationScreen}
         />
 
         <Stack.Screen
@@ -138,6 +133,10 @@ export default function App() {
         <Stack.Screen
           name={Screens.VIEW_SINGLE_ANNOUNCEMENT_SCREEN}
           component={ViewSingleAnnouncementScreen}
+        />
+        <Stack.Screen
+          name={Screens.BASE_OVERLAY_EXAMPLE_SCREEN}
+          component={BaseOverlayExampleScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

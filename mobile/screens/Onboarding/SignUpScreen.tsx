@@ -12,33 +12,35 @@ import { validateEmail } from "../../utils/helper";
 import { auth } from "../../utils/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { userCreateUser } from "../../actions/User";
-import { Screens, UserVerificationLogType } from "../../utils/types";
+import {
+  EndExecutionError,
+  Screens,
+  UserVerificationLogType,
+} from "../../utils/types";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { authCreateVerificationLog } from "../../actions/Auth";
+import { errorWrapper } from "../../utils/error";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function SignUpScreen(props: any) {
-  const [checkValidRegister, setCheckValidRegister] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signUpDisabled, setSignUpDisabled] = useState(false);
   const validateInput = () => {
-    setCheckValidRegister(true);
+    setErrorMessage("");
     if (!validateEmail(email)) {
-      setCheckValidRegister(false);
       setErrorMessage("Registration Failed — Invalid email");
       return false;
     }
 
     if (password.trim() === "") {
-      setCheckValidRegister(false);
       setErrorMessage("Registration Failed — Password cannot be empty");
       return false;
     }
 
     if (confirmPassword !== password) {
-      setCheckValidRegister(false);
       setErrorMessage("Registration Failed — Passwords don't match");
       return false;
     }
@@ -47,31 +49,39 @@ export default function SignUpScreen(props: any) {
   };
 
   const handleSignUp = async () => {
-    await auth.signOut().then().catch();
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
+      await auth.signOut().then().catch();
+      const userCredential = await errorWrapper(
+        createUserWithEmailAndPassword,
+        setErrorMessage,
+        [auth, email, password],
+        {
+          "Firebase: Error (auth/email-already-in-use).":
+            "This email is already in use",
+          "Firebase: Password should be at least 6 characters (auth/weak-password).":
+            "Your password must be at least 6 characters",
+        }
       );
-      if (!userCredential || !userCredential.user) {
-        setErrorMessage("Registration Failed - Please try again!");
-        setCheckValidRegister(false);
-        return;
-      }
-
       const user = userCredential.user;
       const firebaseUid = user.uid;
-      const createdUser = await userCreateUser(email, firebaseUid);
-      await authCreateVerificationLog(
+      const createdUser = await errorWrapper(userCreateUser, setErrorMessage, [
         email,
-        UserVerificationLogType.EMAIL_VERIFICATION
+        firebaseUid,
+      ]);
+
+      await errorWrapper(
+        authCreateVerificationLog,
+        setErrorMessage,
+        [email, UserVerificationLogType.EMAIL_VERIFICATION],
+        { default: "Failed To Send Verification Email" }
       );
       return createdUser;
-    } catch (e) {
-      setErrorMessage("Registration failed - Account already exists");
-      setCheckValidRegister(false);
-      return;
+    } catch (error) {
+      if (error instanceof EndExecutionError) {
+        return;
+      } else {
+        throw error;
+      }
     }
   };
 
@@ -122,13 +132,7 @@ export default function SignUpScreen(props: any) {
                 </View>
               </View>
 
-              {!checkValidRegister ? (
-                <View style={styles.failedContainer}>
-                  <Text style={styles.failedText}>{errorMessage}</Text>
-                </View>
-              ) : (
-                <View></View>
-              )}
+              <ErrorBox errorMessage={errorMessage} />
               <View
                 style={[
                   styles.buttonContainer,

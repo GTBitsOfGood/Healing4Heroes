@@ -74,10 +74,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingTop: 20,
     paddingBottom: 20,
-    shadowColor: "#171717",
-    shadowOffset: { width: -2, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 0.5,
   },
   userIcon: {
     marginHorizontal: 15,

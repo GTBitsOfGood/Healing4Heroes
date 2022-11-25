@@ -28,6 +28,12 @@ export default APIWrapper({
       const checkUpDate: Date = req.body.checkUpDate as Date;
       const profileImage: string = req.body.profileImage as string;
 
+      const prevAnimal = await findAnimalByUserId(handler._id);
+
+      if (prevAnimal) {
+        throw new Error("This user already has a service animal");
+      }
+
       const animal = await createAnimal(
         handler._id,
         name,

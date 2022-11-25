@@ -26,11 +26,11 @@ export default function DevelopmentScreen(props: any) {
 
       <TouchableOpacity
         onPress={() =>
-          props.navigation.navigate(Screens.PASSCODE_VALIDATION_SCREEN)
+          props.navigation.navigate(Screens.BASE_OVERLAY_EXAMPLE_SCREEN)
         }
         style={styles.buttonItem}
       >
-        <Text>Go To Passcode Verification Page</Text>
+        <Text>Go To Base Overlay Example</Text>
       </TouchableOpacity>
 
       <TouchableOpacity

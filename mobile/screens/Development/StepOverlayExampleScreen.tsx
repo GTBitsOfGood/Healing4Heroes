@@ -11,7 +11,7 @@ export default function StepOverlayExampleScreen() {
         console.log("Hello World");
       }}
       error=""
-      headerName="Example Overlay Page"
+      headerTitle="Example Overlay Page"
       pageBody={
         <View>
           {[...Array(100).keys()].map((i) => (

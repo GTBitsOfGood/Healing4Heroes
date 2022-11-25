@@ -132,7 +132,6 @@ export enum Screens {
   ADMIN_DASHBOARD_SCREEN = "Admin Dashboard",
   ADMIN_USER_LIST_SCREEN = "Admin User List",
   ADMIN_DETAILED_USER_SCREEN = "Detailed User Screen",
-  ADMIN_USER_VERIFICATION_SCREEN = "Admin User Verification",
   STORAGE_EXAMPLE_SCREEN = "Storage Example Screen",
   STEP_OVERLAY_EXAMPLE_SCREEN = "Step Overlay Example Screen",
   VIEW_ALL_LOGS_SCREEN = "View All Logs Screen",
@@ -144,6 +143,7 @@ export enum Screens {
   RESET_PASSWORD_SCREEN = "Reset Password",
   VIEW_ALL_ANNOUNCEMENTS_SCREEN = "View All Announcements",
   VIEW_SINGLE_ANNOUNCEMENT_SCREEN = "View Single Announcement",
+  BASE_OVERLAY_EXAMPLE_SCREEN = "Base Overlay Example Screen",
 }
 
 export enum UserFilter {
@@ -190,4 +190,11 @@ export interface MultipartUpload {
 export interface UploadedPart {
   ETag: string;
   PartNumber: number;
+}
+
+export class EndExecutionError extends Error {
+  constructor(message: string) {
+    super(message); // (1)
+    this.name = "EndExecutionError"; // (2)
+  }
 }

@@ -1,13 +1,6 @@
 import { internalRequest } from "../utils/requests";
-import {
-  HandlerType,
-  HttpMethod,
-  Role,
-  User,
-  UserFilter,
-} from "../utils/types";
+import { HandlerType, HttpMethod, Role, User } from "../utils/types";
 import { urls } from "../utils/urls";
-import { Types } from "mongoose";
 
 const userUserUrl = urls.baseUrl + urls.api.user.user;
 

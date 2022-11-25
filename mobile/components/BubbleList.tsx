@@ -10,9 +10,9 @@ export default function BubbleList({ items }: BubbleListProps) {
       <View style={styles.bubbleContainer}>
         {items.map((item, index) => {
           return (
-            <Text key={index} style={styles.bubble}>
-              {item}
-            </Text>
+            <View style={styles.bubble} key={index}>
+              <Text style={styles.bubbleText}>{item}</Text>
+            </View>
           );
         })}
       </View>
@@ -23,7 +23,7 @@ export default function BubbleList({ items }: BubbleListProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "transparent",
     flexDirection: "column",
     paddingVertical: 0,
     paddingHorizontal: 0,
@@ -33,12 +33,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
   },
+  bubbleText: {
+    color: "blue",
+  },
   bubble: {
     backgroundColor: "#E6E6FA",
     color: "blue",
     marginRight: 10,
-    marginBottom: 10,
-    padding: 10,
+    padding: 8,
     borderRadius: 10,
+    marginBottom: 10,
   },
 });

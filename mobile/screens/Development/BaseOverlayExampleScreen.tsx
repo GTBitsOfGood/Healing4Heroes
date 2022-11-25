@@ -1,37 +1,26 @@
-import React, { ReactElement } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import StepOverlay from "../../components/Overlays/StepOverlay";
 
-interface StepOverlayProps {
-  headerComponent: ReactElement;
-  pageBody: ReactElement;
-  pageIcon?: ReactElement;
-}
-export default function DashboardOverlay({
-  headerComponent,
-  pageBody,
-  pageIcon,
-}: StepOverlayProps) {
+export default function BaseOverlayExample(props: { navigation: any }) {
+  const [disableButton, setDisableButton] = useState(false);
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
-    >
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <View>{headerComponent}</View>
-          {pageIcon && <View style={styles.iconCircle}>{pageIcon}</View>}
+    // Uses Base Overlay
+    <StepOverlay
+      circleCount={2}
+      numberSelected={2}
+      headerTitle={"Hello World"}
+      error={""}
+      navigationProp={props.navigation}
+      buttonFunction={undefined}
+      pageBody={
+        <View>
+          {[...Array(100).keys()].map((i) => (
+            <Text key={i}>Hello World</Text>
+          ))}
         </View>
-
-        <ScrollView>{pageBody}</ScrollView>
-      </View>
-    </TouchableWithoutFeedback>
+      }
+    />
   );
 }
 
@@ -59,7 +48,19 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "#D9D9D9",
   },
-
+  button: {
+    paddingVertical: 16,
+    marginTop: 10,
+    borderRadius: 8,
+    backgroundColor: "#3F3BED",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+  },
   circles: {
     marginTop: 13,
     display: "flex",
@@ -93,16 +94,22 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     padding: 8,
     borderRadius: 10,
-    borderWidth: 0.5,
+    borderWidth: 1,
     minWidth: "85%",
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#FF8E8E50",
+    borderColor: "#C63636",
   },
   failedText: {
     fontSize: 12,
-    fontWeight: "300",
+    fontWeight: "400",
+    color: "#C63636",
   },
   headerContainer: {
-    marginTop: 20,
-    marginBottom: 35,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
 });

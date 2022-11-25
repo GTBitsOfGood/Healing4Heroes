@@ -6,10 +6,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import DashboardOverlay from "../../components/Overlays/DashboardOverlay";
 import HealthCard from "../../components/HealthCard";
 import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
@@ -22,6 +20,8 @@ import { userGetTrainingLogs } from "../../actions/TrainingLog";
 import IconButton from "../../components/IconButton";
 import { userGetAnnouncements } from "../../actions/Announcement";
 import { auth } from "../../utils/firebase";
+import BaseOverlay from "../../components/Overlays/BaseOverlay";
+import DashboardHeader from "../../components/DashboardHeader";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -63,25 +63,14 @@ export default function UserDashboardScreen(props: any) {
   }, []);
 
   return (
-    <DashboardOverlay
-      headerComponent={
-        <View style={styles.dashboardHeader}>
-          <FontAwesome name="user-circle" size={26} color="#3F3BED" />
-          <Text style={styles.profileName}>
-            {userInfo?.firstName} {userInfo?.lastName}
-          </Text>
-          <IconButton
-            callbackFunction={async () => {
-              await auth.signOut().then().catch();
-              props.navigation.navigate(Screens.LANDING_SCREEN);
-            }}
-            icon={
-              <MaterialCommunityIcons name="logout" size={26} color="#3F3BED" />
-            }
-          ></IconButton>
-        </View>
+    <BaseOverlay
+      header={
+        <DashboardHeader
+          userInfo={userInfo as User}
+          navigationProp={props.navigation}
+        />
       }
-      pageBody={
+      body={
         <View style={styles.container}>
           {/* announcment */}
           <TouchableOpacity
@@ -187,6 +176,8 @@ const styles = StyleSheet.create({
 
   dashboardHeader: {
     flexDirection: "row",
+    marginTop: 10,
+    marginBottom: 25,
   },
 
   profileName: {
@@ -199,10 +190,6 @@ const styles = StyleSheet.create({
   announcementContainer: {
     borderRadius: 10,
     backgroundColor: "white",
-    shadowColor: "#171717",
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
     marginBottom: 10,
     padding: 10,
   },

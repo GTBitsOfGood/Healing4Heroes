@@ -48,10 +48,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: "row",
     borderRadius: 10,
-    shadowColor: "#171717",
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
   },
 
   cardImgContainer: {

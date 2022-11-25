@@ -10,78 +10,60 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "../IconButton";
 import { ButtonDirection } from "../../utils/types";
+import BaseOverlay from "./BaseOverlay";
+import GenericHeader from "../GenericHeader";
 
-interface UserOverlayProps {
+interface PaginatedOverlayProps {
   pageBody: ReactElement;
   footer?: ReactElement;
   navigationProp?: any;
-  noPaginatedButtons?: boolean;
   headerTitle?: string;
   paginationButtonFunction?: (direction: ButtonDirection) => void;
 }
-export default function UserOverlay({
+export default function PaginatedOverlay({
   pageBody,
   navigationProp,
-  noPaginatedButtons,
   headerTitle,
-  footer,
   paginationButtonFunction,
-}: UserOverlayProps) {
+}: PaginatedOverlayProps) {
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
-    >
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
+    <BaseOverlay
+      header={
+        <GenericHeader
+          headerTitle="View Users"
+          navigationProp={navigationProp}
+        />
+      }
+      body={pageBody}
+      footer={
+        <View style={styles.footerContainer}>
           <IconButton
             icon={
-              <Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />
+              <View style={styles.backgroundCircle}>
+                <Ionicons name="chevron-back" size={40} color="black" />
+              </View>
             }
             callbackFunction={() => {
-              if (navigationProp) {
-                navigationProp.goBack();
+              if (paginationButtonFunction) {
+                paginationButtonFunction(ButtonDirection.BUTTON_BACKWARD);
               }
             }}
           ></IconButton>
-          <Text style={styles.headerText}>{headerTitle}</Text>
-          <View></View>
-        </View>
-        <ScrollView>{pageBody}</ScrollView>
-        <View style={styles.footerContainer}>
-          {!noPaginatedButtons && (
-            <IconButton
-              icon={
-                <View style={styles.backgroundCircle}>
-                  <Ionicons name="chevron-back" size={40} color="black" />
-                </View>
+          <IconButton
+            icon={
+              <View style={styles.backgroundCircle}>
+                <Ionicons name="chevron-forward" size={40} color="black" />
+              </View>
+            }
+            callbackFunction={() => {
+              if (paginationButtonFunction) {
+                paginationButtonFunction(ButtonDirection.BUTTON_FORWARD);
               }
-              callbackFunction={() => {
-                if (paginationButtonFunction) {
-                  paginationButtonFunction(ButtonDirection.BUTTON_BACKWARD);
-                }
-              }}
-            ></IconButton>
-          )}
-          {!noPaginatedButtons && (
-            <IconButton
-              icon={
-                <View style={styles.backgroundCircle}>
-                  <Ionicons name="chevron-forward" size={40} color="black" />
-                </View>
-              }
-              callbackFunction={() => {
-                if (paginationButtonFunction) {
-                  paginationButtonFunction(ButtonDirection.BUTTON_FORWARD);
-                }
-              }}
-            ></IconButton>
-          )}
+            }}
+          ></IconButton>
         </View>
-        {footer && <View>{footer}</View>}
-      </View>
-    </TouchableWithoutFeedback>
+      }
+    />
   );
 }
 
@@ -152,7 +134,7 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   headerContainer: {
-    marginTop: 20,
+    // marginTop: 20,
     marginBottom: 25,
     display: "flex",
     flexDirection: "row",

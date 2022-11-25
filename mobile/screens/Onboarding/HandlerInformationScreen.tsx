@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TextInput, BackHandler } from "react-native";
-import { HandlerType, Role, Screens, User } from "../../utils/types";
+import {
+  EndExecutionError,
+  HandlerType,
+  Role,
+  Screens,
+  User,
+} from "../../utils/types";
 import { userGetUserInfo, userUpdateUser } from "../../actions/User";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { Ionicons } from "@expo/vector-icons";
 import SolidDropDown from "../../components/SolidDropDown";
 import DateInput from "../../components/DateInput";
 import { validateBirthday } from "../../utils/helper";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
 
 export default function HandlerInformationScreen(props: any) {
   const [dropDownValue, setDropDownValue] = useState("");
@@ -17,8 +24,18 @@ export default function HandlerInformationScreen(props: any) {
   const [birthday, setBirthday] = useState<Date>();
   useEffect(() => {
     async function getUser() {
-      const user = await userGetUserInfo();
-      return user;
+      try {
+        const user = await errorWrapper(userGetUserInfo, setError, [], {
+          default: "Failed to Retrieve Account Information",
+        });
+        return user;
+      } catch (e) {
+        if (e instanceof EndExecutionError) {
+          return;
+        }
+
+        throw e;
+      }
     }
     getUser().then((result) => setUser(result));
 
@@ -29,14 +46,25 @@ export default function HandlerInformationScreen(props: any) {
   }, []);
 
   const updateUserInfo = async () => {
-    const user = await userUpdateUser(
-      undefined,
-      birthday,
-      firstName,
-      lastName,
-      dropDownValue as unknown as HandlerType
-    );
-    return user;
+    try {
+      const user = await errorWrapper(
+        userUpdateUser,
+        setError,
+        [
+          undefined,
+          birthday,
+          firstName,
+          lastName,
+          dropDownValue as unknown as HandlerType,
+        ],
+        {
+          default: "Failed to Update Handler Information",
+        }
+      );
+      return user;
+    } catch (e) {
+      endOfExecutionHandler(e as Error);
+    }
   };
 
   const validateInput = () => {
@@ -81,7 +109,7 @@ export default function HandlerInformationScreen(props: any) {
     <StepOverlay
       circleCount={3}
       numberSelected={1}
-      headerName="Getting Started"
+      headerTitle="Getting Started"
       buttonFunction={submitHandlerInformation}
       error={error}
       pageIcon={<Ionicons name="person" size={24} color="black" />}
