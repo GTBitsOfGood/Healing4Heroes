@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  Pressable,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { userCreateTrainingLog } from "../../actions/TrainingLog";
@@ -136,15 +137,17 @@ export default function TrainingVideoLogScreen(props: any) {
           </View>
 
           {videoUri && (
-            <Video
-              style={styles.video}
-              source={{
-                uri: videoUri,
-              }}
-              resizeMode={ResizeMode.CONTAIN}
-              useNativeControls
-              isLooping
-            />
+            <Pressable>
+              <Video
+                style={styles.video}
+                source={{
+                  uri: videoUri,
+                }}
+                resizeMode={ResizeMode.CONTAIN}
+                useNativeControls
+                isLooping
+              />
+            </Pressable>
           )}
           <Text style={styles.label}>Additional Notes</Text>
           <TextInput
@@ -256,7 +259,8 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "white",
-    paddingVertical: 12,
+    paddingBottom: 10,
+    paddingTop: 10,
     paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 0.5,

@@ -192,9 +192,8 @@ const styles = StyleSheet.create({
   },
   thumbnailCard: {
     width: "100%",
-    height: 200,
+    height: 186,
     borderRadius: 10,
-    marginBottom: 20,
     borderWidth: 1,
   },
   regularText: {

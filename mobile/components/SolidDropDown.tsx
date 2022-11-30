@@ -104,7 +104,7 @@ export default function SolidDropDown({
                 }}
               >
                 <View style={styles.itemContainer}>
-                  <Text
+                  <View
                     style={[
                       styles.dropdownItem,
                       selectedOptions.has(item) && styles.dropdownItemSelected,
@@ -113,8 +113,15 @@ export default function SolidDropDown({
                         styles.roundedItemLast,
                     ]}
                   >
-                    {item}
-                  </Text>
+                    <Text
+                      style={[
+                        selectedOptions.has(item) &&
+                          styles.dropdownItemSelected,
+                      ]}
+                    >
+                      {item}
+                    </Text>
+                  </View>
                 </View>
               </TouchableOpacity>
             );
