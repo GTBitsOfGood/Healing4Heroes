@@ -94,15 +94,16 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
+    width: "100%",
   },
   digit: {
-    paddingHorizontal: "3%",
+    paddingHorizontal: 15,
     paddingVertical: 14,
     backgroundColor: "#D9D9D9",
     borderRadius: 10,
-    marginRight: 10,
+    // marginRight: 10,
     textAlign: "center",
     borderColor: "#3F3BED",
     borderWidth: 1,
@@ -110,6 +111,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   rightMargin: {
-    marginRight: 10,
+    marginRight: 0,
   },
 });

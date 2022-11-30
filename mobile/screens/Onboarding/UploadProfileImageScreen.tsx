@@ -5,6 +5,7 @@ import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import {
   BackHandler,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -199,13 +200,15 @@ export default function UploadProfileImageScreen(props: any) {
           )}
 
           {handlerImageUri && (
-            <Image
-              style={styles.video}
-              source={{
-                uri: handlerImageUri,
-              }}
-              resizeMode={ResizeMode.COVER}
-            />
+            <Pressable>
+              <Image
+                style={styles.video}
+                source={{
+                  uri: handlerImageUri,
+                }}
+                resizeMode={ResizeMode.COVER}
+              />
+            </Pressable>
           )}
           {/* Animal Image Upload */}
           <Text style={styles.label}>Upload Animal Picture</Text>
@@ -227,13 +230,15 @@ export default function UploadProfileImageScreen(props: any) {
           </View>
 
           {animalImageUri && (
-            <Image
-              style={styles.video}
-              source={{
-                uri: animalImageUri,
-              }}
-              resizeMode={ResizeMode.COVER}
-            />
+            <Pressable>
+              <Image
+                style={styles.video}
+                source={{
+                  uri: animalImageUri,
+                }}
+                resizeMode={ResizeMode.COVER}
+              />
+            </Pressable>
           )}
         </View>
       }

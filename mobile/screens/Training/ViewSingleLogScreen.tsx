@@ -6,7 +6,8 @@ import {
   View,
   Image,
   TouchableWithoutFeedback,
-  Keyboard,
+  Pressable,
+  ScrollView,
 } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -64,11 +65,7 @@ export default function ViewSingleLogScreen(props: any) {
         />
       }
       body={
-        <TouchableWithoutFeedback
-          onPress={() => {
-            Keyboard.dismiss();
-          }}
-        >
+        <Pressable>
           <View style={styles.container}>
             {videoUrl && (
               <Video
@@ -131,7 +128,7 @@ export default function ViewSingleLogScreen(props: any) {
               </View>
             )}
           </View>
-        </TouchableWithoutFeedback>
+        </Pressable>
       }
     />
   );
@@ -143,7 +140,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#f2f2f2",
     justifyContent: "space-between",
-    marginTop: 20,
   },
   top: {
     fontSize: 16,
