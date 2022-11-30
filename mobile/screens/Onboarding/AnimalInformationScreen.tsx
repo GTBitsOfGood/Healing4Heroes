@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TextInput, BackHandler } from "react-native";
-import {
-  userCreateAnimal,
-  userGetAnimal,
-  userUpdateAnimal,
-} from "../../actions/Animal";
+import { userCreateAnimal } from "../../actions/Animal";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { validateBirthday } from "../../utils/helper";
 import { FontAwesome5 } from "@expo/vector-icons";
 import DateInput from "../../components/DateInput";
-import { EndExecutionError, Screens } from "../../utils/types";
+import { Screens } from "../../utils/types";
 import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
 
 export default function AnimalInformationScreen(props: any) {

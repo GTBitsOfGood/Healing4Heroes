@@ -5,9 +5,7 @@ import {
   Text,
   View,
   Image,
-  TouchableWithoutFeedback,
   Pressable,
-  ScrollView,
 } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";

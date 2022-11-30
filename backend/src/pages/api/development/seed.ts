@@ -1,5 +1,5 @@
 import APIWrapper from "server/utils/APIWrapper";
-import { seedDatabase } from "server/utils/seed";
+// import { seedDatabase } from "server/utils/seed";
 
 export default APIWrapper({
   GET: {

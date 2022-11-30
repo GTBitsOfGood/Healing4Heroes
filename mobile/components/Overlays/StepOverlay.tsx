@@ -7,9 +7,7 @@ import {
   GestureResponderEvent,
 } from "react-native";
 import ErrorBox from "../ErrorBox";
-import IconButton from "../IconButton";
 import BaseOverlay from "./BaseOverlay";
-import { Ionicons } from "@expo/vector-icons";
 import GenericHeader from "../GenericHeader";
 
 interface StepOverlayProps {

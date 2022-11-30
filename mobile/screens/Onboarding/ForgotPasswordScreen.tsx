@@ -1,24 +1,24 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { authCreateVerificationLog } from "../../actions/Auth";
 import { Screens, UserVerificationLogType } from "../../utils/types";
 import { validateEmail } from "../../utils/helper";
 
 export default function ForgotPasswordScreen(props: any) {
-  const [checkValidRegister, setCheckValidRegister] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("");
-  const [signUpDisabled, setSignUpDisabled] = useState(false);
+  const [resetPasswordDisabled, setResetPasswordDisabled] = useState(false);
 
   const sendAuthEmail = async () => {
+    setResetPasswordDisabled(true);
     if (!validateEmail(email)) {
       setErrorMessage("Please Enter a Valid Email!");
       return;
     }
 
     try {
-      const verificationLog = await authCreateVerificationLog(
+      await authCreateVerificationLog(
         email,
         UserVerificationLogType.PASSWORD_RESET
       );
@@ -29,7 +29,9 @@ export default function ForgotPasswordScreen(props: any) {
       });
     } catch {
       setErrorMessage("Failed to Send Verification Log");
+      setResetPasswordDisabled(false);
     }
+    setResetPasswordDisabled(false);
   };
   return (
     <OnboardingOverlay
@@ -57,7 +59,7 @@ export default function ForgotPasswordScreen(props: any) {
               <View
                 style={[
                   styles.buttonContainer,
-                  signUpDisabled
+                  resetPasswordDisabled
                     ? styles.disabledButton
                     : styles.buttonContainer,
                 ]}

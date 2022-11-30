@@ -17,9 +17,7 @@ import { Announcement, Screens, ServiceAnimal, User } from "../../utils/types";
 import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
 import { userGetTrainingLogs } from "../../actions/TrainingLog";
-import IconButton from "../../components/IconButton";
 import { userGetAnnouncements } from "../../actions/Announcement";
-import { auth } from "../../utils/firebase";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
 

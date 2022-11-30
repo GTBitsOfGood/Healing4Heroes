@@ -1,12 +1,5 @@
 import React, { ReactElement } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Text,
-} from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "../IconButton";
 import { ButtonDirection } from "../../utils/types";
@@ -16,8 +9,8 @@ import GenericHeader from "../GenericHeader";
 interface PaginatedOverlayProps {
   pageBody: ReactElement;
   footer?: ReactElement;
+  headerTitle: string;
   navigationProp?: any;
-  headerTitle?: string;
   paginationButtonFunction?: (direction: ButtonDirection) => void;
 }
 export default function PaginatedOverlay({
@@ -30,7 +23,7 @@ export default function PaginatedOverlay({
     <BaseOverlay
       header={
         <GenericHeader
-          headerTitle="View Users"
+          headerTitle={headerTitle}
           navigationProp={navigationProp}
         />
       }

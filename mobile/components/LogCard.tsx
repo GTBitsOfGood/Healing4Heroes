@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { BehaviorTypes } from "../utils/types";
-import BubbleList from "./BubbleList";
 
 interface LogCardProps {
   date: Date;

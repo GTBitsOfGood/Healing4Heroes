@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { auth } from "../utils/firebase";
 import { Screens, User } from "../utils/types";

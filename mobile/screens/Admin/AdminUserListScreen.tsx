@@ -55,6 +55,7 @@ export default function AdminUserList(props: any) {
     <PaginatedOverlay
       navigationProp={props.navigation}
       paginationButtonFunction={processNext}
+      headerTitle={"View Users"}
       pageBody={
         <View style={styles.container}>
           <Text style={styles.title}>All Users</Text>

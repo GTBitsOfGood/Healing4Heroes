@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View } from "react-native";
 import { userGetAnnouncements } from "../../actions/Announcement";
 import {
   userCreateReadLog,
@@ -40,7 +40,7 @@ export default function ViewAllAnnouncementsScreen(props: any) {
     const newUnread = unreadAnnouncements?.filter(
       (ann) => ann._id !== announcement._id
     );
-    const log = await userCreateReadLog(announcement._id, new Date());
+    await userCreateReadLog(announcement._id, new Date());
     setReadAnnouncements(readAnnouncements);
     setUnreadAnnouncements(newUnread);
     processViewDetail(announcement);
@@ -91,22 +91,3 @@ export default function ViewAllAnnouncementsScreen(props: any) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    margin: 40,
-  },
-  headerContainer: {
-    marginTop: 20,
-    marginBottom: 25,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  header: {
-    fontFamily: "DMSans-Bold",
-    color: "grey",
-    fontSize: 16,
-  },
-});

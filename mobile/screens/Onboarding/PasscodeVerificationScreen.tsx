@@ -67,10 +67,7 @@ export default function PasscodeVerificationScreen(props: any) {
               <Text style={styles.noCodeQuestion}>Did Not Receive Code?</Text>
               <TouchableOpacity
                 onPress={async () => {
-                  const verificationLog = await authCreateVerificationLog(
-                    email,
-                    verificationType
-                  );
+                  await authCreateVerificationLog(email, verificationType);
                   setErrorMessage("New Code Sent!");
                   setNotAnError(true);
                 }}

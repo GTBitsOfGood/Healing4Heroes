@@ -9,6 +9,7 @@ export default function StorageExampleScreen() {
   const [image, setImage] = useState("");
 
   const pickImage = async () => {
+    setImage("");
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -25,8 +26,8 @@ export default function StorageExampleScreen() {
       //   result.uri
       // );
 
-      const videoSize = (await FileSystem.getInfoAsync(assets[0].uri)).size;
-      const res = await uploadVideo(
+      (await FileSystem.getInfoAsync(assets[0].uri)).size;
+      await uploadVideo(
         uuidv4() as string,
         StorageLocation.TRAINING_LOG_VIDEOS,
         assets[0].uri
