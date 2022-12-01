@@ -5,7 +5,6 @@ import {
   Text,
   View,
   Image,
-  Pressable,
 } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -63,70 +62,68 @@ export default function ViewSingleLogScreen(props: any) {
         />
       }
       body={
-        <Pressable>
-          <View style={styles.container}>
-            {videoUrl && (
-              <Video
-                style={styles.animalCard}
-                source={{
-                  uri: videoUrl,
-                }}
-                resizeMode={ResizeMode.CONTAIN}
-                useNativeControls
-                isLooping
-              />
-            )}
-            {thumbnailUrl && (
-              <View style={styles.animalCard}>
-                <Image
-                  style={styles.thumbnailCard}
-                  source={{
-                    uri: thumbnailUrl,
-                  }}
-                />
-              </View>
-            )}
-            {!thumbnailUrl && !videoUrl && (
-              <View style={styles.animalCard}>
-                <FontAwesome5 name="dog" size={50} color="black" />
-                <Text style={styles.videoText}>Video Unavailable</Text>
-              </View>
-            )}
-            <LogCard
-              date={date}
-              skills={skills}
-              trainingHours={trainingHours}
-              behaviors={behavior}
+        <View style={styles.container}>
+          {videoUrl && (
+            <Video
+              style={styles.animalCard}
+              source={{
+                uri: videoUrl,
+              }}
+              resizeMode={ResizeMode.CONTAIN}
+              useNativeControls
+              isLooping
             />
-            <View style={styles.bubbleCard}>
-              <Text style={[styles.regularText, { marginBottom: 5 }]}>
-                Skills
-              </Text>
-              <BubbleList items={skills}></BubbleList>
+          )}
+          {thumbnailUrl && (
+            <View style={styles.animalCard}>
+              <Image
+                style={styles.thumbnailCard}
+                source={{
+                  uri: thumbnailUrl,
+                }}
+              />
+            </View>
+          )}
+          {!thumbnailUrl && !videoUrl && (
+            <View style={styles.animalCard}>
+              <FontAwesome5 name="dog" size={50} color="black" />
+              <Text style={styles.videoText}>Video Unavailable</Text>
+            </View>
+          )}
+          <LogCard
+            date={date}
+            skills={skills}
+            trainingHours={trainingHours}
+            behaviors={behavior}
+          />
+          <View style={styles.bubbleCard}>
+            <Text style={[styles.regularText, { marginBottom: 5 }]}>
+              Skills
+            </Text>
+            <BubbleList items={skills}></BubbleList>
+            <Text style={[styles.regularText, { marginBottom: 5 }]}>
+              Behavior
+            </Text>
+            <BubbleList items={behavior}></BubbleList>
+          </View>
+
+          {behaviorNote && (
+            <View style={styles.textCard}>
               <Text style={[styles.regularText, { marginBottom: 5 }]}>
                 Behavior
               </Text>
-              <BubbleList items={behavior}></BubbleList>
+              <Text style={styles.regularText}>{behaviorNote}</Text>
             </View>
-
-            {behaviorNote && (
-              <View style={styles.textCard}>
-                <Text style={[styles.regularText, { marginBottom: 5 }]}>
-                  Behavior
-                </Text>
-                <Text style={styles.regularText}>{behaviorNote}</Text>
-              </View>
-            )}
-            {description && (
-              <View style={styles.textCard}>
-                <Text style={[styles.regularText, { marginBottom: 5 }]}>
-                  Additional Notes
-                </Text>
-                <Text style={styles.regularText}>{description}</Text>
-              </View>
-            )}
-          </View>
-        </Pressable>
+          )}
+          {description && (
+            <View style={styles.textCard}>
+              <Text style={[styles.regularText, { marginBottom: 5 }]}>
+                Additional Notes
+              </Text>
+              <Text style={styles.regularText}>{description}</Text>
+            </View>
+          )}
+        </View>
       }
     />
   );

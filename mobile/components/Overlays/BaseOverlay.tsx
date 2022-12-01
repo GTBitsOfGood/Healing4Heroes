@@ -9,6 +9,7 @@ import {
   Platform,
   StatusBar,
   KeyboardAvoidingView,
+  Pressable,
 } from "react-native";
 
 interface OnboardingOverlayProps {
@@ -37,7 +38,9 @@ export default function OnboardingOverlay({
               {fixedBody ? (
                 <View>{body}</View>
               ) : (
-                <ScrollView>{body}</ScrollView>
+                <ScrollView>
+                  <Pressable>{body}</Pressable>
+                </ScrollView>
               )}
               {footer && <View>{footer}</View>}
             </View>
@@ -47,7 +50,13 @@ export default function OnboardingOverlay({
         <SafeAreaView>
           <View style={styles.container}>
             <View>{header}</View>
-            {fixedBody ? <View>{body}</View> : <ScrollView>{body}</ScrollView>}
+            {fixedBody ? (
+              <View>{body}</View>
+            ) : (
+              <ScrollView>
+                <Pressable>{body}</Pressable>
+              </ScrollView>
+            )}
             {footer && <View>{footer}</View>}
           </View>
         </SafeAreaView>
