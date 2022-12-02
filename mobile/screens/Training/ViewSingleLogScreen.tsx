@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  BackHandler,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-} from "react-native";
+import { BackHandler, StyleSheet, Text, View, Image } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { userGetUserInfo } from "../../actions/User";

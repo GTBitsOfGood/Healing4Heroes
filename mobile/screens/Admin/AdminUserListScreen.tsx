@@ -5,6 +5,7 @@ import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
 import { Types } from "mongoose";
 import PaginatedOverlay from "../../components/Overlays/PaginatedOverlay";
+import { errorWrapper } from "../../utils/error";
 
 const PAGE_SIZE = 6;
 
@@ -12,6 +13,8 @@ export default function AdminUserList(props: any) {
   const { filter } = props.route.params;
   const [allUsers, setAllUsers] = useState<User[][]>([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [error, setError] = useState("");
+
   const removeUserFromList = (userId: Types.ObjectId) => {
     const newUserList = allUsers[currentPage].filter(
       (user) => user._id !== userId
@@ -19,9 +22,14 @@ export default function AdminUserList(props: any) {
     allUsers[currentPage] = newUserList;
     setAllUsers([...allUsers]);
   };
+
   useEffect(() => {
     async function loadUsers() {
-      const users = await adminGetUsers(PAGE_SIZE, undefined, filter);
+      const users = await errorWrapper(adminGetUsers, setError, [
+        PAGE_SIZE,
+        undefined,
+        filter,
+      ]);
       setAllUsers([users]);
     }
     BackHandler.addEventListener("hardwareBackPress", function () {
@@ -41,10 +49,17 @@ export default function AdminUserList(props: any) {
       const lastPage = allUsers.length - 1;
       if (currentPage === lastPage && allUsers[lastPage].length === PAGE_SIZE) {
         const afterId = allUsers[lastPage][PAGE_SIZE - 1]._id;
-        const newUsers = await adminGetUsers(PAGE_SIZE, afterId, filter);
-        allUsers.push(newUsers);
-        setAllUsers(allUsers);
-        setCurrentPage(currentPage + 1);
+
+        const newUsers = await errorWrapper(adminGetUsers, setError, [
+          PAGE_SIZE,
+          afterId,
+          filter,
+        ]);
+        if (newUsers && newUsers.length > 0) {
+          allUsers.push(newUsers);
+          setAllUsers(allUsers);
+          setCurrentPage(currentPage + 1);
+        }
       } else if (currentPage !== lastPage) {
         // We are in a page in the middle
         setCurrentPage(currentPage + 1);
@@ -56,6 +71,7 @@ export default function AdminUserList(props: any) {
       navigationProp={props.navigation}
       paginationButtonFunction={processNext}
       headerTitle={"View Users"}
+      errorMessage={error}
       pageBody={
         <View style={styles.container}>
           <Text style={styles.title}>All Users</Text>

@@ -5,12 +5,14 @@ import IconButton from "../IconButton";
 import { ButtonDirection } from "../../utils/types";
 import BaseOverlay from "./BaseOverlay";
 import GenericHeader from "../GenericHeader";
+import ErrorBox from "../ErrorBox";
 
 interface PaginatedOverlayProps {
   pageBody: ReactElement;
   footer?: ReactElement;
   headerTitle: string;
   navigationProp?: any;
+  errorMessage?: string;
   paginationButtonFunction?: (direction: ButtonDirection) => void;
 }
 export default function PaginatedOverlay({
@@ -18,6 +20,7 @@ export default function PaginatedOverlay({
   navigationProp,
   headerTitle,
   paginationButtonFunction,
+  errorMessage,
 }: PaginatedOverlayProps) {
   return (
     <BaseOverlay
@@ -29,32 +32,35 @@ export default function PaginatedOverlay({
       }
       body={pageBody}
       footer={
-        <View style={styles.footerContainer}>
-          <IconButton
-            icon={
-              <View style={styles.backgroundCircle}>
-                <Ionicons name="chevron-back" size={40} color="black" />
-              </View>
-            }
-            callbackFunction={() => {
-              if (paginationButtonFunction) {
-                paginationButtonFunction(ButtonDirection.BUTTON_BACKWARD);
+        <>
+          <View style={styles.footerContainer}>
+            <IconButton
+              icon={
+                <View style={styles.backgroundCircle}>
+                  <Ionicons name="chevron-back" size={40} color="black" />
+                </View>
               }
-            }}
-          ></IconButton>
-          <IconButton
-            icon={
-              <View style={styles.backgroundCircle}>
-                <Ionicons name="chevron-forward" size={40} color="black" />
-              </View>
-            }
-            callbackFunction={() => {
-              if (paginationButtonFunction) {
-                paginationButtonFunction(ButtonDirection.BUTTON_FORWARD);
+              callbackFunction={() => {
+                if (paginationButtonFunction) {
+                  paginationButtonFunction(ButtonDirection.BUTTON_BACKWARD);
+                }
+              }}
+            ></IconButton>
+            <IconButton
+              icon={
+                <View style={styles.backgroundCircle}>
+                  <Ionicons name="chevron-forward" size={40} color="black" />
+                </View>
               }
-            }}
-          ></IconButton>
-        </View>
+              callbackFunction={() => {
+                if (paginationButtonFunction) {
+                  paginationButtonFunction(ButtonDirection.BUTTON_FORWARD);
+                }
+              }}
+            ></IconButton>
+          </View>
+          <ErrorBox errorMessage={errorMessage} />
+        </>
       }
     />
   );

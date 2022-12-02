@@ -16,6 +16,8 @@ import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import GenericHeader from "../../components/GenericHeader";
+import ErrorBox from "../../components/ErrorBox";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
 
 export default function AdminDetailedUserScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -23,25 +25,37 @@ export default function AdminDetailedUserScreen(props: any) {
   const [trainingLogs, setTrainingLogs] = useState<TrainingLog[]>([]);
   const [animalImage, setAnimalImage] = useState<string>("");
   const [userImage, setUserImage] = useState<string>("");
+  const [error, setError] = useState("");
 
   const { user } = props.route.params;
   useEffect(() => {
     async function loadDetails() {
-      const animal: ServiceAnimal = (await adminGetAnimalInfo(
-        user._id
-      )) as ServiceAnimal;
-      setAnimalInfo(animal);
-      setHoursCompleted(animal.totalHours);
-      const trainingLogs: TrainingLog[] = await adminGetTrainingLogs(user._id);
-      setTrainingLogs(trainingLogs);
-      const animalImageData: string = (await getFile(
-        animal?.profileImage as string
-      )) as string;
-      setAnimalImage(animalImageData);
-      const userImageData: string = (await getFile(
-        user?.profileImage as string
-      )) as string;
-      setUserImage(userImageData);
+      try {
+        const animal: ServiceAnimal = (await errorWrapper(
+          adminGetAnimalInfo,
+          setError,
+          [user._id]
+        )) as ServiceAnimal;
+        setAnimalInfo(animal);
+        setHoursCompleted(animal.totalHours);
+
+        const trainingLogs: TrainingLog[] = (await errorWrapper(
+          adminGetTrainingLogs,
+          setError,
+          [user._id]
+        )) as TrainingLog[];
+        setTrainingLogs(trainingLogs);
+        const animalImageData: string = (await getFile(
+          animal?.profileImage as string
+        )) as string;
+        setAnimalImage(animalImageData);
+        const userImageData: string = (await getFile(
+          user?.profileImage as string
+        )) as string;
+        setUserImage(userImageData);
+      } catch (error) {
+        endOfExecutionHandler(error as Error);
+      }
     }
 
     BackHandler.addEventListener("hardwareBackPress", function () {
@@ -139,6 +153,7 @@ export default function AdminDetailedUserScreen(props: any) {
           />
         </View>
       }
+      footer={<ErrorBox errorMessage={error} />}
     />
   );
 }
