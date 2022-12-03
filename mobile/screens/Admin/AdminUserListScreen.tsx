@@ -15,7 +15,11 @@ export default function AdminUserList(props: any) {
   const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState("");
 
-  const removeUserFromList = (userId: Types.ObjectId) => {
+  const removeUserFromList = (errorMessage: string, userId: Types.ObjectId) => {
+    if (errorMessage) {
+      setError(errorMessage);
+      return;
+    }
     const newUserList = allUsers[currentPage].filter(
       (user) => user._id !== userId
     );

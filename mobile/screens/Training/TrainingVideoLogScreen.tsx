@@ -18,9 +18,15 @@ import { ResizeMode, Video } from "expo-av";
 import StepOverlay from "../../components/Overlays/StepOverlay";
 import { convertToMegabytes } from "../../utils/helper";
 import { uploadFile, uploadVideo } from "../../utils/storage";
-import { Screens, ServiceAnimal, StorageLocation } from "../../utils/types";
+import {
+  Screens,
+  ServiceAnimal,
+  StorageLocation,
+  TrainingLog,
+} from "../../utils/types";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 import * as VideoThumbnails from "expo-video-thumbnails";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
 
 export default function TrainingVideoLogScreen(props: any) {
   const [error, setError] = useState("");
@@ -39,47 +45,58 @@ export default function TrainingVideoLogScreen(props: any) {
   } = props.route.params;
 
   const createTrainingLog = async () => {
-    let upload = undefined;
-    let videoThumbnail = undefined;
+    try {
+      let upload = undefined;
+      let videoThumbnail = undefined;
 
-    if (thumbnail) {
-      videoThumbnail = await uploadFile(
-        uuidv4() + ".png",
-        StorageLocation.TRAINING_LOG_THUMBNAILS,
-        thumbnail
+      if (thumbnail) {
+        videoThumbnail = await uploadFile(
+          uuidv4() + ".png",
+          StorageLocation.TRAINING_LOG_THUMBNAILS,
+          thumbnail
+        );
+      }
+
+      if (videoUri) {
+        const fileName: string = uuidv4();
+        upload = await uploadVideo(
+          fileName + ".mp4",
+          StorageLocation.TRAINING_LOG_VIDEOS,
+          videoUri
+        );
+      }
+      const animal: ServiceAnimal = await errorWrapper(userGetAnimal, setError);
+
+      const trainingLog: TrainingLog = await errorWrapper(
+        userCreateTrainingLog,
+        setError,
+        [
+          new Date(trainingLogDate),
+          skillValuesSelected,
+          totalHours,
+          behavior,
+          behaviorNote,
+          (animal as ServiceAnimal)._id,
+          additionalNotes,
+          upload as string,
+          videoThumbnail as string,
+        ]
       );
-    }
 
-    if (videoUri) {
-      const fileName: string = uuidv4();
-      upload = await uploadVideo(
-        fileName + ".mp4",
-        StorageLocation.TRAINING_LOG_VIDEOS,
-        videoUri
-      );
-    }
-    const animal: ServiceAnimal = await userGetAnimal();
-    const trainingLog = await userCreateTrainingLog(
-      new Date(trainingLogDate),
-      skillValuesSelected,
-      totalHours,
-      behavior,
-      behaviorNote,
-      (animal as ServiceAnimal)._id,
-      additionalNotes,
-      upload as string,
-      videoThumbnail as string
-    );
+      const updateServiceAnimal = (await errorWrapper(
+        userUpdateAnimal,
+        setError,
+        [undefined, (animal as ServiceAnimal).totalHours + parseInt(totalHours)]
+      )) as ServiceAnimal;
 
-    const updateServiceAnimal = await userUpdateAnimal(
-      undefined,
-      (animal as ServiceAnimal).totalHours + parseInt(totalHours)
-    );
-    if (!updateServiceAnimal) {
-      setError("Failed to add hours to service animal");
+      if (!updateServiceAnimal) {
+        setError("Failed to add hours to service animal");
+      }
+      props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
+      return trainingLog;
+    } catch (error) {
+      endOfExecutionHandler(error as Error);
     }
-    props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN);
-    return trainingLog;
   };
 
   useEffect(() => {

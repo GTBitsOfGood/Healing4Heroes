@@ -3,6 +3,7 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import IconButton from "./IconButton";
 import { adminDeleteUser, adminVerifyUser } from "../actions/Admin";
+import { endOfExecutionHandler, errorWrapper } from "../utils/error";
 
 const UserEntry = (props: any) => {
   return (
@@ -37,18 +38,38 @@ const UserEntry = (props: any) => {
                 <Ionicons name="checkmark-circle" size={30} color="#28B305" />
               }
               callbackFunction={async () => {
-                await adminVerifyUser(props.userId);
-                if (props.verifyCallback) {
-                  props.verifyCallback(props.userId);
+                try {
+                  await errorWrapper(
+                    adminVerifyUser,
+                    props.verifyCallback,
+                    [props.userId],
+                    {},
+                    [props.userId]
+                  );
+                  if (props.verifyCallback) {
+                    props.verifyCallback("", props.userId);
+                  }
+                } catch (error) {
+                  endOfExecutionHandler(error as Error);
                 }
               }}
             />
             <IconButton
               icon={<Ionicons name="close-circle" size={30} color="#FF3939" />}
               callbackFunction={async () => {
-                await adminDeleteUser(props.userId);
-                if (props.verifyCallback) {
-                  props.verifyCallback(props.userId);
+                try {
+                  await errorWrapper(
+                    adminDeleteUser,
+                    props.verifyCallback,
+                    [props.userId],
+                    {},
+                    [props.userId]
+                  );
+                  if (props.verifyCallback) {
+                    props.verifyCallback("", props.userId);
+                  }
+                } catch (error) {
+                  endOfExecutionHandler(error as Error);
                 }
               }}
             />

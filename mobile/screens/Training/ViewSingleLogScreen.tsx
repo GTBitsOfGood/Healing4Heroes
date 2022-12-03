@@ -10,6 +10,8 @@ import GenericHeader from "../../components/GenericHeader";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import BubbleList from "../../components/BubbleList";
 import { getFormattedDate } from "../../utils/helper";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function ViewSingleLogScreen(props: any) {
   const {
@@ -25,19 +27,24 @@ export default function ViewSingleLogScreen(props: any) {
 
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
+  const [error, setError] = useState("");
   useEffect(() => {
     async function loadLogInformation() {
-      const user = await userGetUserInfo();
-      if (user.roles?.includes(Role.NONPROFIT_ADMIN)) {
-        if (video) {
-          const videoLog = await getVideo(video);
-          setVideoUrl(videoLog);
+      try {
+        const user = await errorWrapper(userGetUserInfo, setError);
+        if (user.roles?.includes(Role.NONPROFIT_ADMIN)) {
+          if (video) {
+            const videoLog = await getVideo(video);
+            setVideoUrl(videoLog);
+          }
+        } else {
+          if (videoThumbnail) {
+            const thumbnail = (await getFile(videoThumbnail)) as string;
+            setThumbnailUrl(thumbnail);
+          }
         }
-      } else {
-        if (videoThumbnail) {
-          const thumbnail = (await getFile(videoThumbnail)) as string;
-          setThumbnailUrl(thumbnail);
-        }
+      } catch (error) {
+        endOfExecutionHandler(error as Error);
       }
     }
     BackHandler.addEventListener("hardwareBackPress", function () {
@@ -119,6 +126,7 @@ export default function ViewSingleLogScreen(props: any) {
           )}
         </View>
       }
+      footer={<ErrorBox errorMessage={error} />}
     />
   );
 }

@@ -112,9 +112,13 @@ export default function UploadProfileImageScreen(props: any) {
 
   useEffect(() => {
     const setUserInfo = async () => {
-      const user = await userGetUserInfo();
-      const age = calculateAge(new Date(user.birthday));
-      setUserAge(age);
+      try {
+        const user = await errorWrapper(userGetUserInfo, setError);
+        const age = calculateAge(new Date(user.birthday));
+        setUserAge(age);
+      } catch (error) {
+        endOfExecutionHandler(error as Error);
+      }
     };
 
     BackHandler.addEventListener("hardwareBackPress", function () {

@@ -9,6 +9,8 @@ import AnnouncementCard from "../../components/AnnouncementCard";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import { Announcement, Screens } from "../../utils/types";
 import GenericHeader from "../../components/GenericHeader";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function ViewAllAnnouncementsScreen(props: any) {
   const [readAnnouncements, setReadAnnouncements] = useState<Announcement[]>(
@@ -17,33 +19,50 @@ export default function ViewAllAnnouncementsScreen(props: any) {
   const [unreadAnnouncements, setUnreadAnnouncements] =
     useState<Announcement[]>();
 
+  const [error, setError] = useState("");
   useEffect(() => {
     async function loadAnnouncements() {
-      const announcements = await userGetAnnouncements();
-      const readLogs = await userGetReadAnnouncements();
-      const announcementIds = readLogs.map((value) => value.announcement);
-      const read = announcements.filter((announcement) =>
-        announcementIds.includes(announcement._id.toString())
-      );
-      const unread = announcements.filter(
-        (announcement) => !announcementIds.includes(announcement._id)
-      );
+      try {
+        const announcements: Announcement[] = (await errorWrapper(
+          userGetAnnouncements,
+          setError
+        )) as Announcement[];
+        const readLogs = await errorWrapper(userGetReadAnnouncements, setError);
+        const announcementIds = readLogs.map(
+          (value: any) => value.announcement
+        );
+        const read = announcements.filter((announcement) =>
+          announcementIds.includes(announcement._id.toString())
+        );
+        const unread = announcements.filter(
+          (announcement) => !announcementIds.includes(announcement._id)
+        );
 
-      setReadAnnouncements(read);
-      setUnreadAnnouncements(unread);
+        setReadAnnouncements(read);
+        setUnreadAnnouncements(unread);
+      } catch (error) {
+        endOfExecutionHandler(error as Error);
+      }
     }
     loadAnnouncements().then().catch();
   }, []);
 
   const processRead = async (announcement: Announcement) => {
-    readAnnouncements.push(announcement);
-    const newUnread = unreadAnnouncements?.filter(
-      (ann) => ann._id !== announcement._id
-    );
-    await userCreateReadLog(announcement._id, new Date());
-    setReadAnnouncements(readAnnouncements);
-    setUnreadAnnouncements(newUnread);
-    processViewDetail(announcement);
+    try {
+      readAnnouncements.push(announcement);
+      const newUnread = unreadAnnouncements?.filter(
+        (ann) => ann._id !== announcement._id
+      );
+      await errorWrapper(userCreateReadLog, setError, [
+        announcement._id,
+        new Date(),
+      ]);
+      setReadAnnouncements(readAnnouncements);
+      setUnreadAnnouncements(newUnread);
+      processViewDetail(announcement);
+    } catch (error) {
+      endOfExecutionHandler(error as Error);
+    }
   };
 
   const processViewDetail = (announcement: Announcement) => {
@@ -88,6 +107,7 @@ export default function ViewAllAnnouncementsScreen(props: any) {
           })}
         </View>
       }
+      footer={<ErrorBox errorMessage={error} />}
     />
   );
 }

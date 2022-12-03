@@ -13,19 +13,28 @@ import { adminCreateAnnouncement } from "../../actions/Announcement";
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import GenericHeader from "../../components/GenericHeader";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function CreateAnnouncementScreen(props: any) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
+  const [error, setError] = useState("");
   const sendAnnouncement = async () => {
-    if (!title || !description) {
-      return;
+    try {
+      if (!title || !description) {
+        setError("Announcement title and description cannot be empty!");
+        return;
+      }
+      await errorWrapper(adminCreateAnnouncement, setError, [
+        title,
+        description,
+        new Date(),
+      ]);
+      props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
+    } catch (error) {
+      endOfExecutionHandler(error as Error);
     }
-
-    await adminCreateAnnouncement(title, description, new Date());
-
-    props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
   };
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
@@ -63,9 +72,14 @@ export default function CreateAnnouncementScreen(props: any) {
         </View>
       }
       footer={
-        <TouchableOpacity style={styles.button} onPress={sendAnnouncement}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
+        <View>
+          <View style={styles.errorBox}>
+            <ErrorBox errorMessage={error} />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={sendAnnouncement}>
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
+        </View>
       }
     />
   );
@@ -143,5 +157,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
+  },
+  errorBox: {
+    marginBottom: 10,
   },
 });

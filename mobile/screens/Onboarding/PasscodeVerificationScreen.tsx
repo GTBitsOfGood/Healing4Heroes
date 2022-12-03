@@ -7,6 +7,7 @@ import {
   authCreateVerificationLog,
 } from "../../actions/Auth";
 import { Screens, UserVerificationLogType } from "../../utils/types";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
 
 export default function PasscodeVerificationScreen(props: any) {
   const [errorMessage, setErrorMessage] = useState("");
@@ -67,9 +68,17 @@ export default function PasscodeVerificationScreen(props: any) {
               <Text style={styles.noCodeQuestion}>Did Not Receive Code?</Text>
               <TouchableOpacity
                 onPress={async () => {
-                  await authCreateVerificationLog(email, verificationType);
-                  setErrorMessage("New Code Sent!");
-                  setNotAnError(true);
+                  try {
+                    await errorWrapper(
+                      authCreateVerificationLog,
+                      setErrorMessage,
+                      [email, verificationType]
+                    );
+                    setErrorMessage("New Code Sent!");
+                    setNotAnError(true);
+                  } catch (error) {
+                    endOfExecutionHandler(error as Error);
+                  }
                 }}
               >
                 <Text style={styles.resendButton}>Resend Code</Text>

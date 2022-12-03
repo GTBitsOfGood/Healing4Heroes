@@ -12,24 +12,34 @@ import { adminGetAnnouncements } from "../../actions/Announcement";
 import { userGetUserInfo } from "../../actions/User";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function AdminDashboardScreen(props: any) {
   const [userInfo, setUserInfo] = useState<User>();
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-
+  const [error, setError] = useState("");
   useEffect(() => {
     async function getAdminDashboardInfo() {
-      const user: User = (await userGetUserInfo()) as User;
-      const announcementList: Announcement[] =
-        (await adminGetAnnouncements()) as Announcement[];
-
-      announcementList.sort((first: Announcement, second: Announcement) => {
-        return new Date(second.date).getTime() - new Date(first.date).getTime();
-      });
-
-      setAnnouncements(announcementList);
-
-      setUserInfo(user);
+      try {
+        const user: User = (await errorWrapper(
+          userGetUserInfo,
+          setError
+        )) as User;
+        const announcementList: Announcement[] = (await errorWrapper(
+          adminGetAnnouncements,
+          setError
+        )) as Announcement[];
+        announcementList.sort((first: Announcement, second: Announcement) => {
+          return (
+            new Date(second.date).getTime() - new Date(first.date).getTime()
+          );
+        });
+        setAnnouncements(announcementList);
+        setUserInfo(user);
+      } catch (error) {
+        endOfExecutionHandler(error as Error);
+      }
     }
 
     getAdminDashboardInfo().then().catch();
@@ -129,6 +139,7 @@ export default function AdminDashboardScreen(props: any) {
           </TouchableOpacity>
         </View>
       }
+      footer={<ErrorBox errorMessage={error} />}
     />
   );
 }

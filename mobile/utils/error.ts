@@ -30,6 +30,9 @@ export const errorWrapper = async (
 
   const result = await functionToExecute(...parameters)
     .catch((e: Error) => {
+      if (!errorHandler) {
+        throw new EndExecutionError("");
+      }
       if (customErrors) {
         if (Object.getOwnPropertyNames(customErrors).includes(e.message)) {
           errorHandler(

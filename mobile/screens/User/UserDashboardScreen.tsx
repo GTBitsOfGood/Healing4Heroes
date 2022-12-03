@@ -13,13 +13,21 @@ import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
 import { userGetUserInfo } from "../../actions/User";
 import { userGetAnimal } from "../../actions/Animal";
-import { Announcement, Screens, ServiceAnimal, User } from "../../utils/types";
+import {
+  Announcement,
+  Screens,
+  ServiceAnimal,
+  TrainingLog,
+  User,
+} from "../../utils/types";
 import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
 import { userGetTrainingLogs } from "../../actions/TrainingLog";
 import { userGetAnnouncements } from "../../actions/Announcement";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
+import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import ErrorBox from "../../components/ErrorBox";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -28,24 +36,41 @@ export default function UserDashboardScreen(props: any) {
   const [animalImage, setAnimalImage] = useState<string>("");
   const [isEnabled, setEnabled] = useState<boolean>(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [error, setError] = useState("");
+
   useEffect(() => {
     async function getUserDashboardInformation() {
-      const user: User = (await userGetUserInfo()) as User;
-      const animal: ServiceAnimal = (await userGetAnimal()) as ServiceAnimal;
-      const announcementList: Announcement[] =
-        (await userGetAnnouncements()) as Announcement[];
+      try {
+        const user: User = (await errorWrapper(
+          userGetUserInfo,
+          setError
+        )) as User;
+        const animal: ServiceAnimal = (await errorWrapper(
+          userGetAnimal,
+          setError
+        )) as ServiceAnimal;
+        const announcementList: Announcement[] = (await errorWrapper(
+          userGetAnnouncements,
+          setError
+        )) as Announcement[];
+        announcementList.sort((first: Announcement, second: Announcement) => {
+          return (
+            new Date(second.date).getTime() - new Date(first.date).getTime()
+          );
+        });
 
-      announcementList.sort((first: Announcement, second: Announcement) => {
-        return new Date(second.date).getTime() - new Date(first.date).getTime();
-      });
-
-      setAnnouncements(announcementList);
-      setUserInfo(user);
-      setAnimalInfo(animal);
-      setHoursCompleted(animal?.totalHours);
-      const imageData = await getFile(animal?.profileImage as string);
-      setAnimalImage(imageData as string);
-      setEnabled(user?.emailVerified && user?.verifiedByAdmin);
+        setAnnouncements(announcementList);
+        setUserInfo(user);
+        setAnimalInfo(animal);
+        setHoursCompleted(animal?.totalHours);
+        const imageData = await errorWrapper(getFile, setError, [
+          animal?.profileImage as string,
+        ]);
+        setAnimalImage(imageData as string);
+        setEnabled(user?.emailVerified && user?.verifiedByAdmin);
+      } catch (error) {
+        endOfExecutionHandler(error as Error);
+      }
     }
 
     getUserDashboardInformation().then().catch();
@@ -130,10 +155,17 @@ export default function UserDashboardScreen(props: any) {
               }
               navigation={props.navigation}
               callbackFunction={async () => {
-                const trainingLogs = await userGetTrainingLogs();
-                props.navigation.navigate(Screens.VIEW_ALL_LOGS_SCREEN, {
-                  trainingLogs,
-                });
+                try {
+                  const trainingLogs: TrainingLog[] = (await errorWrapper(
+                    userGetTrainingLogs,
+                    setError
+                  )) as TrainingLog[];
+                  props.navigation.navigate(Screens.VIEW_ALL_LOGS_SCREEN, {
+                    trainingLogs,
+                  });
+                } catch (error) {
+                  endOfExecutionHandler(error as Error);
+                }
               }}
             />
           </View>
@@ -152,6 +184,7 @@ export default function UserDashboardScreen(props: any) {
           />
         </View>
       }
+      footer={<ErrorBox errorMessage={error} />}
     />
   );
 }
