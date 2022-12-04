@@ -12,18 +12,18 @@ import {
   Pressable,
 } from "react-native";
 
-interface OnboardingOverlayProps {
+interface BaseOverlayProps {
   header: ReactElement;
   body: ReactElement;
   footer?: ReactElement;
   fixedBody?: boolean;
 }
-export default function OnboardingOverlay({
+export default function BaseOverlay({
   header,
   body,
   footer,
   fixedBody,
-}: OnboardingOverlayProps) {
+}: BaseOverlayProps) {
   return (
     <TouchableWithoutFeedback
       onPress={() => {

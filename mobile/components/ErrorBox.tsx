@@ -1,8 +1,9 @@
+import React from "react";
+import { Text, View, StyleSheet } from "react-native";
+
 interface ErrorBoxProps {
   errorMessage?: string;
 }
-import React from "react";
-import { Text, View, StyleSheet } from "react-native";
 
 export default function ErrorBox({ errorMessage }: ErrorBoxProps) {
   return (
