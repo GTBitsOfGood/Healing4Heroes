@@ -39,6 +39,7 @@ export default function ResetPasswordScreen(props: any) {
                   placeholder="Enter Your New Password"
                   style={styles.inputContainer}
                   onChangeText={setPassword}
+                  secureTextEntry
                 ></TextInput>
               </View>
             </View>
