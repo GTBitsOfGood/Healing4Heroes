@@ -8,7 +8,8 @@
 - eslint: Automatically identifying and fixing code errors
 - Firebase: User Authentication
 - Github Actions: Continuous Deployment Pipeline
-- Vercel: Deployment
+- Nodemailer: Mailing Functionality
+- Vercel + Expo: Deployment
 
 ## Development
 
