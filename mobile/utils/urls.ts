@@ -1,7 +1,7 @@
 function getBaseURL() {
-  return `https://healing4heroes.vercel.app`;
+  return `https://healing4heroes-backend.vercel.app`;
   if (process.env.NODE_ENV === "production") {
-    return `https://healing4heroes.vercel.app`;
+    return `https://healing4heroes-backend.vercel.app`;
   }
   return "http://localhost:3000";
 }

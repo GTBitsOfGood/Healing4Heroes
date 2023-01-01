@@ -120,6 +120,10 @@ export const getUserInfo = async () => {
 
 ```
 
+## Obtaining an Access Token
+
+Many of the backend endpoints require access tokens in the header of the request in order to authenticate the user. In order to obtain an access token to test the endpoint, you will want to visit one of the Mobile environments in Github environments. This should take you to the development screen of the app where you can press a button and obtain an access token which you can copy.
+
 ## Frontend Error Handling Guide
 
 Error handling is essential to a better user experience. For that reason, we provide an Error Handler wrapper that makes it easy for you integrate error handling for API requests with the frontend. Sample usage with some Firebase methods can be found below:

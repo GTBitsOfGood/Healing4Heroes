@@ -53,15 +53,6 @@ export default function DevelopmentScreen(props: any) {
 
       <TouchableOpacity
         onPress={() =>
-          props.navigation.navigate(Screens.ADMIN_USER_VERIFICATION_SCREEN)
-        }
-        style={styles.buttonItem}
-      >
-        <Text>Go To Admin User Verification Page</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() =>
           props.navigation.navigate(Screens.ADMIN_DETAILED_USER_SCREEN)
         }
         style={styles.buttonItem}
@@ -98,8 +89,9 @@ export default function DevelopmentScreen(props: any) {
         onPress={async () => {
           await signInWithEmailAndPassword(
             auth,
-            "testing@example.com",
-            "testpassword"
+            // Change email to samrat@healing4heroes.org for an admin account
+            "samratsahoo2013@gmail.com",
+            "Aqaqaq"
           );
 
           const accessToken = (await auth.currentUser?.getIdToken()) as string;
