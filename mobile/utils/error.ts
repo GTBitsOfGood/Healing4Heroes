@@ -11,6 +11,9 @@ errorHandler: This is some sort of error handling function -- the first argument
 
  errorFunctionParams: parameters for your error handler
 */
+
+// Consider changing the argument into a single object for better readability
+// as opposed to explictly having the different args
 export const errorWrapper = async (
   /*eslint-disable */
   functionToExecute: Function,
