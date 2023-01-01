@@ -10,7 +10,7 @@ export default APIWrapper({
   POST: {
     config: {
       requireToken: true,
-      roles: [Role.NONPROFIT_USER],
+      roles: [Role.NONPROFIT_ADMIN],
     },
     handler: async (req) => {
       const accessToken: string = req.headers.accesstoken as string;

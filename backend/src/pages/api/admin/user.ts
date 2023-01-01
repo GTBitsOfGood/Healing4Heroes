@@ -6,7 +6,7 @@ import { Role, UserFilter } from "src/utils/types";
 export default APIWrapper({
   POST: {
     config: {
-      requireToken: false,
+      requireToken: true,
       roles: [Role.NONPROFIT_ADMIN],
     },
     handler: async (req) => {
