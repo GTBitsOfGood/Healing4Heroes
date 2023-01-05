@@ -3,7 +3,7 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import IconButton from "./IconButton";
 import { adminDeleteUser, adminVerifyUser } from "../actions/Admin";
-import { endOfExecutionHandler, errorWrapper } from "../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../utils/error";
 
 const UserEntry = (props: any) => {
   return (
@@ -39,13 +39,12 @@ const UserEntry = (props: any) => {
               }
               callbackFunction={async () => {
                 try {
-                  await errorWrapper(
-                    adminVerifyUser,
-                    props.verifyCallback,
-                    [props.userId],
-                    {},
-                    [props.userId]
-                  );
+                  await ErrorWrapper({
+                    functionToExecute: adminVerifyUser,
+                    errorHandler: props.verifyCallback,
+                    parameters: [props.userId],
+                    errorFunctionParams: [props.userId],
+                  });
                   if (props.verifyCallback) {
                     props.verifyCallback("", props.userId);
                   }
@@ -58,13 +57,12 @@ const UserEntry = (props: any) => {
               icon={<Ionicons name="close-circle" size={30} color="#FF3939" />}
               callbackFunction={async () => {
                 try {
-                  await errorWrapper(
-                    adminDeleteUser,
-                    props.verifyCallback,
-                    [props.userId],
-                    {},
-                    [props.userId]
-                  );
+                  await ErrorWrapper({
+                    functionToExecute: adminDeleteUser,
+                    errorHandler: props.verifyCallback,
+                    parameters: [props.userId],
+                    errorFunctionParams: [props.userId],
+                  });
                   if (props.verifyCallback) {
                     props.verifyCallback("", props.userId);
                   }

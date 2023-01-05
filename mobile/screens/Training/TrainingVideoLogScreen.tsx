@@ -26,7 +26,7 @@ import {
 } from "../../utils/types";
 import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 import * as VideoThumbnails from "expo-video-thumbnails";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 
 export default function TrainingVideoLogScreen(props: any) {
   const [error, setError] = useState("");
@@ -65,12 +65,15 @@ export default function TrainingVideoLogScreen(props: any) {
           videoUri
         );
       }
-      const animal: ServiceAnimal = await errorWrapper(userGetAnimal, setError);
+      const animal: ServiceAnimal = await ErrorWrapper({
+        functionToExecute: userGetAnimal,
+        errorHandler: setError,
+      });
 
-      const trainingLog: TrainingLog = await errorWrapper(
-        userCreateTrainingLog,
-        setError,
-        [
+      const trainingLog: TrainingLog = await ErrorWrapper({
+        functionToExecute: userCreateTrainingLog,
+        errorHandler: setError,
+        parameters: [
           new Date(trainingLogDate),
           skillValuesSelected,
           totalHours,
@@ -80,14 +83,17 @@ export default function TrainingVideoLogScreen(props: any) {
           additionalNotes,
           upload as string,
           videoThumbnail as string,
-        ]
-      );
+        ],
+      });
 
-      const updateServiceAnimal = (await errorWrapper(
-        userUpdateAnimal,
-        setError,
-        [undefined, (animal as ServiceAnimal).totalHours + parseInt(totalHours)]
-      )) as ServiceAnimal;
+      const updateServiceAnimal = (await ErrorWrapper({
+        functionToExecute: userUpdateAnimal,
+        errorHandler: setError,
+        parameters: [
+          undefined,
+          (animal as ServiceAnimal).totalHours + parseInt(totalHours),
+        ],
+      })) as ServiceAnimal;
 
       if (!updateServiceAnimal) {
         setError("Failed to add hours to service animal");

@@ -20,7 +20,7 @@ import { uploadFile } from "../../utils/storage";
 import { Image } from "react-native";
 import { userGetUserInfo, userUpdateUser } from "../../actions/User";
 import { userUpdateAnimal } from "../../actions/Animal";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 
 export default function UploadProfileImageScreen(props: any) {
   const [error, setError] = useState("");
@@ -39,19 +39,23 @@ export default function UploadProfileImageScreen(props: any) {
     if (handlerImageUri) {
       try {
         const handlerFileName: string = uuidv4() + ".png";
-        const handlerUpload = await errorWrapper(
-          uploadFile,
-          setError,
-          [handlerFileName, StorageLocation.HANDLER_PICTURES, handlerImageUri],
-          {
+        const handlerUpload = await ErrorWrapper({
+          functionToExecute: uploadFile,
+          errorHandler: setError,
+          parameters: [
+            handlerFileName,
+            StorageLocation.HANDLER_PICTURES,
+            handlerImageUri,
+          ],
+          customErrors: {
             default: "Failed to upload handler image",
-          }
-        );
+          },
+        });
 
-        await errorWrapper(
-          userUpdateUser,
-          setError,
-          [
+        await ErrorWrapper({
+          functionToExecute: userUpdateUser,
+          errorHandler: setError,
+          parameters: [
             undefined,
             undefined,
             undefined,
@@ -59,10 +63,10 @@ export default function UploadProfileImageScreen(props: any) {
             undefined,
             handlerUpload as string,
           ],
-          {
+          customErrors: {
             default: "Failed to update user with user image information.",
-          }
-        );
+          },
+        });
       } catch (e) {
         endOfExecutionHandler(e as Error);
       }
@@ -72,22 +76,22 @@ export default function UploadProfileImageScreen(props: any) {
 
     if (animalImageUri) {
       try {
-        const animalUpload = await errorWrapper(
-          uploadFile,
-          setError,
-          [
+        const animalUpload = await ErrorWrapper({
+          functionToExecute: uploadFile,
+          errorHandler: setError,
+          parameters: [
             animalFileName,
             StorageLocation.SERVICE_ANIMAL_PICTURES,
             animalImageUri,
           ],
-          {
+          customErrors: {
             default: "Failed to upload animal image",
-          }
-        );
-        await errorWrapper(
-          userUpdateAnimal,
-          setError,
-          [
+          },
+        });
+        await ErrorWrapper({
+          functionToExecute: userUpdateAnimal,
+          errorHandler: setError,
+          parameters: [
             undefined,
             undefined,
             undefined,
@@ -98,10 +102,10 @@ export default function UploadProfileImageScreen(props: any) {
             undefined,
             animalUpload as string,
           ],
-          {
+          customErrors: {
             default: "Failed to update animal with animal image information.",
-          }
-        );
+          },
+        });
       } catch (e) {
         endOfExecutionHandler(e as Error);
       }
@@ -113,7 +117,10 @@ export default function UploadProfileImageScreen(props: any) {
   useEffect(() => {
     const setUserInfo = async () => {
       try {
-        const user = await errorWrapper(userGetUserInfo, setError);
+        const user = await ErrorWrapper({
+          functionToExecute: userGetUserInfo,
+          errorHandler: setError,
+        });
         const age = calculateAge(new Date(user.birthday));
         setUserAge(age);
       } catch (error) {

@@ -16,7 +16,7 @@ import { EndExecutionError, Role, Screens, User } from "../../utils/types";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
-import { errorWrapper } from "../../utils/error";
+import { ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 
 export default function LoginScreen(props: any) {
@@ -29,19 +29,22 @@ export default function LoginScreen(props: any) {
     try {
       setErrorMessage("");
       await signOut(auth).then().catch();
-      await errorWrapper(
-        signInWithEmailAndPassword,
-        setErrorMessage,
-        [auth, email, password],
-        {
+      await ErrorWrapper({
+        functionToExecute: signInWithEmailAndPassword,
+        errorHandler: setErrorMessage,
+        parameters: [auth, email, password],
+        customErrors: {
           "Firebase: Error (auth/invalid-email).": "This email is invalid",
           "Firebase: Error (auth/internal-error).":
             "An error occurred when trying to authenticate",
           "Firebase: Error (auth/wrong-password).":
             "Invalid email/password combination",
-        }
-      );
-      const user = await errorWrapper(userGetUserInfo, setErrorMessage);
+        },
+      });
+      const user = await ErrorWrapper({
+        functionToExecute: userGetUserInfo,
+        errorHandler: setErrorMessage,
+      });
       return user;
     } catch (error) {
       if (error instanceof EndExecutionError) {

@@ -126,24 +126,22 @@ Many of the backend endpoints require access tokens in the header of the request
 
 ## Frontend Error Handling Guide
 
-Error handling is essential to a better user experience. For that reason, we provide an Error Handler wrapper that makes it easy for you integrate error handling for API requests with the frontend. Sample usage with some Firebase methods can be found below:
+Error handling is essential to a better user experience. For that reason, we provide an Error Handler wrapper that makes it easy for you integrate error handling for API requests with the frontend. More information can be found in `mobile/utils/error.ts` Sample usage with some Firebase methods can be found below:
 
 ```typescript
 const login = async () => {
   try {
-    const userCredential = await errorWrapper(
-      signInWithEmailAndPassword, // This is the method we want to run
-      setErrorMessage, // Our error handler function
-      [auth, email, password], // These are your method parameters
-      {
-        "Firebase: Error (auth/invalid-email).": "This email is invalid",
-        "Firebase: Error (auth/internal-error).":
-          "An error occurred when trying to authenticate",
-        "Firebase: Error (auth/wrong-password).":
-          "Invalid email/password combination",
-      }, // Specify custom error messages based on the original error message
-      [] // Specify additional parameters for your error function
-    );
+    const userCredential = await ErrorWrapper({
+      functionToExecute: createUserWithEmailAndPassword,
+      errorHandler: setErrorMessage,
+      parameters: [auth, email, password],
+      customErrors: {
+        "Firebase: Error (auth/email-already-in-use).":
+          "This email is already in use",
+        "Firebase: Password should be at least 6 characters (auth/weak-password).":
+          "Your password must be at least 6 characters",
+      },
+    });
     return userCredential;
   } catch (error) {
     // You want to handle EndExecutionErrors via try catch

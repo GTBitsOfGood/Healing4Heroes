@@ -10,7 +10,7 @@ import GenericHeader from "../../components/GenericHeader";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import BubbleList from "../../components/BubbleList";
 import { getFormattedDate } from "../../utils/helper";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 
 export default function ViewSingleLogScreen(props: any) {
@@ -31,7 +31,10 @@ export default function ViewSingleLogScreen(props: any) {
   useEffect(() => {
     async function loadLogInformation() {
       try {
-        const user = await errorWrapper(userGetUserInfo, setError);
+        const user = await ErrorWrapper({
+          functionToExecute: userGetUserInfo,
+          errorHandler: setError,
+        });
         if (user.roles?.includes(Role.NONPROFIT_ADMIN)) {
           if (video) {
             const videoLog = await getVideo(video);

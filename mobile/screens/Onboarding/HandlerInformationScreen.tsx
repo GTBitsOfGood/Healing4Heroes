@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import SolidDropDown from "../../components/SolidDropDown";
 import DateInput from "../../components/DateInput";
 import { validateBirthday } from "../../utils/helper";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 
 export default function HandlerInformationScreen(props: any) {
   const [dropDownValue, setDropDownValue] = useState("");
@@ -25,8 +25,12 @@ export default function HandlerInformationScreen(props: any) {
   useEffect(() => {
     async function getUser() {
       try {
-        const user = await errorWrapper(userGetUserInfo, setError, [], {
-          default: "Failed to Retrieve Account Information",
+        const user = await ErrorWrapper({
+          functionToExecute: userGetUserInfo,
+          errorHandler: setError,
+          customErrors: {
+            default: "Failed to Retrieve Account Information",
+          },
         });
         return user;
       } catch (e) {
@@ -47,20 +51,20 @@ export default function HandlerInformationScreen(props: any) {
 
   const updateUserInfo = async () => {
     try {
-      const user = await errorWrapper(
-        userUpdateUser,
-        setError,
-        [
+      const user = await ErrorWrapper({
+        functionToExecute: userUpdateUser,
+        errorHandler: setError,
+        parameters: [
           undefined,
           birthday,
           firstName,
           lastName,
           dropDownValue as unknown as HandlerType,
         ],
-        {
+        customErrors: {
           default: "Failed to Update Handler Information",
-        }
-      );
+        },
+      });
       return user;
     } catch (e) {
       endOfExecutionHandler(e as Error);

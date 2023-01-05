@@ -4,7 +4,7 @@ import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { authCreateVerificationLog } from "../../actions/Auth";
 import { Screens, UserVerificationLogType } from "../../utils/types";
 import { validateEmail } from "../../utils/helper";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 
 export default function ForgotPasswordScreen(props: any) {
   const [errorMessage, setErrorMessage] = useState("");
@@ -19,10 +19,11 @@ export default function ForgotPasswordScreen(props: any) {
     }
 
     try {
-      await errorWrapper(authCreateVerificationLog, setErrorMessage, [
-        email,
-        UserVerificationLogType.PASSWORD_RESET,
-      ]);
+      await ErrorWrapper({
+        functionToExecute: authCreateVerificationLog,
+        errorHandler: setErrorMessage,
+        parameters: [email, UserVerificationLogType.PASSWORD_RESET],
+      });
 
       props.navigation.navigate(Screens.PASSCODE_VALIDATION_SCREEN, {
         verificationType: UserVerificationLogType.PASSWORD_RESET,

@@ -17,7 +17,7 @@ import { getFile } from "../../utils/storage";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import GenericHeader from "../../components/GenericHeader";
 import ErrorBox from "../../components/ErrorBox";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 
 export default function AdminDetailedUserScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -31,19 +31,19 @@ export default function AdminDetailedUserScreen(props: any) {
   useEffect(() => {
     async function loadDetails() {
       try {
-        const animal: ServiceAnimal = (await errorWrapper(
-          adminGetAnimalInfo,
-          setError,
-          [user._id]
-        )) as ServiceAnimal;
+        const animal: ServiceAnimal = (await ErrorWrapper({
+          functionToExecute: adminGetAnimalInfo,
+          errorHandler: setError,
+          parameters: [user._id],
+        })) as ServiceAnimal;
         setAnimalInfo(animal);
         setHoursCompleted(animal.totalHours);
 
-        const trainingLogs: TrainingLog[] = (await errorWrapper(
-          adminGetTrainingLogs,
-          setError,
-          [user._id]
-        )) as TrainingLog[];
+        const trainingLogs: TrainingLog[] = (await ErrorWrapper({
+          functionToExecute: adminGetTrainingLogs,
+          errorHandler: setError,
+          parameters: [user._id],
+        })) as TrainingLog[];
         setTrainingLogs(trainingLogs);
         const animalImageData: string = (await getFile(
           animal?.profileImage as string

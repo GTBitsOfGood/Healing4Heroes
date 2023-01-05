@@ -6,7 +6,7 @@ import { validateBirthday } from "../../utils/helper";
 import { FontAwesome5 } from "@expo/vector-icons";
 import DateInput from "../../components/DateInput";
 import { Screens } from "../../utils/types";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 
 export default function AnimalInformationScreen(props: any) {
   const [animalName, setAnimalName] = useState("");
@@ -24,10 +24,10 @@ export default function AnimalInformationScreen(props: any) {
   const addAnimal = async () => {
     let animal;
     try {
-      animal = await errorWrapper(
-        userCreateAnimal,
-        setError,
-        [
+      animal = await ErrorWrapper({
+        functionToExecute: userCreateAnimal,
+        errorHandler: setError,
+        parameters: [
           animalName,
           0,
           undefined,
@@ -37,10 +37,10 @@ export default function AnimalInformationScreen(props: any) {
           undefined,
           undefined,
         ],
-        {
+        customErrors: {
           default: "Failed to Create Service Animal",
-        }
-      );
+        },
+      });
       return animal;
     } catch (e) {
       endOfExecutionHandler(e as Error);

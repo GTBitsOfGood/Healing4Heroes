@@ -13,7 +13,7 @@ import { adminCreateAnnouncement } from "../../actions/Announcement";
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import GenericHeader from "../../components/GenericHeader";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 
 export default function CreateAnnouncementScreen(props: any) {
@@ -26,11 +26,11 @@ export default function CreateAnnouncementScreen(props: any) {
         setError("Announcement title and description cannot be empty!");
         return;
       }
-      await errorWrapper(adminCreateAnnouncement, setError, [
-        title,
-        description,
-        new Date(),
-      ]);
+      await ErrorWrapper({
+        functionToExecute: adminCreateAnnouncement,
+        errorHandler: setError,
+        parameters: [title, description, new Date()],
+      });
       props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
     } catch (error) {
       endOfExecutionHandler(error as Error);

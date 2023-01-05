@@ -26,7 +26,7 @@ import { userGetTrainingLogs } from "../../actions/TrainingLog";
 import { userGetAnnouncements } from "../../actions/Announcement";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 
 export default function UserDashboardScreen(props: any) {
@@ -41,18 +41,18 @@ export default function UserDashboardScreen(props: any) {
   useEffect(() => {
     async function getUserDashboardInformation() {
       try {
-        const user: User = (await errorWrapper(
-          userGetUserInfo,
-          setError
-        )) as User;
-        const animal: ServiceAnimal = (await errorWrapper(
-          userGetAnimal,
-          setError
-        )) as ServiceAnimal;
-        const announcementList: Announcement[] = (await errorWrapper(
-          userGetAnnouncements,
-          setError
-        )) as Announcement[];
+        const user: User = (await ErrorWrapper({
+          functionToExecute: userGetUserInfo,
+          errorHandler: setError,
+        })) as User;
+        const animal: ServiceAnimal = (await ErrorWrapper({
+          functionToExecute: userGetAnimal,
+          errorHandler: setError,
+        })) as ServiceAnimal;
+        const announcementList: Announcement[] = (await ErrorWrapper({
+          functionToExecute: userGetAnnouncements,
+          errorHandler: setError,
+        })) as Announcement[];
         announcementList.sort((first: Announcement, second: Announcement) => {
           return (
             new Date(second.date).getTime() - new Date(first.date).getTime()
@@ -63,9 +63,11 @@ export default function UserDashboardScreen(props: any) {
         setUserInfo(user);
         setAnimalInfo(animal);
         setHoursCompleted(animal?.totalHours);
-        const imageData = await errorWrapper(getFile, setError, [
-          animal?.profileImage as string,
-        ]);
+        const imageData = await ErrorWrapper({
+          functionToExecute: getFile,
+          errorHandler: setError,
+          parameters: [animal?.profileImage as string],
+        });
         setAnimalImage(imageData as string);
         setEnabled(user?.emailVerified && user?.verifiedByAdmin);
       } catch (error) {
@@ -156,10 +158,10 @@ export default function UserDashboardScreen(props: any) {
               navigation={props.navigation}
               callbackFunction={async () => {
                 try {
-                  const trainingLogs: TrainingLog[] = (await errorWrapper(
-                    userGetTrainingLogs,
-                    setError
-                  )) as TrainingLog[];
+                  const trainingLogs: TrainingLog[] = (await ErrorWrapper({
+                    functionToExecute: userGetTrainingLogs,
+                    errorHandler: setError,
+                  })) as TrainingLog[];
                   props.navigation.navigate(Screens.VIEW_ALL_LOGS_SCREEN, {
                     trainingLogs,
                   });

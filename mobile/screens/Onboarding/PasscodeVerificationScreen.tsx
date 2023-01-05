@@ -7,7 +7,7 @@ import {
   authCreateVerificationLog,
 } from "../../actions/Auth";
 import { Screens, UserVerificationLogType } from "../../utils/types";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 
 export default function PasscodeVerificationScreen(props: any) {
   const [errorMessage, setErrorMessage] = useState("");
@@ -69,11 +69,11 @@ export default function PasscodeVerificationScreen(props: any) {
               <TouchableOpacity
                 onPress={async () => {
                   try {
-                    await errorWrapper(
-                      authCreateVerificationLog,
-                      setErrorMessage,
-                      [email, verificationType]
-                    );
+                    await ErrorWrapper({
+                      functionToExecute: authCreateVerificationLog,
+                      errorHandler: setErrorMessage,
+                      parameters: [email, verificationType],
+                    });
                     setErrorMessage("New Code Sent!");
                     setNotAnError(true);
                   } catch (error) {

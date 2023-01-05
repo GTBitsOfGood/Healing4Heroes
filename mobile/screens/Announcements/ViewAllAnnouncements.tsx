@@ -9,7 +9,7 @@ import AnnouncementCard from "../../components/AnnouncementCard";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import { Announcement, Screens } from "../../utils/types";
 import GenericHeader from "../../components/GenericHeader";
-import { endOfExecutionHandler, errorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 
 export default function ViewAllAnnouncementsScreen(props: any) {
@@ -23,11 +23,14 @@ export default function ViewAllAnnouncementsScreen(props: any) {
   useEffect(() => {
     async function loadAnnouncements() {
       try {
-        const announcements: Announcement[] = (await errorWrapper(
-          userGetAnnouncements,
-          setError
-        )) as Announcement[];
-        const readLogs = await errorWrapper(userGetReadAnnouncements, setError);
+        const announcements: Announcement[] = (await ErrorWrapper({
+          functionToExecute: userGetAnnouncements,
+          errorHandler: setError,
+        })) as Announcement[];
+        const readLogs = await ErrorWrapper({
+          functionToExecute: userGetReadAnnouncements,
+          errorHandler: setError,
+        });
         const announcementIds = readLogs.map(
           (value: any) => value.announcement
         );
@@ -53,10 +56,11 @@ export default function ViewAllAnnouncementsScreen(props: any) {
       const newUnread = unreadAnnouncements?.filter(
         (ann) => ann._id !== announcement._id
       );
-      await errorWrapper(userCreateReadLog, setError, [
-        announcement._id,
-        new Date(),
-      ]);
+      await ErrorWrapper({
+        functionToExecute: userCreateReadLog,
+        errorHandler: setError,
+        parameters: [announcement._id, new Date()],
+      });
       setReadAnnouncements(readAnnouncements);
       setUnreadAnnouncements(newUnread);
       processViewDetail(announcement);

@@ -5,7 +5,7 @@ import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
 import { Types } from "mongoose";
 import PaginatedOverlay from "../../components/Overlays/PaginatedOverlay";
-import { errorWrapper } from "../../utils/error";
+import { ErrorWrapper } from "../../utils/error";
 
 const PAGE_SIZE = 6;
 
@@ -29,11 +29,11 @@ export default function AdminUserList(props: any) {
 
   useEffect(() => {
     async function loadUsers() {
-      const users = await errorWrapper(adminGetUsers, setError, [
-        PAGE_SIZE,
-        undefined,
-        filter,
-      ]);
+      const users = await ErrorWrapper({
+        functionToExecute: adminGetUsers,
+        errorHandler: setError,
+        parameters: [PAGE_SIZE, undefined, filter],
+      });
       setAllUsers([users]);
     }
     BackHandler.addEventListener("hardwareBackPress", function () {
@@ -54,11 +54,11 @@ export default function AdminUserList(props: any) {
       if (currentPage === lastPage && allUsers[lastPage].length === PAGE_SIZE) {
         const afterId = allUsers[lastPage][PAGE_SIZE - 1]._id;
 
-        const newUsers = await errorWrapper(adminGetUsers, setError, [
-          PAGE_SIZE,
-          afterId,
-          filter,
-        ]);
+        const newUsers = await ErrorWrapper({
+          functionToExecute: adminGetUsers,
+          errorHandler: setError,
+          parameters: [PAGE_SIZE, afterId, filter],
+        });
         if (newUsers && newUsers.length > 0) {
           allUsers.push(newUsers);
           setAllUsers(allUsers);

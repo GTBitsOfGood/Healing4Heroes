@@ -19,7 +19,7 @@ import {
 } from "../../utils/types";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { authCreateVerificationLog } from "../../actions/Auth";
-import { errorWrapper } from "../../utils/error";
+import { ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 
 export default function SignUpScreen(props: any) {
@@ -51,30 +51,31 @@ export default function SignUpScreen(props: any) {
   const handleSignUp = async () => {
     try {
       await auth.signOut().then().catch();
-      const userCredential = await errorWrapper(
-        createUserWithEmailAndPassword,
-        setErrorMessage,
-        [auth, email, password],
-        {
+      const userCredential = await ErrorWrapper({
+        functionToExecute: createUserWithEmailAndPassword,
+        errorHandler: setErrorMessage,
+        parameters: [auth, email, password],
+        customErrors: {
           "Firebase: Error (auth/email-already-in-use).":
             "This email is already in use",
           "Firebase: Password should be at least 6 characters (auth/weak-password).":
             "Your password must be at least 6 characters",
-        }
-      );
+        },
+      });
       const user = userCredential.user;
       const firebaseUid = user.uid;
-      const createdUser = await errorWrapper(userCreateUser, setErrorMessage, [
-        email,
-        firebaseUid,
-      ]);
+      const createdUser = await ErrorWrapper({
+        functionToExecute: userCreateUser,
+        errorHandler: setErrorMessage,
+        parameters: [email, firebaseUid],
+      });
 
-      await errorWrapper(
-        authCreateVerificationLog,
-        setErrorMessage,
-        [email, UserVerificationLogType.EMAIL_VERIFICATION],
-        { default: "Failed To Send Verification Email" }
-      );
+      await ErrorWrapper({
+        functionToExecute: authCreateVerificationLog,
+        errorHandler: setErrorMessage,
+        parameters: [email, UserVerificationLogType.EMAIL_VERIFICATION],
+        customErrors: { default: "Failed To Send Verification Email" },
+      });
       return createdUser;
     } catch (error) {
       if (error instanceof EndExecutionError) {

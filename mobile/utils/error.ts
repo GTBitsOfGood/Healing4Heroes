@@ -14,15 +14,23 @@ errorHandler: This is some sort of error handling function -- the first argument
 
 // Consider changing the argument into a single object for better readability
 // as opposed to explictly having the different args
-export const errorWrapper = async (
+interface ErrorWrapperArgs {
   /*eslint-disable */
-  functionToExecute: Function,
-  errorHandler: Function,
+  functionToExecute: Function;
+  errorHandler: Function;
   /*eslint-enable */
-  parameters?: Array<any>,
-  customErrors?: Record<string, string>,
-  errorFunctionParams?: Array<any>
-) => {
+
+  parameters?: Array<any>;
+  customErrors?: Record<string, string>;
+  errorFunctionParams?: Array<any>;
+}
+export const ErrorWrapper = async ({
+  functionToExecute,
+  errorHandler,
+  parameters,
+  customErrors,
+  errorFunctionParams,
+}: ErrorWrapperArgs) => {
   if (!parameters) {
     parameters = [];
   }
