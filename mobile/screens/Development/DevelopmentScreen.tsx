@@ -95,7 +95,6 @@ export default function DevelopmentScreen(props: any) {
         onPress={async () => {
           await signInWithEmailAndPassword(
             auth,
-            // Change email to samrat@healing4heroes.org for an admin account
             "samratsahoo2013@gmail.com",
             "Aqaqaq"
           );
@@ -104,11 +103,29 @@ export default function DevelopmentScreen(props: any) {
           if (!accessToken) {
             setAccessToken("Failed to Retrieve Access Token");
           }
-          setAccessToken(accessToken);
+          setAccessToken("User token: " + accessToken);
         }}
         style={styles.buttonItem}
       >
         <Text>Get User Access Token - For Backend Devs</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={async () => {
+          await signInWithEmailAndPassword(
+            auth,
+            "samrat@healing4heroes.org",
+            "Aqaqaq"
+          );
+
+          const accessToken = (await auth.currentUser?.getIdToken()) as string;
+          if (!accessToken) {
+            setAccessToken("Failed to Retrieve Access Token");
+          }
+          setAccessToken("Admin token: " + accessToken);
+        }}
+        style={styles.buttonItem}
+      >
+        <Text>Get Admin Access Token - For Backend Devs</Text>
       </TouchableOpacity>
       <View style={styles.accessTokenContainer}>
         <Text>{accessToken}</Text>
