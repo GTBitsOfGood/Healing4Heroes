@@ -1,13 +1,19 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { auth } from "../../utils/firebase";
 import { Screens } from "../../utils/types";
 
 export default function DevelopmentScreen(props: any) {
   const [accessToken, setAccessToken] = useState("No Access Token Set Yet");
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       {/* Temporary Development Screen to help devs w/navigation */}
       <TouchableOpacity
         onPress={() => props.navigation.navigate(Screens.LANDING_SCREEN)}
@@ -107,16 +113,18 @@ export default function DevelopmentScreen(props: any) {
       <View style={styles.accessTokenContainer}>
         <Text>{accessToken}</Text>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    paddingTop: 30,
+    paddingBottom: 30,
   },
 
   buttonItem: {
