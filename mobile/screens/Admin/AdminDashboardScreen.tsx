@@ -14,6 +14,7 @@ import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
+import shadowStyle from "../../utils/styles";
 
 export default function AdminDashboardScreen(props: any) {
   const [userInfo, setUserInfo] = useState<User>();
@@ -67,7 +68,7 @@ export default function AdminDashboardScreen(props: any) {
           <Text style={styles.label}>Announcements</Text>
           <View style={styles.announcementContainer}>
             <TouchableOpacity
-              style={styles.announcementBox}
+              style={[styles.announcementBox, shadowStyle.shadow]}
               onPress={() => {
                 props.navigation.navigate(
                   Screens.VIEW_ALL_ANNOUNCEMENTS_SCREEN
@@ -96,7 +97,7 @@ export default function AdminDashboardScreen(props: any) {
           </View>
           <Text style={styles.label}>User Summary</Text>
           <TouchableOpacity
-            style={styles.bigButton}
+            style={[styles.bigButton, shadowStyle.shadow]}
             onPress={() => {
               props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN, {
                 filter: UserFilter.NONPROFIT_USERS,
@@ -106,7 +107,7 @@ export default function AdminDashboardScreen(props: any) {
             <Text style={styles.bigButtonText}>View All Users</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.bigButton}
+            style={[styles.bigButton, shadowStyle.shadow]}
             onPress={() => {
               props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN, {
                 filter: UserFilter.NONPROFIT_ADMINS,
@@ -116,7 +117,7 @@ export default function AdminDashboardScreen(props: any) {
             <Text style={styles.bigButtonText}>View Admin Users</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.bigButton}
+            style={[styles.bigButton, shadowStyle.shadow]}
             onPress={() => {
               props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN, {
                 filter: UserFilter.UNVERIFIED_USERS,
@@ -128,7 +129,7 @@ export default function AdminDashboardScreen(props: any) {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.bigButton}
+            style={[styles.bigButton, shadowStyle.shadow]}
             onPress={() => {
               props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN, {
                 filter: UserFilter.WITH_800_HOURS_USERS,

@@ -18,6 +18,7 @@ import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import GenericHeader from "../../components/GenericHeader";
 import ErrorBox from "../../components/ErrorBox";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
+import shadowStyle from "../../utils/styles";
 
 export default function AdminDetailedUserScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -101,7 +102,7 @@ export default function AdminDetailedUserScreen(props: any) {
           />
           {/* training log section */}
           <Text style={styles.label}>Training Log</Text>
-          <View style={styles.logContainer}>
+          <View style={[styles.logContainer, shadowStyle.shadow]}>
             <LogButton
               text="View All Logs"
               icon={
