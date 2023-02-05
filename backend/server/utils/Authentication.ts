@@ -1,10 +1,11 @@
+import { MakeDirectoryOptions } from "fs";
+import Email from "email-templates";
 import { getAuth } from "firebase-admin/auth";
 import jwt from "jsonwebtoken";
 import nodemailer, { TransportOptions } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";
-import Email from "email-templates";
 
 export const parseEmailTemplate = (email: string, options?: any) => {
   let emailData: string = email;
@@ -78,7 +79,6 @@ export const verifyWebToken = (webToken: string) => {
 //   return res;
 // };
 
-
 export const sendEmail = async (
   recipient: string,
   emailSubject: string,
@@ -97,13 +97,13 @@ export const sendEmail = async (
     },
   } as TransportOptions);
 
-  const email: Email<Email> = new Email({
+  const email = new Email({
     message: {
       from: process.env.EMAIL_FROM,
     },
     // uncomment below to send emails in development/test env:
     // send: true
-    transport: transporter
+    transport: transporter,
   });
 
   email
