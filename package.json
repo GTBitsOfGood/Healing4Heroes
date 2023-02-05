@@ -25,5 +25,8 @@
     "concurrently": "^7.3.0",
     "email-templates": "^10.0.1",
     "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/email-templates": "^10.0.1"
   }
 }

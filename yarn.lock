@@ -120,10 +120,36 @@
     "domhandler" "^4.2.0"
     "selderee" "^0.6.0"
 
+"@types/email-templates@^10.0.1":
+  "integrity" "sha512-IHdgtoOUfMB4t5y5wgm8G0i2/U90GeJPxIEAViMaLlJPCJzaYSlVHXI8bx3qbgbD6gxyOsSRyrFvBSTgNEQc+g=="
+  "resolved" "https://registry.npmjs.org/@types/email-templates/-/email-templates-10.0.1.tgz"
+  "version" "10.0.1"
+  dependencies:
+    "@types/html-to-text" "*"
+    "@types/nodemailer" "*"
+    "juice" "^8.0.0"
+
+"@types/html-to-text@*":
+  "integrity" "sha512-FnF3p2FJZ1kJT/0C/lmBzw7HSlH3RhtACVYyrwUsJoCmFNuiLpusWT2FWWB7P9A48CaYpvD6Q2fprn7sZeffpw=="
+  "resolved" "https://registry.npmjs.org/@types/html-to-text/-/html-to-text-9.0.0.tgz"
+  "version" "9.0.0"
+
 "@types/minimatch@^3.0.3":
   "integrity" "sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ=="
   "resolved" "https://registry.npmjs.org/@types/minimatch/-/minimatch-3.0.5.tgz"
   "version" "3.0.5"
+
+"@types/node@*":
+  "integrity" "sha512-YUgMWAQBWLObABqrvx8qKO1enAvBUdjZOAWQ5grBAkp5LQv45jBvYKZ3oFS9iKRCQyFjqw6iuEa1vmFqtxYLZw=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-18.11.19.tgz"
+  "version" "18.11.19"
+
+"@types/nodemailer@*":
+  "integrity" "sha512-f5qCBGAn/f0qtRcd4SEn88c8Fp3Swct1731X4ryPKqS61/A3LmmzN8zaEz7hneJvpjFbUUgY7lru/B/7ODTazg=="
+  "resolved" "https://registry.npmjs.org/@types/nodemailer/-/nodemailer-6.4.7.tgz"
+  "version" "6.4.7"
+  dependencies:
+    "@types/node" "*"
 
 "acorn@^7.1.1":
   "integrity" "sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A=="

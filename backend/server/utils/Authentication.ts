@@ -4,7 +4,7 @@ import nodemailer, { TransportOptions } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";
-
+import Email from "email-templates";
 /*
 export const parseEmailTemplate = (email: string, options?: any) => {
   let emailData: string = email;
@@ -50,7 +50,35 @@ export const verifyWebToken = (webToken: string) => {
   });
   return data as Record<string, string | boolean>;
 };
-/*
+
+// export const sendEmail = async (
+//   recipient: string,
+//   emailSubject: string,
+//   emailBody: string
+// ) => {
+//   const transporter = nodemailer.createTransport({
+//     host: process.env.EMAIL_SERVER_HOST,
+//     port: process.env.EMAIL_SERVER_PORT,
+//     secure: true,
+//     auth: {
+//       user: process.env.EMAIL_SERVER_USER,
+//       pass: process.env.EMAIL_SERVER_PASSWORD,
+//     },
+//     tls: {
+//       rejectUnauthorized: false,
+//     },
+//   } as TransportOptions);
+
+//   const res = await transporter.sendMail({
+//     from: process.env.EMAIL_FROM,
+//     to: recipient,
+//     subject: emailSubject,
+//     html: emailBody,
+//   } as Mail.Options);
+//   return res;
+// };
+
+
 export const sendEmail = async (
   recipient: string,
   emailSubject: string,
@@ -69,40 +97,14 @@ export const sendEmail = async (
     },
   } as TransportOptions);
 
-  const res = await transporter.sendMail({
-    from: process.env.EMAIL_FROM,
-    to: recipient,
-    subject: emailSubject,
-    html: emailBody,
-  } as Mail.Options);
-  return res;
-};
-*/
-export const sendEmail = async (
-  recipient: string,
-  emailSubject: string,
-  emailBody: string
-) => {
-  const Email = require("email-templates");
-
-  const email = new Email({
+  let email = new Email();
+  email = new Email({
     message: {
       from: process.env.EMAIL_FROM,
     },
     // uncomment below to send emails in development/test env:
     // send: true
-    transport: {
-      host: process.env.EMAIL_SERVER_HOST,
-      port: process.env.EMAIL_SERVER_PORT,
-      secure: true,
-      auth: {
-        user: process.env.EMAIL_SERVER_USER,
-        pass: process.env.EMAIL_SERVER_PASSWORD,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    },
+    transport: transporter
   });
 
   email
@@ -110,6 +112,8 @@ export const sendEmail = async (
       template: "templates",
       message: {
         to: recipient,
+        subject: emailSubject,
+        html: emailBody,
       },
     })
     .then(console.log)
