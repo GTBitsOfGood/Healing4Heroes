@@ -90,7 +90,7 @@ export default function DevelopmentScreen(props: any) {
           await signInWithEmailAndPassword(
             auth,
             // Change email to samrat@healing4heroes.org for an admin account
-            "samratsahoo2013@gmail.com",
+            "samrat@healing4heroes.org",
             "Aqaqaq"
           );
 
