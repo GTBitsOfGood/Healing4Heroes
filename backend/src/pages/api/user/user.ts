@@ -4,7 +4,10 @@ import {
   updateUser,
 } from "server/mongodb/actions/User";
 import APIWrapper from "server/utils/APIWrapper";
-import { getUser } from "server/utils/Authentication";
+import {
+  ensureUnverfiedEmailFirebase,
+  getUser,
+} from "server/utils/Authentication";
 import { HandlerType, Role } from "src/utils/types";
 
 export default APIWrapper({
@@ -65,6 +68,9 @@ export default APIWrapper({
       if (!user) {
         throw new Error("Failed to create user!");
       }
+
+      //Ensure that firebase user has unverfied email
+      await ensureUnverfiedEmailFirebase(user.firebaseUid);
 
       return user;
     },
