@@ -5,6 +5,7 @@ import Mail from "nodemailer/lib/mailer";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";
 
+/*
 export const parseEmailTemplate = (email: string, options?: any) => {
   let emailData: string = email;
   if (options) {
@@ -14,6 +15,7 @@ export const parseEmailTemplate = (email: string, options?: any) => {
   }
   return emailData;
 };
+*/
 export const getUser = async (accessToken: string) => {
   if (!accessToken) {
     throw new Error("This API endpoint requires an access token!");
@@ -48,7 +50,7 @@ export const verifyWebToken = (webToken: string) => {
   });
   return data as Record<string, string | boolean>;
 };
-
+/*
 export const sendEmail = async (
   recipient: string,
   emailSubject: string,
@@ -75,6 +77,45 @@ export const sendEmail = async (
   } as Mail.Options);
   return res;
 };
+*/
+export const sendEmail = async (
+  recipient: string,
+  emailSubject: string,
+  emailBody: string
+) => {
+  const Email = require('email-templates');
+
+  const email = new Email({
+    message: {
+      from: process.env.EMAIL_FROM
+    },
+    // uncomment below to send emails in development/test env:
+    // send: true
+    transport: {
+      host: process.env.EMAIL_SERVER_HOST,
+      port: process.env.EMAIL_SERVER_PORT,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_SERVER_USER,
+        pass: process.env.EMAIL_SERVER_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    }
+  });
+
+  email
+    .send({
+      template: 'templates',
+      message: {
+        to: recipient
+      },
+    })
+    .then(console.log)
+    .catch(console.error);
+};
+
 
 export const resetPassword = async (email: string, newPassword: string) => {
   firebaseConnect();
