@@ -97,8 +97,7 @@ export const sendEmail = async (
     },
   } as TransportOptions);
 
-  let email = new Email();
-  email = new Email({
+  const email: Email<Email> = new Email({
     message: {
       from: process.env.EMAIL_FROM,
     },
