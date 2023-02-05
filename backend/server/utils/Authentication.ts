@@ -89,13 +89,6 @@ export const resetPassword = async (email: string, newPassword: string) => {
   }
 };
 
-export const ensureUnverfiedEmailFirebase = async (firebaseUid: string) => {
-  firebaseConnect();
-  await getAuth().updateUser(firebaseUid, {
-    emailVerified: false,
-  });
-};
-
 export const verifyUserEmailFirebase = async (firebaseUid: string) => {
   firebaseConnect();
   await getAuth().updateUser(firebaseUid, {
