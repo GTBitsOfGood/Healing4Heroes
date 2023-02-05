@@ -83,11 +83,11 @@ export const sendEmail = async (
   emailSubject: string,
   emailBody: string
 ) => {
-  const Email = require('email-templates');
+  const Email = require("email-templates");
 
   const email = new Email({
     message: {
-      from: process.env.EMAIL_FROM
+      from: process.env.EMAIL_FROM,
     },
     // uncomment below to send emails in development/test env:
     // send: true
@@ -102,20 +102,19 @@ export const sendEmail = async (
       tls: {
         rejectUnauthorized: false,
       },
-    }
+    },
   });
 
   email
     .send({
-      template: 'templates',
+      template: "templates",
       message: {
-        to: recipient
+        to: recipient,
       },
     })
     .then(console.log)
     .catch(console.error);
 };
-
 
 export const resetPassword = async (email: string, newPassword: string) => {
   firebaseConnect();
