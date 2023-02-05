@@ -5,7 +5,7 @@ import Mail from "nodemailer/lib/mailer";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";
 import Email from "email-templates";
-/*
+
 export const parseEmailTemplate = (email: string, options?: any) => {
   let emailData: string = email;
   if (options) {
@@ -15,7 +15,7 @@ export const parseEmailTemplate = (email: string, options?: any) => {
   }
   return emailData;
 };
-*/
+
 export const getUser = async (accessToken: string) => {
   if (!accessToken) {
     throw new Error("This API endpoint requires an access token!");
