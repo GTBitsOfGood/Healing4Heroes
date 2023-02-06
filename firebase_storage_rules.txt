@@ -3,10 +3,10 @@ service firebase.storage {
   match /b/{bucket}/o {
     match /{allPaths=**} {
       allow read: if request.auth != null &&
-        request.auth.emailVerified == true;
+        request.auth.token.email_verified == true;
       
       allow write: if request.auth != null &&
-        request.auth.emailVerified == true && 
+        request.auth.token.email_verified == true && 
       	request.resource.contentType.matches('image/.*') &&
         request.resource.size <  25 * 1024 * 1024;
     }
