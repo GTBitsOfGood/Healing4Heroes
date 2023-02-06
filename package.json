@@ -23,8 +23,5 @@
   },
   "dependencies": {
     "concurrently": "^7.3.0"
-  },
-  "devDependencies": {
-    "@types/email-templates": "^10.0.1"
   }
 }
