@@ -18,7 +18,7 @@ export async function findUserByFirebaseUid(firebaseUid: string) {
 
 export async function findUserByEmail(email: string) {
   await dbConnect();
-  const user = await UserModel.findOne({ email: email });
+  const user = await UserModel.findOne({ email });
   return user;
 }
 
