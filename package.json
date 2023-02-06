@@ -22,8 +22,6 @@
     "start:mobile-tunnel": "cd mobile && npx expo start --tunnel"
   },
   "dependencies": {
-    "concurrently": "^7.3.0",
-    "expo": "^47.0.13",
-    "ngrok": "^4.3.3"
+    "concurrently": "^7.3.0"
   }
 }

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, Text, View } from "react-native";
+import { BackHandler, StyleSheet, Text, View, TextInput } from "react-native";
 import UserEntry from "../../components/UserEntry";
 import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
 import { Types } from "mongoose";
 import PaginatedOverlay from "../../components/Overlays/PaginatedOverlay";
 import { ErrorWrapper } from "../../utils/error";
+import { AntDesign } from '@expo/vector-icons';
 
 const PAGE_SIZE = 6;
 
@@ -74,11 +75,14 @@ export default function AdminUserList(props: any) {
     <PaginatedOverlay
       navigationProp={props.navigation}
       paginationButtonFunction={processNext}
-      headerTitle={"View Users"}
+      headerTitle={"All Users"}
       errorMessage={error}
       pageBody={
         <View style={styles.container}>
-          <Text style={styles.title}>All Users</Text>
+          <View style={styles.searchBar}>
+          <AntDesign name="search1" size={45} color="#3F3BED"/>
+            <TextInput style={styles.searchBox} placeholder="Search anything..." />
+          </View>
           {allUsers.length > 0 &&
             allUsers[currentPage].map((user, index) => {
               return (
@@ -112,6 +116,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     justifyContent: "space-between",
     flexDirection: "column",
+  },
+
+  searchBar: {
+    flexDirection: "row",
+    textAlign: 'center'
+  },
+
+  searchBox: {
+    height: 45, 
+    width: "80%", 
+    borderColor: '#3F3BED', 
+    borderWidth: 2, 
+    borderRadius: 20, 
+    marginLeft: 10,  
+    marginBottom: 20,
+    fontSize: 18,
+    textAlign: 'center'
   },
 
   dashboardHeader: {
