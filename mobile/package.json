@@ -22,6 +22,7 @@
     "expo": "^47.0.0",
     "expo-av": "~13.0.2",
     "expo-cli": "^6.0.5",
+    "expo-constants": "^14.0.2",
     "expo-file-system": "~15.1.1",
     "expo-image-picker": "~14.0.2",
     "expo-media-library": "~15.0.0",

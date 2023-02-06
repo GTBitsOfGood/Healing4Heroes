@@ -1640,11 +1640,6 @@
     "resolve-from" "^5.0.0"
     "sucrase" "^3.20.0"
 
-"@expo/ngrok-bin-linux-x64@2.3.40":
-  "integrity" "sha512-yOuwpOmMe6RGnk9ninlM7Zg1EiF81ptFOcFmT61PDOA4gK8/ttZKTMkDQiq0DZdcXUyE0HCr83EglJZTnHIzPA=="
-  "resolved" "https://registry.npmjs.org/@expo/ngrok-bin-linux-x64/-/ngrok-bin-linux-x64-2.3.40.tgz"
-  "version" "2.3.40"
-
 "@expo/ngrok-bin@2.3.40":
   "integrity" "sha512-40GK1CY1QLPDHSQS7Fd36CJeZgMwtbeezkgp4tzfExVRVtWw30jOBCsM7TBB9IqEmmX7C/XwG47scMQHCnMw8A=="
   "resolved" "https://registry.npmjs.org/@expo/ngrok-bin/-/ngrok-bin-2.3.40.tgz"
@@ -6953,7 +6948,7 @@
     "wrap-ansi" "^7.0.0"
     "xdl" "59.2.52"
 
-"expo-constants@~14.0.0", "expo-constants@~14.0.2":
+"expo-constants@^14.0.2", "expo-constants@~14.0.0", "expo-constants@~14.0.2":
   "integrity" "sha512-wzV3nrzTXTI8yG0tfas3fnqCfKV6YE+1GphEREyVDAShEB6mBInX1b6HgtpHFy2wOtnml+lPVmTCeGtjjLnZhA=="
   "resolved" "https://registry.npmjs.org/expo-constants/-/expo-constants-14.0.2.tgz"
   "version" "14.0.2"
