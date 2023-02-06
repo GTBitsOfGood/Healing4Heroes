@@ -9,6 +9,7 @@ import {
   getWebToken,
   parseEmailTemplate,
   sendEmail,
+  verifyUserEmailFirebase,
 } from "server/utils/Authentication";
 import { EMAIL_VERIFICATION_TEMPLATE } from "server/utils/emails/EmailVerification";
 import { PASSWORD_RESET_TEMPLATE } from "server/utils/emails/PasswordReset";
@@ -104,7 +105,10 @@ export default APIWrapper({
       await updateVerificationLog(latestLog._id, true, true);
 
       if (latestLog.type === UserVerificationLogType.EMAIL_VERIFICATION) {
-        await verifyUserEmail(user._id);
+        await Promise.all([
+          verifyUserEmail(user._id),
+          verifyUserEmailFirebase(user.firebaseUid),
+        ]);
       }
 
       const webToken = getWebToken({
