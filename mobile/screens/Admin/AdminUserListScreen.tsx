@@ -6,7 +6,6 @@ import { adminGetUsers } from "../../actions/Admin";
 import { Types } from "mongoose";
 import PaginatedOverlay from "../../components/Overlays/PaginatedOverlay";
 import { ErrorWrapper } from "../../utils/error";
-import shadowStyle from "../../utils/styles";
 
 const PAGE_SIZE = 6;
 
