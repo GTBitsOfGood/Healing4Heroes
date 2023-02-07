@@ -3,7 +3,6 @@ import Constants from "expo-constants";
 const { manifest } = Constants;
 
 function getBaseURL() {
-  return `https://healing4heroes-backend.vercel.app`;
   if (process.env.NODE_ENV === "production") {
     return `https://healing4heroes-backend.vercel.app`;
   }
