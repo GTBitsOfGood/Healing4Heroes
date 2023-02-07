@@ -4,7 +4,7 @@ import LogCard from "../../components/LogCard";
 import { Screens } from "../../utils/types";
 import GenericHeader from "../../components/GenericHeader";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
-import shadowStyle from "../../utils/styles"
+import shadowStyle from "../../utils/styles";
 
 export default function ViewAllLogsScreen(props: any) {
   const logs = props?.route?.params?.trainingLogs;

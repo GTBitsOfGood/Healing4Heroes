@@ -36,7 +36,7 @@ export default function PasscodeVerificationScreen(props: any) {
           });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         setNotAnError(false);
         setErrorMessage(err.message);
       });

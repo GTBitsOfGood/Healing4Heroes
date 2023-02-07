@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import { Announcement } from "../utils/types";
 import { getFormattedDate } from "../utils/helper";
-import shadowStyle from "../utils/styles"
+import shadowStyle from "../utils/styles";
 
 interface AnnouncementCardProps {
   isRead: boolean;

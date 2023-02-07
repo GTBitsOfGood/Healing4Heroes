@@ -9,8 +9,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import shadowStyle from "../../utils/styles"
-
+import shadowStyle from "../../utils/styles";
 
 interface OnboardingOverlayProps {
   showBackDrop: boolean;
