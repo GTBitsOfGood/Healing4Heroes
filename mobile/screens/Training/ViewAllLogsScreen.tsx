@@ -4,6 +4,7 @@ import LogCard from "../../components/LogCard";
 import { Screens } from "../../utils/types";
 import GenericHeader from "../../components/GenericHeader";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
+import shadowStyle from "../../utils/styles"
 
 export default function ViewAllLogsScreen(props: any) {
   const logs = props?.route?.params?.trainingLogs;
@@ -26,6 +27,7 @@ export default function ViewAllLogsScreen(props: any) {
           {logs?.map((log: any, index: number) => {
             return (
               <TouchableOpacity
+                style={shadowStyle.shadow}
                 onPress={() => {
                   props.navigation.navigate(Screens.VIEW_SINGLE_LOG_SCREEN, {
                     date: log.date,

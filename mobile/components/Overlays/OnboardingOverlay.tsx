@@ -9,6 +9,8 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import shadowStyle from "../../utils/styles"
+
 
 interface OnboardingOverlayProps {
   showBackDrop: boolean;
@@ -70,7 +72,7 @@ export default function OnboardingOverlay({
         )}
         <View style={styles.innerContainer}>
           <View style={styles.headerContainer}>
-            <View style={styles.logoContainer}>
+            <View style={[styles.logoContainer, shadowStyle.shadow]}>
               <Image
                 style={styles.logoImage}
                 source={require("./../../assets/images/Logo.jpg")}
