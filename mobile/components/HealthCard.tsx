@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, View, StyleSheet, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import shadowStyle from "../utils/styles";
 
 interface HealthCardProps {
   handlerName: string;
@@ -16,14 +17,14 @@ const HealthCard = ({
   animalImage,
 }: HealthCardProps) => {
   return (
-    <View style={styles.cardContainer}>
+    <View style={[styles.cardContainer, shadowStyle.shadow]}>
       <View style={styles.cardImgContainer}>
         {animalImage && (
           <Image
             source={{
               uri: animalImage,
             }}
-            style={styles.cardImg}
+            style={[styles.cardImg, shadowStyle.shadow]}
           />
         )}
         {!animalImage && (
