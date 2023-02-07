@@ -36,6 +36,10 @@ const VerificationLogSchema = new mongoose.Schema<VerificationLog>({
     type: Boolean,
     required: true,
   },
+  attempts: {
+    type: Number,
+    required: true,
+  },
 });
 
 const VerificationLogModel =
