@@ -27,6 +27,9 @@ export enum ServiceAnimalSkills {
   SKILL_TOUCH = "Touch",
   SKILL_TUCK = "Tuck",
   SKILL_HEEL = "Heel",
+  SKILL_WAKE_NIGHTMARES = "Wake/Nightmares",
+  SKILL_REMIND_HANDLER_TAKE_MEDICINE = "Remind/Handler/Take/Medicine",
+  SKILL_SWEEP_ROOM_BAD_GUYS = "Sweep/Room/Bad/Guys",
 }
 
 export interface User {
