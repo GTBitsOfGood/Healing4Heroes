@@ -79,9 +79,9 @@ export default function AdminUserList(props: any) {
       errorMessage={error}
       pageBody={
         <View style={styles.container}>
-          <View style={styles.searchBar}>
-          <TextInput style={styles.searchBox} placeholder="Search anything..." />
-          <AntDesign name="search1" size={45} color="#3F3BED"/>
+          <View style={styles.searchView}>
+          <AntDesign name="search1" size={20} color="#3F3BED" style={styles.searchIcon}/>
+          <TextInput style={styles.searchInput} placeholder="Search anything..." />
             
           </View>
           {allUsers.length > 0 &&
@@ -119,21 +119,27 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
 
-  searchBar: {
-    flexDirection: "row",
-    //alignItems: 'center'
+  searchView: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderColor: '#3F3BED', 
+    alignItems: 'center',
+    borderWidth: 2,
+    height: 45,
+    borderRadius: 30,
+    margin: 10,
   },
 
-  searchBox: {
-    height: 45, 
-    width: "80%", 
-    borderColor: '#3F3BED', 
-    borderWidth: 2, 
-    borderRadius: 20, 
-    marginLeft: 10,  
-    marginBottom: 20,
-    fontSize: 18,
-    textAlign: 'center'
+  searchInput: {
+    flex: 1, 
+    marginLeft: 30
+  },
+
+  searchIcon: {
+    resizeMode: 'stretch',
+    alignItems: 'center',
+    marginLeft: 10,
   },
 
   dashboardHeader: {
