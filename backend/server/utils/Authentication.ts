@@ -80,7 +80,8 @@ export const verifyWebToken = (webToken: string) => {
 export const sendEmail = async (
   recipient: string,
   emailSubject: string,
-  emailBody: string
+  template: string,
+  key?: {}
 ) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_SERVER_HOST,
@@ -94,26 +95,31 @@ export const sendEmail = async (
       rejectUnauthorized: false,
     },
   } as TransportOptions);
-
+  let path = require('path');
+  let pug = require('pug');
   const email = new Email({
     message: {
       from: process.env.EMAIL_FROM,
     },
     // uncomment below to send emails in development/test env:
-    // send: true
-    transport: transporter,
+    send: true,
+    preview: true,
+    transport: transporter
   });
+  let rawEmailBody = pug.renderFile(path.join(__dirname, `../../../../../server/utils/emails/`,template,`html.pug`));
 
   email
     .send({
-      template: "templates",
+      template: template,
       message: {
         to: recipient,
         subject: emailSubject,
-        html: emailBody,
+        html: parseEmailTemplate(rawEmailBody, key),
       },
+    }).then(res => {
+      console.log('res.originalMessage', res.originalMessage);
+      console.log(template);
     })
-    .then(console.log)
     .catch(console.error);
 };
 

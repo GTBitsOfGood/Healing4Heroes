@@ -7,13 +7,16 @@ import {
 import APIWrapper from "server/utils/APIWrapper";
 import {
   getWebToken,
-  parseEmailTemplate,
   sendEmail,
+  parseEmailTemplate
 } from "server/utils/Authentication";
-import { EMAIL_VERIFICATION_TEMPLATE } from "server/utils/emails/EmailVerification";
-import { PASSWORD_RESET_TEMPLATE } from "server/utils/emails/PasswordReset";
+
+// import { EMAIL_VERIFICATION_TEMPLATE } from "server/utils/emails/EmailVerification";
+// import { PASSWORD_RESET_TEMPLATE } from "server/utils/emails/PasswordReset";
+
 import {
   EmailSubject,
+  EmailTemplate,
   User,
   UserVerificationLogType,
   VerificationLog,
@@ -47,22 +50,21 @@ export default APIWrapper({
       switch (type) {
         case UserVerificationLogType.EMAIL_VERIFICATION:
           emailSubject = EmailSubject.EMAIL_VERIFICATION;
-          emailTemplate = EMAIL_VERIFICATION_TEMPLATE;
+          emailTemplate = EmailTemplate.EMAIL_VERIFICATION;
           break;
         case UserVerificationLogType.PASSWORD_RESET:
           emailSubject = EmailSubject.PASSWORD_RESET;
-          emailTemplate = PASSWORD_RESET_TEMPLATE;
+          emailTemplate = EmailTemplate.PASSWORD_RESET;
           break;
       }
-
+      let emailKey = {
+        VERIFICATION_CODE: verificationLog.code
+          .toString()
+          .split("")
+          .join(" "),
+      }
       if (emailSubject && emailTemplate) {
-        const emailBody = parseEmailTemplate(emailTemplate, {
-          VERIFICATION_CODE: verificationLog.code
-            .toString()
-            .split("")
-            .join(" "),
-        });
-        await sendEmail(email, emailSubject, emailBody);
+        await sendEmail(email, emailSubject, emailTemplate, emailKey);
       }
 
       return verificationLog.expirationDate;
