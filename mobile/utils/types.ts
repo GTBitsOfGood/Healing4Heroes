@@ -182,6 +182,12 @@ export interface InternalResponseData<T> {
   payload?: T;
 }
 
+export enum DownloadState {
+  NotStarted,
+  InProgress,
+  Complete,
+}
+
 export interface MultipartUpload {
   UploadId: string;
   Key: string;
