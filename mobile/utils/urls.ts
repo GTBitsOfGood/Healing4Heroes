@@ -1,5 +1,3 @@
-
-
 import Constants from "expo-constants";
 
 const { manifest } = Constants;
@@ -9,7 +7,6 @@ function getBaseURL() {
     return `https://healing4heroes-backend.vercel.app`;
   }
   return `http://${manifest?.debuggerHost?.split(":").shift()}:3000`;
-  //return `http://localhost:3000`;
 }
 
 export const urls = {

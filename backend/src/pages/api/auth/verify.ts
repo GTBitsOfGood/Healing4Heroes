@@ -7,7 +7,9 @@ import {
 import APIWrapper from "server/utils/APIWrapper";
 import {
   getWebToken,
-  sendEmail
+  parseEmailTemplate,
+  sendEmail,
+  verifyUserEmailFirebase
 } from "server/utils/Authentication";
 
 // import { EMAIL_VERIFICATION_TEMPLATE } from "server/utils/emails/EmailVerification";
