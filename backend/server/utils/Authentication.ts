@@ -71,7 +71,7 @@ export const sendEmail = async (
   recipient: string,
   emailSubject: string,
   template: string,
-  key?: {}
+  key?: []
 ) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_SERVER_HOST,
@@ -107,10 +107,10 @@ export const sendEmail = async (
         to: recipient,
         subject: emailSubject,
       },
-      locals: key
+      locals: key,
     })
     .then((res) => {
-      console.log("res.originalMessage", res.originalMessage);
+      //console.log("res.originalMessage", res.originalMessage);
       console.log(template);
     })
     .catch(console.error);
