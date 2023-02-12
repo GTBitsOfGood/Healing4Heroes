@@ -80,8 +80,9 @@ export default function AdminUserList(props: any) {
       pageBody={
         <View style={styles.container}>
           <View style={styles.searchBar}>
+          <TextInput style={styles.searchBox} placeholder="Search anything..." />
           <AntDesign name="search1" size={45} color="#3F3BED"/>
-            <TextInput style={styles.searchBox} placeholder="Search anything..." />
+            
           </View>
           {allUsers.length > 0 &&
             allUsers[currentPage].map((user, index) => {
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
 
   searchBar: {
     flexDirection: "row",
-    textAlign: 'center'
+    //alignItems: 'center'
   },
 
   searchBox: {
