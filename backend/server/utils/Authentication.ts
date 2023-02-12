@@ -5,16 +5,6 @@ import nodemailer, { TransportOptions } from "nodemailer";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";
 
-export const parseEmailTemplate = (email: string, options?: any) => {
-  let emailData: string = email;
-  if (options) {
-    for (const [key, value] of Object.entries(options)) {
-      emailData = emailData.replaceAll("{{" + key + "}}", value as string);
-    }
-  }
-  return emailData;
-};
-
 export const getUser = async (accessToken: string) => {
   if (!accessToken) {
     throw new Error("This API endpoint requires an access token!");
@@ -95,8 +85,7 @@ export const sendEmail = async (
       rejectUnauthorized: false,
     },
   } as TransportOptions);
-  let path = require('path');
-  let pug = require('pug');
+  const path = require("path");
   const email = new Email({
     message: {
       from: process.env.EMAIL_FROM,
@@ -104,20 +93,24 @@ export const sendEmail = async (
     // uncomment below to send emails in development/test env:
     send: true,
     preview: true,
-    transport: transporter
+    transport: transporter,
   });
-  let rawEmailBody = pug.renderFile(path.join(__dirname, `../../../../../server/utils/emails/`,template,`html.pug`));
 
   email
     .send({
-      template: template,
+      template: path.join(
+        __dirname,
+        `../../../../../server/utils/emails/`,
+        template
+      ),
       message: {
         to: recipient,
         subject: emailSubject,
-        html: parseEmailTemplate(rawEmailBody, key),
       },
-    }).then(res => {
-      console.log('res.originalMessage', res.originalMessage);
+      locals: key
+    })
+    .then((res) => {
+      console.log("res.originalMessage", res.originalMessage);
       console.log(template);
     })
     .catch(console.error);

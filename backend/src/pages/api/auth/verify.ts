@@ -7,9 +7,7 @@ import {
 import APIWrapper from "server/utils/APIWrapper";
 import {
   getWebToken,
-  parseEmailTemplate,
   sendEmail,
-  verifyUserEmailFirebase,
 } from "server/utils/Authentication";
 
 // import { EMAIL_VERIFICATION_TEMPLATE } from "server/utils/emails/EmailVerification";
@@ -58,12 +56,9 @@ export default APIWrapper({
           emailTemplate = EmailTemplate.PASSWORD_RESET;
           break;
       }
-      let emailKey = {
-        VERIFICATION_CODE: verificationLog.code
-          .toString()
-          .split("")
-          .join(" "),
-      }
+      const emailKey = {
+        VERIFICATION_CODE: verificationLog.code.toString().split("").join(" "),
+      };
       if (emailSubject && emailTemplate) {
         await sendEmail(email, emailSubject, emailTemplate, emailKey);
       }
