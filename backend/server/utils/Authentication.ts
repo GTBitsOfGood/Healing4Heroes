@@ -1,3 +1,4 @@
+import path from "path";
 import Email from "email-templates";
 import { getAuth } from "firebase-admin/auth";
 import jwt from "jsonwebtoken";
@@ -85,7 +86,6 @@ export const sendEmail = async (
       rejectUnauthorized: false,
     },
   } as TransportOptions);
-  const path = require("path");
   const email = new Email({
     message: {
       from: process.env.EMAIL_FROM,
@@ -96,7 +96,7 @@ export const sendEmail = async (
     transport: transporter,
   });
 
-  email
+  await email
     .send({
       template: path.join(
         __dirname,
@@ -108,10 +108,6 @@ export const sendEmail = async (
         subject: emailSubject,
       },
       locals: key,
-    })
-    .then((res) => {
-      //console.log("res.originalMessage", res.originalMessage);
-      console.log(template);
     })
     .catch(console.error);
 };

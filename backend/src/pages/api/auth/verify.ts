@@ -6,10 +6,6 @@ import {
 } from "server/mongodb/actions/VerificationLog";
 import APIWrapper from "server/utils/APIWrapper";
 import { getWebToken, sendEmail } from "server/utils/Authentication";
-
-// import { EMAIL_VERIFICATION_TEMPLATE } from "server/utils/emails/EmailVerification";
-// import { PASSWORD_RESET_TEMPLATE } from "server/utils/emails/PasswordReset";
-
 import {
   EmailSubject,
   EmailTemplate,
