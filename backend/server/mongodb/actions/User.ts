@@ -90,16 +90,22 @@ export async function adminGetUsers(
   searchText?: string
 ) {
   await dbConnect();
-
+  searchText = searchText ? "^" + searchText + "(.*)" : searchText;
   if (!filter || filter === UserFilter.NONPROFIT_USERS) {
     return afterId
       ? UserModel.find({
           _id: { $gt: afterId },
           roles: { $nin: [Role.NONPROFIT_ADMIN] },
+          email: { $regex: searchText, $options: "i" },
+          firstName: { $regex: searchText, $options: "i" },
+          lastName: { $regex: searchText, $options: "i" },
         }).limit(pageSize)
-      : UserModel.find({ roles: { $nin: [Role.NONPROFIT_ADMIN] } }).limit(
-          pageSize
-        );
+      : UserModel.find({
+          roles: { $nin: [Role.NONPROFIT_ADMIN] },
+          email: { $regex: searchText, $options: "i" },
+          firstName: { $regex: searchText, $options: "i" },
+          lastName: { $regex: searchText, $options: "i" },
+        }).limit(pageSize);
   }
 
   if (filter === UserFilter.UNVERIFIED_USERS) {
