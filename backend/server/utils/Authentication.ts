@@ -72,7 +72,7 @@ export const sendEmail = async (
   recipient: string,
   emailSubject: string,
   template: string,
-  key?: Record<string, never>
+  key?: { [Key: string]: string }
 ) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_SERVER_HOST,
@@ -95,18 +95,15 @@ export const sendEmail = async (
     preview: true,
     transport: transporter,
   });
+  await email.send({
+    template: path.join(process.cwd(), `/server/utils/emails/`, template),
 
-  await email
-    .send({
-      template: path.join(process.cwd(), `/server/utils/emails/`, template),
-
-      message: {
-        to: recipient,
-        subject: emailSubject,
-      },
-      locals: key,
-    })
-    .catch(console.error);
+    message: {
+      to: recipient,
+      subject: emailSubject,
+    },
+    locals: key,
+  });
 };
 
 export const resetPassword = async (email: string, newPassword: string) => {

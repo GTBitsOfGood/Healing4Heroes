@@ -49,11 +49,11 @@ export default APIWrapper({
           emailTemplate = EmailTemplate.PASSWORD_RESET;
           break;
       }
-      const emailKey = {
+      const emailLocals = {
         VERIFICATION_CODE: verificationLog.code.toString().split("").join(" "),
       };
       if (emailSubject && emailTemplate) {
-        await sendEmail(email, emailSubject, emailTemplate, emailKey);
+        await sendEmail(email, emailSubject, emailTemplate, emailLocals);
       }
 
       return verificationLog.expirationDate;
