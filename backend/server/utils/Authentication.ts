@@ -90,7 +90,8 @@ export const sendEmail = async (
     message: {
       from: process.env.EMAIL_FROM,
     },
-    preview: process.env.NODE_ENV === "development",
+    preview:
+      process.env.NODE_ENV === "development" ? { openSimulator: false } : false,
     transport: transporter,
   });
   await email.send({
