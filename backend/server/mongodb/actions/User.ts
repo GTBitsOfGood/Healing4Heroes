@@ -86,7 +86,8 @@ export async function verifyUser(userId: Types.ObjectId) {
 export async function adminGetUsers(
   pageSize: number,
   afterId?: Types.ObjectId,
-  filter?: UserFilter
+  filter?: UserFilter,
+  searchText?: string
 ) {
   await dbConnect();
 
