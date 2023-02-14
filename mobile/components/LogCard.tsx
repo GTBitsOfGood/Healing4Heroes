@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { BehaviorTypes } from "../utils/types";
+import shadowStyle from "../utils/styles";
 
 interface LogCardProps {
   date: Date;
@@ -22,7 +23,7 @@ export default function LogCard({
   }, []);
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, shadowStyle.shadow]}>
       <View style={styles.cardRow}>
         <Text style={styles.regularText}>Date</Text>
         <Text style={styles.regularText}>{`${

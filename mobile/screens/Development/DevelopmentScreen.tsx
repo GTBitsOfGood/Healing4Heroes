@@ -1,13 +1,19 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { auth } from "../../utils/firebase";
 import { Screens } from "../../utils/types";
 
 export default function DevelopmentScreen(props: any) {
   const [accessToken, setAccessToken] = useState("No Access Token Set Yet");
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       {/* Temporary Development Screen to help devs w/navigation */}
       <TouchableOpacity
         onPress={() => props.navigation.navigate(Screens.LANDING_SCREEN)}
@@ -89,7 +95,6 @@ export default function DevelopmentScreen(props: any) {
         onPress={async () => {
           await signInWithEmailAndPassword(
             auth,
-            // Change email to samrat@healing4heroes.org for an admin account
             "samratsahoo2013@gmail.com",
             "Aqaqaq"
           );
@@ -98,25 +103,45 @@ export default function DevelopmentScreen(props: any) {
           if (!accessToken) {
             setAccessToken("Failed to Retrieve Access Token");
           }
-          setAccessToken(accessToken);
+          setAccessToken("User token: " + accessToken);
         }}
         style={styles.buttonItem}
       >
         <Text>Get User Access Token - For Backend Devs</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        onPress={async () => {
+          await signInWithEmailAndPassword(
+            auth,
+            "samrat@healing4heroes.org",
+            "Aqaqaq"
+          );
+
+          const accessToken = (await auth.currentUser?.getIdToken()) as string;
+          if (!accessToken) {
+            setAccessToken("Failed to Retrieve Access Token");
+          }
+          setAccessToken("Admin token: " + accessToken);
+        }}
+        style={styles.buttonItem}
+      >
+        <Text>Get Admin Access Token - For Backend Devs</Text>
+      </TouchableOpacity>
       <View style={styles.accessTokenContainer}>
         <Text>{accessToken}</Text>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    paddingTop: 30,
+    paddingBottom: 30,
   },
 
   buttonItem: {

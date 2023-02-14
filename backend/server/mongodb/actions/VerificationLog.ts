@@ -28,6 +28,7 @@ export async function createVerificationLog(
     expirationDate,
     isVerified: false,
     expired: false,
+    attempts: 0,
   });
 
   return verificationLog;
@@ -36,13 +37,15 @@ export async function createVerificationLog(
 export async function updateVerificationLog(
   id: Types.ObjectId,
   isVerified?: boolean,
-  expired?: boolean
+  expired?: boolean,
+  attempts?: number
 ) {
   await dbConnect();
 
   const verificationLog = await VerificationLogModel.findByIdAndUpdate(id, {
     isVerified,
     expired,
+    attempts,
   });
 
   return verificationLog;
