@@ -88,7 +88,8 @@ export default function AdminUserList(props: any) {
             />
             <TextInput
               style={styles.searchInput}
-              placeholder="Search anything..."
+              placeholder="Search by name or email"
+              placeholderTextColor="grey"
             />
           </View>
           {allUsers.length > 0 &&
