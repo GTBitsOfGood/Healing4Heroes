@@ -5,7 +5,11 @@ import {
   updateVerificationLog,
 } from "server/mongodb/actions/VerificationLog";
 import APIWrapper from "server/utils/APIWrapper";
-import { getWebToken, sendEmail } from "server/utils/Authentication";
+import {
+  getWebToken,
+  sendEmail,
+  verifyUserEmailFirebase,
+} from "server/utils/Authentication";
 import {
   EmailSubject,
   EmailTemplate,
