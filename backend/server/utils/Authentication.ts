@@ -97,7 +97,6 @@ export const sendEmail = async (
   });
   await email.send({
     template: path.join(process.cwd(), `/server/utils/emails/`, template),
-
     message: {
       to: recipient,
       subject: emailSubject,
