@@ -6,7 +6,7 @@ import { adminGetUsers } from "../../actions/Admin";
 import { Types } from "mongoose";
 import PaginatedOverlay from "../../components/Overlays/PaginatedOverlay";
 import { ErrorWrapper } from "../../utils/error";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 
 const PAGE_SIZE = 6;
 
@@ -80,9 +80,16 @@ export default function AdminUserList(props: any) {
       pageBody={
         <View style={styles.container}>
           <View style={styles.searchView}>
-          <AntDesign name="search1" size={20} color="#3F3BED" style={styles.searchIcon}/>
-          <TextInput style={styles.searchInput} placeholder="Search anything..." />
-            
+            <AntDesign
+              name="search1"
+              size={20}
+              color="#3F3BED"
+              style={styles.searchIcon}
+            />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search anything..."
+            />
           </View>
           {allUsers.length > 0 &&
             allUsers[currentPage].map((user, index) => {
@@ -121,10 +128,10 @@ const styles = StyleSheet.create({
 
   searchView: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    borderColor: '#3F3BED', 
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    borderColor: "#3F3BED",
+    alignItems: "center",
     borderWidth: 2,
     height: 45,
     borderRadius: 30,
@@ -132,13 +139,13 @@ const styles = StyleSheet.create({
   },
 
   searchInput: {
-    flex: 1, 
-    marginLeft: 30
+    flex: 1,
+    marginLeft: 30,
   },
 
   searchIcon: {
-    resizeMode: 'stretch',
-    alignItems: 'center',
+    resizeMode: "stretch",
+    alignItems: "center",
     marginLeft: 10,
   },
 
