@@ -12,6 +12,7 @@ import BubbleList from "../../components/BubbleList";
 import { getFormattedDate } from "../../utils/helper";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
+import shadowStyle from "../../utils/styles";
 
 export default function ViewSingleLogScreen(props: any) {
   const {
@@ -100,7 +101,7 @@ export default function ViewSingleLogScreen(props: any) {
             trainingHours={trainingHours}
             behaviors={behavior}
           />
-          <View style={styles.bubbleCard}>
+          <View style={[styles.bubbleCard, shadowStyle.shadow]}>
             <Text style={[styles.regularText, { marginBottom: 5 }]}>
               Skills
             </Text>
@@ -112,7 +113,7 @@ export default function ViewSingleLogScreen(props: any) {
           </View>
 
           {behaviorNote && (
-            <View style={styles.textCard}>
+            <View style={[styles.textCard, shadowStyle.shadow]}>
               <Text style={[styles.regularText, { marginBottom: 5 }]}>
                 Behavior
               </Text>
@@ -120,7 +121,7 @@ export default function ViewSingleLogScreen(props: any) {
             </View>
           )}
           {description && (
-            <View style={styles.textCard}>
+            <View style={[styles.textCard, shadowStyle.shadow]}>
               <Text style={[styles.regularText, { marginBottom: 5 }]}>
                 Additional Notes
               </Text>

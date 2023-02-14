@@ -89,6 +89,13 @@ export const resetPassword = async (email: string, newPassword: string) => {
   }
 };
 
+export const verifyUserEmailFirebase = async (firebaseUid: string) => {
+  firebaseConnect();
+  await getAuth().updateUser(firebaseUid, {
+    emailVerified: true,
+  });
+};
+
 export const removeUserFromFirebase = async (firebaseUid: string) => {
   firebaseConnect();
   await getAuth().deleteUser(firebaseUid);

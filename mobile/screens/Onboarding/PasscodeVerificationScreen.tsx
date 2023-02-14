@@ -36,9 +36,9 @@ export default function PasscodeVerificationScreen(props: any) {
           });
         }
       })
-      .catch(() => {
+      .catch((err) => {
         setNotAnError(false);
-        setErrorMessage("Wrong Verification Token!");
+        setErrorMessage(err.message);
       });
   };
   return (

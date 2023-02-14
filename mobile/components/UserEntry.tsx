@@ -4,6 +4,7 @@ import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import IconButton from "./IconButton";
 import { adminDeleteUser, adminVerifyUser } from "../actions/Admin";
 import { endOfExecutionHandler, ErrorWrapper } from "../utils/error";
+import shadowStyle from "../utils/styles";
 
 const UserEntry = (props: any) => {
   return (
@@ -13,7 +14,7 @@ const UserEntry = (props: any) => {
           props.callbackFunction();
         }
       }}
-      style={styles.userEntryContainer}
+      style={[styles.userEntryContainer, shadowStyle.shadow]}
     >
       <View style={styles.userEntry}>
         <View style={styles.nameIconContainer}>

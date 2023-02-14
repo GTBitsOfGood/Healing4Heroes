@@ -9,6 +9,7 @@ import {
   getWebToken,
   parseEmailTemplate,
   sendEmail,
+  verifyUserEmailFirebase,
 } from "server/utils/Authentication";
 import { EMAIL_VERIFICATION_TEMPLATE } from "server/utils/emails/EmailVerification";
 import { PASSWORD_RESET_TEMPLATE } from "server/utils/emails/PasswordReset";
@@ -95,16 +96,40 @@ export default APIWrapper({
         latestLog.expired ||
         new Date() > latestLog.expirationDate
       ) {
-        await updateVerificationLog(latestLog._id, undefined, true);
+        await updateVerificationLog(latestLog._id, undefined, true, undefined);
         throw new Error("Verification request has expired");
       } else if (code !== latestLog.code) {
-        throw new Error("Incorrect code");
+        const isFinalAttempt = latestLog.attempts >= 10;
+
+        await updateVerificationLog(
+          latestLog._id,
+          undefined,
+          isFinalAttempt ? true : undefined,
+          latestLog.attempts + 1
+        );
+
+        if (isFinalAttempt) {
+          await createVerificationLog(user._id, latestLog.type);
+          throw new Error(
+            "Too many incorrect attempts, a new code has been sent to your email."
+          );
+        }
+
+        throw new Error("Incorrect verification code");
       }
 
-      await updateVerificationLog(latestLog._id, true, true);
+      await updateVerificationLog(
+        latestLog._id,
+        true,
+        true,
+        latestLog.attempts + 1
+      );
 
       if (latestLog.type === UserVerificationLogType.EMAIL_VERIFICATION) {
-        await verifyUserEmail(user._id);
+        await Promise.all([
+          verifyUserEmail(user._id),
+          verifyUserEmailFirebase(user.firebaseUid),
+        ]);
       }
 
       const webToken = getWebToken({

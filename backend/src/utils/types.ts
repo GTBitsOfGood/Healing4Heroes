@@ -101,6 +101,7 @@ export interface VerificationLog {
   expirationDate: Date; // The day and time the code expires (should always be 60 mins after the issueDate)
   isVerified: boolean; // Used to indicate if the verification attempt succeeded (i.e. the user sent the right 6 digit code)
   expired: boolean; // Used to indicate if the verification log has already been used / expired --> if so, it cannot be reused and the user must request a new one
+  attempts: number; // number of attempts taken to input this verification code
 }
 
 export enum BehaviorTypes {

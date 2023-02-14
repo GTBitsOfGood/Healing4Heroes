@@ -28,6 +28,7 @@ import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
+import shadowStyle from "../../utils/styles";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -99,7 +100,7 @@ export default function UserDashboardScreen(props: any) {
         <View style={styles.container}>
           {/* announcment */}
           <TouchableOpacity
-            style={styles.announcementContainer}
+            style={[styles.announcementContainer, shadowStyle.shadow]}
             onPress={() => {
               props.navigation.navigate(Screens.VIEW_ALL_ANNOUNCEMENTS_SCREEN);
             }}
@@ -118,18 +119,19 @@ export default function UserDashboardScreen(props: any) {
 
           {/* training bar status */}
           <Text style={styles.label}>Training Progress</Text>
-          <ProgressBar
-            filled={
-              Math.min(Math.round((hoursCompleted / 800) * 100), 100) + " %"
-            }
-            complete={hoursCompleted}
-            total={800}
-            unit={"Hours"}
-          />
-
+          <View style={shadowStyle.shadow}>
+            <ProgressBar
+              filled={
+                Math.min(Math.round((hoursCompleted / 800) * 100), 100) + " %"
+              }
+              complete={hoursCompleted}
+              total={800}
+              unit={"Hours"}
+            />
+          </View>
           {/* training log */}
           <Text style={styles.label}>Training Log</Text>
-          <View style={styles.logContainer}>
+          <View style={[styles.logContainer, shadowStyle.shadow]}>
             <LogButton
               text="Add New Log"
               icon={
