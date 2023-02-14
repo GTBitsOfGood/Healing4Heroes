@@ -1,19 +1,11 @@
+import path from "path";
+import Email from "email-templates";
 import { getAuth } from "firebase-admin/auth";
 import jwt from "jsonwebtoken";
 import nodemailer, { TransportOptions } from "nodemailer";
-import Mail from "nodemailer/lib/mailer";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";
 
-export const parseEmailTemplate = (email: string, options?: any) => {
-  let emailData: string = email;
-  if (options) {
-    for (const [key, value] of Object.entries(options)) {
-      emailData = emailData.replaceAll("{{" + key + "}}", value as string);
-    }
-  }
-  return emailData;
-};
 export const getUser = async (accessToken: string) => {
   if (!accessToken) {
     throw new Error("This API endpoint requires an access token!");
@@ -49,10 +41,38 @@ export const verifyWebToken = (webToken: string) => {
   return data as Record<string, string | boolean>;
 };
 
+// export const sendEmail = async (
+//   recipient: string,
+//   emailSubject: string,
+//   emailBody: string
+// ) => {
+//   const transporter = nodemailer.createTransport({
+//     host: process.env.EMAIL_SERVER_HOST,
+//     port: process.env.EMAIL_SERVER_PORT,
+//     secure: true,
+//     auth: {
+//       user: process.env.EMAIL_SERVER_USER,
+//       pass: process.env.EMAIL_SERVER_PASSWORD,
+//     },
+//     tls: {
+//       rejectUnauthorized: false,
+//     },
+//   } as TransportOptions);
+
+//   const res = await transporter.sendMail({
+//     from: process.env.EMAIL_FROM,
+//     to: recipient,
+//     subject: emailSubject,
+//     html: emailBody,
+//   } as Mail.Options);
+//   return res;
+// };
+
 export const sendEmail = async (
   recipient: string,
   emailSubject: string,
-  emailBody: string
+  template: string,
+  key?: { [Key: string]: string }
 ) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_SERVER_HOST,
@@ -66,14 +86,22 @@ export const sendEmail = async (
       rejectUnauthorized: false,
     },
   } as TransportOptions);
-
-  const res = await transporter.sendMail({
-    from: process.env.EMAIL_FROM,
-    to: recipient,
-    subject: emailSubject,
-    html: emailBody,
-  } as Mail.Options);
-  return res;
+  const email = new Email({
+    message: {
+      from: process.env.EMAIL_FROM,
+    },
+    preview:
+      process.env.NODE_ENV === "development" ? { openSimulator: false } : false,
+    transport: transporter,
+  });
+  await email.send({
+    template: path.join(process.cwd(), `/server/utils/emails/`, template),
+    message: {
+      to: recipient,
+      subject: emailSubject,
+    },
+    locals: key,
+  });
 };
 
 export const resetPassword = async (email: string, newPassword: string) => {

@@ -158,6 +158,11 @@ export enum EmailSubject {
   PASSWORD_RESET = "Reset Your Password for Healing4Heroes",
 }
 
+export enum EmailTemplate {
+  EMAIL_VERIFICATION = "verify",
+  PASSWORD_RESET = "reset",
+}
+
 /* User Retrieval */
 
 export enum UserFilter {
