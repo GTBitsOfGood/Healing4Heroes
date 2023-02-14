@@ -90,44 +90,43 @@ export async function adminGetUsers(
   searchText?: string
 ) {
   await dbConnect();
-  searchText = searchText ? "^" + searchText + "(.*)" : searchText;
+  const searchQuery = {
+    ...(afterId && { _id: { $gt: afterId } }),
+  };
+
   if (!filter || filter === UserFilter.NONPROFIT_USERS) {
-    return afterId
-      ? UserModel.find({
-          _id: { $gt: afterId },
-          roles: { $nin: [Role.NONPROFIT_ADMIN] },
-          email: { $regex: searchText, $options: "i" },
-          firstName: { $regex: searchText, $options: "i" },
-          lastName: { $regex: searchText, $options: "i" },
-        }).limit(pageSize)
-      : UserModel.find({
-          roles: { $nin: [Role.NONPROFIT_ADMIN] },
-          email: { $regex: searchText, $options: "i" },
-          firstName: { $regex: searchText, $options: "i" },
-          lastName: { $regex: searchText, $options: "i" },
-        }).limit(pageSize);
+    searchText = searchText ? "^" + searchText + "(.*)" : searchText;
+    const subSearchQuery = {
+      ...(searchText && {
+        $or: [
+          { email: { $regex: searchText, $options: "i" } },
+          { firstName: { $regex: searchText, $options: "i" } },
+          { lastName: { $regex: searchText, $options: "i" } },
+        ],
+      }),
+    };
+
+    return UserModel.find({
+      ...searchQuery,
+      ...subSearchQuery,
+      roles: { $nin: [Role.NONPROFIT_ADMIN] },
+    }).limit(pageSize);
   }
 
   if (filter === UserFilter.UNVERIFIED_USERS) {
-    return afterId
-      ? UserModel.find({ _id: { $gt: afterId }, verifiedByAdmin: false }).limit(
-          pageSize
-        )
-      : UserModel.find({ verifiedByAdmin: false }).limit(pageSize);
+    return UserModel.find({ ...searchQuery, verifiedByAdmin: false }).limit(
+      pageSize
+    );
   }
 
   // Hours is on the Animal, not the users
   if (filter === UserFilter.WITH_800_HOURS_USERS) {
-    const handlers = afterId
-      ? await AnimalModel.find({
-          _id: { $gt: afterId },
-          totalHours: { $gte: 800 },
-        })
-          .limit(pageSize)
-          .select("handler")
-      : await AnimalModel.find({ totalHours: { $gt: 800 } })
-          .limit(pageSize)
-          .select("handler");
+    const handlers = await AnimalModel.find({
+      ...searchQuery,
+      totalHours: { $gte: 800 },
+    })
+      .limit(pageSize)
+      .select("handler");
 
     return UserModel.find({
       _id: {
@@ -137,14 +136,10 @@ export async function adminGetUsers(
   }
 
   if (filter === UserFilter.NONPROFIT_ADMINS) {
-    return afterId
-      ? UserModel.find({
-          _id: { $gt: afterId },
-          roles: { $in: [Role.NONPROFIT_ADMIN] },
-        }).limit(pageSize)
-      : UserModel.find({ roles: { $in: [Role.NONPROFIT_ADMIN] } }).limit(
-          pageSize
-        );
+    return UserModel.find({
+      ...searchQuery,
+      roles: { $in: [Role.NONPROFIT_ADMIN] },
+    }).limit(pageSize);
   }
 }
 
