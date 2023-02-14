@@ -72,7 +72,7 @@ export const sendEmail = async (
   recipient: string,
   emailSubject: string,
   template: string,
-  key?: []
+  key?: Record<string, never>
 ) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_SERVER_HOST,
@@ -98,11 +98,8 @@ export const sendEmail = async (
 
   await email
     .send({
-      template: path.join(
-        __dirname,
-        `../../../../../server/utils/emails/`,
-        template
-      ),
+      template: path.join(process.cwd(), `/server/utils/emails/`, template),
+
       message: {
         to: recipient,
         subject: emailSubject,
