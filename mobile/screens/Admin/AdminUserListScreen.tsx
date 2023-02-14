@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, Text, View } from "react-native";
+import { BackHandler, StyleSheet, View, TextInput } from "react-native";
 import UserEntry from "../../components/UserEntry";
 import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
 import { Types } from "mongoose";
 import PaginatedOverlay from "../../components/Overlays/PaginatedOverlay";
 import { ErrorWrapper } from "../../utils/error";
+import { AntDesign } from "@expo/vector-icons";
 
 const PAGE_SIZE = 6;
 
@@ -74,11 +75,23 @@ export default function AdminUserList(props: any) {
     <PaginatedOverlay
       navigationProp={props.navigation}
       paginationButtonFunction={processNext}
-      headerTitle={"View Users"}
+      headerTitle={"All Users"}
       errorMessage={error}
       pageBody={
         <View style={styles.container}>
-          <Text style={styles.title}>All Users</Text>
+          <View style={styles.searchView}>
+            <AntDesign
+              name="search1"
+              size={20}
+              color="#3F3BED"
+              style={styles.searchIcon}
+            />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search by name or email"
+              placeholderTextColor="grey"
+            />
+          </View>
           {allUsers.length > 0 &&
             allUsers[currentPage].map((user, index) => {
               return (
@@ -112,6 +125,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     justifyContent: "space-between",
     flexDirection: "column",
+  },
+
+  searchView: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    borderColor: "#3F3BED",
+    alignItems: "center",
+    borderWidth: 2,
+    height: 45,
+    borderRadius: 30,
+  },
+
+  searchInput: {
+    flex: 1,
+    marginLeft: 15,
+  },
+
+  searchIcon: {
+    resizeMode: "stretch",
+    alignItems: "center",
+    marginLeft: 10,
   },
 
   dashboardHeader: {
