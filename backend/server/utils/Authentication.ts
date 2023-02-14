@@ -92,7 +92,6 @@ export const sendEmail = async (
     },
     // uncomment below to send emails in development/test env:
     send: true,
-    preview: true,
     transport: transporter,
   });
   await email.send({
