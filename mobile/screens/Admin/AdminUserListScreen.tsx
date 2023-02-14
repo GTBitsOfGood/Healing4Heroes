@@ -135,12 +135,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     height: 45,
     borderRadius: 30,
-    margin: 10,
   },
 
   searchInput: {
     flex: 1,
-    marginLeft: 30,
+    marginLeft: 15,
   },
 
   searchIcon: {
