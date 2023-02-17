@@ -28,22 +28,31 @@ export default function AdminUserList(props: any) {
     setAllUsers([...allUsers]);
   };
 
-  useEffect(() => {
-    async function loadUsers() {
-      const users = await ErrorWrapper({
-        functionToExecute: adminGetUsers,
-        errorHandler: setError,
-        parameters: [PAGE_SIZE, undefined, filter],
-      });
-      setAllUsers([users]);
-    }
-    BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
-      return true;
+  async function loadUsers() {
+    const users = await ErrorWrapper({
+      functionToExecute: adminGetUsers,
+      errorHandler: setError,
+      parameters: [PAGE_SIZE, undefined, filter, allUsers],
     });
+    setAllUsers([users]);
+  }
 
-    loadUsers().catch().then();
-  }, []);
+  // useEffect(() => {
+  //   async function loadUsers() {
+  //     const users = await ErrorWrapper({
+  //       functionToExecute: adminGetUsers,
+  //       errorHandler: setError,
+  //       parameters: [PAGE_SIZE, undefined, filter],
+  //     });
+  //     setAllUsers([users]);
+  //   }
+  //   BackHandler.addEventListener("hardwareBackPress", function () {
+  //     props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
+  //     return true;
+  //   });
+
+  //   loadUsers().catch().then();
+  // }, []);
   const processNext = async (direction: ButtonDirection) => {
     if (direction === ButtonDirection.BUTTON_BACKWARD) {
       setCurrentPage(Math.max(currentPage - 1, 0));
@@ -85,11 +94,13 @@ export default function AdminUserList(props: any) {
               size={20}
               color="#3F3BED"
               style={styles.searchIcon}
+              onPress={loadUsers}
             />
             <TextInput
               style={styles.searchInput}
               placeholder="Search by name or email"
               placeholderTextColor="grey"
+              onEndEditing={loadUsers}
             />
           </View>
           {allUsers.length > 0 &&
