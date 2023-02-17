@@ -18,8 +18,10 @@ import {
   VerificationLog,
 } from "src/utils/types";
 
-export const sendVerificationEmail = async(email: string, type: UserVerificationLogType) => {
-
+export const sendVerificationEmail = async (
+  email: string,
+  type: UserVerificationLogType
+) => {
   const user: User = (await findUserByEmail(email)) as User;
 
   if (!user) {
@@ -50,7 +52,7 @@ export const sendVerificationEmail = async(email: string, type: UserVerification
   }
 
   return verificationLog.expirationDate;
-} 
+};
 export default APIWrapper({
   POST: {
     config: {
@@ -62,8 +64,8 @@ export default APIWrapper({
       const email: string = req.body.email as string;
       const type: UserVerificationLogType = req.body
         .type as UserVerificationLogType;
-    
-    await sendVerificationEmail(email, type);
+
+      await sendVerificationEmail(email, type);
     },
   },
   PATCH: {
