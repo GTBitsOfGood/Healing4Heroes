@@ -74,25 +74,52 @@ export default function AddTrainingLogScreen(props: any) {
           />
 
           <Text style={styles.label}>Skills Displayed*</Text>
-          <SolidDropDown
-            items={{
-              "Post/Block": ServiceAnimalSkills.SKILL_POST_BLOCK,
-              "Lead/Follow": ServiceAnimalSkills.SKILL_LEAD_FOLLOW,
-              "Stay/Sit/Down": ServiceAnimalSkills.SKILL_STAY_SIT_DOWN,
-              Touch: ServiceAnimalSkills.SKILL_TOUCH,
-              Tuck: ServiceAnimalSkills.SKILL_TUCK,
-              Heel: ServiceAnimalSkills.SKILL_HEEL,
-            }}
-            isMultiselect={true}
-            placeholder="Select to Add"
-            callbackFunction={(
-              values: string[] | string,
-              keys: string[] | string
-            ) => {
-              setSkillValuesSelected([...(values as string[])]);
-              setSkillKeysSelected([...(keys as string[])]);
-            }}
-          />
+          {props.route.params.hoursCompleted > 800
+            ? <SolidDropDown
+              items={{
+                "Post/Block": ServiceAnimalSkills.SKILL_POST_BLOCK,
+                "Lead/Follow": ServiceAnimalSkills.SKILL_LEAD_FOLLOW,
+                "Stay/Sit/Down": ServiceAnimalSkills.SKILL_STAY_SIT_DOWN,
+                Touch: ServiceAnimalSkills.SKILL_TOUCH,
+                Tuck: ServiceAnimalSkills.SKILL_TUCK,
+                Heel: ServiceAnimalSkills.SKILL_HEEL,
+                "Wake/Nightmares": ServiceAnimalSkills.SKILL_WAKE_NIGHTMARES,
+                "Remind/Handler/Take/Medicine": ServiceAnimalSkills.SKILL_REMIND_HANDLER_TAKE_MEDICINE,
+                "Sweep/Room/Bad/Guys": ServiceAnimalSkills.SKILL_SWEEP_ROOM_BAD_GUYS,
+              }}
+              isMultiselect={true}
+              placeholder="Select to Add"
+              callbackFunction={(
+                values: string[] | string,
+                keys: string[] | string
+              ) => {
+                setSkillValuesSelected([...(values as string[])]);
+                setSkillKeysSelected([...(keys as string[])]);
+              }}
+            />
+            // Less than 800 hours:
+            :
+            <SolidDropDown
+              items={{
+                "Post/Block": ServiceAnimalSkills.SKILL_POST_BLOCK,
+                "Lead/Follow": ServiceAnimalSkills.SKILL_LEAD_FOLLOW,
+                "Stay/Sit/Down": ServiceAnimalSkills.SKILL_STAY_SIT_DOWN,
+                Touch: ServiceAnimalSkills.SKILL_TOUCH,
+                Tuck: ServiceAnimalSkills.SKILL_TUCK,
+                Heel: ServiceAnimalSkills.SKILL_HEEL,
+              }}
+              isMultiselect={true}
+              placeholder="Select to Add"
+              callbackFunction={(
+                values: string[] | string,
+                keys: string[] | string
+              ) => {
+                setSkillValuesSelected([...(values as string[])]);
+                setSkillKeysSelected([...(keys as string[])]);
+              }}
+            />
+          }
+
 
           <BubbleList items={skillKeysSelected} />
 
