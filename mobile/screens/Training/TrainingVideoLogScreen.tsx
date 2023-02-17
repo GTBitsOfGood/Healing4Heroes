@@ -37,6 +37,7 @@ export default function TrainingVideoLogScreen(props: any) {
 
   //input propagated from addTrainingLogPage
   const {
+    hoursCompleted,
     totalHours,
     skillValuesSelected,
     behavior,
@@ -107,7 +108,11 @@ export default function TrainingVideoLogScreen(props: any) {
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
-      props.navigation.navigate(Screens.ADD_TRAINING_LOG_SCREEN);
+      props.navigation.navigate({
+        name: Screens.ADD_TRAINING_LOG_SCREEN,
+        params: { hoursCompleted: hoursCompleted }
+      }
+      );
       return true;
     });
   }, []);

@@ -39,6 +39,7 @@ export default function AddTrainingLogScreen(props: any) {
     const validInput = validateInput();
     if (validInput) {
       props.navigation.navigate(Screens.UPLOAD_VIDEO_LOG_SCREEN, {
+        hoursCompleted: props.route.params.hoursCompleted,
         totalHours: totalHours,
         trainingLogDate: trainingLogDate.toString(),
         skillValuesSelected: skillValuesSelected,

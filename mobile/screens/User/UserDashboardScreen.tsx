@@ -144,7 +144,7 @@ export default function UserDashboardScreen(props: any) {
               navigation={props.navigation}
               disabled={!isEnabled}
               callbackFunction={() =>
-                props.navigation.navigate(Screens.ADD_TRAINING_LOG_SCREEN, { hoursCompleted })
+                props.navigation.navigate(Screens.ADD_TRAINING_LOG_SCREEN, { hoursCompleted: hoursCompleted })
               }
             />
             <LogButton
