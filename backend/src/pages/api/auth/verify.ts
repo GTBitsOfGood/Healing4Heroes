@@ -18,7 +18,7 @@ import {
   VerificationLog,
 } from "src/utils/types";
 
-export const sendVerificationEmail = async (
+const sendVerificationEmail = async (
   email: string,
   type: UserVerificationLogType
 ) => {
@@ -53,6 +53,7 @@ export const sendVerificationEmail = async (
 
   return verificationLog.expirationDate;
 };
+
 export default APIWrapper({
   POST: {
     config: {
