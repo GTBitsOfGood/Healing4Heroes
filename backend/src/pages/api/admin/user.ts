@@ -17,8 +17,9 @@ export default APIWrapper({
       const filter: UserFilter | undefined = req.body.filter as
         | UserFilter
         | undefined;
+      const searchText: string = req.body.searchText as string;
 
-      const users = await adminGetUsers(pageSize, afterId, filter);
+      const users = await adminGetUsers(pageSize, afterId, filter, searchText);
 
       return users;
     },
