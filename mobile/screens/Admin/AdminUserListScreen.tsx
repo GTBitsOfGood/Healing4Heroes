@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, View, TextInput } from "react-native";
+import React, {  useState } from "react";
+import { StyleSheet, View, TextInput } from "react-native";
 import UserEntry from "../../components/UserEntry";
 import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
@@ -11,7 +11,7 @@ import { AntDesign } from "@expo/vector-icons";
 const PAGE_SIZE = 6;
 
 export default function AdminUserList(props: any) {
-  const { filter } = props.route.params;
+  const {filter } = props.route.params;
   const [allUsers, setAllUsers] = useState<User[][]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState("");
@@ -35,7 +35,7 @@ export default function AdminUserList(props: any) {
       parameters: [PAGE_SIZE, undefined, filter, allUsers],
     });
     setAllUsers([users]);
-  }
+  };
 
   // useEffect(() => {
   //   async function loadUsers() {
@@ -100,7 +100,7 @@ export default function AdminUserList(props: any) {
               style={styles.searchInput}
               placeholder="Search by name or email"
               placeholderTextColor="grey"
-              onEndEditing={loadUsers}
+              onEndEditing={loadUsers}  
             />
           </View>
           {allUsers.length > 0 &&
