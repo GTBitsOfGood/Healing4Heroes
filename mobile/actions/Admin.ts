@@ -18,7 +18,7 @@ export const adminGetUsers = async (
   pageSize: number,
   afterId?: Types.ObjectId | string,
   filter?: UserFilter,
-  searchText?: String,
+  searchText?: string
 ) => {
   return internalRequest<User[]>({
     url: adminUserUrl,
@@ -28,7 +28,7 @@ export const adminGetUsers = async (
       afterId,
       pageSize,
       filter,
-      searchText
+      searchText,
     },
   });
 };

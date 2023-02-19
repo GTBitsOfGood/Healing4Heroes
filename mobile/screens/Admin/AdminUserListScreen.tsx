@@ -1,5 +1,5 @@
-import React, {  useState } from "react";
-import { StyleSheet, View, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, TextInput, BackHandler } from "react-native";
 import UserEntry from "../../components/UserEntry";
 import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
@@ -11,10 +11,11 @@ import { AntDesign } from "@expo/vector-icons";
 const PAGE_SIZE = 6;
 
 export default function AdminUserList(props: any) {
-  const {filter } = props.route.params;
+  const { filter } = props.route.params;
   const [allUsers, setAllUsers] = useState<User[][]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState("");
+  const [searchText, setSearchText] = useState("");
 
   const removeUserFromList = (errorMessage: string, userId: Types.ObjectId) => {
     if (errorMessage) {
@@ -28,31 +29,26 @@ export default function AdminUserList(props: any) {
     setAllUsers([...allUsers]);
   };
 
+  const searchUsers = (e: any) => {
+    setSearchText(e.target.value);
+    console.log(searchText);
+  };
+
   async function loadUsers() {
     const users = await ErrorWrapper({
       functionToExecute: adminGetUsers,
       errorHandler: setError,
-      parameters: [PAGE_SIZE, undefined, filter, allUsers],
+      parameters: [PAGE_SIZE, undefined, filter, searchText],
     });
     setAllUsers([users]);
-  };
+  }
 
-  // useEffect(() => {
-  //   async function loadUsers() {
-  //     const users = await ErrorWrapper({
-  //       functionToExecute: adminGetUsers,
-  //       errorHandler: setError,
-  //       parameters: [PAGE_SIZE, undefined, filter],
-  //     });
-  //     setAllUsers([users]);
-  //   }
-  //   BackHandler.addEventListener("hardwareBackPress", function () {
-  //     props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
-  //     return true;
-  //   });
-
-  //   loadUsers().catch().then();
-  // }, []);
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", function () {
+      props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
+      return true;
+    });
+  }, []);
   const processNext = async (direction: ButtonDirection) => {
     if (direction === ButtonDirection.BUTTON_BACKWARD) {
       setCurrentPage(Math.max(currentPage - 1, 0));
@@ -100,7 +96,8 @@ export default function AdminUserList(props: any) {
               style={styles.searchInput}
               placeholder="Search by name or email"
               placeholderTextColor="grey"
-              onEndEditing={loadUsers}  
+              onChange={searchUsers}
+              onEndEditing={loadUsers}
             />
           </View>
           {allUsers.length > 0 &&
