@@ -29,11 +29,6 @@ export default function AdminUserList(props: any) {
     setAllUsers([...allUsers]);
   };
 
-  const searchUsers = (e: any) => {
-    setSearchText(e.target.value);
-    console.log(searchText);
-  };
-
   async function loadUsers() {
     const users = await ErrorWrapper({
       functionToExecute: adminGetUsers,
@@ -48,6 +43,7 @@ export default function AdminUserList(props: any) {
       props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
       return true;
     });
+    loadUsers().catch().then();
   }, []);
   const processNext = async (direction: ButtonDirection) => {
     if (direction === ButtonDirection.BUTTON_BACKWARD) {
@@ -96,7 +92,7 @@ export default function AdminUserList(props: any) {
               style={styles.searchInput}
               placeholder="Search by name or email"
               placeholderTextColor="grey"
-              onChange={searchUsers}
+              onChange={(e: any) => setSearchText(e.target.value)}
               onEndEditing={loadUsers}
             />
           </View>
