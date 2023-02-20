@@ -88,17 +88,27 @@ export default function ViewSingleLogScreen(props: any) {
       {},
     );
 
-    await ensureDownloadDirectoryExists(video);
-    const file = await download.downloadAsync();
+    let file;
+    try {
+      await ensureDownloadDirectoryExists(video);
+      file = await download.downloadAsync();
 
-    if (!file) {
+      if (!file) {
+        throw Error("file does not exist");
+      }
+    } catch (e) {
+      setError("Failed to download video:" + (e as Error).message);
       setDownloadState(DownloadState.NotStarted);
-      throw new Error("Failed to download video");
+      return;
     }
 
-    await MediaLibrary.saveToLibraryAsync(file.uri);
-
-    setDownloadState(DownloadState.Complete);
+    try {
+      await MediaLibrary.saveToLibraryAsync(file.uri);
+      setDownloadState(DownloadState.Complete);
+    } catch (e) {
+      setError("Failed to save video to media library. Please ensure the app has photo access in your phone's settings.");
+      setDownloadState(DownloadState.NotStarted);
+    }
   }
 
   return (
