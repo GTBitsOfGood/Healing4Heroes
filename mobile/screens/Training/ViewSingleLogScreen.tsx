@@ -3,7 +3,7 @@ import { BackHandler, StyleSheet, Text, View, Image } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { userGetUserInfo } from "../../actions/User";
-import {DownloadState, Role} from "../../utils/types";
+import { DownloadState, Role } from "../../utils/types";
 import { getFile, getVideo } from "../../utils/storage";
 import { ResizeMode, Video } from "expo-av";
 import GenericHeader from "../../components/GenericHeader";
@@ -30,7 +30,9 @@ export default function ViewSingleLogScreen(props: any) {
   } = props.route.params;
 
   const [videoUrl, setVideoUrl] = useState<string>("");
-  const [downloadState, setDownloadState] = useState<DownloadState>(DownloadState.NotStarted);
+  const [downloadState, setDownloadState] = useState<DownloadState>(
+    DownloadState.NotStarted
+  );
   const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
   const [error, setError] = useState("");
   useEffect(() => {
@@ -64,20 +66,19 @@ export default function ViewSingleLogScreen(props: any) {
 
   const getFullDownloadPath = (path: string) => {
     return FileSystem.documentDirectory + path;
-  }
+  };
 
   const ensureDownloadDirectoryExists = async (path: string) => {
     if (!path.includes("/")) {
       return;
     }
 
-    const directory = path.substring(0, path.lastIndexOf('/'));
+    const directory = path.substring(0, path.lastIndexOf("/"));
 
-    await FileSystem.makeDirectoryAsync(
-      getFullDownloadPath(directory),
-      { intermediates: true }
-    );
-  }
+    await FileSystem.makeDirectoryAsync(getFullDownloadPath(directory), {
+      intermediates: true,
+    });
+  };
 
   const downloadVideo = async () => {
     setDownloadState(DownloadState.InProgress);
@@ -85,7 +86,7 @@ export default function ViewSingleLogScreen(props: any) {
     const download = FileSystem.createDownloadResumable(
       videoUrl,
       getFullDownloadPath(video),
-      {},
+      {}
     );
 
     let file;
@@ -106,10 +107,12 @@ export default function ViewSingleLogScreen(props: any) {
       await MediaLibrary.saveToLibraryAsync(file.uri);
       setDownloadState(DownloadState.Complete);
     } catch (e) {
-      setError("Failed to save video to media library. Please ensure the app has photo access in your phone's settings.");
+      setError(
+        "Failed to save video to media library. Please ensure the app has photo access in your phone's settings."
+      );
       setDownloadState(DownloadState.NotStarted);
     }
-  }
+  };
 
   return (
     <BaseOverlay
@@ -132,7 +135,10 @@ export default function ViewSingleLogScreen(props: any) {
                 useNativeControls
                 isLooping
               />
-              <DownloadButton state={downloadState} callbackFunction={() => downloadVideo()}/>
+              <DownloadButton
+                state={downloadState}
+                callbackFunction={() => downloadVideo()}
+              />
             </>
           )}
           {thumbnailUrl && (
