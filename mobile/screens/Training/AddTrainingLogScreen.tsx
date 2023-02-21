@@ -31,11 +31,11 @@ export default function AddTrainingLogScreen(props: any) {
   };
 
   if (props.route.params.hoursCompleted > 800) {
-    skillsDropDownItems["Wake/Nightmares"] =
+    skillsDropDownItems["Wake from nightmares"] =
       ServiceAnimalSkills.SKILL_WAKE_NIGHTMARES;
-    skillsDropDownItems["Remind/Handler/Take/Medicine"] =
+    skillsDropDownItems["Remind handler to take medicine"] =
       ServiceAnimalSkills.SKILL_REMIND_HANDLER_TAKE_MEDICINE;
-    skillsDropDownItems["Sweep/Room/Bad/Guys"] =
+    skillsDropDownItems["Sweep room for bad guys"] =
       ServiceAnimalSkills.SKILL_SWEEP_ROOM_BAD_GUYS;
   }
 
