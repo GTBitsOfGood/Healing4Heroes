@@ -146,6 +146,7 @@ export default function TrainingVideoLogScreen(props: any) {
       error={error}
       buttonFunction={createTrainingLog}
       numberSelected={2}
+      navigationProp={props.navigation}
       pageBody={
         <View style={styles.container}>
           <Text style={styles.label}>Video Log</Text>
