@@ -110,9 +110,8 @@ export default function TrainingVideoLogScreen(props: any) {
     BackHandler.addEventListener("hardwareBackPress", function () {
       props.navigation.navigate({
         name: Screens.ADD_TRAINING_LOG_SCREEN,
-        params: { hoursCompleted: hoursCompleted }
-      }
-      );
+        params: { hoursCompleted: hoursCompleted },
+      });
       return true;
     });
   }, []);

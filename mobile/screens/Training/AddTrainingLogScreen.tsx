@@ -3,7 +3,12 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import BubbleList from "../../components/BubbleList";
 import SolidDropDown from "../../components/SolidDropDown";
 import StepOverlay from "../../components/Overlays/StepOverlay";
-import { BehaviorTypes, Screens, ServiceAnimalSkills, DropDownType } from "../../utils/types";
+import {
+  BehaviorTypes,
+  Screens,
+  ServiceAnimalSkills,
+  DropDownType,
+} from "../../utils/types";
 import DateInput from "../../components/DateInput";
 
 export default function AddTrainingLogScreen(props: any) {
@@ -16,21 +21,22 @@ export default function AddTrainingLogScreen(props: any) {
   const [trainingLogDate, setTrainingLogDate] = useState<Date>(new Date());
   const [error, setError] = useState("");
 
-
-
   let skillsDropDownItems: DropDownType = {
     "Post/Block": ServiceAnimalSkills.SKILL_POST_BLOCK,
     "Lead/Follow": ServiceAnimalSkills.SKILL_LEAD_FOLLOW,
     "Stay/Sit/Down": ServiceAnimalSkills.SKILL_STAY_SIT_DOWN,
-    "Touch": ServiceAnimalSkills.SKILL_TOUCH,
-    "Tuck": ServiceAnimalSkills.SKILL_TUCK,
-    "Heel": ServiceAnimalSkills.SKILL_HEEL,
+    Touch: ServiceAnimalSkills.SKILL_TOUCH,
+    Tuck: ServiceAnimalSkills.SKILL_TUCK,
+    Heel: ServiceAnimalSkills.SKILL_HEEL,
   };
 
   if (props.route.params.hoursCompleted > 800) {
-    skillsDropDownItems["Wake/Nightmares"] = ServiceAnimalSkills.SKILL_WAKE_NIGHTMARES
-    skillsDropDownItems["Remind/Handler/Take/Medicine"] = ServiceAnimalSkills.SKILL_REMIND_HANDLER_TAKE_MEDICINE
-    skillsDropDownItems["Sweep/Room/Bad/Guys"] = ServiceAnimalSkills.SKILL_SWEEP_ROOM_BAD_GUYS
+    skillsDropDownItems["Wake/Nightmares"] =
+      ServiceAnimalSkills.SKILL_WAKE_NIGHTMARES;
+    skillsDropDownItems["Remind/Handler/Take/Medicine"] =
+      ServiceAnimalSkills.SKILL_REMIND_HANDLER_TAKE_MEDICINE;
+    skillsDropDownItems["Sweep/Room/Bad/Guys"] =
+      ServiceAnimalSkills.SKILL_SWEEP_ROOM_BAD_GUYS;
   }
 
   const validateInput = () => {
@@ -104,7 +110,6 @@ export default function AddTrainingLogScreen(props: any) {
               setSkillKeysSelected([...(keys as string[])]);
             }}
           />
-
 
           <BubbleList items={skillKeysSelected} />
 
