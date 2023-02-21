@@ -64,12 +64,14 @@ export default function UserDashboardScreen(props: any) {
         setUserInfo(user);
         setAnimalInfo(animal);
         setHoursCompleted(animal?.totalHours);
-        const imageData = await ErrorWrapper({
-          functionToExecute: getFile,
-          errorHandler: setError,
-          parameters: [animal?.profileImage as string],
-        });
-        setAnimalImage(imageData as string);
+        if (animal.profileImage) {
+          const imageData = await ErrorWrapper({
+            functionToExecute: getFile,
+            errorHandler: setError,
+            parameters: [animal.profileImage as string],
+          });
+          setAnimalImage(imageData as string);
+        }
         setEnabled(user?.emailVerified && user?.verifiedByAdmin);
       } catch (error) {
         endOfExecutionHandler(error as Error);
