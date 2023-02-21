@@ -21,7 +21,7 @@ export default function AddTrainingLogScreen(props: any) {
   const [trainingLogDate, setTrainingLogDate] = useState<Date>(new Date());
   const [error, setError] = useState("");
 
-  let skillsDropDownItems: DropDownType = {
+  const skillsDropDownItems: DropDownType = {
     "Post/Block": ServiceAnimalSkills.SKILL_POST_BLOCK,
     "Lead/Follow": ServiceAnimalSkills.SKILL_LEAD_FOLLOW,
     "Stay/Sit/Down": ServiceAnimalSkills.SKILL_STAY_SIT_DOWN,

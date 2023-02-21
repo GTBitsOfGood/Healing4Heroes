@@ -151,6 +151,7 @@ export enum Screens {
   VIEW_ALL_ANNOUNCEMENTS_SCREEN = "View All Announcements",
   VIEW_SINGLE_ANNOUNCEMENT_SCREEN = "View Single Announcement",
   BASE_OVERLAY_EXAMPLE_SCREEN = "Base Overlay Example Screen",
+  ANALYTICS_DASHBOARD_SCREEN = "Analytics Dashboard",
 }
 
 export enum UserFilter {
