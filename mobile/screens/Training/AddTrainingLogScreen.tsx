@@ -3,7 +3,12 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import BubbleList from "../../components/BubbleList";
 import SolidDropDown from "../../components/SolidDropDown";
 import StepOverlay from "../../components/Overlays/StepOverlay";
-import { BehaviorTypes, Screens, ServiceAnimalSkills } from "../../utils/types";
+import {
+  BehaviorTypes,
+  Screens,
+  ServiceAnimalSkills,
+  DropDownType,
+} from "../../utils/types";
 import DateInput from "../../components/DateInput";
 
 export default function AddTrainingLogScreen(props: any) {
@@ -15,6 +20,24 @@ export default function AddTrainingLogScreen(props: any) {
   const [behaviorNote, setBehaviorNote] = useState("");
   const [trainingLogDate, setTrainingLogDate] = useState<Date>(new Date());
   const [error, setError] = useState("");
+
+  let skillsDropDownItems: DropDownType = {
+    "Post/Block": ServiceAnimalSkills.SKILL_POST_BLOCK,
+    "Lead/Follow": ServiceAnimalSkills.SKILL_LEAD_FOLLOW,
+    "Stay/Sit/Down": ServiceAnimalSkills.SKILL_STAY_SIT_DOWN,
+    Touch: ServiceAnimalSkills.SKILL_TOUCH,
+    Tuck: ServiceAnimalSkills.SKILL_TUCK,
+    Heel: ServiceAnimalSkills.SKILL_HEEL,
+  };
+
+  if (props.route.params.hoursCompleted > 800) {
+    skillsDropDownItems["Wake/Nightmares"] =
+      ServiceAnimalSkills.SKILL_WAKE_NIGHTMARES;
+    skillsDropDownItems["Remind/Handler/Take/Medicine"] =
+      ServiceAnimalSkills.SKILL_REMIND_HANDLER_TAKE_MEDICINE;
+    skillsDropDownItems["Sweep/Room/Bad/Guys"] =
+      ServiceAnimalSkills.SKILL_SWEEP_ROOM_BAD_GUYS;
+  }
 
   const validateInput = () => {
     if (!totalHours) {
@@ -39,6 +62,7 @@ export default function AddTrainingLogScreen(props: any) {
     const validInput = validateInput();
     if (validInput) {
       props.navigation.navigate(Screens.UPLOAD_VIDEO_LOG_SCREEN, {
+        hoursCompleted: props.route.params.hoursCompleted,
         totalHours: totalHours,
         trainingLogDate: trainingLogDate.toString(),
         skillValuesSelected: skillValuesSelected,
@@ -75,14 +99,7 @@ export default function AddTrainingLogScreen(props: any) {
 
           <Text style={styles.label}>Skills Displayed*</Text>
           <SolidDropDown
-            items={{
-              "Post/Block": ServiceAnimalSkills.SKILL_POST_BLOCK,
-              "Lead/Follow": ServiceAnimalSkills.SKILL_LEAD_FOLLOW,
-              "Stay/Sit/Down": ServiceAnimalSkills.SKILL_STAY_SIT_DOWN,
-              Touch: ServiceAnimalSkills.SKILL_TOUCH,
-              Tuck: ServiceAnimalSkills.SKILL_TUCK,
-              Heel: ServiceAnimalSkills.SKILL_HEEL,
-            }}
+            items={skillsDropDownItems}
             isMultiselect={true}
             placeholder="Select to Add"
             callbackFunction={(
