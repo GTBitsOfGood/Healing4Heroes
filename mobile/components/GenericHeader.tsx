@@ -22,7 +22,7 @@ export default function GenericHeader({
         }}
       ></IconButton>
       <Text style={styles.header}>{headerTitle}</Text>
-      <View></View>
+      <View style={styles.spacer}></View>
     </View>
   );
 }
@@ -41,5 +41,8 @@ const styles = StyleSheet.create({
     fontFamily: "DMSans-Bold",
     color: "grey",
     fontSize: 16,
+  },
+  spacer: {
+    width: 26,
   },
 });
