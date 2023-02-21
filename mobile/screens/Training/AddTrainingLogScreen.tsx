@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import BubbleList from "../../components/BubbleList";
 import SolidDropDown from "../../components/SolidDropDown";
 import StepOverlay from "../../components/Overlays/StepOverlay";
-import { BehaviorTypes, Screens, ServiceAnimalSkills } from "../../utils/types";
+import { BehaviorTypes, Screens, ServiceAnimalSkills, DropDownType } from "../../utils/types";
 import DateInput from "../../components/DateInput";
 
 export default function AddTrainingLogScreen(props: any) {
@@ -16,9 +16,7 @@ export default function AddTrainingLogScreen(props: any) {
   const [trainingLogDate, setTrainingLogDate] = useState<Date>(new Date());
   const [error, setError] = useState("");
 
-  interface DropDownType {
-    [key: string]: any
-  }
+
 
   let skillsDropDownItems: DropDownType = {
     "Post/Block": ServiceAnimalSkills.SKILL_POST_BLOCK,

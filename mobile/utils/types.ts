@@ -32,6 +32,10 @@ export enum ServiceAnimalSkills {
   SKILL_SWEEP_ROOM_BAD_GUYS = "Sweep/Room/Bad/Guys",
 }
 
+export interface DropDownType {
+  [key: string]: ServiceAnimalSkills;
+}
+
 export interface User {
   _id: Types.ObjectId;
   firstName: string;
