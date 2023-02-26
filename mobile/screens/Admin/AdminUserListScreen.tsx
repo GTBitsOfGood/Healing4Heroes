@@ -72,6 +72,11 @@ export default function AdminUserList(props: any) {
       }
     }
   };
+
+  function handleChange(event : any) {
+    console.log(event);
+    alert(event)
+  }
   return (
     <PaginatedOverlay
       navigationProp={props.navigation}
@@ -92,7 +97,8 @@ export default function AdminUserList(props: any) {
               style={styles.searchInput}
               placeholder="Search by name or email"
               placeholderTextColor="grey"
-              onChange={(e: any) => setSearchText(e.target.value)}
+              // onChange={(e : any) => setSearchText(e.target.value)} 
+              onChange={handleChange}
               onEndEditing={loadUsers}
             />
           </View>
