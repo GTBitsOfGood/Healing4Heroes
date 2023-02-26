@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, View } from "react-native";
+import { BackHandler, StyleSheet, View, Text } from "react-native";
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
 import GenericHeader from "../../components/GenericHeader";
-import { VictoryLine, VictoryChart, VictoryTheme } from "victory-native";
-
+import {
+  VictoryAxis,
+  VictoryLine,
+  VictoryChart,
+  VictoryTheme,
+} from "victory-native";
 
 export default function AnalyticsDashboardScreen(props: any) {
   const [error, setError] = useState("");
 
   const fakeData = {
-    totalUsers: 148,
+    totalUsers: 150,
     activeUsers: 27,
     negativeBehaviorLogGraph: [10, 2, 3, 4, 7, 9, 20, 9, 0, 1, 2, 3, 1],
     usersCompletedTraining: 16,
@@ -31,29 +35,42 @@ export default function AnalyticsDashboardScreen(props: any) {
     <BaseOverlay
       header={
         <GenericHeader
-          headerTitle="Analytics"
+          headerTitle="Analytics Dashboard"
           navigationProp={props.navigation}
         />
       }
       body={
         <View style={styles.container}>
-          <VictoryChart
-            theme={VictoryTheme.material}
-          >
-            <VictoryLine
-              style={{
-                data: { stroke: "#c43a31" },
-                parent: { border: "1px solid #ccc" }
-              }}
-              data={[
-                { x: 1, y: 2 },
-                { x: 2, y: 3 },
-                { x: 3, y: 5 },
-                { x: 4, y: 4 },
-                { x: 5, y: 7 }
-              ]}
-            />
-          </VictoryChart>
+          <View style={styles.analyticsContainer}>
+            <Text style={styles.boxTitle}>Active Users</Text>
+            <Text style={styles.bigBlueText}>{fakeData.activeUsers}</Text>
+            <Text style={styles.mediumGrayText}>/{fakeData.totalUsers}</Text>
+            <Text style={styles.bottomRightText}>Last two weeks</Text>
+          </View>
+
+          <View style={styles.graphContainer}>
+            <Text style={styles.boxTitle}>Negative Behavioral</Text>
+            <View>
+              <VictoryChart theme={VictoryTheme.material}>
+                <VictoryLine
+                  interpolation="natural"
+                  style={{
+                    data: { stroke: "blue" },
+                    parent: { border: "1px solid #ccc" },
+                  }}
+                  data={fakeData.negativeBehaviorLogGraph}
+                />
+                <VictoryAxis
+                  style={{
+                    axis: { stroke: "transparent" },
+                    ticks: { stroke: "transparent" },
+                    tickLabels: { fill: "transparent" },
+                    grid: { stroke: "transparent" },
+                  }}
+                />
+              </VictoryChart>
+            </View>
+          </View>
         </View>
       }
       footer={<ErrorBox errorMessage={error} />}
@@ -66,7 +83,44 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     backgroundColor: "#f2f2f2",
-    flexDirection: "column",
-    margin: 3,
+    flexDirection: "row",
+  },
+  analyticsContainer: {
+    flex: 1,
+    marginRight: 3,
+    padding: 6,
+    borderRadius: 12,
+    alignItems: "center",
+    backgroundColor: "#fff",
+    height: "100%",
+  },
+  graphContainer: {
+    flex: 1,
+    marginLeft: 3,
+    padding: 6,
+    borderRadius: 12,
+    alignItems: "center",
+    backgroundColor: "#fff",
+    height: "100%",
+  },
+  boxTitle: {
+    fontFamily: "DMSans-Bold",
+    color: "grey",
+    fontSize: 10,
+  },
+  bigBlueText: {
+    fontFamily: "DMSans-Bold",
+    color: "blue",
+    fontSize: 22,
+  },
+  mediumGrayText: {
+    fontFamily: "DMSans-Bold",
+    color: "grey",
+    fontSize: 16,
+  },
+  bottomRightText: {
+    fontFamily: "DMSans",
+    color: "grey",
+    fontSize: 7,
   },
 });
