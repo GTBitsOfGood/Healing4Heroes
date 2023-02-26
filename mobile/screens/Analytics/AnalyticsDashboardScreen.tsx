@@ -49,14 +49,13 @@ export default function AnalyticsDashboardScreen(props: any) {
           </View>
 
           <View style={styles.graphContainer}>
-            <Text style={styles.boxTitle}>Negative Behavioral</Text>
+            <Text style={styles.boxTitle}>Negative Behavior</Text>
             <View>
-              <VictoryChart theme={VictoryTheme.material}>
+              <VictoryChart height={150} width={200}>
                 <VictoryLine
                   interpolation="natural"
                   style={{
                     data: { stroke: "blue" },
-                    parent: { border: "1px solid #ccc" },
                   }}
                   data={fakeData.negativeBehaviorLogGraph}
                 />
@@ -88,16 +87,15 @@ const styles = StyleSheet.create({
   analyticsContainer: {
     flex: 1,
     marginRight: 3,
-    padding: 6,
+    padding: 10,
     borderRadius: 12,
-    alignItems: "center",
     backgroundColor: "#fff",
     height: "100%",
   },
   graphContainer: {
     flex: 1,
     marginLeft: 3,
-    padding: 6,
+    padding: 10,
     borderRadius: 12,
     alignItems: "center",
     backgroundColor: "#fff",
@@ -117,6 +115,7 @@ const styles = StyleSheet.create({
     fontFamily: "DMSans-Bold",
     color: "grey",
     fontSize: 16,
+    flexWrap: "wrap",
   },
   bottomRightText: {
     fontFamily: "DMSans",
