@@ -4,6 +4,8 @@ import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
 import GenericHeader from "../../components/GenericHeader";
+import { VictoryLine, VictoryChart, VictoryTheme } from "victory-native";
+
 
 export default function AnalyticsDashboardScreen(props: any) {
   const [error, setError] = useState("");
