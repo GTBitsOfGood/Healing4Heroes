@@ -115,6 +115,23 @@ export enum BehaviorTypes {
   OTHER = "Other",
 }
 
+export interface Analytics {
+  /* total # of verified users */
+  totalUsers: number;
+
+  /* # of users who submitted a log in the past 2 weeks */
+  activeUsers: number;
+
+  /* # of users with 800+ hours logged */
+  usersCompletedTraining: number;
+
+  /* array of length 12 with # of negative behavior logs/week in past 12 weeks.*/
+  negativeBehaviorLogGraph: number[];
+
+  /* array of length 12 with # of cumulative training hours per month for the current year. */
+  cumulativeTrainingHours: number[];
+}
+
 /* Internal Request & API Wrapper Types */
 
 export enum HttpMethod {
