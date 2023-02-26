@@ -73,10 +73,11 @@ export default function AdminUserList(props: any) {
     }
   };
 
-  function handleChange(event : any) {
-    console.log(event);
-    alert(event)
-  }
+  // function handleChange(event) {
+  //   const {name, type, value} = event.nativeEvent;
+  //   const data = value
+  //   setSearchText({[name]: data})
+  // }
   return (
     <PaginatedOverlay
       navigationProp={props.navigation}
@@ -98,7 +99,10 @@ export default function AdminUserList(props: any) {
               placeholder="Search by name or email"
               placeholderTextColor="grey"
               // onChange={(e : any) => setSearchText(e.target.value)} 
-              onChange={handleChange}
+              onChange = {(e) =>{    
+                const {eventCount, target, text} = e.nativeEvent;
+                setSearchText(text);
+              }}
               onEndEditing={loadUsers}
             />
           </View>
