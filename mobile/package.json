@@ -40,6 +40,7 @@
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.7",
     "uuid": "^9.0.0",
+    "victory": "^36.6.8",
     "victory-native": "^36.6.8"
   },
   "devDependencies": {

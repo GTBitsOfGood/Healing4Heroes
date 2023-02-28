@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BackHandler, StyleSheet, View } from "react-native";
+import { VictoryChart, VictoryBar, VictoryTheme, VictoryAxis, VictoryLabel } from 'victory';
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
@@ -25,6 +26,9 @@ export default function AnalyticsDashboardScreen(props: any) {
     });
   }, []);
 
+  const month: string[] = [ "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+  
   return (
     <BaseOverlay
       header={
@@ -32,8 +36,55 @@ export default function AnalyticsDashboardScreen(props: any) {
           headerTitle="Analytics"
           navigationProp={props.navigation}
         />
+        
       }
-      body={<View style={styles.container}></View>}
+      body={
+      <div> 
+          <View style={styles.container}>
+        <VictoryChart
+        padding={{ top: 20, bottom: 30, left: 40, right: 20 }}
+        domainPadding={{ x: 20 }}
+        theme={VictoryTheme.material}
+        height={250}
+        >
+        <VictoryAxis
+
+          domain={{x: [0, 12]}}
+            style={{
+              tickLabels: {
+                fontSize: 10
+              }
+            }}
+          />
+          <VictoryAxis
+            dependentAxis
+
+            domain={{x: [0, 700]}}
+            orientation="left"
+            style={{ tickLabels: { fontSize: 10 } }}
+          />
+        <VictoryBar
+          style={{ data: { fill: "#00FFFF" }}}
+          barWidth={5}
+          alignment="start"
+
+          data={month.map(function(e, i) {
+            return [e, fakeData.cumulativeTrainingHours[i]];
+          })}
+          x={0}
+          y={1}
+
+          labelComponent={<VictoryLabel y={250} verticalAnchor={"start"} />}
+
+        />
+      </VictoryChart>
+      </View>
+
+        
+        
+
+      </div>
+      }
       footer={<ErrorBox errorMessage={error} />}
     />
   );
@@ -43,8 +94,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-start",
+    alignItems: "center",
     backgroundColor: "#f2f2f2",
     flexDirection: "column",
-    margin: 3,
-  },
+    width: 400
+  }
 });
