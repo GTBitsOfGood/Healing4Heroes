@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, View } from "react-native";
+import { BackHandler, StyleSheet, View, Text } from "react-native";
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
 import GenericHeader from "../../components/GenericHeader";
+import { VictoryPie } from "victory-native";
 
 export default function AnalyticsDashboardScreen(props: any) {
   const [error, setError] = useState("");
@@ -29,11 +30,27 @@ export default function AnalyticsDashboardScreen(props: any) {
     <BaseOverlay
       header={
         <GenericHeader
-          headerTitle="Analytics"
+          headerTitle='Analytics'
           navigationProp={props.navigation}
         />
       }
-      body={<View style={styles.container}></View>}
+      body={
+        <View style={styles.container}>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text style={styles.title}>Users Who Completed Training</Text>
+            <Text style={styles.subtitle}>800 hours</Text>
+          </View>
+          <VictoryPie
+            name={"Hi"}
+            data={[
+              { x: "Cats", y: 35 },
+              { x: "Dogs", y: 40 },
+              { x: "Birds", y: 55 },
+            ]}
+            width={370}
+          />
+        </View>
+      }
       footer={<ErrorBox errorMessage={error} />}
     />
   );
@@ -43,8 +60,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-start",
+    alignItems: "center",
     backgroundColor: "#f2f2f2",
     flexDirection: "column",
     margin: 3,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: "#727272",
+  },
+  subtitle: {
+    fontSize: 15,
+    color: "#9eb3bf",
+    fontWeight: "500",
   },
 });
