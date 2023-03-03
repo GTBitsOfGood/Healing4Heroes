@@ -4,12 +4,7 @@ import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
 import GenericHeader from "../../components/GenericHeader";
-import {
-  VictoryAxis,
-  VictoryLine,
-  VictoryChart,
-  VictoryTheme,
-} from "victory-native";
+import { VictoryAxis, VictoryLine, VictoryChart } from "victory-native";
 
 export default function AnalyticsDashboardScreen(props: any) {
   const [error, setError] = useState("");
@@ -43,15 +38,28 @@ export default function AnalyticsDashboardScreen(props: any) {
         <View style={styles.container}>
           <View style={styles.analyticsContainer}>
             <Text style={styles.boxTitle}>Active Users</Text>
-            <Text style={styles.bigBlueText}>{fakeData.activeUsers}</Text>
-            <Text style={styles.mediumGrayText}>/{fakeData.totalUsers}</Text>
-            <Text style={styles.bottomRightText}>Last two weeks</Text>
+            <View style={styles.sideBySideText}>
+              <Text style={styles.bigBlueText}>{fakeData.activeUsers}</Text>
+              <Text style={styles.mediumGrayText}>/{fakeData.totalUsers}</Text>
+            </View>
+            <View style={styles.bottomRightText}>
+              <Text style={styles.bottomRightTextFont}>Last two weeks</Text>
+            </View>
           </View>
 
           <View style={styles.graphContainer}>
             <Text style={styles.boxTitle}>Negative Behavior</Text>
             <View>
-              <VictoryChart height={150} width={200}>
+              <VictoryChart
+                height={140}
+                width={200}
+                domain={{
+                  y: [
+                    Math.min(...fakeData.negativeBehaviorLogGraph) - 2,
+                    Math.max(...fakeData.negativeBehaviorLogGraph) + 2,
+                  ],
+                }}
+              >
                 <VictoryLine
                   interpolation="natural"
                   style={{
@@ -90,7 +98,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 12,
     backgroundColor: "#fff",
-    height: "100%",
+    height: 130,
+    flexDirection: "column",
   },
   graphContainer: {
     flex: 1,
@@ -99,27 +108,37 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center",
     backgroundColor: "#fff",
-    height: "100%",
+    height: 130,
   },
   boxTitle: {
     fontFamily: "DMSans-Bold",
     color: "grey",
     fontSize: 10,
   },
+  sideBySideText: {
+    paddingTop: 10,
+    flexDirection: "row",
+  },
   bigBlueText: {
     fontFamily: "DMSans-Bold",
     color: "blue",
     fontSize: 22,
+    justifyContent: "flex-start",
   },
   mediumGrayText: {
     fontFamily: "DMSans-Bold",
     color: "grey",
     fontSize: 16,
-    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    paddingTop: 5,
+    bottom: 0,
+    right: 0,
   },
-  bottomRightText: {
+  bottomRightTextFont: {
     fontFamily: "DMSans",
     color: "grey",
     fontSize: 7,
+    marginTop: 45,
+    marginLeft: 40
   },
 });
