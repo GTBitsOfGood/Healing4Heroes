@@ -14,8 +14,8 @@ export default APIWrapper({
           and if not, indicate that in the response. */
       const afterId: Types.ObjectId = req.body.afterId as Types.ObjectId;
       const pageSize: number = req.body.pageSize as number;
-      const filter: UserFilter | undefined = req.body.filter as
-        | UserFilter
+      const filter: UserFilter| undefined = req.body.filter as
+        | UserFilter 
         | undefined;
 
       const users = await adminGetUsers(pageSize, afterId, filter);

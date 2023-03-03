@@ -170,6 +170,7 @@ export enum UserFilter {
   NONPROFIT_ADMINS = "admins",
   UNVERIFIED_USERS = "unverified users",
   WITH_800_HOURS_USERS = "users with 800 users",
+  WITHOUT_800_HOURS_USERS = "users without 800 hours"
 }
 
 export enum StorageLocation {
