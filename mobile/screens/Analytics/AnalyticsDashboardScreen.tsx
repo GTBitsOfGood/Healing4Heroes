@@ -72,6 +72,10 @@ export default function AnalyticsDashboardScreen(props: any) {
             gutter={20}
             style={{
               title: { fontSize: 0 },
+              labels: {
+                fill: "#868686",
+                fontWeight: 600,
+              },
             }}
             data={[
               { name: "Not yet", symbol: { fill: "#403bf6" } },
