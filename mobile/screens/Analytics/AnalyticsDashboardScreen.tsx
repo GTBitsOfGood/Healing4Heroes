@@ -56,7 +56,6 @@ export default function AnalyticsDashboardScreen(props: any) {
             height={400}
             style={{
               labels: { display: "none" },
-              data: {},
               parent: {
                 marginBottom: -70,
               },
@@ -73,9 +72,6 @@ export default function AnalyticsDashboardScreen(props: any) {
             gutter={20}
             style={{
               title: { fontSize: 0 },
-              parent: {
-                overflow: "visible",
-              },
             }}
             data={[
               { name: "Not yet", symbol: { fill: "#403bf6" } },
