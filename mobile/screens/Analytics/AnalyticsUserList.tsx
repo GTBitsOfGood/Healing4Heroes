@@ -15,8 +15,9 @@ export default function AnalyticsUserList(props: any) {
   const [allUsers, setAllUsers] = useState<User[][]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState("");
-  const filter = completed ? UserFilter.WITH_800_HOURS_USERS : UserFilter.WITHOUT_800_HOURS_USERS;
-
+  const filter = completed
+    ? UserFilter.WITH_800_HOURS_USERS
+    : UserFilter.WITHOUT_800_HOURS_USERS;
 
   useEffect(() => {
     async function loadUsers() {
@@ -65,7 +66,11 @@ export default function AnalyticsUserList(props: any) {
     <PaginatedOverlay
       navigationProp={props.navigation}
       paginationButtonFunction={processNext}
-      headerTitle={"Users Who Completed Training"}
+      headerTitle={
+        completed == true
+          ? "Users Who Completed Training"
+          : "Useres Who Did Not Complete Training"
+      }
       errorMessage={error}
       pageBody={
         <View style={styles.container}>

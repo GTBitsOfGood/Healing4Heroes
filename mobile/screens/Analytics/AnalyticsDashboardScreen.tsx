@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  BackHandler,
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-} from "react-native";
+import { BackHandler, StyleSheet, View, Text, Dimensions } from "react-native";
 import {
   VictoryChart,
   VictoryBar,
@@ -14,6 +8,7 @@ import {
   VictoryLabel,
   VictoryGroup,
   VictoryArea,
+  Slice,
 } from "victory-native";
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
@@ -221,6 +216,38 @@ export default function AnalyticsDashboardScreen(props: any) {
                 },
               }}
               colorScale={["#d0ceed", "#403bf6"]}
+              events={[
+                {
+                  target: "data",
+                  eventHandlers: {
+                    // onPress: () => {
+                    //        props.navigation.navigate(
+                    //           Screens.ANALYTICS_USER_LIST,
+                    //           { completed: false})
+
+                    // }
+                    onPress: () => {
+                      return [
+                        {
+                          target: "data",
+                          mutation: (dt) => {
+                            const usersGood = dt.datum.y;
+                            return usersGood === completedUsers
+                              ? props.navigation.navigate(
+                                  Screens.ANALYTICS_USER_LIST,
+                                  { completed: true }
+                                )
+                              : props.navigation.navigate(
+                                  Screens.ANALYTICS_USER_LIST,
+                                  { completed: false }
+                                );
+                          },
+                        },
+                      ];
+                    },
+                  },
+                },
+              ]}
             />
             <VictoryLegend
               x={118}

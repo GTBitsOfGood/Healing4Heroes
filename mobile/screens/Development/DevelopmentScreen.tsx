@@ -103,10 +103,9 @@ export default function DevelopmentScreen(props: any) {
       <TouchableOpacity
         onPress={() =>
           //props.navigation.navigate(Screens.ANALYTICS_USER_LIST)
-          props.navigation.navigate(
-            Screens.ANALYTICS_USER_LIST,
-            { completed: true },
-          )
+          props.navigation.navigate(Screens.ANALYTICS_USER_LIST, {
+            completed: true,
+          })
         }
         style={styles.buttonItem}
       >
@@ -115,10 +114,9 @@ export default function DevelopmentScreen(props: any) {
       <TouchableOpacity
         onPress={() =>
           //props.navigation.navigate(Screens.ANALYTICS_USER_LIST)
-          props.navigation.navigate(
-            Screens.ANALYTICS_USER_LIST,
-            { completed: false },
-          )
+          props.navigation.navigate(Screens.ANALYTICS_USER_LIST, {
+            completed: false,
+          })
         }
         style={styles.buttonItem}
       >
