@@ -113,7 +113,8 @@ const styles = StyleSheet.create({
   boxTitle: {
     fontFamily: "DMSans-Bold",
     color: "grey",
-    fontSize: 10,
+    fontSize: 12,
+    justifyContent: 'flex-start'
   },
   sideBySideText: {
     paddingTop: 10,
@@ -122,23 +123,26 @@ const styles = StyleSheet.create({
   bigBlueText: {
     fontFamily: "DMSans-Bold",
     color: "blue",
-    fontSize: 22,
+    fontSize: 24,
     justifyContent: "flex-start",
   },
   mediumGrayText: {
     fontFamily: "DMSans-Bold",
     color: "grey",
-    fontSize: 16,
+    fontSize: 18,
     justifyContent: "flex-start",
     paddingTop: 5,
     bottom: 0,
     right: 0,
   },
+  bottomRightText: {
+    flex: 1,
+    alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
+  },
   bottomRightTextFont: {
     fontFamily: "DMSans",
     color: "grey",
-    fontSize: 7,
-    marginTop: 45,
-    marginLeft: 40,
+    fontSize: 11,
   },
 });
