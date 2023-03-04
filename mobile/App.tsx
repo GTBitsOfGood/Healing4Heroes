@@ -29,6 +29,7 @@ import ViewAllAnnouncementsScreen from "./screens/Announcements/ViewAllAnnouncem
 import ViewSingleAnnouncementScreen from "./screens/Announcements/ViewSingleAnnouncementScreen";
 import BaseOverlayExampleScreen from "./screens/Development/BaseOverlayExampleScreen";
 import AnalyticsDashboardScreen from "./screens/Analytics/AnalyticsDashboardScreen";
+import AnalyticsUserList from "./screens/Analytics/AnalyticsUserList";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -144,6 +145,10 @@ export default function App() {
         <Stack.Screen
           name={Screens.ANALYTICS_DASHBOARD_SCREEN}
           component={AnalyticsDashboardScreen}
+        />
+        <Stack.Screen
+          name={Screens.ANALYTICS_USER_LIST}
+          component={AnalyticsUserList}
         />
       </Stack.Navigator>
     </NavigationContainer>
