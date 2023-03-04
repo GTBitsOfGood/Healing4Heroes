@@ -220,12 +220,6 @@ export default function AnalyticsDashboardScreen(props: any) {
                 {
                   target: "data",
                   eventHandlers: {
-                    // onPress: () => {
-                    //        props.navigation.navigate(
-                    //           Screens.ANALYTICS_USER_LIST,
-                    //           { completed: false})
-
-                    // }
                     onPress: () => {
                       return [
                         {

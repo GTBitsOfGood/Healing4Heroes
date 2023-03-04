@@ -109,7 +109,7 @@ export default function AdminUserList(props: any) {
                   username={user.firstName + " " + user.lastName}
                   userEmail={user.email}
                   key={index}
-                  isVerification={filter === UserFilter}
+                  isVerification={filter === UserFilter.UNVERIFIED_USERS}
                   verifyCallback={removeUserFromList}
                   callbackFunction={() => {
                     props.navigation.navigate(
