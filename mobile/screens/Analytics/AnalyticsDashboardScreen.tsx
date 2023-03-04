@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, View, Text } from "react-native";
+import { BackHandler, StyleSheet, View, Text, Dimensions } from "react-native";
+import {
+  VictoryChart,
+  VictoryBar,
+  VictoryTheme,
+  VictoryAxis,
+  VictoryLabel,
+  VictoryGroup,
+  VictoryArea,
+} from "victory-native";
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
 import GenericHeader from "../../components/GenericHeader";
-import {
-  VictoryAxis,
-  VictoryChart,
-  VictoryArea,
-} from "victory-native";
 
 export default function AnalyticsDashboardScreen(props: any) {
   const [error, setError] = useState("");
@@ -30,6 +34,34 @@ export default function AnalyticsDashboardScreen(props: any) {
     });
   }, []);
 
+  const month: string[] = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
+
+  const maxdata: number[] = [0];
+  const tickValuesArray: number[] = [];
+  for (let i = 0; i < fakeData.cumulativeTrainingHours.length; i++) {
+    maxdata.push(Math.max(...fakeData.cumulativeTrainingHours));
+  }
+  for (
+    let i = 0;
+    i <= Math.max(...fakeData.cumulativeTrainingHours);
+    i += 100
+  ) {
+    tickValuesArray.push(i);
+  }
+
   return (
     <BaseOverlay
       header={
@@ -39,52 +71,122 @@ export default function AnalyticsDashboardScreen(props: any) {
         />
       }
       body={
-        <View style={styles.container}>
-          <View style={styles.analyticsContainer}>
-            <Text style={styles.boxTitle}>Active Users</Text>
-            <View style={styles.sideBySideText}>
-              <Text style={styles.bigBlueText}>{fakeData.activeUsers}</Text>
-              <Text style={styles.mediumGrayText}>/{fakeData.totalUsers}</Text>
+        <View>
+          <View style={styles.container}>
+            <View style={styles.analyticsContainer}>
+              <Text style={styles.boxTitle}>Active Users</Text>
+              <View style={styles.sideBySideText}>
+                <Text style={styles.bigBlueText}>{fakeData.activeUsers}</Text>
+                <Text style={styles.mediumGrayText}>
+                  /{fakeData.totalUsers}
+                </Text>
+              </View>
+              <View style={styles.bottomRightText}>
+                <Text style={styles.bottomRightTextFont}>Last two weeks</Text>
+              </View>
             </View>
-            <View style={styles.bottomRightText}>
-              <Text style={styles.bottomRightTextFont}>Last two weeks</Text>
+
+            <View style={styles.graphContainer}>
+              <Text style={styles.boxTitle}>Negative Behavior</Text>
+              <View style={styles.chart}>
+                <VictoryChart
+                  height={130}
+                  width={200}
+                  domain={{
+                    y: [
+                      Math.min(...fakeData.negativeBehaviorLogGraph) - 2,
+                      Math.max(...fakeData.negativeBehaviorLogGraph) + 2,
+                    ],
+                  }}
+                >
+                  <VictoryArea
+                    interpolation="natural"
+                    style={{
+                      data: {
+                        stroke: "blue",
+                        strokeWidth: 2,
+                        fill: "#0000FF10",
+                      },
+                    }}
+                    data={fakeData.negativeBehaviorLogGraph}
+                  />
+                  <VictoryAxis
+                    style={{
+                      axis: { stroke: "transparent" },
+                      ticks: { stroke: "transparent" },
+                      tickLabels: { fill: "transparent" },
+                      grid: { stroke: "transparent" },
+                    }}
+                  />
+                </VictoryChart>
+              </View>
+              <View style={{ alignItems: "flex-end", marginVertical: 10 }}>
+                <Text style={styles.title}>Cumulative Training Hours</Text>
+              </View>
             </View>
           </View>
-
-          <View style={styles.graphContainer}>
-            <Text style={styles.boxTitle}>Negative Behavior</Text>
-            <View style={styles.chart}>
-              <VictoryChart
-                height={130}
-                width={200}
-                domain={{
-                  y: [
-                    Math.min(...fakeData.negativeBehaviorLogGraph) - 2,
-                    Math.max(...fakeData.negativeBehaviorLogGraph) + 2,
-                  ],
+          <View style={styles.box}>
+            <VictoryChart
+              padding={{ top: 30, bottom: 30, left: 40, right: 90 }}
+              domainPadding={{ x: 20 }}
+              theme={VictoryTheme.material}
+              height={250}
+            >
+              <VictoryAxis
+                domain={{ x: [0, 12] }}
+                style={{
+                  axis: {
+                    stroke: "transparent",
+                  },
+                  ticks: { stroke: "transparent" },
+                  tickLabels: {
+                    fontSize: 7,
+                    fill: "#A1A6AB",
+                  },
                 }}
-              >
-                <VictoryArea
-                  interpolation="natural"
-                  style={{
-                    data: {
-                      stroke: "blue",
-                      strokeWidth: 2,
-                      fill: "#0000FF10",
-                    },
-                  }}
-                  data={fakeData.negativeBehaviorLogGraph}
+              />
+              <VictoryAxis
+                dependentAxis
+                tickValues={tickValuesArray}
+                orientation="left"
+                style={{
+                  axis: {
+                    stroke: "transparent",
+                  },
+                  grid: {
+                    stroke: "transparent",
+                  },
+                  ticks: { stroke: "transparent" },
+                  tickLabels: { fontSize: 10, fill: "#A1A6AB" },
+                }}
+              />
+              <VictoryGroup>
+                <VictoryBar
+                  style={{ data: { fill: "#D3D3D3" } }}
+                  barWidth={5}
+                  alignment="start"
+                  cornerRadius={{ top: 3, bottom: 3 }}
+                  data={maxdata}
+                  labelComponent={
+                    <VictoryLabel y={250} verticalAnchor={"start"} />
+                  }
                 />
-                <VictoryAxis
-                  style={{
-                    axis: { stroke: "transparent" },
-                    ticks: { stroke: "transparent" },
-                    tickLabels: { fill: "transparent" },
-                    grid: { stroke: "transparent" },
-                  }}
+                <VictoryBar
+                  style={{ data: { fill: "blue" } }}
+                  barWidth={5}
+                  alignment="start"
+                  cornerRadius={{ top: 3, bottom: 3 }}
+                  data={month.map(function (e, i) {
+                    return [e, fakeData.cumulativeTrainingHours[i]];
+                  })}
+                  x={0}
+                  y={1}
+                  labelComponent={
+                    <VictoryLabel y={250} verticalAnchor={"start"} />
+                  }
                 />
-              </VictoryChart>
-            </View>
+              </VictoryGroup>
+            </VictoryChart>
           </View>
         </View>
       }
@@ -97,6 +199,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-start",
+    alignItems: "flex-start",
     backgroundColor: "#f2f2f2",
     flexDirection: "row",
   },
@@ -158,5 +261,19 @@ const styles = StyleSheet.create({
     margin: 0,
     justifyContent: "flex-start",
     bottom: 0,
+  },
+  box: {
+    flex: 1,
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    backgroundColor: "white",
+    borderRadius: 10,
+    width: Dimensions.get("window").width - 75,
+  },
+  title: {
+    fontFamily: "DMSans-Bold",
+    fontSize: 20,
+    fontWeight: "800",
+    color: "#727272",
   },
 });
