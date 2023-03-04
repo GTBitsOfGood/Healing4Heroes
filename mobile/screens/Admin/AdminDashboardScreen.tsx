@@ -15,6 +15,7 @@ import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
+import { SimpleLineIcons, FontAwesome5 } from '@expo/vector-icons'; 
 
 export default function AdminDashboardScreen(props: any) {
   const [userInfo, setUserInfo] = useState<User>();
@@ -99,11 +100,21 @@ export default function AdminDashboardScreen(props: any) {
           <TouchableOpacity
             style={[styles.bigButton, shadowStyle.shadow]}
             onPress={() => {
+              props.navigation.navigate(Screens.ANALYTICS_DASHBOARD_SCREEN);
+            }}
+          >
+            <SimpleLineIcons name="graph" size={50} color="blue" />
+            <Text style={styles.bigButtonText}>Analytics Page</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.bigButton, shadowStyle.shadow]}
+            onPress={() => {
               props.navigation.navigate(Screens.ADMIN_USER_LIST_SCREEN, {
                 filter: UserFilter.NONPROFIT_USERS,
               });
             }}
           >
+            <FontAwesome5 name="user-friends" size={30} color="blue" style={styles.icon} />
             <Text style={styles.bigButtonText}>View All Users</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -114,6 +125,7 @@ export default function AdminDashboardScreen(props: any) {
               });
             }}
           >
+            <FontAwesome5 name="user-shield" size={30} color="blue" style={styles.icon} />
             <Text style={styles.bigButtonText}>View Admin Users</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -124,6 +136,7 @@ export default function AdminDashboardScreen(props: any) {
               });
             }}
           >
+            <FontAwesome5 name="user-lock" size={30} color="blue" style={styles.icon} />
             <Text style={styles.bigButtonText}>
               New User Verification Portal
             </Text>
@@ -136,6 +149,7 @@ export default function AdminDashboardScreen(props: any) {
               });
             }}
           >
+            <FontAwesome5 name="user-clock" size={30} color="blue" style={styles.icon} />
             <Text style={styles.bigButtonText}>Users with 800 Hours</Text>
           </TouchableOpacity>
         </View>
@@ -210,7 +224,7 @@ const styles = StyleSheet.create({
   bigButton: {
     backgroundColor: "white",
     alignItems: "center",
-    paddingVertical: 36,
+    paddingBottom: 10,
     marginBottom: 20,
     borderRadius: 8,
   },
@@ -219,4 +233,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#9A9A9A",
   },
+  icon: {
+    paddingVertical: 10,
+  }
 });

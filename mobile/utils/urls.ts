@@ -37,6 +37,7 @@ export const urls = {
       training: "/api/admin/training",
       announcement: "/api/admin/announcement",
       fileDownload: "/api/admin/file/download",
+      analytics: "/api/admin/analytics",
     },
   },
 };

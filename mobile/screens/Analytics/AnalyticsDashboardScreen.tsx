@@ -14,11 +14,11 @@ import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
 import GenericHeader from "../../components/GenericHeader";
 import { VictoryLegend, VictoryPie } from "victory-native";
+import { ErrorWrapper } from "../../utils/error";
+import { adminGetAnalytics } from "../../actions/Admin";
 
 export default function AnalyticsDashboardScreen(props: any) {
-  const [error, setError] = useState("");
-
-  const fakeData = {
+  const [analytics, setAnalytics] = useState({
     totalUsers: 150,
     activeUsers: 27,
     negativeBehaviorLogGraph: [10, 2, 3, 4, 7, 9, 20, 9, 0, 1, 2, 3, 1],
@@ -26,14 +26,22 @@ export default function AnalyticsDashboardScreen(props: any) {
     cumulativeTrainingHours: [
       10, 20, 40, 30, 50, 60, 10, 90, 100, 250, 400, 600,
     ],
-  };
-  const [completedUsers, setCompletedUsers] = useState(0);
+  });
+  const [error, setError] = useState("");
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
       props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
       return true;
     });
-    setCompletedUsers(fakeData.usersCompletedTraining);
+    async function loadAnalytics() {
+      const analyticsData = await ErrorWrapper({
+        functionToExecute: adminGetAnalytics,
+        errorHandler: setError,
+      });
+      setAnalytics(analyticsData);
+    }
+    loadAnalytics();
   }, []);
 
   const month: string[] = [
@@ -53,12 +61,12 @@ export default function AnalyticsDashboardScreen(props: any) {
 
   const maxdata: number[] = [0];
   const tickValuesArray: number[] = [];
-  for (let i = 0; i < fakeData.cumulativeTrainingHours.length; i++) {
-    maxdata.push(Math.max(...fakeData.cumulativeTrainingHours));
+  for (let i = 0; i < analytics.cumulativeTrainingHours.length; i++) {
+    maxdata.push(Math.max(...analytics.cumulativeTrainingHours));
   }
   for (
     let i = 0;
-    i <= Math.max(...fakeData.cumulativeTrainingHours);
+    i <= Math.max(...analytics.cumulativeTrainingHours);
     i += 100
   ) {
     tickValuesArray.push(i);
@@ -76,15 +84,15 @@ export default function AnalyticsDashboardScreen(props: any) {
         <View>
           <View style={styles.totalUsers}>
             <Text style={styles.smallBlueText}>Total Users: </Text>
-            <Text style={styles.bigBlueText}>{fakeData.totalUsers}</Text>
+            <Text style={styles.bigBlueText}>{analytics.totalUsers}</Text>
           </View>
           <View style={styles.container}>
             <View style={styles.analyticsContainer}>
               <Text style={styles.boxTitle}>Active Users</Text>
               <View style={styles.sideBySideText}>
-                <Text style={styles.bigBlueText}>{fakeData.activeUsers}</Text>
+                <Text style={styles.bigBlueText}>{analytics.activeUsers}</Text>
                 <Text style={styles.mediumGrayText}>
-                  /{fakeData.totalUsers}
+                  /{analytics.totalUsers}
                 </Text>
               </View>
               <View style={styles.bottomRightText}>
@@ -100,8 +108,8 @@ export default function AnalyticsDashboardScreen(props: any) {
                   width={200}
                   domain={{
                     y: [
-                      Math.min(...fakeData.negativeBehaviorLogGraph) - 2,
-                      Math.max(...fakeData.negativeBehaviorLogGraph) + 2,
+                      Math.min(...analytics.negativeBehaviorLogGraph) - 2,
+                      Math.max(...analytics.negativeBehaviorLogGraph) + 2,
                     ],
                   }}
                 >
@@ -114,7 +122,7 @@ export default function AnalyticsDashboardScreen(props: any) {
                         fill: "#0000FF10",
                       },
                     }}
-                    data={fakeData.negativeBehaviorLogGraph}
+                    data={analytics.negativeBehaviorLogGraph}
                   />
                   <VictoryAxis
                     style={{
@@ -135,14 +143,20 @@ export default function AnalyticsDashboardScreen(props: any) {
             </View>
             <VictoryPie
               name={"Hi"}
-              startAngle={(completedUsers / fakeData.totalUsers) * 360}
-              endAngle={(completedUsers / fakeData.totalUsers) * 360 + 360}
+              startAngle={
+                (analytics.usersCompletedTraining / analytics.totalUsers) * 360
+              }
+              endAngle={
+                (analytics.usersCompletedTraining / analytics.totalUsers) *
+                  360 +
+                360
+              }
               animate={{
                 duration: 500,
               }}
               data={[
-                { x: "Completed", y: completedUsers },
-                { x: "Not Done", y: fakeData.totalUsers },
+                { x: "Completed", y: analytics.usersCompletedTraining },
+                { x: "Not Done", y: analytics.totalUsers },
               ]}
               width={350}
               height={400}
@@ -228,7 +242,7 @@ export default function AnalyticsDashboardScreen(props: any) {
                   alignment="start"
                   cornerRadius={{ top: 3, bottom: 3 }}
                   data={month.map(function (e, i) {
-                    return [e, fakeData.cumulativeTrainingHours[i]];
+                    return [e, analytics.cumulativeTrainingHours[i]];
                   })}
                   x={0}
                   y={1}
