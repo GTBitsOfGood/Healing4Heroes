@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, View, Text } from "react-native";
+import { BackHandler, StyleSheet, View } from "react-native";
 import {
   VictoryChart,
   VictoryBar,
@@ -64,9 +64,6 @@ export default function AnalyticsDashboardScreen(props: any) {
       body={
         
           <View style={styles.container}>
-            <View style={{ alignItems: "flex-end" }}>
-              <Text style={styles.title}>Cumulative Training Hours</Text>
-            </View>
             <VictoryChart
               padding={{ top: 20, bottom: 30, left: 40, right: 20 }}
               domainPadding={{ x: 20 }}
@@ -88,7 +85,7 @@ export default function AnalyticsDashboardScreen(props: any) {
               />
               <VictoryGroup>
                 <VictoryBar
-                  style={{ data: { fill: "#D3D3D3" } }}
+                  style={{ data: { fill: "#808080" } }}
                   barWidth={5}
                   alignment="start"
                   cornerRadius={3}
@@ -98,7 +95,7 @@ export default function AnalyticsDashboardScreen(props: any) {
                   }
                 />
                 <VictoryBar
-                  style={{ data: { fill: "#0096FF" } }}
+                  style={{ data: { fill: "#00FFFF" } }}
                   barWidth={5}
                   alignment="start"
                   cornerRadius={3}
@@ -128,10 +125,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
     flexDirection: "column",
     width: 400,
-  },
-  title: {
-    fontSize: 15,
-    fontWeight: "800",
-    color: "#727272",
   },
 });
