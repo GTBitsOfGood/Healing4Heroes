@@ -92,6 +92,15 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={() =>
+          props.navigation.navigate(Screens.ANALYTICS_DASHBOARD_SCREEN)
+        }
+        style={styles.buttonItem}
+      >
+        <Text>Analytics Dashboard Screen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
         onPress={async () => {
           await signInWithEmailAndPassword(
             auth,

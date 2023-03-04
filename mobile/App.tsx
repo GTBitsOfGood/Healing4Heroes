@@ -28,6 +28,7 @@ import ResetPasswordScreen from "./screens/Onboarding/ResetPasswordScreen";
 import ViewAllAnnouncementsScreen from "./screens/Announcements/ViewAllAnnouncements";
 import ViewSingleAnnouncementScreen from "./screens/Announcements/ViewSingleAnnouncementScreen";
 import BaseOverlayExampleScreen from "./screens/Development/BaseOverlayExampleScreen";
+import AnalyticsDashboardScreen from "./screens/Analytics/AnalyticsDashboardScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -139,6 +140,10 @@ export default function App() {
         <Stack.Screen
           name={Screens.BASE_OVERLAY_EXAMPLE_SCREEN}
           component={BaseOverlayExampleScreen}
+        />
+        <Stack.Screen
+          name={Screens.ANALYTICS_DASHBOARD_SCREEN}
+          component={AnalyticsDashboardScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -3,7 +3,7 @@ import { BackHandler, StyleSheet, Text, View, Image } from "react-native";
 import LogCard from "../../components/LogCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { userGetUserInfo } from "../../actions/User";
-import { Role } from "../../utils/types";
+import { DownloadState, Role } from "../../utils/types";
 import { getFile, getVideo } from "../../utils/storage";
 import { ResizeMode, Video } from "expo-av";
 import GenericHeader from "../../components/GenericHeader";
@@ -13,6 +13,9 @@ import { getFormattedDate } from "../../utils/helper";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
+import DownloadButton from "../../components/DownloadButton";
 
 export default function ViewSingleLogScreen(props: any) {
   const {
@@ -27,6 +30,9 @@ export default function ViewSingleLogScreen(props: any) {
   } = props.route.params;
 
   const [videoUrl, setVideoUrl] = useState<string>("");
+  const [downloadState, setDownloadState] = useState<DownloadState>(
+    DownloadState.NotStarted
+  );
   const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
   const [error, setError] = useState("");
   useEffect(() => {
@@ -58,6 +64,56 @@ export default function ViewSingleLogScreen(props: any) {
     loadLogInformation().then().catch();
   }, []);
 
+  const getFullDownloadPath = (path: string) => {
+    return FileSystem.documentDirectory + path;
+  };
+
+  const ensureDownloadDirectoryExists = async (path: string) => {
+    if (!path.includes("/")) {
+      return;
+    }
+
+    const directory = path.substring(0, path.lastIndexOf("/"));
+
+    await FileSystem.makeDirectoryAsync(getFullDownloadPath(directory), {
+      intermediates: true,
+    });
+  };
+
+  const downloadVideo = async () => {
+    setDownloadState(DownloadState.InProgress);
+
+    const download = FileSystem.createDownloadResumable(
+      videoUrl,
+      getFullDownloadPath(video),
+      {}
+    );
+
+    let file;
+    try {
+      await ensureDownloadDirectoryExists(video);
+      file = await download.downloadAsync();
+
+      if (!file) {
+        throw Error("file does not exist");
+      }
+    } catch (e) {
+      setError("Failed to download video:" + (e as Error).message);
+      setDownloadState(DownloadState.NotStarted);
+      return;
+    }
+
+    try {
+      await MediaLibrary.saveToLibraryAsync(file.uri);
+      setDownloadState(DownloadState.Complete);
+    } catch (e) {
+      setError(
+        "Failed to save video to media library. Please ensure the app has photo access in your phone's settings."
+      );
+      setDownloadState(DownloadState.NotStarted);
+    }
+  };
+
   return (
     <BaseOverlay
       header={
@@ -69,15 +125,21 @@ export default function ViewSingleLogScreen(props: any) {
       body={
         <View style={styles.container}>
           {videoUrl && (
-            <Video
-              style={styles.animalCard}
-              source={{
-                uri: videoUrl,
-              }}
-              resizeMode={ResizeMode.CONTAIN}
-              useNativeControls
-              isLooping
-            />
+            <>
+              <Video
+                style={styles.videoCard}
+                source={{
+                  uri: videoUrl,
+                }}
+                resizeMode={ResizeMode.CONTAIN}
+                useNativeControls
+                isLooping
+              />
+              <DownloadButton
+                state={downloadState}
+                callbackFunction={() => downloadVideo()}
+              />
+            </>
           )}
           {thumbnailUrl && (
             <View style={styles.animalCard}>
@@ -166,6 +228,14 @@ const styles = StyleSheet.create({
   animalCard: {
     backgroundColor: "#D9D9D9",
     marginBottom: 26,
+    borderRadius: 12,
+    height: 186,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  videoCard: {
+    backgroundColor: "#D9D9D9",
+    marginBottom: 8,
     borderRadius: 12,
     height: 186,
     alignItems: "center",

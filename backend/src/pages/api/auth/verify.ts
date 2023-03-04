@@ -18,6 +18,42 @@ import {
   VerificationLog,
 } from "src/utils/types";
 
+const sendVerificationEmail = async (
+  email: string,
+  type: UserVerificationLogType
+) => {
+  const user: User = (await findUserByEmail(email)) as User;
+
+  if (!user) {
+    throw new Error(`Could not find user with email: ${email}`);
+  }
+  const verificationLog = await createVerificationLog(user._id, type);
+
+  if (!verificationLog) {
+    throw new Error("Failed to create verification log");
+  }
+  let emailSubject;
+  let emailTemplate;
+  switch (type) {
+    case UserVerificationLogType.EMAIL_VERIFICATION:
+      emailSubject = EmailSubject.EMAIL_VERIFICATION;
+      emailTemplate = EmailTemplate.EMAIL_VERIFICATION;
+      break;
+    case UserVerificationLogType.PASSWORD_RESET:
+      emailSubject = EmailSubject.PASSWORD_RESET;
+      emailTemplate = EmailTemplate.PASSWORD_RESET;
+      break;
+  }
+  const emailLocals = {
+    VERIFICATION_CODE: verificationLog.code.toString().split("").join(" "),
+  };
+  if (emailSubject && emailTemplate) {
+    await sendEmail(email, emailSubject, emailTemplate, emailLocals);
+  }
+
+  return verificationLog.expirationDate;
+};
+
 export default APIWrapper({
   POST: {
     config: {
@@ -30,37 +66,7 @@ export default APIWrapper({
       const type: UserVerificationLogType = req.body
         .type as UserVerificationLogType;
 
-      const user: User = (await findUserByEmail(email)) as User;
-
-      if (!user) {
-        throw new Error(`Could not find user with email: ${email}`);
-      }
-      const verificationLog = await createVerificationLog(user._id, type);
-
-      if (!verificationLog) {
-        throw new Error("Failed to create verification log");
-      }
-
-      let emailSubject;
-      let emailTemplate;
-      switch (type) {
-        case UserVerificationLogType.EMAIL_VERIFICATION:
-          emailSubject = EmailSubject.EMAIL_VERIFICATION;
-          emailTemplate = EmailTemplate.EMAIL_VERIFICATION;
-          break;
-        case UserVerificationLogType.PASSWORD_RESET:
-          emailSubject = EmailSubject.PASSWORD_RESET;
-          emailTemplate = EmailTemplate.PASSWORD_RESET;
-          break;
-      }
-      const emailLocals = {
-        VERIFICATION_CODE: verificationLog.code.toString().split("").join(" "),
-      };
-      if (emailSubject && emailTemplate) {
-        await sendEmail(email, emailSubject, emailTemplate, emailLocals);
-      }
-
-      return verificationLog.expirationDate;
+      await sendVerificationEmail(email, type);
     },
   },
   PATCH: {
@@ -104,6 +110,7 @@ export default APIWrapper({
 
         if (isFinalAttempt) {
           await createVerificationLog(user._id, latestLog.type);
+          await sendVerificationEmail(email, latestLog.type);
           throw new Error(
             "Too many incorrect attempts, a new code has been sent to your email."
           );
