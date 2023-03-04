@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, View, TextInput } from "react-native";
+import { BackHandler, StyleSheet, Text, View } from "react-native";
 import UserEntry from "../../components/UserEntry";
 import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
-import { Types } from "mongoose";
 import PaginatedOverlay from "../../components/Overlays/PaginatedOverlay";
 import { ErrorWrapper } from "../../utils/error";
-import { AntDesign } from "@expo/vector-icons";
 
 const PAGE_SIZE = 6;
 
 export default function AnalyticsUserList(props: any) {
-  const { completed } = props.route.params;
+  const { completed, totalUsers, usersCompletedTraining } = props.route.params;
   const [allUsers, setAllUsers] = useState<User[][]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState("");
@@ -69,11 +67,15 @@ export default function AnalyticsUserList(props: any) {
       headerTitle={
         completed == true
           ? "Users Who Completed Training"
-          : "Useres Who Did Not Complete Training"
+          : "Users Who Did Not Complete Training"
       }
       errorMessage={error}
       pageBody={
         <View style={styles.container}>
+          <View style={styles.total}>
+            <Text style={styles.leftText}>{usersCompletedTraining}</Text>
+            <Text style={styles.rightText}> / {totalUsers} Completed</Text>
+          </View>
           {allUsers.length > 0 &&
             allUsers[currentPage].map((user, index) => {
               return (
@@ -82,7 +84,6 @@ export default function AnalyticsUserList(props: any) {
                   username={user.firstName + " " + user.lastName}
                   userEmail={user.email}
                   key={index}
-                  isVerification={filter === UserFilter}
                   callbackFunction={() => {
                     props.navigation.navigate(
                       Screens.ADMIN_DETAILED_USER_SCREEN,
@@ -146,4 +147,19 @@ const styles = StyleSheet.create({
     color: "grey",
     fontFamily: "DMSans-Bold",
   },
+
+  total: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+
+  leftText: {
+    fontWeight: '600',
+    color: 'blue',
+  },
+
+  rightText: {
+    fontWeight: '600',
+    color: "grey",
+  }
 });

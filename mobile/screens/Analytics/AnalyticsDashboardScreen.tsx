@@ -144,8 +144,14 @@ export default function AnalyticsDashboardScreen(props: any) {
             </View>
             <VictoryPie
               name={"Hi"}
-              startAngle={(analytics.usersCompletedTraining / analytics.totalUsers) * 360}
-              endAngle={(analytics.usersCompletedTraining / analytics.totalUsers) * 360 + 360}
+              startAngle={
+                (analytics.usersCompletedTraining / analytics.totalUsers) * 360
+              }
+              endAngle={
+                (analytics.usersCompletedTraining / analytics.totalUsers) *
+                  360 +
+                360
+              }
               animate={{
                 duration: 500,
               }}
@@ -172,14 +178,15 @@ export default function AnalyticsDashboardScreen(props: any) {
                           target: "data",
                           mutation: (dt) => {
                             const usersGood = dt.datum.y;
-                            return usersGood === analytics.usersCompletedTraining
+                            return usersGood ===
+                              analytics.usersCompletedTraining
                               ? props.navigation.navigate(
                                   Screens.ANALYTICS_USER_LIST,
-                                  { completed: true }
+                                  { completed: true, totalUsers: analytics.totalUsers, usersCompletedTraining: analytics.usersCompletedTraining }
                                 )
                               : props.navigation.navigate(
                                   Screens.ANALYTICS_USER_LIST,
-                                  { completed: false }
+                                  { completed: false, totalUsers: analytics.totalUsers, usersCompletedTraining: analytics.usersCompletedTraining }
                                 );
                           },
                         },

@@ -15,7 +15,7 @@ import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
-import { SimpleLineIcons, FontAwesome5 } from '@expo/vector-icons'; 
+import { SimpleLineIcons, FontAwesome5 } from "@expo/vector-icons";
 
 export default function AdminDashboardScreen(props: any) {
   const [userInfo, setUserInfo] = useState<User>();
@@ -114,7 +114,12 @@ export default function AdminDashboardScreen(props: any) {
               });
             }}
           >
-            <FontAwesome5 name="user-friends" size={30} color="blue" style={styles.icon} />
+            <FontAwesome5
+              name="user-friends"
+              size={30}
+              color="blue"
+              style={styles.icon}
+            />
             <Text style={styles.bigButtonText}>View All Users</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -125,7 +130,12 @@ export default function AdminDashboardScreen(props: any) {
               });
             }}
           >
-            <FontAwesome5 name="user-shield" size={30} color="blue" style={styles.icon} />
+            <FontAwesome5
+              name="user-shield"
+              size={30}
+              color="blue"
+              style={styles.icon}
+            />
             <Text style={styles.bigButtonText}>View Admin Users</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -136,7 +146,12 @@ export default function AdminDashboardScreen(props: any) {
               });
             }}
           >
-            <FontAwesome5 name="user-lock" size={30} color="blue" style={styles.icon} />
+            <FontAwesome5
+              name="user-lock"
+              size={30}
+              color="blue"
+              style={styles.icon}
+            />
             <Text style={styles.bigButtonText}>
               New User Verification Portal
             </Text>
@@ -149,7 +164,12 @@ export default function AdminDashboardScreen(props: any) {
               });
             }}
           >
-            <FontAwesome5 name="user-clock" size={30} color="blue" style={styles.icon} />
+            <FontAwesome5
+              name="user-clock"
+              size={30}
+              color="blue"
+              style={styles.icon}
+            />
             <Text style={styles.bigButtonText}>Users with 800 Hours</Text>
           </TouchableOpacity>
         </View>
@@ -235,5 +255,5 @@ const styles = StyleSheet.create({
   },
   icon: {
     paddingVertical: 10,
-  }
+  },
 });
