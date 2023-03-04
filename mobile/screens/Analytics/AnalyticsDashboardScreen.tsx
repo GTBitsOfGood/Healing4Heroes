@@ -78,11 +78,12 @@ export default function AnalyticsDashboardScreen(props: any) {
                 domain={{ x: [0, 12] }}
                 style={{
                   axis: {
-                    stroke: "white",
+                    stroke: "transparent",
                   },
-                  ticks: { stroke: "white", size: 5 },
+                  ticks: { stroke: "transparent" },
                   tickLabels: {
                     fontSize: 7,
+                    fill: "#A1A6AB",
                   },
                 }}
               />
@@ -91,13 +92,13 @@ export default function AnalyticsDashboardScreen(props: any) {
                 orientation="left"
                 style={{
                   axis: {
-                    stroke: "white",
+                    stroke: "transparent",
                   },
                   grid: {
-                    stroke: "white",
+                    stroke: "transparent",
                   },
-                  ticks: { stroke: "white", size: 5 },
-                  tickLabels: { fontSize: 10 },
+                  ticks: { stroke: "transparent" },
+                  tickLabels: { fontSize: 10, fill: "#A1A6AB" },
                 }}
               />
               <VictoryGroup>
@@ -105,7 +106,7 @@ export default function AnalyticsDashboardScreen(props: any) {
                   style={{ data: { fill: "#D3D3D3" } }}
                   barWidth={5}
                   alignment="start"
-                  cornerRadius={{top:3, bottom:3}}
+                  cornerRadius={{ top: 3, bottom: 3 }}
                   data={maxdata}
                   labelComponent={
                     <VictoryLabel y={250} verticalAnchor={"start"} />
@@ -115,7 +116,7 @@ export default function AnalyticsDashboardScreen(props: any) {
                   style={{ data: { fill: "#0096FF" } }}
                   barWidth={5}
                   alignment="start"
-                  cornerRadius={{top:3, bottom:3}}
+                  cornerRadius={{ top: 3, bottom: 3 }}
                   data={month.map(function (e, i) {
                     return [e, fakeData.cumulativeTrainingHours[i]];
                   })}
@@ -142,7 +143,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     backgroundColor: "#f2f2f2",
     flexDirection: "column",
-    width: 500,
   },
   box: {
     flex: 1,
@@ -150,11 +150,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "white",
     borderRadius: 10,
-    width: 320
+    width: 320,
   },
   title: {
     fontSize: 15,
     fontWeight: "800",
     color: "#727272",
-  }
+  },
 });
