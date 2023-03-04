@@ -207,7 +207,7 @@ export default function AnalyticsDashboardScreen(props: any) {
               ]}
             />
             <VictoryLegend
-              x={90}
+              x={80}
               y={0}
               height={50}
               orientation="horizontal"
