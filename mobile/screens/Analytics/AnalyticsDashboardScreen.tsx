@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  BackHandler,
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-} from "react-native";
+import { BackHandler, StyleSheet, View, Text, Dimensions } from "react-native";
 import {
   VictoryChart,
   VictoryBar,
@@ -80,6 +74,10 @@ export default function AnalyticsDashboardScreen(props: any) {
       }
       body={
         <View>
+          <View style={styles.totalUsers}>
+            <Text style={styles.smallBlueText}>Total Users: </Text>
+            <Text style={styles.bigBlueText}>{fakeData.totalUsers}</Text>
+          </View>
           <View style={styles.container}>
             <View style={styles.analyticsContainer}>
               <Text style={styles.boxTitle}>Active Users</Text>
@@ -130,10 +128,55 @@ export default function AnalyticsDashboardScreen(props: any) {
               </View>
             </View>
           </View>
-          <View style={styles.box}>
-            <View style={{ alignItems: "center", marginVertical: 10 }}>
-              <Text style={styles.title}>Cumulative Training Hours</Text>
+          <View style={styles.pieChartContainer}>
+            <View style={{ alignItems: "flex-end", marginBottom: -60 }}>
+              <Text style={styles.title}>Users Who Completed Training</Text>
+              <Text style={styles.subtitle}>800 hours</Text>
             </View>
+            <VictoryPie
+              name={"Hi"}
+              startAngle={(completedUsers / fakeData.totalUsers) * 360}
+              endAngle={(completedUsers / fakeData.totalUsers) * 360 + 360}
+              animate={{
+                duration: 500,
+              }}
+              data={[
+                { x: "Completed", y: completedUsers },
+                { x: "Not Done", y: fakeData.totalUsers },
+              ]}
+              width={350}
+              height={400}
+              style={{
+                labels: { display: "none" },
+                parent: {
+                  marginBottom: -70,
+                },
+              }}
+              colorScale={["#d0ceed", "#403bf6"]}
+            />
+            <VictoryLegend
+              x={90}
+              y={0}
+              height={50}
+              orientation="horizontal"
+              gutter={20}
+              style={{
+                title: { fontSize: 0 },
+                labels: {
+                  fill: "#868686",
+                  fontWeight: 600,
+                },
+              }}
+              data={[
+                { name: "Uncompleted", symbol: { fill: "#403bf6" } },
+                { name: "Completed", symbol: { fill: "#d0ceed" } },
+              ]}
+            />
+          </View>
+          <View style={{ marginTop: 15, marginBottom: 8 }}>
+            <Text style={styles.title}>Cumulative Training Hours</Text>
+          </View>
+          <View style={styles.box}>
             <VictoryChart
               padding={{ top: 30, bottom: 30, left: 40, right: 90 }}
               domainPadding={{ x: 20 }}
@@ -196,52 +239,6 @@ export default function AnalyticsDashboardScreen(props: any) {
               </VictoryGroup>
             </VictoryChart>
           </View>
-          <View style={styles.pieChartContainer}>
-            <View style={{ alignItems: "flex-end", marginBottom: -60 }}>
-              <Text style={styles.title}>Users Who Completed Training</Text>
-              <Text style={styles.subtitle}>800 hours</Text>
-            </View>
-            <VictoryPie
-              name={"Hi"}
-              startAngle={(completedUsers / fakeData.totalUsers) * 360}
-              endAngle={(completedUsers / fakeData.totalUsers) * 360 + 360}
-              animate={{
-                duration: 500,
-              }}
-              data={[
-                { x: "Completed", y: completedUsers },
-                { x: "Not Done", y: fakeData.totalUsers },
-              ]}
-              width={350}
-              height={400}
-              style={{
-                labels: { display: "none" },
-                parent: {
-                  marginBottom: -70,
-                },
-              }}
-              colorScale={["#d0ceed", "#403bf6"]}
-            />
-            <VictoryLegend
-              x={118}
-              y={0}
-              height={50}
-              centerTitle
-              orientation="horizontal"
-              gutter={20}
-              style={{
-                title: { fontSize: 0 },
-                labels: {
-                  fill: "#868686",
-                  fontWeight: 600,
-                },
-              }}
-              data={[
-                { name: "Not yet", symbol: { fill: "#403bf6" } },
-                { name: "Completed", symbol: { fill: "#d0ceed" } },
-              ]}
-            />
-          </View>
         </View>
       }
       footer={<ErrorBox errorMessage={error} />}
@@ -272,7 +269,7 @@ const styles = StyleSheet.create({
   },
   graphContainer: {
     flex: 1,
-    marginLeft: 3,
+    marginLeft: 10,
     padding: 10,
     borderRadius: 12,
     backgroundColor: "#fff",
@@ -330,7 +327,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "DMSans-Bold",
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "800",
     color: "#727272",
   },
@@ -340,12 +337,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     flexDirection: "column",
-    margin: 3,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 6,
-    marginBottom: 9,
+    marginTop: 20,
+    marginBottom: 3,
     padding: 10,
     borderRadius: 20,
+  },
+  smallBlueText: {
+    color: "blue",
+    fontWeight: "600",
+  },
+  totalUsers: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginBottom: 5,
   },
 });
