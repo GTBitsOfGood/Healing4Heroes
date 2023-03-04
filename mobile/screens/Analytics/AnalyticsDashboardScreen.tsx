@@ -68,7 +68,7 @@ export default function AnalyticsDashboardScreen(props: any) {
     <BaseOverlay
       header={
         <GenericHeader
-          headerTitle="Analytics Dashboard"
+          headerTitle="Analytics"
           navigationProp={props.navigation}
         />
       }
