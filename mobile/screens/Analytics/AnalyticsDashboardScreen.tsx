@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, View, Text, Dimensions, Platform } from "react-native";
+import {
+  BackHandler,
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+} from "react-native";
 import {
   VictoryChart,
   VictoryBar,
@@ -14,7 +20,6 @@ import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
 import GenericHeader from "../../components/GenericHeader";
 import { VictoryLegend, VictoryPie } from "victory-native";
-import shadowStyle from "../../utils/styles";
 
 export default function AnalyticsDashboardScreen(props: any) {
   const [error, setError] = useState("");
@@ -127,7 +132,7 @@ export default function AnalyticsDashboardScreen(props: any) {
           </View>
           <View style={styles.box}>
             <View style={{ alignItems: "center", marginVertical: 10 }}>
-                <Text style={styles.title}>Cumulative Training Hours</Text>
+              <Text style={styles.title}>Cumulative Training Hours</Text>
             </View>
             <VictoryChart
               padding={{ top: 30, bottom: 30, left: 40, right: 90 }}
@@ -192,52 +197,51 @@ export default function AnalyticsDashboardScreen(props: any) {
             </VictoryChart>
           </View>
           <View style={styles.pieChartContainer}>
-          <View style={{ alignItems: "flex-end", marginBottom: -60 }}>
-            <Text style={styles.title}>Users Who Completed Training</Text>
-            <Text style={styles.subtitle}>800 hours</Text>
+            <View style={{ alignItems: "flex-end", marginBottom: -60 }}>
+              <Text style={styles.title}>Users Who Completed Training</Text>
+              <Text style={styles.subtitle}>800 hours</Text>
+            </View>
+            <VictoryPie
+              name={"Hi"}
+              startAngle={(completedUsers / fakeData.totalUsers) * 360}
+              endAngle={(completedUsers / fakeData.totalUsers) * 360 + 360}
+              animate={{
+                duration: 500,
+              }}
+              data={[
+                { x: "Completed", y: completedUsers },
+                { x: "Not Done", y: fakeData.totalUsers },
+              ]}
+              width={350}
+              height={400}
+              style={{
+                labels: { display: "none" },
+                parent: {
+                  marginBottom: -70,
+                },
+              }}
+              colorScale={["#d0ceed", "#403bf6"]}
+            />
+            <VictoryLegend
+              x={118}
+              y={0}
+              height={50}
+              centerTitle
+              orientation="horizontal"
+              gutter={20}
+              style={{
+                title: { fontSize: 0 },
+                labels: {
+                  fill: "#868686",
+                  fontWeight: 600,
+                },
+              }}
+              data={[
+                { name: "Not yet", symbol: { fill: "#403bf6" } },
+                { name: "Completed", symbol: { fill: "#d0ceed" } },
+              ]}
+            />
           </View>
-          <VictoryPie
-            name={"Hi"}
-            startAngle={(completedUsers / fakeData.totalUsers) * 360}
-            endAngle={(completedUsers / fakeData.totalUsers) * 360 + 360}
-            animate={{
-              duration: 500,
-            }}
-            data={[
-              { x: "Completed", y: completedUsers },
-              { x: "Not Done", y: fakeData.totalUsers },
-            ]}
-            width={350}
-            height={400}
-            style={{
-              labels: { display: "none" },
-              parent: {
-                marginBottom: -70,
-              },
-            }}
-            colorScale={["#d0ceed", "#403bf6"]}
-          />
-          <VictoryLegend
-            x={118}
-            y={0}
-            height={50}
-            centerTitle
-            orientation='horizontal'
-            gutter={20}
-            style={{
-              title: { fontSize: 0 },
-              labels: {
-                fill: "#868686",
-                fontWeight: 600,
-              },
-            }}
-            data={[
-              { name: "Not yet", symbol: { fill: "#403bf6" } },
-              { name: "Completed", symbol: { fill: "#d0ceed" } },
-            ]}
-          />
-          </View>
-          
         </View>
       }
       footer={<ErrorBox errorMessage={error} />}
@@ -343,5 +347,5 @@ const styles = StyleSheet.create({
     marginBottom: 9,
     padding: 10,
     borderRadius: 20,
-  }
+  },
 });
