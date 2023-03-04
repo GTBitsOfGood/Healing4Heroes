@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, View, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, TextInput, BackHandler } from "react-native";
 import UserEntry from "../../components/UserEntry";
 import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
@@ -15,6 +15,7 @@ export default function AdminUserList(props: any) {
   const [allUsers, setAllUsers] = useState<User[][]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState("");
+  const [searchText, setSearchText] = useState("");
 
   const removeUserFromList = (errorMessage: string, userId: Types.ObjectId) => {
     if (errorMessage) {
@@ -28,20 +29,20 @@ export default function AdminUserList(props: any) {
     setAllUsers([...allUsers]);
   };
 
+  async function loadUsers() {
+    const users = await ErrorWrapper({
+      functionToExecute: adminGetUsers,
+      errorHandler: setError,
+      parameters: [PAGE_SIZE, undefined, filter, searchText],
+    });
+    setAllUsers([users]);
+  }
+
   useEffect(() => {
-    async function loadUsers() {
-      const users = await ErrorWrapper({
-        functionToExecute: adminGetUsers,
-        errorHandler: setError,
-        parameters: [PAGE_SIZE, undefined, filter],
-      });
-      setAllUsers([users]);
-    }
     BackHandler.addEventListener("hardwareBackPress", function () {
       props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
       return true;
     });
-
     loadUsers().catch().then();
   }, []);
   const processNext = async (direction: ButtonDirection) => {
@@ -71,6 +72,7 @@ export default function AdminUserList(props: any) {
       }
     }
   };
+
   return (
     <PaginatedOverlay
       navigationProp={props.navigation}
@@ -85,11 +87,18 @@ export default function AdminUserList(props: any) {
               size={20}
               color="#3F3BED"
               style={styles.searchIcon}
+              onPress={loadUsers}
             />
             <TextInput
               style={styles.searchInput}
               placeholder="Search by name or email"
               placeholderTextColor="grey"
+              onChange={(e) => {
+                setCurrentPage(0);
+                const { text } = e.nativeEvent;
+                setSearchText(text);
+              }}
+              onEndEditing={loadUsers}
             />
           </View>
           {allUsers.length > 0 &&
