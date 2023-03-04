@@ -7,7 +7,7 @@ import {
   VictoryAxis,
   VictoryLabel,
   VictoryGroup,
-} from "victory";
+} from "victory-native";
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
@@ -62,7 +62,7 @@ export default function AnalyticsDashboardScreen(props: any) {
         />
       }
       body={
-        <div>
+        
           <View style={styles.container}>
             <View style={{ alignItems: "flex-end" }}>
               <Text style={styles.title}>Cumulative Training Hours</Text>
@@ -114,7 +114,6 @@ export default function AnalyticsDashboardScreen(props: any) {
               </VictoryGroup>
             </VictoryChart>
           </View>
-        </div>
       }
       footer={<ErrorBox errorMessage={error} />}
     />
