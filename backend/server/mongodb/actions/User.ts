@@ -135,6 +135,25 @@ export async function adminGetUsers(
     });
   }
 
+  if (filter === UserFilter.WITHOUT_800_HOURS_USERS) {
+    const handlers = afterId
+      ? await AnimalModel.find({
+          _id: { $gt: afterId },
+          totalHours: { $lt: 800 },
+        })
+          .limit(pageSize)
+          .select("handler")
+      : await AnimalModel.find({ totalHours: { $lt: 800 } })
+          .limit(pageSize)
+          .select("handler");
+
+    return UserModel.find({
+      _id: {
+        $in: handlers.map((item) => item.handler),
+      },
+    });
+  }
+
   if (filter === UserFilter.NONPROFIT_ADMINS) {
     return UserModel.find({
       ...searchQuery,
