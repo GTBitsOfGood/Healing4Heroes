@@ -1,4 +1,8 @@
 import { Types } from "mongoose";
+import {
+  decrementTotalUsers,
+  incrementTotalUsers,
+} from "server/mongodb/actions/Analytics";
 import { deleteAnimalByUserId } from "server/mongodb/actions/Animal";
 import { deleteUserByUserId, verifyUser } from "server/mongodb/actions/User";
 import APIWrapper from "server/utils/APIWrapper";
@@ -15,6 +19,8 @@ export default APIWrapper({
       const userId: Types.ObjectId = req.body.userId as Types.ObjectId;
 
       const users = await verifyUser(userId);
+
+      await incrementTotalUsers();
 
       return users;
     },
@@ -34,6 +40,11 @@ export default APIWrapper({
 
       (await deleteAnimalByUserId(userId)) as ServiceAnimal;
       await removeUserFromFirebase(user.firebaseUid);
+
+      if (user.verifiedByAdmin) {
+        await decrementTotalUsers();
+      }
+
       return user;
     },
   },
