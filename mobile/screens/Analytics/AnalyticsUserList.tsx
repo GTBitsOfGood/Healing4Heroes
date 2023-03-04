@@ -10,30 +10,20 @@ import { AntDesign } from "@expo/vector-icons";
 
 const PAGE_SIZE = 6;
 
-export default function AdminUserList(props: any) {
-  const { filter } = props.route.params;
+export default function AnalyticsUserList(props: any) {
+  const { completed } = props.route.params;
   const [allUsers, setAllUsers] = useState<User[][]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState("");
+  const filter = completed ? UserFilter.WITH_800_HOURS_USERS : UserFilter.WITHOUT_800_HOURS_USERS;
 
-  const removeUserFromList = (errorMessage: string, userId: Types.ObjectId) => {
-    if (errorMessage) {
-      setError(errorMessage);
-      return;
-    }
-    const newUserList = allUsers[currentPage].filter(
-      (user) => user._id !== userId
-    );
-    allUsers[currentPage] = newUserList;
-    setAllUsers([...allUsers]);
-  };
 
   useEffect(() => {
     async function loadUsers() {
       const users = await ErrorWrapper({
         functionToExecute: adminGetUsers,
         errorHandler: setError,
-        parameters: [PAGE_SIZE, undefined, filter],
+        parameters: [PAGE_SIZE, undefined, filter, ""],
       });
       setAllUsers([users]);
     }
@@ -75,23 +65,10 @@ export default function AdminUserList(props: any) {
     <PaginatedOverlay
       navigationProp={props.navigation}
       paginationButtonFunction={processNext}
-      headerTitle={"All Users"}
+      headerTitle={"Users Who Completed Training"}
       errorMessage={error}
       pageBody={
         <View style={styles.container}>
-          <View style={styles.searchView}>
-            <AntDesign
-              name="search1"
-              size={20}
-              color="#3F3BED"
-              style={styles.searchIcon}
-            />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search by name or email"
-              placeholderTextColor="grey"
-            />
-          </View>
           {allUsers.length > 0 &&
             allUsers[currentPage].map((user, index) => {
               return (
@@ -101,7 +78,6 @@ export default function AdminUserList(props: any) {
                   userEmail={user.email}
                   key={index}
                   isVerification={filter === UserFilter}
-                  verifyCallback={removeUserFromList}
                   callbackFunction={() => {
                     props.navigation.navigate(
                       Screens.ADMIN_DETAILED_USER_SCREEN,

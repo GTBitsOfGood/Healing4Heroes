@@ -152,6 +152,7 @@ export enum Screens {
   VIEW_SINGLE_ANNOUNCEMENT_SCREEN = "View Single Announcement",
   BASE_OVERLAY_EXAMPLE_SCREEN = "Base Overlay Example Screen",
   ANALYTICS_DASHBOARD_SCREEN = "Analytics Dashboard",
+  ANALYTICS_USER_LIST = "Analytics User List",
 }
 
 export enum UserFilter {
@@ -159,7 +160,7 @@ export enum UserFilter {
   NONPROFIT_ADMINS = "admins",
   UNVERIFIED_USERS = "unverified users",
   WITH_800_HOURS_USERS = "users with 800 users",
-  WITHOUT_800_HOURS_USERS = "user without 800 hours",
+  WITHOUT_800_HOURS_USERS = "users without 800 hours",
 }
 
 export enum ButtonDirection {

@@ -101,6 +101,31 @@ export default function DevelopmentScreen(props: any) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={() =>
+          //props.navigation.navigate(Screens.ANALYTICS_USER_LIST)
+          props.navigation.navigate(
+            Screens.ANALYTICS_USER_LIST,
+            { completed: true },
+          )
+        }
+        style={styles.buttonItem}
+      >
+        <Text>Analytics Users Who Completed Training</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          //props.navigation.navigate(Screens.ANALYTICS_USER_LIST)
+          props.navigation.navigate(
+            Screens.ANALYTICS_USER_LIST,
+            { completed: false },
+          )
+        }
+        style={styles.buttonItem}
+      >
+        <Text>Analytics Users Who Did Not Complete Training</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
         onPress={async () => {
           await signInWithEmailAndPassword(
             auth,
