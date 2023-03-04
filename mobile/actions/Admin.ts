@@ -17,7 +17,8 @@ const adminTrainingLogUrl = urls.baseUrl + urls.api.admin.training;
 export const adminGetUsers = async (
   pageSize: number,
   afterId?: Types.ObjectId | string,
-  filter?: UserFilter
+  filter?: UserFilter,
+  searchText?: string
 ) => {
   return internalRequest<User[]>({
     url: adminUserUrl,
@@ -27,6 +28,7 @@ export const adminGetUsers = async (
       afterId,
       pageSize,
       filter,
+      searchText,
     },
   });
 };
