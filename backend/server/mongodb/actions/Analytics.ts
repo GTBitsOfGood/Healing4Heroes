@@ -106,15 +106,21 @@ async function getCumulativeTrainingHours(): Promise<number[]> {
   return result;
 }
 
-export async function initializeAnalytics() {
+async function getActiveUsers() {
   await dbConnect();
 
-  const totalUsers = await UserModel.countDocuments({ verifiedByAdmin: true });
-  const activeUsers = (
+  return (
     await TrainingLogModel.find({
       date: { $gte: new Date(Date.now() - ACTIVE_USERS_CALCULATION_WINDOW) },
     }).distinct("handler")
   ).length;
+}
+
+export async function initializeAnalytics() {
+  await dbConnect();
+
+  const totalUsers = await UserModel.countDocuments({ verifiedByAdmin: true });
+  const activeUsers = await getActiveUsers();
   const usersCompletedTraining = await AnimalModel.countDocuments({
     totalHours: { $gte: 800 },
   });
@@ -127,10 +133,110 @@ export async function initializeAnalytics() {
     usersCompletedTraining,
     negativeBehaviorLogGraph,
     cumulativeTrainingHours,
+    currentYear: new Date().getFullYear(),
   };
 
-  return AnalyticsModel.update({}, analytics, {
+  return AnalyticsModel.updateOne({}, analytics, {
     upsert: true,
     setDefaultsOnInsert: true,
   });
+}
+
+// returns true if Analytics didn't exist and had to be initialized
+async function ensureAnalyticsIsInitialized(): Promise<boolean> {
+  await dbConnect();
+
+  if (await AnalyticsModel.findOne()) {
+    return false;
+  }
+
+  await initializeAnalytics();
+  return true;
+}
+
+export async function getAnalytics() {
+  await dbConnect();
+
+  if (await ensureAnalyticsIsInitialized()) {
+    return AnalyticsModel.findOne();
+  }
+
+  /* activeUsers and negativeBehaviorLogGraph are not dynamically
+  updated, so they must be manually updated prior to retrieval */
+  await updateActiveUsers();
+  await updateNegativeBehaviorLogGraph();
+
+  return AnalyticsModel.findOne();
+}
+
+async function updateActiveUsers() {
+  await dbConnect();
+
+  if (await ensureAnalyticsIsInitialized()) {
+    return;
+  }
+
+  const activeUsers = await getActiveUsers();
+  return AnalyticsModel.findOneAndUpdate({}, { $set: { activeUsers } });
+}
+
+async function updateNegativeBehaviorLogGraph() {
+  await dbConnect();
+
+  if (await ensureAnalyticsIsInitialized()) {
+    return;
+  }
+
+  const negativeBehaviorLogGraph = await getNegativeBehaviorLogGraph();
+  return AnalyticsModel.updateOne({}, { $set: { negativeBehaviorLogGraph } });
+}
+
+export async function incrementTotalUsers() {
+  await dbConnect();
+
+  if (await ensureAnalyticsIsInitialized()) {
+    return;
+  }
+
+  return AnalyticsModel.updateOne({}, { $inc: { totalUsers: 1 } });
+}
+
+export async function decrementTotalUsers() {
+  await dbConnect();
+
+  if (await ensureAnalyticsIsInitialized()) {
+    return;
+  }
+
+  return AnalyticsModel.updateOne({}, { $inc: { totalUsers: -1 } });
+}
+
+export async function incrementUsersCompletedTraining() {
+  await dbConnect();
+
+  if (await ensureAnalyticsIsInitialized()) {
+    return;
+  }
+
+  return AnalyticsModel.updateOne({}, { $inc: { usersCompletedTraining: 1 } });
+}
+
+export async function updateCumulativeTrainingHours(hours: number) {
+  await dbConnect();
+
+  const date = new Date();
+  const currentYear = date.getFullYear();
+
+  const analytics = await AnalyticsModel.findOne();
+  // if we're in a new year, we should just recalculate everything
+  if (!analytics || analytics.currentYear != currentYear) {
+    await initializeAnalytics();
+    return;
+  }
+
+  const currentMonth = date.getMonth();
+  return AnalyticsModel.updateOne(
+    {},
+    { $inc: { [`cumulativeTrainingHours.${currentMonth}`]: hours } }
+  );
 }

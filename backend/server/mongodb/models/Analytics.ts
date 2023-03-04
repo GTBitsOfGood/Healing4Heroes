@@ -22,6 +22,10 @@ const AnalyticsSchema = new mongoose.Schema<Analytics>({
     type: [Number],
     required: true,
   },
+  currentYear: {
+    type: Number,
+    required: true,
+  },
 });
 
 const AnalyticsModel =

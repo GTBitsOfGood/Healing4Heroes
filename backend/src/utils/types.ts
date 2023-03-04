@@ -130,6 +130,8 @@ export interface Analytics {
 
   /* array of length 12 with # of cumulative training hours per month for the current year. */
   cumulativeTrainingHours: number[];
+
+  currentYear: number;
 }
 
 /* Internal Request & API Wrapper Types */
