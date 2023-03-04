@@ -8,6 +8,7 @@ import {
   VictoryLabel,
   VictoryGroup,
   VictoryArea,
+  Slice,
 } from "victory-native";
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
@@ -143,14 +144,8 @@ export default function AnalyticsDashboardScreen(props: any) {
             </View>
             <VictoryPie
               name={"Hi"}
-              startAngle={
-                (analytics.usersCompletedTraining / analytics.totalUsers) * 360
-              }
-              endAngle={
-                (analytics.usersCompletedTraining / analytics.totalUsers) *
-                  360 +
-                360
-              }
+              startAngle={(analytics.usersCompletedTraining / analytics.totalUsers) * 360}
+              endAngle={(analytics.usersCompletedTraining / analytics.totalUsers) * 360 + 360}
               animate={{
                 duration: 500,
               }}
@@ -167,6 +162,32 @@ export default function AnalyticsDashboardScreen(props: any) {
                 },
               }}
               colorScale={["#d0ceed", "#403bf6"]}
+              events={[
+                {
+                  target: "data",
+                  eventHandlers: {
+                    onPress: () => {
+                      return [
+                        {
+                          target: "data",
+                          mutation: (dt) => {
+                            const usersGood = dt.datum.y;
+                            return usersGood === analytics.usersCompletedTraining
+                              ? props.navigation.navigate(
+                                  Screens.ANALYTICS_USER_LIST,
+                                  { completed: true }
+                                )
+                              : props.navigation.navigate(
+                                  Screens.ANALYTICS_USER_LIST,
+                                  { completed: false }
+                                );
+                          },
+                        },
+                      ];
+                    },
+                  },
+                },
+              ]}
             />
             <VictoryLegend
               x={90}
