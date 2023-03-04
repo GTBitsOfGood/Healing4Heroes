@@ -153,7 +153,8 @@ const styles = StyleSheet.create({
     width: 320,
   },
   title: {
-    fontSize: 15,
+    fontFamily: "DMSans-Bold",
+    fontSize: 20,
     fontWeight: "800",
     color: "#727272",
   },
