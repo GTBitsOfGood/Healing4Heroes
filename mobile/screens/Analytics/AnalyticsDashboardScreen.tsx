@@ -69,7 +69,7 @@ export default function AnalyticsDashboardScreen(props: any) {
 
           <View style={styles.box}>
             <VictoryChart
-              padding={{ top: 20, bottom: 30, left: 40, right: 70 }}
+              padding={{ top: 30, bottom: 30, left: 40, right: 90 }}
               domainPadding={{ x: 20 }}
               theme={VictoryTheme.material}
               height={250}
@@ -93,6 +93,9 @@ export default function AnalyticsDashboardScreen(props: any) {
                   axis: {
                     stroke: "white",
                   },
+                  grid: {
+                    stroke: "white",
+                  },
                   ticks: { stroke: "white", size: 5 },
                   tickLabels: { fontSize: 10 },
                 }}
@@ -102,7 +105,7 @@ export default function AnalyticsDashboardScreen(props: any) {
                   style={{ data: { fill: "#D3D3D3" } }}
                   barWidth={5}
                   alignment="start"
-                  cornerRadius={3}
+                  cornerRadius={{top:3, bottom:3}}
                   data={maxdata}
                   labelComponent={
                     <VictoryLabel y={250} verticalAnchor={"start"} />
@@ -112,7 +115,7 @@ export default function AnalyticsDashboardScreen(props: any) {
                   style={{ data: { fill: "#0096FF" } }}
                   barWidth={5}
                   alignment="start"
-                  cornerRadius={3}
+                  cornerRadius={{top:3, bottom:3}}
                   data={month.map(function (e, i) {
                     return [e, fakeData.cumulativeTrainingHours[i]];
                   })}
@@ -139,18 +142,19 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     backgroundColor: "#f2f2f2",
     flexDirection: "column",
-    width: 400,
+    width: 500,
   },
   box: {
     flex: 1,
     justifyContent: "flex-start",
     flexDirection: "column",
-    backgroundColor: "#ffffff",
-    borderRadius: 4,
+    backgroundColor: "white",
+    borderRadius: 10,
+    width: 320
   },
   title: {
     fontSize: 15,
     fontWeight: "800",
     color: "#727272",
-  },
+  }
 });
