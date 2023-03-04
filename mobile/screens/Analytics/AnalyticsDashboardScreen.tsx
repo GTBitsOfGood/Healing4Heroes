@@ -6,7 +6,6 @@ import ErrorBox from "../../components/ErrorBox";
 import GenericHeader from "../../components/GenericHeader";
 import {
   VictoryAxis,
-  VictoryLine,
   VictoryChart,
   VictoryArea,
 } from "victory-native";
