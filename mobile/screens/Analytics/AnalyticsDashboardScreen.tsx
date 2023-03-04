@@ -182,11 +182,21 @@ export default function AnalyticsDashboardScreen(props: any) {
                               analytics.usersCompletedTraining
                               ? props.navigation.navigate(
                                   Screens.ANALYTICS_USER_LIST,
-                                  { completed: true, totalUsers: analytics.totalUsers, usersCompletedTraining: analytics.usersCompletedTraining }
+                                  {
+                                    completed: true,
+                                    totalUsers: analytics.totalUsers,
+                                    usersCompletedTraining:
+                                      analytics.usersCompletedTraining,
+                                  }
                                 )
                               : props.navigation.navigate(
                                   Screens.ANALYTICS_USER_LIST,
-                                  { completed: false, totalUsers: analytics.totalUsers, usersCompletedTraining: analytics.usersCompletedTraining }
+                                  {
+                                    completed: false,
+                                    totalUsers: analytics.totalUsers,
+                                    usersCompletedTraining:
+                                      analytics.usersCompletedTraining,
+                                  }
                                 );
                           },
                         },

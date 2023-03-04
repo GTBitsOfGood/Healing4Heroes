@@ -149,17 +149,17 @@ const styles = StyleSheet.create({
   },
 
   total: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
   },
 
   leftText: {
-    fontWeight: '600',
-    color: 'blue',
+    fontWeight: "600",
+    color: "blue",
   },
 
   rightText: {
-    fontWeight: '600',
+    fontWeight: "600",
     color: "grey",
-  }
+  },
 });
