@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, View, Text } from "react-native";
+import { BackHandler, StyleSheet, View, Text, Dimensions} from "react-native";
 import {
   VictoryChart,
   VictoryBar,
@@ -47,11 +47,16 @@ export default function AnalyticsDashboardScreen(props: any) {
     "NOV",
     "DEC",
   ];
-
+  
   const maxdata: number[] = [0];
+  const tickValuesArray: number[] = [];
   for (let i = 0; i < fakeData.cumulativeTrainingHours.length; i++) {
     maxdata.push(Math.max(...fakeData.cumulativeTrainingHours));
   }
+  for (let i = 0; i <= Math.max(...fakeData.cumulativeTrainingHours); i += 100) {
+    tickValuesArray.push(i);
+  }
+
 
   return (
     <BaseOverlay
@@ -89,6 +94,7 @@ export default function AnalyticsDashboardScreen(props: any) {
               />
               <VictoryAxis
                 dependentAxis
+                tickValues={tickValuesArray}
                 orientation="left"
                 style={{
                   axis: {
@@ -104,6 +110,7 @@ export default function AnalyticsDashboardScreen(props: any) {
               <VictoryGroup>
                 <VictoryBar
                   style={{ data: { fill: "#D3D3D3" } }}
+
                   barWidth={5}
                   alignment="start"
                   cornerRadius={{ top: 3, bottom: 3 }}
@@ -113,13 +120,14 @@ export default function AnalyticsDashboardScreen(props: any) {
                   }
                 />
                 <VictoryBar
-                  style={{ data: { fill: "#0096FF" } }}
+                  style={{ data: { fill: "blue" } }}
                   barWidth={5}
                   alignment="start"
                   cornerRadius={{ top: 3, bottom: 3 }}
                   data={month.map(function (e, i) {
                     return [e, fakeData.cumulativeTrainingHours[i]];
                   })}
+
                   x={0}
                   y={1}
                   labelComponent={
@@ -150,7 +158,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "white",
     borderRadius: 10,
-    width: 320,
+    width: Dimensions.get('window').width - 75
   },
   title: {
     fontFamily: "DMSans-Bold",
