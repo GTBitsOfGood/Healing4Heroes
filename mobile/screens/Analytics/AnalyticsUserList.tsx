@@ -47,7 +47,7 @@ export default function AnalyticsUserList(props: any) {
         const newUsers = await ErrorWrapper({
           functionToExecute: adminGetUsers,
           errorHandler: setError,
-          parameters: [PAGE_SIZE, afterId, filter],
+          parameters: [PAGE_SIZE, afterId, filter, ""],
         });
         if (newUsers && newUsers.length > 0) {
           allUsers.push(newUsers);

@@ -122,36 +122,30 @@ export async function adminGetUsers(
   // Hours is on the Animal, not the users
   if (filter === UserFilter.WITH_800_HOURS_USERS) {
     const handlers = await AnimalModel.find({
-      ...searchQuery,
       totalHours: { $gte: 800 },
-    })
-      .limit(pageSize)
-      .select("handler");
+    }).select("handler");
 
     return UserModel.find({
       _id: {
+        ...(afterId && { $gt: afterId }),
         $in: handlers.map((item) => item.handler),
       },
-    });
+    }).limit(pageSize);
   }
 
   if (filter === UserFilter.WITHOUT_800_HOURS_USERS) {
-    const handlers = afterId
-      ? await AnimalModel.find({
-          _id: { $gt: afterId },
-          totalHours: { $lt: 800 },
-        })
-          .limit(pageSize)
-          .select("handler")
-      : await AnimalModel.find({ totalHours: { $lt: 800 } })
-          .limit(pageSize)
-          .select("handler");
+    const handlers = await AnimalModel.find({
+      totalHours: { $gte: 800 },
+    }).select("handler");
 
     return UserModel.find({
       _id: {
-        $in: handlers.map((item) => item.handler),
+        ...(afterId && { $gt: afterId }),
+        // some verified users do not have an animal
+        $nin: handlers.map((item) => item.handler),
       },
-    });
+      verifiedByAdmin: true,
+    }).limit(pageSize);
   }
 
   if (filter === UserFilter.NONPROFIT_ADMINS) {

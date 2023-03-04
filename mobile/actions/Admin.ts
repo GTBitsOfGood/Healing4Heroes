@@ -1,5 +1,6 @@
 import { internalRequest } from "../utils/requests";
 import {
+  Analytics,
   HttpMethod,
   ServiceAnimal,
   TrainingLog,
@@ -76,7 +77,7 @@ export const adminGetTrainingLogs = async (userId: Types.ObjectId | string) => {
 };
 
 export const adminGetAnalytics = async () => {
-  return internalRequest({
+  return internalRequest<Analytics>({
     url: adminAnalyticsUrl,
     method: HttpMethod.GET,
     authRequired: true,

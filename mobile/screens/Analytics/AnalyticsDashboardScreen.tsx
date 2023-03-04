@@ -8,7 +8,6 @@ import {
   VictoryLabel,
   VictoryGroup,
   VictoryArea,
-  Slice,
 } from "victory-native";
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
@@ -20,13 +19,11 @@ import { adminGetAnalytics } from "../../actions/Admin";
 
 export default function AnalyticsDashboardScreen(props: any) {
   const [analytics, setAnalytics] = useState({
-    totalUsers: 150,
-    activeUsers: 27,
-    negativeBehaviorLogGraph: [10, 2, 3, 4, 7, 9, 20, 9, 0, 1, 2, 3, 1],
-    usersCompletedTraining: 16,
-    cumulativeTrainingHours: [
-      10, 20, 40, 30, 50, 60, 10, 90, 100, 250, 400, 600,
-    ],
+    totalUsers: 1,
+    activeUsers: 1,
+    negativeBehaviorLogGraph: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    usersCompletedTraining: 1,
+    cumulativeTrainingHours: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   });
   const [error, setError] = useState("");
 
