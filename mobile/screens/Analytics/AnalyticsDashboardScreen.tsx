@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BackHandler, StyleSheet, View, Text } from "react-native";
+import { BackHandler, StyleSheet, View, Text, Platform } from "react-native";
 import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
@@ -63,10 +63,9 @@ export default function AnalyticsDashboardScreen(props: any) {
             colorScale={["#d0ceed", "#403bf6"]}
           />
           <VictoryLegend
-            x={110}
+            x={118}
             y={0}
             height={50}
-            title='Legend'
             centerTitle
             orientation='horizontal'
             gutter={20}
@@ -101,7 +100,14 @@ const styles = StyleSheet.create({
     marginTop: 6,
     marginBottom: 9,
     padding: 10,
-    elevation: 5,
+    ...(Platform.OS === "ios"
+      ? {
+          shadowOffset: { width: 0, height: 3 },
+          shadowColor: "gray",
+          shadowOpacity: 1,
+        }
+        :
+        { elevation: 5 }),
     borderRadius: 20,
   },
   title: {
