@@ -4,7 +4,12 @@ import { Screens } from "../../utils/types";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
 import GenericHeader from "../../components/GenericHeader";
-import { VictoryAxis, VictoryLine, VictoryChart } from "victory-native";
+import {
+  VictoryAxis,
+  VictoryLine,
+  VictoryChart,
+  VictoryArea,
+} from "victory-native";
 
 export default function AnalyticsDashboardScreen(props: any) {
   const [error, setError] = useState("");
@@ -49,9 +54,9 @@ export default function AnalyticsDashboardScreen(props: any) {
 
           <View style={styles.graphContainer}>
             <Text style={styles.boxTitle}>Negative Behavior</Text>
-            <View>
+            <View style={styles.chart}>
               <VictoryChart
-                height={140}
+                height={130}
                 width={200}
                 domain={{
                   y: [
@@ -60,10 +65,14 @@ export default function AnalyticsDashboardScreen(props: any) {
                   ],
                 }}
               >
-                <VictoryLine
+                <VictoryArea
                   interpolation="natural"
                   style={{
-                    data: { stroke: "blue" },
+                    data: {
+                      stroke: "blue",
+                      strokeWidth: 2,
+                      fill: "#0000FF10",
+                    },
                   }}
                   data={fakeData.negativeBehaviorLogGraph}
                 />
@@ -98,7 +107,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 12,
     backgroundColor: "#fff",
-    height: 130,
+    height: 120,
     flexDirection: "column",
   },
   graphContainer: {
@@ -106,15 +115,15 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     padding: 10,
     borderRadius: 12,
-    alignItems: "center",
     backgroundColor: "#fff",
-    height: 130,
+    height: 120,
+    flexDirection: "column",
   },
   boxTitle: {
     fontFamily: "DMSans-Bold",
     color: "grey",
     fontSize: 12,
-    justifyContent: 'flex-start'
+    justifyContent: "flex-start",
   },
   sideBySideText: {
     paddingTop: 10,
@@ -137,12 +146,18 @@ const styles = StyleSheet.create({
   },
   bottomRightText: {
     flex: 1,
-    alignSelf: 'flex-end',
-    justifyContent: 'flex-end',
+    alignSelf: "flex-end",
+    justifyContent: "flex-end",
   },
   bottomRightTextFont: {
     fontFamily: "DMSans",
     color: "grey",
     fontSize: 11,
+  },
+  chart: {
+    alignItems: "center",
+    margin: 0,
+    justifyContent: "flex-start",
+    bottom: 0,
   },
 });
