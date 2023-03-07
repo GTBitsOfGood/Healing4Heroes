@@ -90,25 +90,21 @@ export async function adminGetUsers(
   searchText?: string
 ) {
   await dbConnect();
+  searchText = searchText ? "^" + searchText + "(.*)" : searchText;
   const searchQuery = {
     ...(afterId && { _id: { $gt: afterId } }),
+    ...(searchText && {
+      $or: [
+        { email: { $regex: searchText, $options: "i" } },
+        { firstName: { $regex: searchText, $options: "i" } },
+        { lastName: { $regex: searchText, $options: "i" } },
+      ],
+    }),
   };
 
   if (!filter || filter === UserFilter.NONPROFIT_USERS) {
-    searchText = searchText ? "^" + searchText + "(.*)" : searchText;
-    const subSearchQuery = {
-      ...(searchText && {
-        $or: [
-          { email: { $regex: searchText, $options: "i" } },
-          { firstName: { $regex: searchText, $options: "i" } },
-          { lastName: { $regex: searchText, $options: "i" } },
-        ],
-      }),
-    };
-
     return UserModel.find({
       ...searchQuery,
-      ...subSearchQuery,
       roles: { $nin: [Role.NONPROFIT_ADMIN] },
     }).limit(pageSize);
   }
