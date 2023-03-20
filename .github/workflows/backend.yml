@@ -1,4 +1,4 @@
-name: deploy backend
+name: lint backend
 # On pull request, make a deployment to Preview
 # On merge into main, make a deployment to Develop
 # On merge into prod, flag prod, make a deployment to Production
