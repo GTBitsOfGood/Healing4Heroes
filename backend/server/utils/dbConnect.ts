@@ -23,10 +23,11 @@ async function dbConnect(): Promise<void> {
 }
 
 export function firebaseConnect() {
-  /*eslint-disable */
-  const serviceAccount: ServiceAccount =
-    require("./firebase-service-account.json") as ServiceAccount;
-  /*eslint-enable */
+  const serviceAccount: ServiceAccount = {
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+  };
   if (getApps().length === 0) {
     initializeApp({ credential: credential.cert(serviceAccount) });
   } else {

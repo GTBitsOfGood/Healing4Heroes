@@ -9,7 +9,7 @@ function getBaseURL() {
   if (manifest?.debuggerHost) {
     return `http://${manifest?.debuggerHost?.split(":").shift()}:3000`;
   } else {
-    return 'http://localhost:3000';
+    return "http://localhost:3000";
   }
 }
 
