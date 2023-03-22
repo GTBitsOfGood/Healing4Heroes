@@ -41,9 +41,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [initialRoute, setInitialRoute] = useState<Screens>(
-    process.env.NODE_ENV === "development"
-      ? Screens.DEVELOPMENT_SCREEN
-      : Screens.LANDING_SCREEN
+    Screens.LANDING_SCREEN
   );
   const [appIsReady, setAppIsReady] = useState(false);
 
@@ -54,18 +52,23 @@ export default function App() {
   }, [appIsReady]);
 
   useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const user = await userGetUserInfo();
-        if (user.roles?.includes(Role.NONPROFIT_ADMIN)) {
-          setInitialRoute(Screens.ADMIN_DASHBOARD_SCREEN);
-        } else {
-          setInitialRoute(Screens.USER_DASHBOARD_SCREEN);
-        }
-      }
+    if (process.env.NODE_ENV === "development") {
+      setInitialRoute(Screens.DEVELOPMENT_SCREEN);
       setAppIsReady(true);
-    });
-  });
+    } else {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const user = await userGetUserInfo();
+          if (user.roles?.includes(Role.NONPROFIT_ADMIN)) {
+            setInitialRoute(Screens.ADMIN_DASHBOARD_SCREEN);
+          } else {
+            setInitialRoute(Screens.USER_DASHBOARD_SCREEN);
+          }
+        }
+        setAppIsReady(true);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     LogBox.ignoreAllLogs(); //Hide all warning notifications on front-end
