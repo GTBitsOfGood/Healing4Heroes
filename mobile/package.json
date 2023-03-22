@@ -26,6 +26,7 @@
     "expo-file-system": "~15.1.1",
     "expo-image-picker": "~14.0.2",
     "expo-media-library": "~15.0.0",
+    "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "expo-video-thumbnails": "~7.0.0",
     "firebase": "^9.9.4",
