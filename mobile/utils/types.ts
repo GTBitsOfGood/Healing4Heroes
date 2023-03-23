@@ -118,10 +118,10 @@ export enum BehaviorTypes {
   NO_NEGATIVE_BEHAVIOR = "No Negative Behavior",
   BITING = "Biting",
   UNPROVOKED_BARKING = "Unprovoked Barking",
-  AGRESSIVE_PULLING = "Agressive Pulling",
+  AGGRESSIVE_PULLING = "Aggressive Pulling",
   UNCONTROLLED_JUMPING = "Uncontrolled Jumping",
   GETTING_TRASH_TOILET = "Getting Into Trash / Toilet",
-  GROWLING_AGRESSIVE_BEHAVIOR = "Growling or Showing Agressive Behavior",
+  GROWLING_AGGRESSIVE_BEHAVIOR = "Growling or Showing Aggressive Behavior",
   OTHER = "Other",
 }
 
