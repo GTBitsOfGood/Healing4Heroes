@@ -8,8 +8,8 @@
 - eslint: Automatically identifying and fixing code errors
 - Firebase: User Authentication
 - Github Actions: Continuous Deployment Pipeline
-- Nodemailer: Mailing Functionality
-- Vercel + Expo: Deployment
+- Email Templates + Nodemailer + Pug: Mailing Functionality
+- Netlify + Expo: Deployment
 
 ## Development
 
@@ -37,26 +37,39 @@ npm ci
 npm run secrets:linux
 ```
 
-5. Obtain your secrets -- Windows Machines (Skip if MacOS or Linux); you will need to obtain a password from your Engineering Manager:
+5. Install Homebrew and Watchman -- Linux or MacOS (Skip if Windows); first install [Homebrew](https://brew.sh), then use it to install [Watchman](https://facebook.github.io/watchman/docs/install#buildinstall).
+
+```
+brew install watchman
+```
+
+6. Obtain your secrets -- Windows Machines (Skip if MacOS or Linux); you will need to obtain a password from your Engineering Manager:
 
 ```
 npm run secrets:windows
 ```
 
-6. Run the project in your browser (Note: Not all React-Native features may work properly in the browser but it is good for quick development and iteration):
+7. Run the project in your browser (Note: Not all React-Native features may work properly in the browser but it is good for quick development and iteration):
 
 ```
 npm run dev
 ```
 
-7. (Required for Frontend Devs) To run the project on your phone, there are a couple of ways to do this but using [Expo Go](https://expo.dev/client) is the easiest. When using running the application, you will receive a QR code which you scan through your phone's Expo Go app.
+8. (Required for Frontend Devs) To run the project on your phone, there are a couple of ways to do this but using [Expo Go](https://expo.dev/client) is the easiest. When using running the application, you will receive a QR code which you scan through your phone's Expo Go app.
 
 ```
 npm run start:mobile
 npm run start:backend
 ```
 
-8. If you face network issues of connecting with the app via your phone, you can run it via a tunnel like ngrok; you may need to install a package when doing this for the first time:
+---
+**NOTE**
+
+Your computer running the Expo server and your phone must be on the same network. The backend server must run on port 3000 (default port).
+
+---
+
+9. If you face network issues of connecting with the app via your phone, you can run it via a tunnel like ngrok; you may need to install a package when doing this for the first time:
 
 ```
 npm run start:mobile-tunnel
