@@ -119,11 +119,11 @@ export default function AddTrainingLogScreen(props: any) {
               "No Negative Behavior": BehaviorTypes.NO_NEGATIVE_BEHAVIOR,
               Biting: BehaviorTypes.BITING,
               "Unprovoked Barking": BehaviorTypes.UNPROVOKED_BARKING,
-              "Agressive Pulling": BehaviorTypes.AGRESSIVE_PULLING,
+              "Aggressive Pulling": BehaviorTypes.AGGRESSIVE_PULLING,
               "Uncontrolled Jumping": BehaviorTypes.UNCONTROLLED_JUMPING,
               "Getting Into Trash / Toilet": BehaviorTypes.GETTING_TRASH_TOILET,
-              "Growling or Showing Agressive Behavior":
-                BehaviorTypes.GROWLING_AGRESSIVE_BEHAVIOR,
+              "Growling or Showing Aggressive Behavior":
+                BehaviorTypes.GROWLING_AGGRESSIVE_BEHAVIOR,
               Other: BehaviorTypes.OTHER,
             }}
             isMultiselect={true}
