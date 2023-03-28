@@ -52,6 +52,17 @@ export default function AddTrainingLogScreen(props: any) {
     } else if (isNaN(trainingLogDate.getTime() as number)) {
       setError("Set a Valid Date!");
       return;
+    } else if (trainingLogDate.getDay() < 0 || trainingLogDate.getMonth() < 0) {
+      // TODO: handle negative dates
+    } else if (trainingLogDate.getFullYear()) {
+      //FIXME: fix the condition above - future date not allowed
+      setError("Set a date that is not in the future!");
+    } else if (
+      trainingLogDate.getDay() == 0 ||
+      trainingLogDate.getMonth() == 0
+    ) {
+      // Months and dates should only allow values in a valid range (different allowed date range based on the month)
+      setError("Months and dates cannot be zero");
     } else {
       setError("");
       return true;
