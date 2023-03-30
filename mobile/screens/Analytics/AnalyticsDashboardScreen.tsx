@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   bottomRightTextFont: {
-    fontFamily: "DMSans",
+    fontFamily: "DMSans-Regular",
     color: "grey",
     fontSize: 11,
   },
