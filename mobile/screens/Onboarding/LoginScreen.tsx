@@ -35,7 +35,8 @@ export default function LoginScreen(props: any) {
         parameters: [auth, email, password],
         customErrors: {
           "Firebase: Error (auth/invalid-email).": "This email is invalid",
-          "Firebase: Error (auth/user-not-found).": "There is no user record corresponding to this email",
+          "Firebase: Error (auth/user-not-found).":
+            "There is no user record corresponding to this email",
           "Firebase: Error (auth/internal-error).":
             "An error occurred when trying to authenticate",
           "Firebase: Error (auth/wrong-password).":
