@@ -115,6 +115,7 @@ export const resetPassword = async (email: string, newPassword: string) => {
   } catch {
     return false;
   }
+  
 };
 
 export const verifyUserEmailFirebase = async (firebaseUid: string) => {
