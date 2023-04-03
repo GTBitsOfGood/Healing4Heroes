@@ -113,9 +113,9 @@ export const resetPassword = async (email: string, newPassword: string) => {
     });
     return update;
   } catch {
-    return false;
+    throw new Error("Your password was not reset correctly");
+    //return false;
   }
-  
 };
 
 export const verifyUserEmailFirebase = async (firebaseUid: string) => {
