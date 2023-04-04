@@ -40,6 +40,7 @@ export default function AddTrainingLogScreen(props: any) {
   }
 
   const validateInput = () => {
+    let today = new Date();
     if (!totalHours) {
       setError("Please enter your total hours.");
       return;
@@ -55,11 +56,14 @@ export default function AddTrainingLogScreen(props: any) {
     } else if (isNaN(trainingLogDate.getTime() as number)) {
       setError("Set a Valid Date!");
       return;
-    } else if (trainingLogDate.getFullYear()) {
-      // FIXME: fix the condition above - future date not allowed
+    } else if (trainingLogDate.getDate() < 0 || trainingLogDate.getMonth() < 0) {
+      setError("Set a date that is not negative!");
+      return;
+    }
+    else if (trainingLogDate.setHours(0, 0, 0, 0) > today.setHours(0, 0, 0, 0)) {
       setError("Set a date that is not in the future!");
       return;
-    } else if ((trainingLogDate.getMonth() == 0 || trainingLogDate.getMonth() == 2) && ()) {
+    } else if ((trainingLogDate.getMonth() == 0 || trainingLogDate.getMonth() == 2)) {
       // Months and dates should only allow values in a valid range (different allowed date range based on the month)
 
     } else {
