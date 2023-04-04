@@ -40,7 +40,7 @@ export default function AddTrainingLogScreen(props: any) {
   }
 
   const validateInput = () => {
-    let today = new Date();
+    const today = new Date();
     if (!totalHours) {
       setError("Please enter your total hours.");
       return;
@@ -94,14 +94,10 @@ export default function AddTrainingLogScreen(props: any) {
           "For the month you have entered, the day must be between 1 and 31"
         );
       }
-    } else if (
-      trainingLogDate.getMonth() == 1
-    ) {
+    } else if (trainingLogDate.getMonth() == 1) {
       // Months and dates should only allow values in a valid range (different allowed date range based on the month)
       if (trainingLogDate.getDate() > 29 || trainingLogDate.getDate() < 1) {
-        setError(
-          "The inputted day is invalid for the month of February"
-        );
+        setError("The inputted day is invalid for the month of February");
       }
     } else {
       setError("");
