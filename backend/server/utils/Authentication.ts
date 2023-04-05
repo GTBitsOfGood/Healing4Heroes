@@ -105,17 +105,15 @@ export const sendEmail = async (
 };
 
 export const resetPassword = async (email: string, newPassword: string) => {
-  if (newPassword.length > 6) {
-    firebaseConnect();
-    try {
-      const user = await getAuth().getUserByEmail(email);
-      const update = await getAuth().updateUser(user.uid, {
-        password: newPassword,
-      });
-      return update;
-    } catch {
-      return false;
-    }
+  firebaseConnect();
+  try {
+    const user = await getAuth().getUserByEmail(email);
+    const update = await getAuth().updateUser(user.uid, {
+      password: newPassword,
+    });
+    return update;
+  } catch {
+    return false;
   }
 };
 

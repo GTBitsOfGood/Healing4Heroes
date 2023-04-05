@@ -9,34 +9,15 @@ export default function ResetPasswordScreen(props: any) {
   const [password, setPassword] = useState("");
   const { webToken } = props.route.params;
 
-  // const sendAuthResetPassword = async () => {
-  //   authResetPassword(webToken, password)
-  //     .then(() => {
-  //       props.navigation.navigate(Screens.LOGIN_SCREEN);
-  //     })
-  //     .catch(() => {
-  //       if (password.trim() === "") {
-  //         setErrorMessage("Registration Failed — Password cannot be empty");
-  //       } else if (password.length < 6) {
-  //         setErrorMessage("Registration Failed — Password needs to be at least 6 character")
-  //       }
-
-  //     });
-  // };
-
   const sendAuthResetPassword = async () => {
-    authResetPassword(webToken, password);
-    if (password.trim() === "") {
-      setErrorMessage("Registration Failed — Password cannot be empty");
-    } else if (password.length < 6) {
-      setErrorMessage(
-        "Registration Failed — Password needs to be at least 6 characters"
-      );
-    } else {
-      props.navigation.navigate(Screens.LOGIN_SCREEN);
-    }
+    authResetPassword(webToken, password)
+      .then(() => {
+        props.navigation.navigate(Screens.LOGIN_SCREEN);
+      })
+      .catch(() => {
+        setErrorMessage("Failed to Reset Password");
+      });
   };
-
   return (
     <OnboardingOverlay
       showBackDrop={false}
