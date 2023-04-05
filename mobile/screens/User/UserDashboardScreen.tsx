@@ -100,7 +100,7 @@ export default function UserDashboardScreen(props: any) {
       }
       body={
         <View style={styles.container}>
-          {/* announcment */}
+          {/* announcement */}
           <TouchableOpacity
             style={[styles.announcementContainer, shadowStyle.shadow]}
             onPress={() => {

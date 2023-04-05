@@ -90,25 +90,21 @@ export async function adminGetUsers(
   searchText?: string
 ) {
   await dbConnect();
+  searchText = searchText ? "^" + searchText + "(.*)" : searchText;
   const searchQuery = {
     ...(afterId && { _id: { $gt: afterId } }),
+    ...(searchText && {
+      $or: [
+        { email: { $regex: searchText, $options: "i" } },
+        { firstName: { $regex: searchText, $options: "i" } },
+        { lastName: { $regex: searchText, $options: "i" } },
+      ],
+    }),
   };
 
   if (!filter || filter === UserFilter.NONPROFIT_USERS) {
-    searchText = searchText ? "^" + searchText + "(.*)" : searchText;
-    const subSearchQuery = {
-      ...(searchText && {
-        $or: [
-          { email: { $regex: searchText, $options: "i" } },
-          { firstName: { $regex: searchText, $options: "i" } },
-          { lastName: { $regex: searchText, $options: "i" } },
-        ],
-      }),
-    };
-
     return UserModel.find({
       ...searchQuery,
-      ...subSearchQuery,
       roles: { $nin: [Role.NONPROFIT_ADMIN] },
     }).limit(pageSize);
   }
@@ -122,17 +118,30 @@ export async function adminGetUsers(
   // Hours is on the Animal, not the users
   if (filter === UserFilter.WITH_800_HOURS_USERS) {
     const handlers = await AnimalModel.find({
-      ...searchQuery,
       totalHours: { $gte: 800 },
-    })
-      .limit(pageSize)
-      .select("handler");
+    }).select("handler");
 
     return UserModel.find({
       _id: {
+        ...(afterId && { $gt: afterId }),
         $in: handlers.map((item) => item.handler),
       },
-    });
+    }).limit(pageSize);
+  }
+
+  if (filter === UserFilter.WITHOUT_800_HOURS_USERS) {
+    const handlers = await AnimalModel.find({
+      totalHours: { $gte: 800 },
+    }).select("handler");
+
+    return UserModel.find({
+      _id: {
+        ...(afterId && { $gt: afterId }),
+        // some verified users do not have an animal
+        $nin: handlers.map((item) => item.handler),
+      },
+      verifiedByAdmin: true,
+    }).limit(pageSize);
   }
 
   if (filter === UserFilter.NONPROFIT_ADMINS) {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { LogBox } from "react-native";
 import LoginScreen from "./screens/Onboarding/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
@@ -29,9 +29,47 @@ import ViewAllAnnouncementsScreen from "./screens/Announcements/ViewAllAnnouncem
 import ViewSingleAnnouncementScreen from "./screens/Announcements/ViewSingleAnnouncementScreen";
 import BaseOverlayExampleScreen from "./screens/Development/BaseOverlayExampleScreen";
 import AnalyticsDashboardScreen from "./screens/Analytics/AnalyticsDashboardScreen";
+import AnalyticsUserList from "./screens/Analytics/AnalyticsUserList";
+import * as SplashScreen from "expo-splash-screen";
+import { userGetUserInfo } from "./actions/User";
+import { Role } from "./utils/types";
+import { auth } from "./utils/firebase";
+
+SplashScreen.preventAutoHideAsync();
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [initialRoute, setInitialRoute] = useState<Screens>(
+    Screens.LANDING_SCREEN
+  );
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    if (appIsReady) {
+      SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      setInitialRoute(Screens.DEVELOPMENT_SCREEN);
+      setAppIsReady(true);
+    } else {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const user = await userGetUserInfo();
+          if (user.roles?.includes(Role.NONPROFIT_ADMIN)) {
+            setInitialRoute(Screens.ADMIN_DASHBOARD_SCREEN);
+          } else {
+            setInitialRoute(Screens.USER_DASHBOARD_SCREEN);
+          }
+        }
+        setAppIsReady(true);
+      });
+    }
+  }, []);
+
   useEffect(() => {
     LogBox.ignoreAllLogs(); //Hide all warning notifications on front-end
   }, []);
@@ -42,10 +80,14 @@ export default function App() {
     "DMSans-Regular": require("./assets/fonts/DMSans-Regular.ttf"),
   });
 
+  if (!appIsReady) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={Screens.DEVELOPMENT_SCREEN}
+        initialRouteName={initialRoute}
         screenOptions={{
           headerShown: false,
           gestureEnabled: false,
@@ -144,6 +186,10 @@ export default function App() {
         <Stack.Screen
           name={Screens.ANALYTICS_DASHBOARD_SCREEN}
           component={AnalyticsDashboardScreen}
+        />
+        <Stack.Screen
+          name={Screens.ANALYTICS_USER_LIST}
+          component={AnalyticsUserList}
         />
       </Stack.Navigator>
     </NavigationContainer>

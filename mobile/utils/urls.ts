@@ -6,7 +6,11 @@ function getBaseURL() {
   if (process.env.NODE_ENV === "production") {
     return `https://healing4heroes-backend.vercel.app`;
   }
-  return `http://${manifest?.debuggerHost?.split(":").shift()}:3000`;
+  if (manifest?.debuggerHost) {
+    return `http://${manifest?.debuggerHost?.split(":").shift()}:3000`;
+  } else {
+    return "http://localhost:3000";
+  }
 }
 
 export const urls = {
@@ -37,6 +41,7 @@ export const urls = {
       training: "/api/admin/training",
       announcement: "/api/admin/announcement",
       fileDownload: "/api/admin/file/download",
+      analytics: "/api/admin/analytics",
     },
   },
 };

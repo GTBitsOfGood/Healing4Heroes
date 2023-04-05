@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { updateCumulativeTrainingHours } from "server/mongodb/actions/Analytics";
 import {
   createTrainingLog,
   getTrainingLogs,
@@ -41,6 +42,8 @@ export default APIWrapper({
       if (!trainingLog) {
         throw new Error("Failed to create training log");
       }
+
+      await updateCumulativeTrainingHours(trainingHours);
 
       return trainingLog;
     },

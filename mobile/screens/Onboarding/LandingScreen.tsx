@@ -1,5 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Platform,
+  Linking,
+} from "react-native";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { Screens } from "../../utils/types";
 
@@ -31,6 +39,20 @@ export default function LandingScreen(props: any) {
               </TouchableOpacity>
             </View>
           </View>
+          {Platform.OS === "web" ? (
+            <View style={styles.netlifyContainer}>
+              <TouchableOpacity
+                style={styles.netlifyButton}
+                onPress={() => Linking.openURL("https://www.netlify.com")}
+              >
+                <Image
+                  style={styles.netlify}
+                  source={require("./../../assets/images/netlify.png")}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       }
     />
@@ -104,5 +126,22 @@ const styles = StyleSheet.create({
   signupBtnText: {
     color: "#3F3BED",
     fontSize: 16,
+  },
+
+  netlifyContainer: {
+    width: "100%",
+    height: 80,
+    marginTop: 20,
+    alignItems: "center",
+  },
+
+  netlifyButton: {
+    width: "100%",
+    height: "100%",
+  },
+
+  netlify: {
+    width: "100%",
+    height: "100%",
   },
 });

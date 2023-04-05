@@ -13,7 +13,7 @@ errorHandler: This is some sort of error handling function -- the first argument
 */
 
 // Consider changing the argument into a single object for better readability
-// as opposed to explictly having the different args
+// as opposed to explicitly having the different args
 interface ErrorWrapperArgs {
   /*eslint-disable */
   functionToExecute: Function;

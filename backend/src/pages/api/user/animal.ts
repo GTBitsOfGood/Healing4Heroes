@@ -1,3 +1,4 @@
+import { incrementUsersCompletedTraining } from "server/mongodb/actions/Analytics";
 import {
   createAnimal,
   updateAnimal,
@@ -92,6 +93,10 @@ export default APIWrapper({
         checkUpDate,
         profileImage
       );
+
+      if (animal.totalHours < 800 && totalHours >= 800) {
+        await incrementUsersCompletedTraining();
+      }
 
       return res;
     },

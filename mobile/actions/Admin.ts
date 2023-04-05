@@ -1,5 +1,6 @@
 import { internalRequest } from "../utils/requests";
 import {
+  Analytics,
   HttpMethod,
   ServiceAnimal,
   TrainingLog,
@@ -13,6 +14,7 @@ const adminUserUrl = urls.baseUrl + urls.api.admin.user;
 const adminUserVerifiedUrl = urls.baseUrl + urls.api.admin.userVerified;
 const adminAnimalUrl = urls.baseUrl + urls.api.admin.animal;
 const adminTrainingLogUrl = urls.baseUrl + urls.api.admin.training;
+const adminAnalyticsUrl = urls.baseUrl + urls.api.admin.analytics;
 
 export const adminGetUsers = async (
   pageSize: number,
@@ -71,5 +73,13 @@ export const adminGetTrainingLogs = async (userId: Types.ObjectId | string) => {
     method: HttpMethod.GET,
     authRequired: true,
     queryParams: { userId: userId.toString() },
+  });
+};
+
+export const adminGetAnalytics = async () => {
+  return internalRequest<Analytics>({
+    url: adminAnalyticsUrl,
+    method: HttpMethod.GET,
+    authRequired: true,
   });
 };

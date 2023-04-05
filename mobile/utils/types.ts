@@ -118,10 +118,10 @@ export enum BehaviorTypes {
   NO_NEGATIVE_BEHAVIOR = "No Negative Behavior",
   BITING = "Biting",
   UNPROVOKED_BARKING = "Unprovoked Barking",
-  AGRESSIVE_PULLING = "Agressive Pulling",
+  AGGRESSIVE_PULLING = "Aggressive Pulling",
   UNCONTROLLED_JUMPING = "Uncontrolled Jumping",
   GETTING_TRASH_TOILET = "Getting Into Trash / Toilet",
-  GROWLING_AGRESSIVE_BEHAVIOR = "Growling or Showing Agressive Behavior",
+  GROWLING_AGGRESSIVE_BEHAVIOR = "Growling or Showing Aggressive Behavior",
   OTHER = "Other",
 }
 
@@ -152,6 +152,7 @@ export enum Screens {
   VIEW_SINGLE_ANNOUNCEMENT_SCREEN = "View Single Announcement",
   BASE_OVERLAY_EXAMPLE_SCREEN = "Base Overlay Example Screen",
   ANALYTICS_DASHBOARD_SCREEN = "Analytics Dashboard",
+  ANALYTICS_USER_LIST = "Analytics User List",
 }
 
 export enum UserFilter {
@@ -159,6 +160,7 @@ export enum UserFilter {
   NONPROFIT_ADMINS = "admins",
   UNVERIFIED_USERS = "unverified users",
   WITH_800_HOURS_USERS = "users with 800 users",
+  WITHOUT_800_HOURS_USERS = "users without 800 hours",
 }
 
 export enum ButtonDirection {
@@ -211,4 +213,23 @@ export class EndExecutionError extends Error {
     super(message); // (1)
     this.name = "EndExecutionError"; // (2)
   }
+}
+
+export interface Analytics {
+  /* total # of verified users */
+  totalUsers: number;
+
+  /* # of users who submitted a log in the past 2 weeks */
+  activeUsers: number;
+
+  /* # of users with 800+ hours logged */
+  usersCompletedTraining: number;
+
+  /* array of length 12 with # of negative behavior logs/week in past 12 weeks.*/
+  negativeBehaviorLogGraph: number[];
+
+  /* array of length 12 with # of cumulative training hours per month for the current year. */
+  cumulativeTrainingHours: number[];
+
+  currentYear: number;
 }
