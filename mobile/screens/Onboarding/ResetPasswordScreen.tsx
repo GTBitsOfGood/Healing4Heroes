@@ -14,8 +14,8 @@ export default function ResetPasswordScreen(props: any) {
       .then(() => {
         props.navigation.navigate(Screens.LOGIN_SCREEN);
       })
-      .catch(() => {
-        setErrorMessage("Failed to Reset Password");
+      .catch((err) => {
+        setErrorMessage(err.message);
       });
   };
   return (
