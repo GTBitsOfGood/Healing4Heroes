@@ -53,8 +53,8 @@ export default function AdminUserList(props: any) {
     if (direction === ButtonDirection.BUTTON_FORWARD) {
       // If we are on last page and have a full page of users, we want to load more users
       const lastPage = allUsers.length - 1;
-      if (currentPage === lastPage && allUsers[lastPage].length === PAGE_SIZE) {
-        const afterId = allUsers[lastPage][PAGE_SIZE - 1]._id;
+      if (currentPage === lastPage) {
+        const afterId = allUsers[lastPage][allUsers[lastPage].length - 1]._id;
 
         const newUsers = await ErrorWrapper({
           functionToExecute: adminGetUsers,
@@ -110,6 +110,11 @@ export default function AdminUserList(props: any) {
                   userEmail={user.email}
                   key={index}
                   isVerification={filter === UserFilter.UNVERIFIED_USERS}
+                  canDeleteUser={
+                    filter === UserFilter.NONPROFIT_USERS ||
+                    filter === UserFilter.NONPROFIT_ADMINS ||
+                    filter === UserFilter.UNVERIFIED_USERS
+                  }
                   verifyCallback={removeUserFromList}
                   callbackFunction={() => {
                     props.navigation.navigate(

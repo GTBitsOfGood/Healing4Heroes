@@ -67,3 +67,13 @@ export async function getLatestVerificationLog(
 
   return latestLog;
 }
+
+export async function deleteVerificationLogsByUser(
+  userId: Types.ObjectId | string
+) {
+  await dbConnect();
+
+  const logs = await VerificationLogModel.deleteMany({ user: userId });
+
+  return logs;
+}
