@@ -67,39 +67,42 @@ export default function AddTrainingLogScreen(props: any) {
     ) {
       setError("Set a date that is not in the future!");
       return;
-    } else if (
-      trainingLogDate.getMonth() == 0 ||
-      trainingLogDate.getMonth() == 2 ||
-      trainingLogDate.getMonth() == 4 ||
-      trainingLogDate.getMonth() == 6 ||
-      trainingLogDate.getMonth() == 7 ||
-      trainingLogDate.getMonth() == 9 ||
-      trainingLogDate.getMonth() == 11
-    ) {
-      // Months and dates should only allow values in a valid range (different allowed date range based on the month)
-      if (trainingLogDate.getDate() > 31 || trainingLogDate.getDate() < 1) {
-        setError(
-          "For the month you have entered, the day must be between 1 and 31"
-        );
-      }
-    } else if (
-      trainingLogDate.getMonth() == 3 ||
-      trainingLogDate.getMonth() == 5 ||
-      trainingLogDate.getMonth() == 8 ||
-      trainingLogDate.getMonth() == 10
-    ) {
-      // Months and dates should only allow values in a valid range (different allowed date range based on the month)
-      if (trainingLogDate.getDate() > 30 || trainingLogDate.getDate() < 1) {
-        setError(
-          "For the month you have entered, the day must be between 1 and 31"
-        );
-      }
-    } else if (trainingLogDate.getMonth() == 1) {
-      // Months and dates should only allow values in a valid range (different allowed date range based on the month)
-      if (trainingLogDate.getDate() > 29 || trainingLogDate.getDate() < 1) {
-        setError("The inputted day is invalid for the month of February");
-      }
-    } else {
+    }
+
+    // else if (
+    //   trainingLogDate.getMonth() == 0 ||
+    //   trainingLogDate.getMonth() == 2 ||
+    //   trainingLogDate.getMonth() == 4 ||
+    //   trainingLogDate.getMonth() == 6 ||
+    //   trainingLogDate.getMonth() == 7 ||
+    //   trainingLogDate.getMonth() == 9 ||
+    //   trainingLogDate.getMonth() == 11
+    // ) {
+    //   // Months and dates should only allow values in a valid range (different allowed date range based on the month)
+    //   if (trainingLogDate.getDate() > 31 || trainingLogDate.getDate() < 1) {
+    //     setError(
+    //       "For the month you have entered, the day must be between 1 and 31"
+    //     );
+    //   }
+    // } else if (
+    //   trainingLogDate.getMonth() == 3 ||
+    //   trainingLogDate.getMonth() == 5 ||
+    //   trainingLogDate.getMonth() == 8 ||
+    //   trainingLogDate.getMonth() == 10
+    // ) {
+    //   // Months and dates should only allow values in a valid range (different allowed date range based on the month)
+    //   if (trainingLogDate.getDate() > 30 || trainingLogDate.getDate() < 1) {
+    //     setError(
+    //       "For the month you have entered, the day must be between 1 and 31"
+    //     );
+    //   }
+    // } else if (trainingLogDate.getMonth() == 1) {
+    //   // Months and dates should only allow values in a valid range (different allowed date range based on the month)
+    //   if (trainingLogDate.getDate() > 29 || trainingLogDate.getDate() < 1) {
+    //     setError("The inputted day is invalid for the month of February");
+    //   }
+    // }
+    else {
       setError("");
       return true;
     }
