@@ -42,3 +42,11 @@ export async function getReadAnnouncements(user: Types.ObjectId) {
 
   return readAnnouncements;
 }
+
+export async function deleteReadLogsByUser(userId: Types.ObjectId) {
+  await dbConnect();
+
+  const readLogs = await ReadLogModel.deleteMany({ user: userId });
+
+  return readLogs;
+}

@@ -36,3 +36,11 @@ export async function getTrainingLogs(userId: Types.ObjectId | string) {
   const trainingLogs = await TrainingLogModel.find({ handler: userId });
   return trainingLogs;
 }
+
+export async function deleteTrainingLogsByUser(userId: Types.ObjectId) {
+  await dbConnect();
+
+  const trainingLogs = await TrainingLogModel.deleteMany({ handler: userId });
+
+  return trainingLogs;
+}
