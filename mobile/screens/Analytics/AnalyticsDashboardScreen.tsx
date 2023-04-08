@@ -14,7 +14,7 @@ import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import ErrorBox from "../../components/ErrorBox";
 import GenericHeader from "../../components/GenericHeader";
 import { VictoryLegend, VictoryPie } from "victory-native";
-import { ErrorWrapper } from "../../utils/error";
+import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import { adminGetAnalytics } from "../../actions/Admin";
 
 export default function AnalyticsDashboardScreen(props: any) {
@@ -33,11 +33,15 @@ export default function AnalyticsDashboardScreen(props: any) {
       return true;
     });
     async function loadAnalytics() {
-      const analyticsData = await ErrorWrapper({
-        functionToExecute: adminGetAnalytics,
-        errorHandler: setError,
-      });
-      setAnalytics(analyticsData);
+      try {
+        const analyticsData = await ErrorWrapper({
+          functionToExecute: adminGetAnalytics,
+          errorHandler: setError,
+        });
+        setAnalytics(analyticsData);
+      } catch (error) {
+        endOfExecutionHandler(error as Error);
+      }
     }
     loadAnalytics();
   }, []);
@@ -142,10 +146,10 @@ export default function AnalyticsDashboardScreen(props: any) {
             <VictoryPie
               name={"Hi"}
               startAngle={
-                (analytics.usersCompletedTraining / analytics.totalUsers) * 360
+                (analytics.totalUsers === 0 ? 0 : (analytics.usersCompletedTraining / analytics.totalUsers)) * 360
               }
               endAngle={
-                (analytics.usersCompletedTraining / analytics.totalUsers) *
+                (analytics.totalUsers === 0 ? 0 : (analytics.usersCompletedTraining / analytics.totalUsers)) *
                   360 +
                 360
               }
@@ -356,7 +360,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   bottomRightTextFont: {
-    fontFamily: "DMSans",
+    fontFamily: "DMSans-Regular",
     color: "grey",
     fontSize: 11,
   },

@@ -53,8 +53,8 @@ export default function AdminUserList(props: any) {
     if (direction === ButtonDirection.BUTTON_FORWARD) {
       // If we are on last page and have a full page of users, we want to load more users
       const lastPage = allUsers.length - 1;
-      if (currentPage === lastPage && allUsers[lastPage].length === PAGE_SIZE) {
-        const afterId = allUsers[lastPage][PAGE_SIZE - 1]._id;
+      if (currentPage === lastPage) {
+        const afterId = allUsers[lastPage][allUsers[lastPage].length - 1]._id;
 
         const newUsers = await ErrorWrapper({
           functionToExecute: adminGetUsers,
@@ -77,22 +77,32 @@ export default function AdminUserList(props: any) {
     <PaginatedOverlay
       navigationProp={props.navigation}
       paginationButtonFunction={processNext}
-      headerTitle={"All Users"}
+      headerTitle={
+        filter === UserFilter.NONPROFIT_USERS
+          ? "All Users"
+          : filter === UserFilter.NONPROFIT_ADMINS
+          ? "Admins Users"
+          : filter === UserFilter.UNVERIFIED_USERS
+          ? "User Verification"
+          : filter === UserFilter.WITH_800_HOURS_USERS
+          ? "Users With 800 Hours"
+          : "Viewing Users"
+      }
       errorMessage={error}
       pageBody={
         <View style={styles.container}>
           <View style={styles.searchView}>
             <AntDesign
-              name="search1"
+              name='search1'
               size={20}
-              color="#3F3BED"
+              color='#3F3BED'
               style={styles.searchIcon}
               onPress={loadUsers}
             />
             <TextInput
               style={styles.searchInput}
-              placeholder="Search by name or email"
-              placeholderTextColor="grey"
+              placeholder='Search by name or email'
+              placeholderTextColor='grey'
               onChange={(e) => {
                 setCurrentPage(0);
                 const { text } = e.nativeEvent;
@@ -110,6 +120,11 @@ export default function AdminUserList(props: any) {
                   userEmail={user.email}
                   key={index}
                   isVerification={filter === UserFilter.UNVERIFIED_USERS}
+                  canDeleteUser={
+                    filter === UserFilter.NONPROFIT_USERS ||
+                    filter === UserFilter.NONPROFIT_ADMINS ||
+                    filter === UserFilter.UNVERIFIED_USERS
+                  }
                   verifyCallback={removeUserFromList}
                   callbackFunction={() => {
                     props.navigation.navigate(

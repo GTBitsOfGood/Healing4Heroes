@@ -4,7 +4,10 @@ import {
   incrementTotalUsers,
 } from "server/mongodb/actions/Analytics";
 import { deleteAnimalByUserId } from "server/mongodb/actions/Animal";
+import { deleteReadLogsByUser } from "server/mongodb/actions/ReadLog";
+import { deleteTrainingLogsByUser } from "server/mongodb/actions/TrainingLog";
 import { deleteUserByUserId, verifyUser } from "server/mongodb/actions/User";
+import { deleteVerificationLogsByUser } from "server/mongodb/actions/VerificationLog";
 import APIWrapper from "server/utils/APIWrapper";
 import { removeUserFromFirebase } from "server/utils/Authentication";
 import { Role, ServiceAnimal, User } from "src/utils/types";
@@ -40,6 +43,9 @@ export default APIWrapper({
 
       (await deleteAnimalByUserId(userId)) as ServiceAnimal;
       await removeUserFromFirebase(user.firebaseUid);
+      await deleteTrainingLogsByUser(userId);
+      await deleteVerificationLogsByUser(userId);
+      await deleteReadLogsByUser(userId);
 
       if (user.verifiedByAdmin) {
         await decrementTotalUsers();
