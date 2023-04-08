@@ -40,8 +40,12 @@ export default function AddTrainingLogScreen(props: any) {
   }
 
   const validateInput = () => {
+    const today = new Date();
     if (!totalHours) {
       setError("Please enter your total hours.");
+      return;
+    } else if (Number(totalHours) < 0) {
+      setError("Total hours cannot be negative!");
       return;
     } else if (skillKeysSelected.length === 0) {
       setError("Please select at least one skill displayed.");
@@ -51,6 +55,17 @@ export default function AddTrainingLogScreen(props: any) {
       return;
     } else if (isNaN(trainingLogDate.getTime() as number)) {
       setError("Set a Valid Date!");
+      return;
+    } else if (
+      trainingLogDate.getDate() < 0 ||
+      trainingLogDate.getMonth() < 0
+    ) {
+      setError("Set a date that is not negative!");
+      return;
+    } else if (
+      trainingLogDate.setHours(0, 0, 0, 0) > today.setHours(0, 0, 0, 0)
+    ) {
+      setError("Set a date that is not in the future!");
       return;
     } else {
       setError("");
