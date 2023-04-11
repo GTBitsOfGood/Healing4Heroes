@@ -4,7 +4,7 @@ const { manifest } = Constants;
 
 function getBaseURL() {
   if (process.env.NODE_ENV === "production") {
-    return `https://healing4heroes-backend.vercel.app`;
+    return `healing4heroes.netlify.app`;
   }
   if (manifest?.debuggerHost) {
     return `http://${manifest?.debuggerHost?.split(":").shift()}:3000`;
