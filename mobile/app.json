@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Healing4Heroes",
+    "slug": "healing4heroes",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,9 +13,16 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow Healing4Heroes to access your photos.",
+        "NSPhotoLibraryAddUsageDescription": "Allow Healing4Heroes to save photos."
+      },
+      "bundleIdentifier": "org.healing4heroes"
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -35,6 +42,15 @@
           "isAccessMediaLocationEnabled": true
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2fe0574b-fe03-4d69-bb5d-a3fb731c1aa3"
+      }
+    },
+    "owner": "bitsofgood",
+    "android": {
+      "package": "org.healing4heroes"
+    }
   }
 }
