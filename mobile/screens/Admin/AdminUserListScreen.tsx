@@ -93,16 +93,16 @@ export default function AdminUserList(props: any) {
         <View style={styles.container}>
           <View style={styles.searchView}>
             <AntDesign
-              name='search1'
+              name="search1"
               size={20}
-              color='#3F3BED'
+              color="#3F3BED"
               style={styles.searchIcon}
               onPress={loadUsers}
             />
             <TextInput
               style={styles.searchInput}
-              placeholder='Search by name or email'
-              placeholderTextColor='grey'
+              placeholder="Search by name or email"
+              placeholderTextColor="grey"
               onChange={(e) => {
                 setCurrentPage(0);
                 const { text } = e.nativeEvent;

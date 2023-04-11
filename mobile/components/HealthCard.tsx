@@ -37,7 +37,6 @@ const HealthCard = ({
         <Text style={styles.text}>{handlerName}</Text>
         <Text style={styles.text}>{animalName}</Text>
         <Text style={styles.text}>{animalAge}</Text>
-        <Text style={styles.linkText}>View Details </Text>
       </View>
     </View>
   );

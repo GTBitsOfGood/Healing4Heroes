@@ -146,10 +146,15 @@ export default function AnalyticsDashboardScreen(props: any) {
             <VictoryPie
               name={"Hi"}
               startAngle={
-                (analytics.totalUsers === 0 ? 0 : (analytics.usersCompletedTraining / analytics.totalUsers)) * 360
+                (analytics.totalUsers === 0
+                  ? 0
+                  : analytics.usersCompletedTraining / analytics.totalUsers) *
+                360
               }
               endAngle={
-                (analytics.totalUsers === 0 ? 0 : (analytics.usersCompletedTraining / analytics.totalUsers)) *
+                (analytics.totalUsers === 0
+                  ? 0
+                  : analytics.usersCompletedTraining / analytics.totalUsers) *
                   360 +
                 360
               }
