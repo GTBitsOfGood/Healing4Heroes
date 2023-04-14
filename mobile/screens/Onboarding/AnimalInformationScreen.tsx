@@ -7,6 +7,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import DateInput from "../../components/DateInput";
 import { Screens } from "../../utils/types";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
+import { userSetRegistationComplete } from "../../actions/User";
 
 export default function AnimalInformationScreen(props: any) {
   const [animalName, setAnimalName] = useState("");
@@ -60,6 +61,7 @@ export default function AnimalInformationScreen(props: any) {
       setError("");
       const result = await addAnimal();
       if (result) {
+        await userSetRegistationComplete();
         props.navigation.navigate(Screens.UPLOAD_PROFILE_IMAGE_SCREEN);
       } else {
         setError("Failed to create service animal!");

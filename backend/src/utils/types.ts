@@ -26,6 +26,7 @@ export interface User {
   profileImage?: string;
   verifiedByAdmin: boolean;
   emailVerified: boolean;
+  registrationComplete: boolean;
 }
 
 export interface ServiceAnimal {

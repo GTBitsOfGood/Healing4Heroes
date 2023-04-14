@@ -3,6 +3,8 @@ import { HandlerType, HttpMethod, Role, User } from "../utils/types";
 import { urls } from "../utils/urls";
 
 const userUserUrl = urls.baseUrl + urls.api.user.user;
+const userRegistrationComplete =
+  urls.baseUrl + urls.api.user.registrationComplete;
 
 export const userGetUserInfo = async () => {
   return internalRequest<User>({
@@ -55,6 +57,24 @@ export const userUpdateUser = async (
       lastName,
       handlerType,
       profileImage,
+    },
+  });
+};
+
+export const userSetRegistationComplete = async () => {
+  return internalRequest<User>({
+    url: userRegistrationComplete,
+    method: HttpMethod.PATCH,
+    authRequired: true,
+  });
+};
+
+export const userGetRegistrationComplete = async (email: string) => {
+  return internalRequest<User>({
+    url: userRegistrationComplete,
+    method: HttpMethod.GET,
+    queryParams: {
+      email,
     },
   });
 };

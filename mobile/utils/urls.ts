@@ -28,6 +28,7 @@ export const urls = {
       training: "/api/user/training",
       announcement: "/api/user/announcement",
       readLog: "/api/user/announcements/read",
+      registrationComplete: "/api/user/registration/complete",
       fileUpload: {
         init: "/api/user/file/upload/init",
         urls: "/api/user/file/upload/urls",

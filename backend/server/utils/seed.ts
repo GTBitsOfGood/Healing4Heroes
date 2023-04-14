@@ -75,6 +75,7 @@ async function generateUsers(): Promise<User[]> {
       randomEnum(HandlerType) as HandlerType,
       profileImageFirebaseLocation,
       randomBoolean(),
+      true,
       true
     );
 

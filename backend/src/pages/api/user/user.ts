@@ -11,6 +11,7 @@ export default APIWrapper({
   GET: {
     config: {
       requireToken: true,
+      requireEmailVerified: false,
       requireAdminVerification: false,
       roles: [Role.NONPROFIT_USER],
     },
@@ -60,7 +61,9 @@ export default APIWrapper({
         lastName,
         handlerType,
         profileImage,
-        isAdmin
+        isAdmin,
+        false,
+        false
       );
       if (!user) {
         throw new Error("Failed to create user!");

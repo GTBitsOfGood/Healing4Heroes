@@ -50,6 +50,11 @@ const UserSchema = new mongoose.Schema<User>({
     required: true,
     default: false,
   },
+  registrationComplete: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 const UserModel =

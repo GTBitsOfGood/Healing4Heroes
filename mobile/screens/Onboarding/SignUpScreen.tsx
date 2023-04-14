@@ -10,8 +10,17 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { validateEmail } from "../../utils/helper";
 import { auth } from "../../utils/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { userCreateUser } from "../../actions/User";
+import {
+  createUserWithEmailAndPassword,
+  AuthErrorCodes,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { FirebaseError } from "@firebase/util";
+import {
+  userCreateUser,
+  userGetRegistrationComplete,
+  userGetUserInfo,
+} from "../../actions/User";
 import {
   EndExecutionError,
   Screens,
@@ -49,26 +58,75 @@ export default function SignUpScreen(props: any) {
   };
 
   const handleSignUp = async () => {
+    await auth.signOut().then().catch();
+
+    /* attempt to create new user */
+    let userCredential;
+    let emailAlreadyExists = false;
     try {
-      await auth.signOut().then().catch();
-      const userCredential = await ErrorWrapper({
-        functionToExecute: createUserWithEmailAndPassword,
-        errorHandler: setErrorMessage,
-        parameters: [auth, email, password],
-        customErrors: {
-          "Firebase: Error (auth/email-already-in-use).":
-            "This email is already in use",
-          "Firebase: Password should be at least 6 characters (auth/weak-password).":
-            "Your password must be at least 6 characters",
-        },
-      });
-      const user = userCredential.user;
-      const firebaseUid = user.uid;
-      const createdUser = await ErrorWrapper({
-        functionToExecute: userCreateUser,
-        errorHandler: setErrorMessage,
-        parameters: [email, firebaseUid],
-      });
+      userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+    } catch (error) {
+      if (
+        error instanceof FirebaseError &&
+        error.code === AuthErrorCodes.WEAK_PASSWORD
+      ) {
+        setErrorMessage("Your password must be at least 6 characters");
+        return;
+      } else if (
+        error instanceof FirebaseError &&
+        error.code === AuthErrorCodes.EMAIL_EXISTS
+      ) {
+        emailAlreadyExists = true;
+
+        /* we couldn't create user because email already existed, so
+        check if registration is complete. if so, display error.*/
+        const registrationComplete = await userGetRegistrationComplete(email);
+        if (registrationComplete) {
+          setErrorMessage("This email is already in use");
+          return;
+        }
+
+        /* if registration not complete, retrieve firebase credential and continue registration process as normal.*/
+        try {
+          userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+        } catch (error) {
+          if (
+            error instanceof FirebaseError &&
+            error.code === AuthErrorCodes.INVALID_PASSWORD
+          ) {
+            setErrorMessage(
+              "Incorrect password (account is already in the registration process)"
+            );
+            return;
+          }
+
+          throw error;
+        }
+      } else {
+        throw error;
+      }
+    }
+
+    try {
+      let user;
+      if (emailAlreadyExists) {
+        user = await userGetUserInfo();
+      } else {
+        const firebaseUid = userCredential.user.uid;
+        user = await ErrorWrapper({
+          functionToExecute: userCreateUser,
+          errorHandler: setErrorMessage,
+          parameters: [email, firebaseUid],
+        });
+      }
 
       await ErrorWrapper({
         functionToExecute: authCreateVerificationLog,
@@ -76,7 +134,7 @@ export default function SignUpScreen(props: any) {
         parameters: [email, UserVerificationLogType.EMAIL_VERIFICATION],
         customErrors: { default: "Failed To Send Verification Email" },
       });
-      return createdUser;
+      return user;
     } catch (error) {
       if (error instanceof EndExecutionError) {
         return;

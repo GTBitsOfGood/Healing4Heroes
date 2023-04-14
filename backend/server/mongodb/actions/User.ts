@@ -32,7 +32,8 @@ export async function createUser(
   handlerType?: HandlerType,
   profileImage?: string,
   verifiedByAdmin?: boolean,
-  emailVerified?: boolean
+  emailVerified?: boolean,
+  registrationComplete?: boolean
 ) {
   await dbConnect();
   const user = await UserModel.create({
@@ -46,6 +47,7 @@ export async function createUser(
     profileImage: profileImage,
     verifiedByAdmin: verifiedByAdmin,
     emailVerified: emailVerified,
+    registrationComplete: registrationComplete,
   });
   return user;
 }
@@ -69,6 +71,16 @@ export async function updateUser(
     profileImage: profileImage,
   });
   return user;
+}
+
+export async function setRegistrationComplete(userId: Types.ObjectId) {
+  await dbConnect();
+
+  return UserModel.findByIdAndUpdate(
+    userId,
+    { registrationComplete: true },
+    { new: true }
+  );
 }
 
 export async function verifyUser(userId: Types.ObjectId) {
