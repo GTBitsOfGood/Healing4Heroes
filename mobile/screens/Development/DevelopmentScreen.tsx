@@ -1,17 +1,18 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import { auth } from "../../utils/firebase";
-import { Screens } from "../../utils/types";
+  Alert
+} from 'react-native';
+import { auth } from '../../utils/firebase';
+import { Screens } from '../../utils/types';
 
 export default function DevelopmentScreen(props: any) {
-  const [accessToken, setAccessToken] = useState("No Access Token Set Yet");
+  const [accessToken, setAccessToken] = useState('No Access Token Set Yet');
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Temporary Development Screen to help devs w/navigation */}
@@ -127,15 +128,15 @@ export default function DevelopmentScreen(props: any) {
         onPress={async () => {
           await signInWithEmailAndPassword(
             auth,
-            "samratsahoo2013@gmail.com",
-            "Aqaqaq"
+            'samratsahoo2013@gmail.com',
+            'Aqaqaq'
           );
 
           const accessToken = (await auth.currentUser?.getIdToken()) as string;
           if (!accessToken) {
-            setAccessToken("Failed to Retrieve Access Token");
+            setAccessToken('Failed to Retrieve Access Token');
           }
-          setAccessToken("User token: " + accessToken);
+          setAccessToken('User token: ' + accessToken);
         }}
         style={styles.buttonItem}
       >
@@ -145,20 +146,28 @@ export default function DevelopmentScreen(props: any) {
         onPress={async () => {
           await signInWithEmailAndPassword(
             auth,
-            "samrat@healing4heroes.org",
-            "Aqaqaq"
+            'samrat@healing4heroes.org',
+            'Aqaqaq'
           );
 
           const accessToken = (await auth.currentUser?.getIdToken()) as string;
           if (!accessToken) {
-            setAccessToken("Failed to Retrieve Access Token");
+            setAccessToken('Failed to Retrieve Access Token');
           }
-          setAccessToken("Admin token: " + accessToken);
+          setAccessToken('Admin token: ' + accessToken);
         }}
         style={styles.buttonItem}
       >
         <Text>Get Admin Access Token - For Backend Devs</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.buttonItem}
+        onPress={() => Alert.alert('You\'re going too fast!', 'Pokémon GO should not be played while driving.')}
+        >
+        <Text>Eric Button</Text>
+      </TouchableOpacity>
+
       <View style={styles.accessTokenContainer}>
         <Text>{accessToken}</Text>
       </View>
@@ -169,16 +178,16 @@ export default function DevelopmentScreen(props: any) {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingTop: 30,
     paddingBottom: 30,
   },
 
   buttonItem: {
     width: 300,
-    backgroundColor: "#D3D3D3",
+    backgroundColor: '#D3D3D3',
     padding: 10,
     margin: 10,
     borderRadius: 10,
