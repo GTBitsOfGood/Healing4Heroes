@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import { auth } from "../../utils/firebase";
 import { Screens } from "../../utils/types";
@@ -158,6 +159,12 @@ export default function DevelopmentScreen(props: any) {
         style={styles.buttonItem}
       >
         <Text>Get Admin Access Token - For Backend Devs</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonItem}
+        onPress={() => Alert.alert('Panic! PANIC! You have clicked on MADELINE BUTTON!')}
+        >
+        <Text>Madeline Button</Text>
       </TouchableOpacity>
       <View style={styles.accessTokenContainer}>
         <Text>{accessToken}</Text>
