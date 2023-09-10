@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -159,6 +160,14 @@ export default function DevelopmentScreen(props: any) {
       >
         <Text>Get Admin Access Token - For Backend Devs</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => Alert.alert("alert")}
+        style={styles.buttonItem}
+      >
+        <Text>Button</Text>
+      </TouchableOpacity>
+
       <View style={styles.accessTokenContainer}>
         <Text>{accessToken}</Text>
       </View>
