@@ -88,6 +88,7 @@ export default function AdminUserList(props: any) {
           ? "Users With 800 Hours"
           : "Viewing Users"
       }
+      currentPage={currentPage + 1}
       errorMessage={error}
       pageBody={
         <View style={styles.container}>

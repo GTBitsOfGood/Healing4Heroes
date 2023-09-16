@@ -39,6 +39,8 @@ export default function AnalyticsUserList(props: any) {
     }
 
     if (direction === ButtonDirection.BUTTON_FORWARD) {
+      console.log(currentPage);
+
       // If we are on last page and have a full page of users, we want to load more users
       const lastPage = allUsers.length - 1;
       if (currentPage === lastPage && allUsers[lastPage].length === PAGE_SIZE) {
@@ -69,6 +71,7 @@ export default function AnalyticsUserList(props: any) {
           ? "Users Who Completed Training"
           : "Users Who Did Not Complete Training"
       }
+      currentPage={currentPage + 1}
       errorMessage={error}
       pageBody={
         <View style={styles.container}>
