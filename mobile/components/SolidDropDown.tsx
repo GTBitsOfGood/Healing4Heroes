@@ -43,12 +43,21 @@ export default function SolidDropDown({
         ) : (
           <Text>{fieldValue}</Text>
         )}
-        <Ionicons
-          name="chevron-down-outline"
-          size={24}
-          color="black"
-          style={styles.dropdownArrow}
-        />
+        {open === false ? (
+          <Ionicons
+            name="chevron-down-outline"
+            size={24}
+            color="black"
+            style={styles.dropdownArrow}
+          />
+        ) : (
+          <Ionicons
+            name="chevron-up-outline"
+            size={24}
+            color="black"
+            style={styles.dropdownArrow}
+          />
+        )}
       </TouchableOpacity>
 
       <View style={styles.dropDownItemsContainer}>
