@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "../IconButton";
 import { ButtonDirection } from "../../utils/types";
@@ -12,6 +12,7 @@ interface PaginatedOverlayProps {
   footer?: ReactElement;
   headerTitle: string;
   navigationProp?: any;
+  currentPage: number;
   errorMessage?: string;
   paginationButtonFunction?: (direction: ButtonDirection) => void;
 }
@@ -19,6 +20,7 @@ export default function PaginatedOverlay({
   pageBody,
   navigationProp,
   headerTitle,
+  currentPage,
   paginationButtonFunction,
   errorMessage,
 }: PaginatedOverlayProps) {
@@ -46,6 +48,7 @@ export default function PaginatedOverlay({
                 }
               }}
             ></IconButton>
+            <Text style={styles.pageText}>{currentPage}</Text>
             <IconButton
               icon={
                 <View style={styles.backgroundCircle}>
@@ -158,5 +161,10 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  pageText: {
+    fontFamily: "DMSans-Bold",
+    fontSize: 16,
+    marginTop: 15,
   },
 });

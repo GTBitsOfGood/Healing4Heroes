@@ -69,6 +69,7 @@ export default function AnalyticsUserList(props: any) {
           ? "Users Who Completed Training"
           : "Users Who Did Not Complete Training"
       }
+      currentPage={currentPage + 1}
       errorMessage={error}
       pageBody={
         <View style={styles.container}>
