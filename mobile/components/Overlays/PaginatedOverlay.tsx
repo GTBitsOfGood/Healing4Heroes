@@ -24,7 +24,6 @@ export default function PaginatedOverlay({
   paginationButtonFunction,
   errorMessage,
 }: PaginatedOverlayProps) {
-  console.log(currentPage);
   return (
     <BaseOverlay
       header={
