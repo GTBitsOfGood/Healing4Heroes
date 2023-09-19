@@ -1,0 +1,21 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../Dockerfile.dev
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    entrypoint: ./entrypoint.sh
+  mobile:
+    build:
+      context: ./mobile
+      dockerfile: ../Dockerfile.dev
+    volumes:
+      - ./mobile:/app
+      - /app/node_modules
+      - /app/.next
+    entrypoint: ./entrypoint.sh

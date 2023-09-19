@@ -25,6 +25,31 @@ git clone https://github.com/GTBitsOfGood/Healing4Heroes.git
 cd Healing4Heroes
 ```
 
+### Docker
+3. Install [Docker](https://docs.docker.com/engine/install/)
+4. Obtain the Bitwarden password from your EM. Inject it as an envvar `BW_PASSWORD` into the backend container by adding
+   the following section to the `docker-compose.yml` file:
+   ```yaml
+    services:
+      backend:
+        ...
+        environment:
+          - BW_PASSWORD=<password>
+        ...
+   ```
+   This only needs to be done on your first run. After that, you should delete the variable from your Docker compose file
+   to avoid pushing it to Github.
+4. Start the applications with Docker Compose 
+    - To start both the frontend and backend, run `docker compose up`
+    - To run just the backend, run `docker compose up backend`. 
+    - To run just the frontend, run `docker compose up mobile`.
+
+If you make any changes to the packages, you may need to rebuild the images. To do this, append `--build` to the
+above `docker compose up` commands.
+
+Both applications in the docker environment have support for live-reloading of changes made on the host machine
+
+### Without Docker
 3. Install the dependencies:
 
 ```
