@@ -20,6 +20,6 @@ export async function createAnnouncement(
 
 export async function getAnnouncements() {
   await dbConnect();
-  const announcements = await AnnouncementModel.find();
+  const announcements = await AnnouncementModel.find().sort({ date: -1 });
   return announcements;
 }
