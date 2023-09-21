@@ -1,7 +1,7 @@
-import { Types } from 'mongoose';
-import { adminGetUsers } from 'server/mongodb/actions/User';
-import APIWrapper from 'server/utils/APIWrapper';
-import { Role, UserFilter } from 'src/utils/types';
+import { Types } from "mongoose";
+import { adminGetUsers } from "server/mongodb/actions/User";
+import APIWrapper from "server/utils/APIWrapper";
+import { Role, UserFilter } from "src/utils/types";
 
 export default APIWrapper({
   POST: {

@@ -1,8 +1,8 @@
-import { Types } from 'mongoose';
-import AnimalModel from 'server/mongodb/models/Animal';
-import UserModel from 'server/mongodb/models/User';
-import dbConnect from 'server/utils/dbConnect';
-import { HandlerType, Role, UserFilter } from 'src/utils/types';
+import { Types } from "mongoose";
+import AnimalModel from "server/mongodb/models/Animal";
+import UserModel from "server/mongodb/models/User";
+import dbConnect from "server/utils/dbConnect";
+import { HandlerType, Role, UserFilter } from "src/utils/types";
 
 export async function findUserById(userId: Types.ObjectId | string) {
   await dbConnect();
@@ -90,14 +90,14 @@ export async function adminGetUsers(
   searchText?: string
 ) {
   await dbConnect();
-  searchText = searchText ? '^' + searchText + '(.*)' : searchText;
+  searchText = searchText ? "^" + searchText + "(.*)" : searchText;
   const searchQuery = {
     ...(afterId && { _id: { $gt: afterId } }),
     ...(searchText && {
       $or: [
-        { email: { $regex: searchText, $options: 'i' } },
-        { firstName: { $regex: searchText, $options: 'i' } },
-        { lastName: { $regex: searchText, $options: 'i' } },
+        { email: { $regex: searchText, $options: "i" } },
+        { firstName: { $regex: searchText, $options: "i" } },
+        { lastName: { $regex: searchText, $options: "i" } },
       ],
     }),
   };
@@ -117,7 +117,7 @@ export async function adminGetUsers(
   } else if (filter === UserFilter.WITH_800_HOURS_USERS) {
     const handlers = await AnimalModel.find({
       totalHours: { $gte: 800 },
-    }).select('handler');
+    }).select("handler");
 
     query = {
       _id: {
@@ -128,7 +128,7 @@ export async function adminGetUsers(
   } else if (filter === UserFilter.WITHOUT_800_HOURS_USERS) {
     const handlers = await AnimalModel.find({
       totalHours: { $gte: 800 },
-    }).select('handler');
+    }).select("handler");
 
     query = {
       _id: {
