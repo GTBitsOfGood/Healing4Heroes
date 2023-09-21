@@ -102,17 +102,20 @@ export async function adminGetUsers(
     }),
   };
 
+  let query: any;
+
   if (!filter || filter === UserFilter.NONPROFIT_USERS) {
-    return UserModel.find({
+    query = {
       ...searchQuery,
       roles: { $nin: [Role.NONPROFIT_ADMIN] },
-    }).limit(pageSize);
+    };
   }
 
   if (filter === UserFilter.UNVERIFIED_USERS) {
-    return UserModel.find({ ...searchQuery, verifiedByAdmin: false }).limit(
-      pageSize
-    );
+    query = {
+      ...searchQuery,
+      verifiedByAdmin: false,
+    };
   }
 
   // Hours is on the Animal, not the users
@@ -121,12 +124,12 @@ export async function adminGetUsers(
       totalHours: { $gte: 800 },
     }).select("handler");
 
-    return UserModel.find({
+    query = {
       _id: {
         ...(afterId && { $gt: afterId }),
         $in: handlers.map((item) => item.handler),
       },
-    }).limit(pageSize);
+    };
   }
 
   if (filter === UserFilter.WITHOUT_800_HOURS_USERS) {
@@ -134,22 +137,27 @@ export async function adminGetUsers(
       totalHours: { $gte: 800 },
     }).select("handler");
 
-    return UserModel.find({
+    query = {
       _id: {
         ...(afterId && { $gt: afterId }),
         // some verified users do not have an animal
         $nin: handlers.map((item) => item.handler),
       },
       verifiedByAdmin: true,
-    }).limit(pageSize);
+    };
   }
 
   if (filter === UserFilter.NONPROFIT_ADMINS) {
-    return UserModel.find({
+    query = {
       ...searchQuery,
       roles: { $in: [Role.NONPROFIT_ADMIN] },
-    }).limit(pageSize);
+    };
   }
+
+  const users = await UserModel.find(query).limit(pageSize);
+  const totalCount = await UserModel.countDocuments(query);
+
+  return { users, totalCount };
 }
 
 export async function verifyUserEmail(userId: Types.ObjectId) {
