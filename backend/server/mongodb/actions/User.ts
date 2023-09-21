@@ -1,8 +1,8 @@
-import { Types } from "mongoose";
-import AnimalModel from "server/mongodb/models/Animal";
-import UserModel from "server/mongodb/models/User";
-import dbConnect from "server/utils/dbConnect";
-import { HandlerType, Role, UserFilter } from "src/utils/types";
+import { Types } from 'mongoose';
+import AnimalModel from 'server/mongodb/models/Animal';
+import UserModel from 'server/mongodb/models/User';
+import dbConnect from 'server/utils/dbConnect';
+import { HandlerType, Role, UserFilter } from 'src/utils/types';
 
 export async function findUserById(userId: Types.ObjectId | string) {
   await dbConnect();
@@ -90,66 +90,64 @@ export async function adminGetUsers(
   searchText?: string
 ) {
   await dbConnect();
-  searchText = searchText ? "^" + searchText + "(.*)" : searchText;
+  searchText = searchText ? '^' + searchText + '(.*)' : searchText;
   const searchQuery = {
     ...(afterId && { _id: { $gt: afterId } }),
     ...(searchText && {
       $or: [
-        { email: { $regex: searchText, $options: "i" } },
-        { firstName: { $regex: searchText, $options: "i" } },
-        { lastName: { $regex: searchText, $options: "i" } },
+        { email: { $regex: searchText, $options: 'i' } },
+        { firstName: { $regex: searchText, $options: 'i' } },
+        { lastName: { $regex: searchText, $options: 'i' } },
       ],
     }),
   };
 
+  let query: any;
+
   if (!filter || filter === UserFilter.NONPROFIT_USERS) {
-    return UserModel.find({
+    query = {
       ...searchQuery,
       roles: { $nin: [Role.NONPROFIT_ADMIN] },
-    }).limit(pageSize);
-  }
-
-  if (filter === UserFilter.UNVERIFIED_USERS) {
-    return UserModel.find({ ...searchQuery, verifiedByAdmin: false }).limit(
-      pageSize
-    );
-  }
-
-  // Hours is on the Animal, not the users
-  if (filter === UserFilter.WITH_800_HOURS_USERS) {
+    };
+  } else if (filter === UserFilter.UNVERIFIED_USERS) {
+    query = {
+      ...searchQuery,
+      verifiedByAdmin: false,
+    };
+  } else if (filter === UserFilter.WITH_800_HOURS_USERS) {
     const handlers = await AnimalModel.find({
       totalHours: { $gte: 800 },
-    }).select("handler");
+    }).select('handler');
 
-    return UserModel.find({
+    query = {
       _id: {
         ...(afterId && { $gt: afterId }),
         $in: handlers.map((item) => item.handler),
       },
-    }).limit(pageSize);
-  }
-
-  if (filter === UserFilter.WITHOUT_800_HOURS_USERS) {
+    };
+  } else if (filter === UserFilter.WITHOUT_800_HOURS_USERS) {
     const handlers = await AnimalModel.find({
       totalHours: { $gte: 800 },
-    }).select("handler");
+    }).select('handler');
 
-    return UserModel.find({
+    query = {
       _id: {
         ...(afterId && { $gt: afterId }),
-        // some verified users do not have an animal
         $nin: handlers.map((item) => item.handler),
       },
       verifiedByAdmin: true,
-    }).limit(pageSize);
-  }
-
-  if (filter === UserFilter.NONPROFIT_ADMINS) {
-    return UserModel.find({
+    };
+  } else if (filter === UserFilter.NONPROFIT_ADMINS) {
+    query = {
       ...searchQuery,
       roles: { $in: [Role.NONPROFIT_ADMIN] },
-    }).limit(pageSize);
+    };
   }
+
+  const users = await UserModel.find(query).limit(pageSize);
+  const totalCount = await UserModel.countDocuments(query);
+
+  return { users, totalCount };
 }
 
 export async function verifyUserEmail(userId: Types.ObjectId) {
