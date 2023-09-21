@@ -19,17 +19,9 @@ export default APIWrapper({
         | undefined;
       const searchText: string = req.body.searchText as string;
 
-      const { users, totalCount } = await adminGetUsers(
-        pageSize,
-        afterId,
-        filter,
-        searchText
-      );
+      const users = await adminGetUsers(pageSize, afterId, filter, searchText);
 
-      return {
-        users,
-        totalCount,
-      };
+      return users;
     },
   },
 });
