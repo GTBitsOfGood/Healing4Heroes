@@ -19,3 +19,5 @@ services:
       - /app/node_modules
       - /app/.next
     entrypoint: ./entrypoint.sh
+    environment:
+      - BACKEND_URL=http://backend:3000
