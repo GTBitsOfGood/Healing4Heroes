@@ -48,7 +48,7 @@ export default function AddTrainingLogScreen(props: any) {
       setError("Total hours cannot be negative!");
       return;
     } else if (Number(totalHours) > 24) { 
-      setError("Total hours need to be less than 24.");
+      setError("Total hours can't exceed 24.");
       return;
     } else if (skillKeysSelected.length === 0) {
       setError("Please select at least one skill displayed.");
