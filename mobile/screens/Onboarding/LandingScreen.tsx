@@ -53,6 +53,9 @@ export default function LandingScreen(props: any) {
               </TouchableOpacity>
             </View>
           ) : null}
+          <View style={styles.quoteContainer}>
+            <Text style={styles.quoteText}>{`"Not all wounds are visible"`}</Text>
+          </View>
         </View>
       }
     />
@@ -143,5 +146,14 @@ const styles = StyleSheet.create({
   netlify: {
     width: "100%",
     height: "100%",
+  },
+  quoteContainer: {
+    marginTop: 100,
+    alignItems: "center",
+  },
+  quoteText: {
+    fontFamily: "Baskerville",
+    fontStyle: "italic",
+    fontSize: 22,
   },
 });
