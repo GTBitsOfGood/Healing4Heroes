@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TextInput, BackHandler } from "react-native";
+import { StyleSheet, View, TextInput, Text, BackHandler } from "react-native";
 import UserEntry from "../../components/UserEntry";
 import { ButtonDirection, Screens, User, UserFilter } from "../../utils/types";
 import { adminGetUsers } from "../../actions/Admin";
@@ -16,6 +16,7 @@ export default function AdminUserList(props: any) {
   const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [totalUserCount, setTotalUserCount] = useState<number>(0);
 
   const removeUserFromList = (errorMessage: string, userId: Types.ObjectId) => {
     if (errorMessage) {
@@ -30,12 +31,16 @@ export default function AdminUserList(props: any) {
   };
 
   async function loadUsers() {
-    const users = await ErrorWrapper({
+    const result = await ErrorWrapper({
       functionToExecute: adminGetUsers,
       errorHandler: setError,
       parameters: [PAGE_SIZE, undefined, filter, searchText],
     });
-    setAllUsers([users]);
+
+    if (result) {
+      setAllUsers([[...result.users]]);
+      setTotalUserCount(result.totalCount);
+    }
   }
 
   useEffect(() => {
@@ -45,32 +50,38 @@ export default function AdminUserList(props: any) {
     });
     loadUsers().catch().then();
   }, []);
+
   const processNext = async (direction: ButtonDirection) => {
+    let newPage = currentPage;
+
     if (direction === ButtonDirection.BUTTON_BACKWARD) {
-      setCurrentPage(Math.max(currentPage - 1, 0));
+      newPage = Math.max(currentPage - 1, 0);
     }
 
     if (direction === ButtonDirection.BUTTON_FORWARD) {
       // If we are on last page and have a full page of users, we want to load more users
       const lastPage = allUsers.length - 1;
-      if (currentPage === lastPage) {
+
+      // If we are on the last page and it's full, fetch more users
+      if (currentPage === lastPage && allUsers[lastPage].length === PAGE_SIZE) {
         const afterId = allUsers[lastPage][allUsers[lastPage].length - 1]._id;
 
         const newUsers = await ErrorWrapper({
           functionToExecute: adminGetUsers,
           errorHandler: setError,
-          parameters: [PAGE_SIZE, afterId, filter],
+          parameters: [PAGE_SIZE, afterId, filter, searchText],
         });
-        if (newUsers && newUsers.length > 0) {
-          allUsers.push(newUsers);
-          setAllUsers(allUsers);
-          setCurrentPage(currentPage + 1);
+
+        if (newUsers && newUsers.users.length > 0) {
+          setAllUsers([...allUsers, newUsers.users]);
+          newPage = currentPage + 1;
         }
       } else if (currentPage !== lastPage) {
         // We are in a page in the middle
-        setCurrentPage(currentPage + 1);
+        newPage = currentPage + 1;
       }
     }
+    setCurrentPage(newPage);
   };
 
   return (
@@ -112,6 +123,7 @@ export default function AdminUserList(props: any) {
               onEndEditing={loadUsers}
             />
           </View>
+          <Text>Total Users: {totalUserCount}</Text>
           {allUsers.length > 0 &&
             allUsers[currentPage].map((user, index) => {
               return (

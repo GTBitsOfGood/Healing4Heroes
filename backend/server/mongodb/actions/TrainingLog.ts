@@ -33,7 +33,9 @@ export async function createTrainingLog(
 
 export async function getTrainingLogs(userId: Types.ObjectId | string) {
   await dbConnect();
-  const trainingLogs = await TrainingLogModel.find({ handler: userId }).sort({ date: -1 });
+  const trainingLogs = await TrainingLogModel.find({ handler: userId }).sort({
+    date: -1,
+  });
   return trainingLogs;
 }
 
