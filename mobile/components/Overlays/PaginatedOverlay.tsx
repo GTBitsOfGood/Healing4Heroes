@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { useState, ReactElement, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "../IconButton";
@@ -13,6 +13,7 @@ interface PaginatedOverlayProps {
   headerTitle: string;
   navigationProp?: any;
   currentPage: number;
+  totalPages: number;
   errorMessage?: string;
   paginationButtonFunction?: (direction: ButtonDirection) => void;
 }
@@ -21,6 +22,7 @@ export default function PaginatedOverlay({
   navigationProp,
   headerTitle,
   currentPage,
+  totalPages,
   paginationButtonFunction,
   errorMessage,
 }: PaginatedOverlayProps) {
@@ -48,7 +50,9 @@ export default function PaginatedOverlay({
                 }
               }}
             ></IconButton>
-            <Text style={styles.pageText}>{currentPage}</Text>
+            <Text style={styles.pageText}>
+              {currentPage} / {totalPages}
+            </Text>
             <IconButton
               icon={
                 <View style={styles.backgroundCircle}>
