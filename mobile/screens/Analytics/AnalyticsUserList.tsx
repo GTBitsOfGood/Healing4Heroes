@@ -13,18 +13,24 @@ export default function AnalyticsUserList(props: any) {
   const [allUsers, setAllUsers] = useState<User[][]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState("");
+  const [totalPages, setTotalPages] = useState<number>(0);
+
   const filter = completed
     ? UserFilter.WITH_800_HOURS_USERS
     : UserFilter.WITHOUT_800_HOURS_USERS;
 
   useEffect(() => {
     async function loadUsers() {
-      const users = await ErrorWrapper({
+      const result = await ErrorWrapper({
         functionToExecute: adminGetUsers,
         errorHandler: setError,
         parameters: [PAGE_SIZE, undefined, filter, ""],
       });
-      setAllUsers([users]);
+      // setAllUsers([users]);
+      if (result) {
+        setAllUsers([[...result.users]]);
+        setTotalPages(Math.ceil(result.totalCount / PAGE_SIZE));
+      }
     }
     BackHandler.addEventListener("hardwareBackPress", function () {
       props.navigation.navigate(Screens.ADMIN_DASHBOARD_SCREEN);
@@ -70,6 +76,7 @@ export default function AnalyticsUserList(props: any) {
           : "Users Who Did Not Complete Training"
       }
       currentPage={currentPage + 1}
+      totalPages={totalPages}
       errorMessage={error}
       pageBody={
         <View style={styles.container}>

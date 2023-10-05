@@ -16,7 +16,7 @@ export default function AdminUserList(props: any) {
   const [currentPage, setCurrentPage] = useState(0);
   const [error, setError] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [totalUserCount, setTotalUserCount] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   const removeUserFromList = (errorMessage: string, userId: Types.ObjectId) => {
     if (errorMessage) {
@@ -39,7 +39,7 @@ export default function AdminUserList(props: any) {
 
     if (result) {
       setAllUsers([[...result.users]]);
-      setTotalUserCount(result.totalCount);
+      setTotalPages(Math.ceil(result.totalCount / PAGE_SIZE));
     }
   }
 
@@ -100,6 +100,7 @@ export default function AdminUserList(props: any) {
           : "Viewing Users"
       }
       currentPage={currentPage + 1}
+      totalPages={totalPages}
       errorMessage={error}
       pageBody={
         <View style={styles.container}>
@@ -123,7 +124,6 @@ export default function AdminUserList(props: any) {
               onEndEditing={loadUsers}
             />
           </View>
-          <Text>Total Users: {totalUserCount}</Text>
           {allUsers.length > 0 &&
             allUsers[currentPage].map((user, index) => {
               return (

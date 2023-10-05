@@ -62,7 +62,9 @@ export default function LandingScreen(props: any) {
             </View>
           ) : null}
           <View style={styles.quoteContainer}>
-            <Text style={styles.quoteText}>{`"Not all wounds are visible"`}</Text>
+            <Text
+              style={styles.quoteText}
+            >{`"Not all wounds are visible"`}</Text>
           </View>
         </View>
       }
