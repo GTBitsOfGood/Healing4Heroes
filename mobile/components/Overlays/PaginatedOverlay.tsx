@@ -1,4 +1,4 @@
-import React, { useState, ReactElement, useEffect } from "react";
+import React, { ReactElement } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import IconButton from "../IconButton";

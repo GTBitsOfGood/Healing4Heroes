@@ -29,7 +29,7 @@ export default function AnalyticsUserList(props: any) {
       // setAllUsers([users]);
       if (result) {
         setAllUsers([[...result.users]]);
-        setTotalPages(result.totalCount / PAGE_SIZE + 1);
+        setTotalPages(Math.ceil(result.totalCount / PAGE_SIZE));
       }
     }
     BackHandler.addEventListener("hardwareBackPress", function () {

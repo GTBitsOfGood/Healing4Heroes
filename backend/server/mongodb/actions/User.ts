@@ -154,7 +154,9 @@ export async function adminGetUsers(
     };
   }
 
-  const users = await UserModel.find(query).limit(pageSize);
+  const users = await UserModel.find(query, null, { sort: { _id: 1 } }).limit(
+    pageSize
+  );
   const totalCount = await UserModel.countDocuments(query);
 
   return { users, totalCount };
