@@ -6,6 +6,9 @@ function getBaseURL() {
   if (process.env.NODE_ENV === "production") {
     return `https://healing4heroes.netlify.app`;
   }
+  if (process.env.BACKEND_URL) {
+    return process.env.BACKEND_URL;
+  }
   if (manifest?.debuggerHost) {
     return `http://${manifest?.debuggerHost?.split(":").shift()}:3000`;
   } else {
