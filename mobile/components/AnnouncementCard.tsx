@@ -46,7 +46,7 @@ const AnnouncementCard = ({
           </View>
         </View>
         {isRead ? (
-          <Ionicons name="md-mail-open-outline" size={24} color="#666666" />
+          <Ionicons name="mail-open" size={24} color="#666666" />
         ) : (
           <Ionicons name="mail-unread-outline" size={24} color="#3F3BED" />
         )}

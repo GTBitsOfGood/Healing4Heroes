@@ -37,14 +37,14 @@ export default function LandingScreen(props: any) {
               >
                 <Text style={styles.signupBtnText}>Sign Up</Text>
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 // onPress={() =>
                 //   props.navigation.navigate(Screens.DONATE_SCREEN)
                 // }
                 style={styles.signupBtn}
               >
                 <Text style={styles.signupBtnText}>Donate</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
           {Platform.OS === "web" ? (
