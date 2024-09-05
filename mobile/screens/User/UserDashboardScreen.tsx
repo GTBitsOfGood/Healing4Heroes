@@ -5,6 +5,9 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Modal,
+  Pressable,
+  Vibration,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -29,6 +32,7 @@ import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
+import * as Haptics from 'expo-haptics';
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -38,6 +42,7 @@ export default function UserDashboardScreen(props: any) {
   const [isEnabled, setEnabled] = useState<boolean>(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [error, setError] = useState("");
+  const [birthdayModalVisible, setBirthdayModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     async function getUserDashboardInformation() {
@@ -59,10 +64,15 @@ export default function UserDashboardScreen(props: any) {
             new Date(second.date).getTime() - new Date(first.date).getTime()
           );
         });
+        animal.dateOfBirth = new Date();
+        animal.dateOfBirth.setFullYear(2010);
 
         setAnnouncements(announcementList);
         setUserInfo(user);
         setAnimalInfo(animal);
+        if (animal?.dateOfBirth?.getMonth == new Date().getMonth && animal?.dateOfBirth?.getDate == new Date().getDate) {
+          setBirthdayModalVisible(true);
+        }
         setHoursCompleted(animal?.totalHours);
         if (animal.profileImage) {
           const imageData = await ErrorWrapper({
@@ -100,6 +110,31 @@ export default function UserDashboardScreen(props: any) {
       }
       body={
         <View style={styles.container}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={birthdayModalVisible}
+            onRequestClose={() => {
+              setBirthdayModalVisible(!birthdayModalVisible);
+            }}
+            onShow={() => {
+              Vibration.vibrate(10000);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Happy birthday {animalInfo?.name}!!! {'\uE312'}</Text>
+                <Text style={styles.modalText}>{
+                  animalInfo?.dateOfBirth ? 
+                  `${animalInfo?.name} turned ${calculateAge(new Date(animalInfo?.dateOfBirth))} years old today!`
+                  : ""}</Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setBirthdayModalVisible(!birthdayModalVisible)}>
+                  <Text style={styles.textStyle}>Close</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
           {/* announcement */}
           <TouchableOpacity
             style={[styles.announcementContainer, shadowStyle.shadow]}
@@ -198,6 +233,50 @@ export default function UserDashboardScreen(props: any) {
 }
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+
   container: {
     flex: 1,
     backgroundColor: "#f2f2f2",
