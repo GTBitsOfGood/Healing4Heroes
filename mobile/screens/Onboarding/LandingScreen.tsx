@@ -7,9 +7,11 @@ import {
   Image,
   Platform,
   Linking,
+  ScrollView,
 } from "react-native";
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { Screens } from "../../utils/types";
+import { Dimensions } from 'react-native';
 
 export default function LandingScreen(props: any) {
   return (
@@ -65,7 +67,21 @@ export default function LandingScreen(props: any) {
             <Text
               style={styles.quoteText}
             >{`"Not all wounds are visible"`}</Text>
+            <Text style={styles.sponsorText}>Sponsors</Text>
+            <ScrollView contentContainerStyle={styles.sponsorsContainer} horizontal={true}>
+              <Image
+                style={styles.sponsorLogo}
+                source={require("./../../assets/images/Zaxby.png")}
+                resizeMode="contain"
+              />
+              <Image
+                style={styles.sponsorLogo}
+                source={require("./../../assets/images/Signal_Security.png")}
+                resizeMode="contain"
+              />
+            </ScrollView>
           </View>
+
         </View>
       }
     />
@@ -158,12 +174,32 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   quoteContainer: {
-    marginTop: 100,
+    marginTop: 20,
+    width: "100%",
     alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    rowGap: 20
   },
   quoteText: {
     fontFamily: "Baskerville",
     fontStyle: "italic",
     fontSize: 22,
   },
+  sponsorText: {
+    fontWeight: "800",
+    fontSize: 15
+  },
+  sponsorsContainer: {
+    display: "flex",
+    width: Dimensions.get('window').width - 68,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    overflow: "scroll",
+    gap: 10
+  },
+  sponsorLogo: {
+    width: (Dimensions.get('window').width - 68) / 3,
+    maxHeight: 100
+  }
 });
