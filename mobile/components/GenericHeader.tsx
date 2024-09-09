@@ -14,7 +14,7 @@ export default function GenericHeader({
   return (
     <View style={styles.headerContainer}>
       <IconButton
-        icon={<Ionicons name="ios-chevron-back-sharp" size={26} color="grey" />}
+        icon={<Ionicons name="chevron-back-sharp" size={26} color="grey" />}
         callbackFunction={() => {
           if (navigationProp) {
             navigationProp.goBack();
