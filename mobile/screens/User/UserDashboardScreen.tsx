@@ -64,8 +64,6 @@ export default function UserDashboardScreen(props: any) {
             new Date(second.date).getTime() - new Date(first.date).getTime()
           );
         });
-        animal.dateOfBirth = new Date();
-        animal.dateOfBirth.setFullYear(2010);
 
         setAnnouncements(announcementList);
         setUserInfo(user);
@@ -122,16 +120,21 @@ export default function UserDashboardScreen(props: any) {
             }}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Happy birthday {animalInfo?.name}!!! {'\uE312'}</Text>
-                <Text style={styles.modalText}>{
-                  animalInfo?.dateOfBirth ? 
-                  `${animalInfo?.name} turned ${calculateAge(new Date(animalInfo?.dateOfBirth))} years old today!`
-                  : ""}</Text>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setBirthdayModalVisible(!birthdayModalVisible)}>
-                  <Text style={styles.textStyle}>Close</Text>
+                  <MaterialIcons
+                    name="close"
+                    size={20}
+                    color={"grey"}
+                  />
                 </Pressable>
+                <Text style={styles.modalText}>Happy birthday {animalInfo?.name}!!! {'\uE312'}</Text>
+                <Text style={styles.modalText}>{
+                  animalInfo?.dateOfBirth ? 
+                  `${animalInfo?.name} turned ${calculateAge(new Date(animalInfo?.dateOfBirth))} year${calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1 ? "s" : ""} old today!`
+                  : ""}
+                </Text>
               </View>
             </View>
           </Modal>
@@ -257,13 +260,16 @@ const styles = StyleSheet.create({
   },
 
   button: {
+    position: 'absolute',
+    left: '87.5%',
+    top: '5%',
     borderRadius: 20,
     padding: 10,
     elevation: 2,
   },
 
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'transparent',
   },
 
   textStyle: {
@@ -273,7 +279,8 @@ const styles = StyleSheet.create({
   },
 
   modalText: {
-    marginBottom: 15,
+    margin: 'auto',
+    paddingTop: 10,
     textAlign: 'center',
   },
 
