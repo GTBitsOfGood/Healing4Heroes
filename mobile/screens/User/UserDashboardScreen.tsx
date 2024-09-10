@@ -63,8 +63,6 @@ export default function UserDashboardScreen(props: any) {
             new Date(second.date).getTime() - new Date(first.date).getTime()
           );
         });
-        animal.dateOfBirth = new Date();
-        animal.dateOfBirth.setFullYear(2010);
 
         setAnnouncements(announcementList);
         setUserInfo(user);
