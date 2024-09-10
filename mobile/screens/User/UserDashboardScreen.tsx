@@ -63,6 +63,8 @@ export default function UserDashboardScreen(props: any) {
             new Date(second.date).getTime() - new Date(first.date).getTime()
           );
         });
+        animal.dateOfBirth = new Date();
+        animal.dateOfBirth.setFullYear(2010);
 
         setAnnouncements(announcementList);
         setUserInfo(user);
@@ -245,16 +247,19 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     backgroundColor: 'white',
+    borderStyle: 'solid',
+    borderWidth: .25,
+    borderColor: '#B6D0E2',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: '#B6D0E2',
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width: .5,
+      height: .5,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowOpacity: 0.5,
+    shadowRadius: 7,
     elevation: 5,
   },
 
