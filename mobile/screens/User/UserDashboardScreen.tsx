@@ -5,6 +5,9 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Modal,
+  Pressable,
+  Vibration,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -38,6 +41,7 @@ export default function UserDashboardScreen(props: any) {
   const [isEnabled, setEnabled] = useState<boolean>(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [error, setError] = useState("");
+  const [birthdayModalVisible, setBirthdayModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     async function getUserDashboardInformation() {
@@ -63,6 +67,9 @@ export default function UserDashboardScreen(props: any) {
         setAnnouncements(announcementList);
         setUserInfo(user);
         setAnimalInfo(animal);
+        if (animal?.dateOfBirth?.getMonth == new Date().getMonth && animal?.dateOfBirth?.getDate == new Date().getDate) {
+          setBirthdayModalVisible(true);
+        }
         setHoursCompleted(animal?.totalHours);
         if (animal.profileImage) {
           const imageData = await ErrorWrapper({
@@ -100,6 +107,36 @@ export default function UserDashboardScreen(props: any) {
       }
       body={
         <View style={styles.container}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={birthdayModalVisible}
+            onRequestClose={() => {
+              setBirthdayModalVisible(!birthdayModalVisible);
+            }}
+            onShow={() => {
+              Vibration.vibrate(10000);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setBirthdayModalVisible(!birthdayModalVisible)}>
+                  <MaterialIcons
+                    name="close"
+                    size={20}
+                    color={"grey"}
+                  />
+                </Pressable>
+                <Text style={styles.modalText}>Happy birthday {animalInfo?.name}!!! {'\uE312'}</Text>
+                <Text style={styles.modalText}>{
+                  animalInfo?.dateOfBirth ? 
+                  `${animalInfo?.name} turned ${calculateAge(new Date(animalInfo?.dateOfBirth))} year${calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1 ? "s" : ""} old today!`
+                  : ""}
+                </Text>
+              </View>
+            </View>
+          </Modal>
           {/* announcement */}
           <TouchableOpacity
             style={[styles.announcementContainer, shadowStyle.shadow]}
@@ -198,6 +235,57 @@ export default function UserDashboardScreen(props: any) {
 }
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderStyle: 'solid',
+    borderWidth: .25,
+    borderColor: '#B6D0E2',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#B6D0E2',
+    shadowOffset: {
+      width: .5,
+      height: .5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 7,
+    elevation: 5,
+  },
+
+  button: {
+    position: 'absolute',
+    left: '87.5%',
+    top: '5%',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+
+  buttonClose: {
+    backgroundColor: 'transparent',
+  },
+
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  modalText: {
+    margin: 'auto',
+    paddingTop: 10,
+    textAlign: 'center',
+  },
+
   container: {
     flex: 1,
     backgroundColor: "#f2f2f2",
