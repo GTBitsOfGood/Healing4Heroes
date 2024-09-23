@@ -217,6 +217,8 @@ export default function UserDashboardScreen(props: any) {
 
           {/* animal cards */}
           <Text style={styles.label}>Health Information</Text>
+          <Text>HELLO</Text>
+          <Text>{animalInfo?.dateOfRabiesShot?.toDateString() ? animalInfo?.dateOfRabiesShot?.toDateString() : "No shot date"}</Text>
           <HealthCard
             handlerName={userInfo?.firstName + " " + userInfo?.lastName}
             animalName={animalInfo?.name as string}

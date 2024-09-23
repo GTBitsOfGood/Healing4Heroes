@@ -38,6 +38,14 @@ const AnimalSchema = new mongoose.Schema<ServiceAnimal>({
     type: Date,
     required: false,
   },
+  dateOfRabiesShot: {
+    type: Date,
+    required: false,
+  },
+  rabiesShotTimeInterval: {
+    type: Number,
+    required: false,
+  },
   dateOfTrainingClass: {
     type: Date,
     required: false,
