@@ -12,6 +12,7 @@ import { adminGetAnnouncements } from "../../actions/Announcement";
 import { userGetUserInfo } from "../../actions/User";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
+import HolidayBanner from "../Banners/HolidayBanner";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
@@ -66,6 +67,7 @@ export default function AdminDashboardScreen(props: any) {
       }
       body={
         <View style={styles.container}>
+          <HolidayBanner />
           <Text style={styles.label}>Announcements</Text>
           <View style={styles.announcementContainer}>
             <TouchableOpacity
