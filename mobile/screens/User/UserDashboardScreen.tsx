@@ -27,6 +27,7 @@ import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
 import { userGetTrainingLogs } from "../../actions/TrainingLog";
 import { userGetAnnouncements } from "../../actions/Announcement";
+import HolidayBanner from "../Banners/HolidayBanner";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
@@ -107,6 +108,7 @@ export default function UserDashboardScreen(props: any) {
       }
       body={
         <View style={styles.container}>
+          <HolidayBanner />
           <Modal
             animationType="fade"
             transparent={true}
