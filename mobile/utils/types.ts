@@ -235,3 +235,10 @@ export interface Analytics {
 
   currentYear: number;
 }
+
+export const HOLIDAYS = [
+  { name: "National Donut Day!", message: "It is national donut day! The office would appreciate donuts!", month: 5, day: 6 },
+  { name: "Happy Memorial Day!", message: "Remember those who sacrificed for our freedom", month: 4, day: 26 },
+  { name: "Happy 4th of July!", message: "", month: 6, day: 4 },
+  { name: "Happy Veterans Day!", message: "Thank you to all those who sacrificed for us", month: 10, day: 11 },
+];
