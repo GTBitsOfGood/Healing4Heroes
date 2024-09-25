@@ -20,7 +20,8 @@ export default APIWrapper({
       const dateOfBirth: Date = req.body.dateOfBirth as Date;
       const dateOfAdoption: Date = req.body.dateOfAdoption as Date;
       const dateOfRabiesShot: Date = req.body.dateOfRabiesShot as Date;
-      const rabiesShotTimeInterval: number = req.body.rabiesShotTimeInterval as number;
+      const rabiesShotTimeInterval: number = req.body
+        .rabiesShotTimeInterval as number;
       const microchipExpiration: Date = req.body.microchipExpiration as Date;
       const checkUpDate: Date = req.body.checkUpDate as Date;
       const dateOfTrainingClass: Date = req.body.dateOfTrainingClass as Date;
