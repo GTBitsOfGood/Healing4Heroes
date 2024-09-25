@@ -114,6 +114,14 @@ async function generateAnimals(users: User[]): Promise<ServiceAnimal[]> {
         dateOfBirth,
         dateOfTrainingClass
       );
+
+      const dateOfRabitsShot = faker.date.between(
+        dateOfBirth,
+        dateOfTrainingClass
+      );
+
+      const rabiesShotTimeInterval = randomNumber(0, 100) > 50 ? 1 : 3;
+
       const microchipExpiration = faker.date.future();
       const checkUpDate = faker.date.between(dateOfBirth, new Date());
       const profileImage = faker.image.animals();
@@ -130,6 +138,8 @@ async function generateAnimals(users: User[]): Promise<ServiceAnimal[]> {
         dateOfTrainingClass,
         dateOfBirth,
         dateOfAdoption,
+        dateOfRabitsShot,
+        rabiesShotTimeInterval,
         microchipExpiration,
         checkUpDate,
         profileImageFirebaseLocation

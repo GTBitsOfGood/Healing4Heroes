@@ -33,6 +33,7 @@ import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
+import { userUpdateAnimal } from "../../actions/Animal";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -43,6 +44,42 @@ export default function UserDashboardScreen(props: any) {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [error, setError] = useState("");
   const [birthdayModalVisible, setBirthdayModalVisible] = useState<boolean>(false);
+  const [shotReminderVisible, setShotReminderVisible] = useState<boolean>(false);
+  const [calculatedShotDate, setCalculatedShotDate] = useState<Date>();
+
+  const checkRabiesShot = async () => {
+    if (birthdayModalVisible)
+      return
+
+    if (!animalInfo?.dateOfRabiesShot || !animalInfo?.rabiesShotTimeInterval)
+      return
+
+    const newDate = new Date(animalInfo?.dateOfRabiesShot);
+    newDate.setFullYear(newDate.getFullYear() + (animalInfo?.rabiesShotTimeInterval ?? 0));
+    setCalculatedShotDate(newDate as Date);
+
+    if (newDate > new Date())
+      return
+
+    setShotReminderVisible(true);
+    const newAnimal = await userUpdateAnimal(animalInfo?.name,
+      animalInfo?.totalHours,
+      animalInfo?.subHandler,
+      animalInfo?.dateOfBirth,
+      animalInfo?.dateOfAdoption,
+      newDate,
+      animalInfo?.rabiesShotTimeInterval,
+      animalInfo?.dateOfTrainingClass,
+      animalInfo?.microchipExpiration,
+      animalInfo?.checkUpDate,
+      animalInfo?.profileImage);
+
+    if (newAnimal) {
+      setAnimalInfo(newAnimal);
+    } else {
+      setError("Failed to update animal rabies shot date.");
+    }
+  }
 
   useEffect(() => {
     async function getUserDashboardInformation() {
@@ -64,13 +101,19 @@ export default function UserDashboardScreen(props: any) {
             new Date(second.date).getTime() - new Date(first.date).getTime()
           );
         });
-
         setAnnouncements(announcementList);
         setUserInfo(user);
         setAnimalInfo(animal);
-        if (animal?.dateOfBirth?.getMonth == new Date().getMonth && animal?.dateOfBirth?.getDate == new Date().getDate) {
+
+        // If there is both the birthday modal and the rabies shot modal, show the birthday one first, once that one is closed we
+        // use a use effect to reactively show the rabies shot modal.
+        if ((new Date(animal?.dateOfBirth as Date)).getMonth() == new Date().getMonth() && new Date(animal?.dateOfBirth as Date).getDate() == new Date().getDate()) {
           setBirthdayModalVisible(true);
+        } else {
+          await checkRabiesShot()
         }
+
+
         setHoursCompleted(animal?.totalHours);
         if (animal.profileImage) {
           const imageData = await ErrorWrapper({
@@ -98,6 +141,12 @@ export default function UserDashboardScreen(props: any) {
     return unsubscribe;
   }, []);
 
+
+  useEffect(() => {
+    checkRabiesShot().then().catch()
+  }, [birthdayModalVisible])
+
+
   return (
     <BaseOverlay
       header={
@@ -108,6 +157,7 @@ export default function UserDashboardScreen(props: any) {
       }
       body={
         <View style={styles.container}>
+          {/* birthday reminder */}
           <HolidayBanner />
           <Modal
             animationType="fade"
@@ -132,13 +182,49 @@ export default function UserDashboardScreen(props: any) {
                 </Pressable>
                 <Text style={styles.modalText}>Happy birthday {animalInfo?.name}!!! {'\uE312'}</Text>
                 <Text style={styles.modalText}>{
-                  animalInfo?.dateOfBirth ? 
-                  `${animalInfo?.name} turned ${calculateAge(new Date(animalInfo?.dateOfBirth))} year${calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1 ? "s" : ""} old today!`
-                  : ""}
+                  animalInfo?.dateOfBirth ?
+                    `${animalInfo?.name} turned ${calculateAge(new Date(animalInfo?.dateOfBirth))} year${calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1 ? "s" : ""} old today!`
+                    : ""}
                 </Text>
               </View>
             </View>
           </Modal>
+
+          {/* shot reminder */}
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={shotReminderVisible}
+            onRequestClose={() => {
+              setShotReminderVisible(false);
+            }}
+            onShow={() => {
+              Vibration.vibrate(10000);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setShotReminderVisible(false)}>
+                  <MaterialIcons
+                    name="close"
+                    size={20}
+                    color={"grey"}
+                  />
+                </Pressable>
+                <Text style={styles.modalText}>{animalInfo?.name} needs their rabies shot.</Text>
+                <Text style={styles.modalText}>{animalInfo?.name} was due on {calculatedShotDate?.toLocaleDateString(
+                  'en-US',
+                  {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  }
+                )}</Text>
+              </View>
+            </View>
+          </Modal>
+
           {/* announcement */}
           <TouchableOpacity
             style={[styles.announcementContainer, shadowStyle.shadow]}
@@ -218,7 +304,6 @@ export default function UserDashboardScreen(props: any) {
           </View>
 
           {/* animal cards */}
-          <Text style={styles.label}>Health Information</Text>
           <HealthCard
             handlerName={userInfo?.firstName + " " + userInfo?.lastName}
             animalName={animalInfo?.name as string}
@@ -265,7 +350,7 @@ const styles = StyleSheet.create({
 
   button: {
     position: 'absolute',
-    left: '87.5%',
+    right: '1.5%',
     top: '5%',
     borderRadius: 20,
     padding: 10,

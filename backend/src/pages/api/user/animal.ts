@@ -25,6 +25,9 @@ export default APIWrapper({
       const dateOfTrainingClass: Date = req.body.dateOfTrainingClass as Date;
       const dateOfBirth: Date = req.body.dateOfBirth as Date;
       const dateOfAdoption: Date = req.body.dateOfAdoption as Date;
+      const dateOfRabiesShot: Date = req.body.dateOfRabiesShot as Date;
+      const rabiesShotTimeInterval: number = req.body
+        .rabiesShotTimeInterval as number;
       const microchipExpiration: Date = req.body.microchipExpiration as Date;
       const checkUpDate: Date = req.body.checkUpDate as Date;
       const profileImage: string = req.body.profileImage as string;
@@ -43,6 +46,8 @@ export default APIWrapper({
         dateOfTrainingClass,
         dateOfBirth,
         dateOfAdoption,
+        dateOfRabiesShot,
+        rabiesShotTimeInterval,
         microchipExpiration,
         checkUpDate,
         profileImage
@@ -71,6 +76,9 @@ export default APIWrapper({
       const dateOfTrainingClass: Date = req.body.dateOfTrainingClass as Date;
       const dateOfBirth: Date = req.body.dateOfBirth as Date;
       const dateOfAdoption: Date = req.body.dateOfAdoption as Date;
+      const dateOfRabiesShot: Date = req.body.dateOfRabiesShot as Date;
+      const rabiesShotTimeInterval: number = req.body
+        .rabiesShotTimeInterval as number;
       const microchipExpiration: Date = req.body.microchipExpiration as Date;
       const checkUpDate: Date = req.body.checkUpDate as Date;
       const profileImage: string = req.body.profileImage as string;
@@ -89,6 +97,8 @@ export default APIWrapper({
         dateOfTrainingClass,
         dateOfBirth,
         dateOfAdoption,
+        dateOfRabiesShot,
+        rabiesShotTimeInterval,
         microchipExpiration,
         checkUpDate,
         profileImage

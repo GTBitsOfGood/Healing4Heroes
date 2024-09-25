@@ -7,13 +7,21 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import DateInput from "../../components/DateInput";
 import { Screens } from "../../utils/types";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
+import SolidDropDown from "../../components/SolidDropDown";
 
 export default function AnimalInformationScreen(props: any) {
   const [animalName, setAnimalName] = useState("");
   const [animalBirth, setAnimalBirth] = useState<Date>();
   const [trainingClassDate, setTrainingClassDate] = useState<Date>();
   const [animalAdoption, setAnimalAdoption] = useState<Date>();
+  const [rabiesShotDate, setRabiesShotDate] = useState<Date>();
+  const [rabiesShotInterval, setRabiesShotInterval] = useState<number>();
   const [error, setError] = useState("");
+
+  const intervalOptions: Record<string, string> = {
+    "1 Year": "1",
+    "3 Years": "3",
+  };
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
@@ -34,6 +42,8 @@ export default function AnimalInformationScreen(props: any) {
           trainingClassDate,
           animalBirth,
           animalAdoption,
+          rabiesShotDate,
+          rabiesShotInterval,
           undefined,
           undefined,
         ],
@@ -106,6 +116,37 @@ export default function AnimalInformationScreen(props: any) {
               }}
             />
           </View>
+
+          <Text style={styles.label}>
+            Date of Rabies Shot? <Text style={styles.optional}>(Optional)</Text>
+          </Text>
+          <View style={styles.dateInput}>
+            <DateInput
+              autofill={false}
+              callbackFunction={(newDate) => {
+                setRabiesShotDate(newDate);
+              }}
+            />
+          </View>
+
+          {
+          rabiesShotDate && rabiesShotDate !== undefined &&
+          <Text style={styles.label}>
+            Rabies Shot Time Interval? <Text style={styles.optional}>(Optional){`\n`}Recommended Interval: 3 years</Text>
+          </Text>
+          }
+
+          {
+            rabiesShotDate && rabiesShotDate !== undefined &&
+            <SolidDropDown
+              items={intervalOptions}
+              isMultiselect={false}
+              callbackFunction={(value) => {
+                setRabiesShotInterval(parseInt(value as string));
+              }}
+              placeholder="Interval between Shots"
+            />
+          }
 
           <Text style={styles.label}>
             Date of Training Class?{" "}

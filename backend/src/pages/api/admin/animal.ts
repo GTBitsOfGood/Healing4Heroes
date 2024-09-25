@@ -16,10 +16,12 @@ export default APIWrapper({
       const userId: Types.ObjectId = req.body.userId as Types.ObjectId;
       const name: string = req.body.name as string;
       const totalHours: number = req.body.totalHours as number;
-
       const subHandler: SubHandler = req.body.subHandler as SubHandler;
       const dateOfBirth: Date = req.body.dateOfBirth as Date;
       const dateOfAdoption: Date = req.body.dateOfAdoption as Date;
+      const dateOfRabiesShot: Date = req.body.dateOfRabiesShot as Date;
+      const rabiesShotTimeInterval: number = req.body
+        .rabiesShotTimeInterval as number;
       const microchipExpiration: Date = req.body.microchipExpiration as Date;
       const checkUpDate: Date = req.body.checkUpDate as Date;
       const dateOfTrainingClass: Date = req.body.dateOfTrainingClass as Date;
@@ -31,11 +33,13 @@ export default APIWrapper({
         name,
         totalHours,
         subHandler,
+        dateOfTrainingClass,
         dateOfBirth,
         dateOfAdoption,
+        dateOfRabiesShot,
+        rabiesShotTimeInterval,
         microchipExpiration,
         checkUpDate,
-        dateOfTrainingClass,
         profileImage
       );
 

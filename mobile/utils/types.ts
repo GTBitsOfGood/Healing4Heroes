@@ -59,6 +59,8 @@ export interface ServiceAnimal {
   dateOfTrainingClass?: Date;
   dateOfBirth?: Date;
   dateOfAdoption?: Date;
+  dateOfRabiesShot?: Date;
+  rabiesShotTimeInterval?: number;
   microchipExpiration?: Date;
   checkUpDate?: Date;
   profileImage?: string;
