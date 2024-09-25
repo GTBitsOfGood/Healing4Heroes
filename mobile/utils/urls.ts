@@ -4,10 +4,10 @@ const { manifest } = Constants;
 
 function getBaseURL() {
   if (process.env.NODE_ENV === "production") {
-    return `https://healing4heroes.netlify.app`;
+    return `https://deploy-preview-145--healing4heroes-dev.netlify.app`;
   }
 
-  return `https://healing4heroes.netlify.app`;
+  return `https://deploy-preview-145--healing4heroes-dev.netlify.app`;
 
   // if (manifest?.debuggerHost) {
   //   return `http://${manifest?.debuggerHost?.split(":").shift()}:3000`;

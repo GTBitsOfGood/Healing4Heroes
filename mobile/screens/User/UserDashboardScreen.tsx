@@ -53,7 +53,7 @@ export default function UserDashboardScreen(props: any) {
           functionToExecute: userGetUserInfo,
           errorHandler: setError,
         })) as User;
-        let animal: ServiceAnimal = (await ErrorWrapper({
+        const animal: ServiceAnimal = (await ErrorWrapper({
           functionToExecute: userGetAnimal,
           errorHandler: setError,
         })) as ServiceAnimal;
@@ -66,8 +66,10 @@ export default function UserDashboardScreen(props: any) {
             new Date(second.date).getTime() - new Date(first.date).getTime()
           );
         });
-
-        if (animal?.dateOfBirth?.getMonth() == new Date().getMonth() && animal?.dateOfBirth?.getDate() == new Date().getDate()) {
+        setAnnouncements(announcementList);
+        setUserInfo(user);
+        setAnimalInfo(animal);
+        if ((animal?.dateOfBirth as Date).getMonth == new Date().getMonth && (animal?.dateOfBirth as Date).getDate == new Date().getDate) {
           setBirthdayModalVisible(true);
         }
         if (animal?.dateOfRabiesShot) {
@@ -88,7 +90,7 @@ export default function UserDashboardScreen(props: any) {
               animal?.checkUpDate,
               animal?.profileImage);
             if (newAnimal) {
-              animal = newAnimal;
+              setAnimalInfo(newAnimal);
             } else {
               setError("Failed to update animal rabies shot date.");
             }
@@ -105,9 +107,6 @@ export default function UserDashboardScreen(props: any) {
           setAnimalImage(imageData as string);
         }
         setEnabled(user?.emailVerified && user?.verifiedByAdmin);
-        setAnnouncements(announcementList);
-        setUserInfo(user);
-        setAnimalInfo(animal);
       } catch (error) {
         endOfExecutionHandler(error as Error);
       }
