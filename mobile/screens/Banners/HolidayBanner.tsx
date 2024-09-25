@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-
-const holidays = [
-  { name: "National Donut Day!", message: "It is national donut day! The office would appreciate donuts!", month: 5, day: 6},
-  { name: "Happy Memorial Day!", message: "Remember those who sacrificed for our freedom", month: 4, day: 26 },
-  { name: "Happy 4th of July!", message: "", month: 6, day: 4 },
-  { name: "Happy Veterans Day!", message: "Thank you to all those who sacrificed for us", month: 10, day: 11 },
-];
+import { HOLIDAYS } from '../../utils/types';
 
 const HolidayBanner = () => {
   const [holidayBanner, setHolidayBanner] = useState<{ name: string, message: string } | null>(null);
@@ -14,7 +8,7 @@ const HolidayBanner = () => {
   useEffect(() => {
     function checkForHoliday() {
       const today = new Date();
-      const holiday = holidays.find(
+      const holiday = HOLIDAYS.find(
         (holiday) =>
           holiday.month === today.getMonth() && holiday.day === today.getDate()
       );
@@ -43,19 +37,25 @@ const HolidayBanner = () => {
 const styles = StyleSheet.create({
   holidayBanner: {
     borderRadius: 10,
-    backgroundColor: "#9490fc",
+    backgroundColor: "#3F3BED",
     marginBottom: 10,
     padding: 10,
+    display: "flex",
+    flexDirection: "column",
+    gap: 5,
+    opacity: 0.9
   },
   holidayTitle: {
     color: "white",
-    fontSize: 12,
-    fontWeight: "500",
+    fontSize: 14,
+    fontWeight: "700",
+    textAlign: "center"
   },
   holidayMessage: {
     color: "white",
     fontSize: 12,
     fontWeight: "400",
+    textAlign: "center"
   },
 });
 
