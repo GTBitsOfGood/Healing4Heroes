@@ -45,7 +45,41 @@ export default function UserDashboardScreen(props: any) {
   const [birthdayModalVisible, setBirthdayModalVisible] = useState<boolean>(false);
   const [shotReminderVisible, setShotReminderVisible] = useState<boolean>(false);
   const [calculatedShotDate, setCalculatedShotDate] = useState<Date>();
-  
+
+  const checkRabiesShot = async () => {
+    if (birthdayModalVisible)
+      return
+
+    if (!animalInfo?.dateOfRabiesShot || !animalInfo?.rabiesShotTimeInterval)
+      return
+
+    const newDate = new Date(animalInfo?.dateOfRabiesShot);
+    newDate.setFullYear(newDate.getFullYear() + (animalInfo?.rabiesShotTimeInterval ?? 0));
+    setCalculatedShotDate(newDate as Date);
+
+    if (newDate > new Date())
+      return
+
+    setShotReminderVisible(true);
+    const newAnimal = await userUpdateAnimal(animalInfo?.name,
+      animalInfo?.totalHours,
+      animalInfo?.subHandler,
+      animalInfo?.dateOfBirth,
+      animalInfo?.dateOfAdoption,
+      newDate,
+      animalInfo?.rabiesShotTimeInterval,
+      animalInfo?.dateOfTrainingClass,
+      animalInfo?.microchipExpiration,
+      animalInfo?.checkUpDate,
+      animalInfo?.profileImage);
+
+    if (newAnimal) {
+      setAnimalInfo(newAnimal);
+    } else {
+      setError("Failed to update animal rabies shot date.");
+    }
+  }
+
   useEffect(() => {
     async function getUserDashboardInformation() {
       try {
@@ -69,34 +103,16 @@ export default function UserDashboardScreen(props: any) {
         setAnnouncements(announcementList);
         setUserInfo(user);
         setAnimalInfo(animal);
-        if ((animal?.dateOfBirth as Date).getMonth == new Date().getMonth && (animal?.dateOfBirth as Date).getDate == new Date().getDate) {
+
+        // If there is both the birthday modal and the rabies shot modal, show the birthday one first, once that one is closed we
+        // use a use effect to reactively show the rabies shot modal.
+        if ((new Date(animal?.dateOfBirth as Date)).getMonth() == new Date().getMonth() && new Date(animal?.dateOfBirth as Date).getDate() == new Date().getDate()) {
           setBirthdayModalVisible(true);
+        } else {
+          await checkRabiesShot()
         }
-        if (animal?.dateOfRabiesShot) {
-          let newDate = new Date(animal?.dateOfRabiesShot);
-          newDate.setFullYear(newDate.getFullYear() + (animal?.rabiesShotTimeInterval ? animal?.rabiesShotTimeInterval : 0));
-          setCalculatedShotDate(newDate as Date);
-          if (newDate && (newDate as Date) <= new Date()) {
-            setShotReminderVisible(true);
-            let newAnimal = await userUpdateAnimal(animal?.name,
-              animal?.totalHours,
-              animal?.subHandler,
-              animal?.dateOfBirth,
-              animal?.dateOfAdoption,
-              calculatedShotDate,
-              animal?.rabiesShotTimeInterval,
-              animal?.dateOfTrainingClass,
-              animal?.microchipExpiration,
-              animal?.checkUpDate,
-              animal?.profileImage);
-            if (newAnimal) {
-              setAnimalInfo(newAnimal);
-            } else {
-              setError("Failed to update animal rabies shot date.");
-            }
-          }
-        }
-        
+
+
         setHoursCompleted(animal?.totalHours);
         if (animal.profileImage) {
           const imageData = await ErrorWrapper({
@@ -123,6 +139,12 @@ export default function UserDashboardScreen(props: any) {
     });
     return unsubscribe;
   }, []);
+
+
+  useEffect(() => {
+    checkRabiesShot().then().catch()
+  }, [birthdayModalVisible])
+
 
   return (
     <BaseOverlay
@@ -158,9 +180,9 @@ export default function UserDashboardScreen(props: any) {
                 </Pressable>
                 <Text style={styles.modalText}>Happy birthday {animalInfo?.name}!!! {'\uE312'}</Text>
                 <Text style={styles.modalText}>{
-                  animalInfo?.dateOfBirth ? 
-                  `${animalInfo?.name} turned ${calculateAge(new Date(animalInfo?.dateOfBirth))} year${calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1 ? "s" : ""} old today!`
-                  : ""}
+                  animalInfo?.dateOfBirth ?
+                    `${animalInfo?.name} turned ${calculateAge(new Date(animalInfo?.dateOfBirth))} year${calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1 ? "s" : ""} old today!`
+                    : ""}
                 </Text>
               </View>
             </View>
@@ -172,7 +194,7 @@ export default function UserDashboardScreen(props: any) {
             transparent={true}
             visible={shotReminderVisible}
             onRequestClose={() => {
-              setShotReminderVisible(!shotReminderVisible);
+              setShotReminderVisible(false);
             }}
             onShow={() => {
               Vibration.vibrate(10000);
@@ -181,7 +203,7 @@ export default function UserDashboardScreen(props: any) {
               <View style={styles.modalView}>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => setShotReminderVisible(!shotReminderVisible)}>
+                  onPress={() => setShotReminderVisible(false)}>
                   <MaterialIcons
                     name="close"
                     size={20}
