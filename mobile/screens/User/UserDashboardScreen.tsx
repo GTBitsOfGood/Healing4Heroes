@@ -32,6 +32,7 @@ import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
+import { userUpdateAnimal } from "../../actions/Animal";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -42,7 +43,9 @@ export default function UserDashboardScreen(props: any) {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [error, setError] = useState("");
   const [birthdayModalVisible, setBirthdayModalVisible] = useState<boolean>(false);
-
+  const [shotReminderVisible, setShotReminderVisible] = useState<boolean>(false);
+  const [calculatedShotDate, setCalculatedShotDate] = useState<Date>();
+  
   useEffect(() => {
     async function getUserDashboardInformation() {
       try {
@@ -50,7 +53,7 @@ export default function UserDashboardScreen(props: any) {
           functionToExecute: userGetUserInfo,
           errorHandler: setError,
         })) as User;
-        const animal: ServiceAnimal = (await ErrorWrapper({
+        let animal: ServiceAnimal = (await ErrorWrapper({
           functionToExecute: userGetAnimal,
           errorHandler: setError,
         })) as ServiceAnimal;
@@ -64,12 +67,34 @@ export default function UserDashboardScreen(props: any) {
           );
         });
 
-        setAnnouncements(announcementList);
-        setUserInfo(user);
-        setAnimalInfo(animal);
-        if (animal?.dateOfBirth?.getMonth == new Date().getMonth && animal?.dateOfBirth?.getDate == new Date().getDate) {
+        if (animal?.dateOfBirth?.getMonth() == new Date().getMonth() && animal?.dateOfBirth?.getDate() == new Date().getDate()) {
           setBirthdayModalVisible(true);
         }
+        if (animal?.dateOfRabiesShot) {
+          let newDate = new Date(animal?.dateOfRabiesShot);
+          newDate.setFullYear(newDate.getFullYear() + (animal?.rabiesShotTimeInterval ? animal?.rabiesShotTimeInterval : 0));
+          setCalculatedShotDate(newDate as Date);
+          if (newDate && (newDate as Date) <= new Date()) {
+            setShotReminderVisible(true);
+            let newAnimal = await userUpdateAnimal(animal?.name,
+              animal?.totalHours,
+              animal?.subHandler,
+              animal?.dateOfBirth,
+              animal?.dateOfAdoption,
+              calculatedShotDate,
+              animal?.rabiesShotTimeInterval,
+              animal?.dateOfTrainingClass,
+              animal?.microchipExpiration,
+              animal?.checkUpDate,
+              animal?.profileImage);
+            if (newAnimal) {
+              animal = newAnimal;
+            } else {
+              setError("Failed to update animal rabies shot date.");
+            }
+          }
+        }
+        
         setHoursCompleted(animal?.totalHours);
         if (animal.profileImage) {
           const imageData = await ErrorWrapper({
@@ -80,6 +105,9 @@ export default function UserDashboardScreen(props: any) {
           setAnimalImage(imageData as string);
         }
         setEnabled(user?.emailVerified && user?.verifiedByAdmin);
+        setAnnouncements(announcementList);
+        setUserInfo(user);
+        setAnimalInfo(animal);
       } catch (error) {
         endOfExecutionHandler(error as Error);
       }
@@ -107,6 +135,7 @@ export default function UserDashboardScreen(props: any) {
       }
       body={
         <View style={styles.container}>
+          {/* birthday reminder */}
           <Modal
             animationType="fade"
             transparent={true}
@@ -137,6 +166,42 @@ export default function UserDashboardScreen(props: any) {
               </View>
             </View>
           </Modal>
+
+          {/* shot reminder */}
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={shotReminderVisible}
+            onRequestClose={() => {
+              setShotReminderVisible(!shotReminderVisible);
+            }}
+            onShow={() => {
+              Vibration.vibrate(10000);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setShotReminderVisible(!shotReminderVisible)}>
+                  <MaterialIcons
+                    name="close"
+                    size={20}
+                    color={"grey"}
+                  />
+                </Pressable>
+                <Text style={styles.modalText}>{animalInfo?.name} needs their rabies shot.</Text>
+                <Text style={styles.modalText}>{animalInfo?.name} was due on {calculatedShotDate?.toLocaleDateString(
+                  'en-US',
+                  {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  }
+                )}</Text>
+              </View>
+            </View>
+          </Modal>
+
           {/* announcement */}
           <TouchableOpacity
             style={[styles.announcementContainer, shadowStyle.shadow]}
@@ -216,9 +281,6 @@ export default function UserDashboardScreen(props: any) {
           </View>
 
           {/* animal cards */}
-          <Text style={styles.label}>Health Information</Text>
-          <Text>HELLO</Text>
-          <Text>{animalInfo?.dateOfRabiesShot?.toDateString() ? animalInfo?.dateOfRabiesShot?.toDateString() : "No shot date"}</Text>
           <HealthCard
             handlerName={userInfo?.firstName + " " + userInfo?.lastName}
             animalName={animalInfo?.name as string}
@@ -265,7 +327,7 @@ const styles = StyleSheet.create({
 
   button: {
     position: 'absolute',
-    left: '87.5%',
+    right: '1.5%',
     top: '5%',
     borderRadius: 20,
     padding: 10,
