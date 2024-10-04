@@ -47,32 +47,38 @@ export default function UserDashboardScreen(props: any) {
   const [shotReminderVisible, setShotReminderVisible] = useState<boolean>(false);
   const [calculatedShotDate, setCalculatedShotDate] = useState<Date>();
 
-  const checkRabiesShot = async () => {
+  const checkRabiesShot = async (animalInformation: ServiceAnimal) => {
     if (birthdayModalVisible)
       return
 
-    if (!animalInfo?.dateOfRabiesShot || !animalInfo?.rabiesShotTimeInterval)
+    if (!animalInformation)
+      animalInformation = (await ErrorWrapper({
+        functionToExecute: userGetAnimal,
+        errorHandler: setError,
+      })) as ServiceAnimal;
+
+    if (!animalInformation?.dateOfRabiesShot || !animalInformation?.rabiesShotTimeInterval)
       return
 
-    const newDate = new Date(animalInfo?.dateOfRabiesShot);
-    newDate.setFullYear(newDate.getFullYear() + (animalInfo?.rabiesShotTimeInterval ?? 0));
+    const newDate = new Date(animalInformation?.dateOfRabiesShot);
+    newDate.setFullYear(newDate.getFullYear() + (animalInformation?.rabiesShotTimeInterval ?? 0));
     setCalculatedShotDate(newDate as Date);
 
     if (newDate > new Date())
       return
 
     setShotReminderVisible(true);
-    const newAnimal = await userUpdateAnimal(animalInfo?.name,
-      animalInfo?.totalHours,
-      animalInfo?.subHandler,
-      animalInfo?.dateOfBirth,
-      animalInfo?.dateOfAdoption,
+    const newAnimal = await userUpdateAnimal(animalInformation?.name,
+      animalInformation?.totalHours,
+      animalInformation?.subHandler,
+      animalInformation?.dateOfBirth,
+      animalInformation?.dateOfAdoption,
       newDate,
-      animalInfo?.rabiesShotTimeInterval,
-      animalInfo?.dateOfTrainingClass,
-      animalInfo?.microchipExpiration,
-      animalInfo?.checkUpDate,
-      animalInfo?.profileImage);
+      animalInformation?.rabiesShotTimeInterval,
+      animalInformation?.dateOfTrainingClass,
+      animalInformation?.microchipExpiration,
+      animalInformation?.checkUpDate,
+      animalInformation?.profileImage);
 
     if (newAnimal) {
       setAnimalInfo(newAnimal);
@@ -110,7 +116,7 @@ export default function UserDashboardScreen(props: any) {
         if ((new Date(animal?.dateOfBirth as Date)).getMonth() == new Date().getMonth() && new Date(animal?.dateOfBirth as Date).getDate() == new Date().getDate()) {
           setBirthdayModalVisible(true);
         } else {
-          await checkRabiesShot()
+          await checkRabiesShot(animal)
         }
 
 
@@ -143,7 +149,8 @@ export default function UserDashboardScreen(props: any) {
 
 
   useEffect(() => {
-    checkRabiesShot().then().catch()
+
+    checkRabiesShot(animalInfo as ServiceAnimal).then().catch()
   }, [birthdayModalVisible])
 
 
