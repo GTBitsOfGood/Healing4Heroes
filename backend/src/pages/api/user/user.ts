@@ -102,9 +102,9 @@ export default APIWrapper({
         firstName,
         lastName,
         handlerType,
-        profileImage,
         address,
         annualPetVisitDay,
+        profileImage,
       );
 
       if (!updatedUser?.modifiedPaths) {
