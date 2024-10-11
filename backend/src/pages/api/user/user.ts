@@ -64,7 +64,7 @@ export default APIWrapper({
         profileImage,
         address,
         annualPetVisitDay,
-        isAdmin,
+        isAdmin
       );
       if (!user) {
         throw new Error("Failed to create user!");
@@ -104,7 +104,7 @@ export default APIWrapper({
         handlerType,
         address,
         annualPetVisitDay,
-        profileImage,
+        profileImage
       );
 
       if (!updatedUser?.modifiedPaths) {
