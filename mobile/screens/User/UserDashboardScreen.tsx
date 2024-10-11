@@ -310,8 +310,8 @@ export default function UserDashboardScreen(props: any) {
             />
           </View>
 
-          {/* animal cards */}
           <Text>{JSON.stringify(userInfo)}</Text>
+          {/* animal cards */}
           <HealthCard
             handlerName={userInfo?.firstName + " " + userInfo?.lastName}
             animalName={animalInfo?.name as string}
