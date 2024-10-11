@@ -39,6 +39,8 @@ export default APIWrapper({
       const lastName: string = req.body.lastName as string;
       const handlerType: HandlerType = req.body.handlerType as HandlerType;
       const profileImage: string = req.body.profileImage as string;
+      const address: string = req.body.address as string;
+      const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
 
       const dbUser = await findUserByFirebaseUid(firebaseUid);
       if (dbUser) {
@@ -60,7 +62,9 @@ export default APIWrapper({
         lastName,
         handlerType,
         profileImage,
-        isAdmin
+        address,
+        annualPetVisitDay,
+        isAdmin,
       );
       if (!user) {
         throw new Error("Failed to create user!");
@@ -82,6 +86,8 @@ export default APIWrapper({
       const lastName: string = req.body.lastName as string;
       const handlerType: HandlerType = req.body.handlerType as HandlerType;
       const profileImage: string = req.body.profileImage as string;
+      const address: string = req.body.address as string;
+      const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
 
       const user = await getUser(accessToken);
 
@@ -96,7 +102,9 @@ export default APIWrapper({
         firstName,
         lastName,
         handlerType,
-        profileImage
+        profileImage,
+        address,
+        annualPetVisitDay,
       );
 
       if (!updatedUser?.modifiedPaths) {

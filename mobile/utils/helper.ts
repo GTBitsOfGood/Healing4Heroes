@@ -40,6 +40,10 @@ export const validateBirthday = (date: Date | undefined) => {
   return date && date <= new Date() && date.toString() !== "Invalid Date";
 };
 
+export const validateVisitDate = (date: Date | undefined) => {
+  return date && date.toString() !== "Invalid Date";
+};
+
 export const calculateAge = (birthday: Date) => {
   const ageDifMs = Date.now() - (birthday as unknown as number);
   const ageDate = new Date(ageDifMs);

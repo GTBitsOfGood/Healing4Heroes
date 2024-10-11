@@ -31,8 +31,10 @@ export async function createUser(
   lastName?: string,
   handlerType?: HandlerType,
   profileImage?: string,
+  address?: string,
+  annualPetVisitDay?: Date,
   verifiedByAdmin?: boolean,
-  emailVerified?: boolean
+  emailVerified?: boolean,
 ) {
   await dbConnect();
   const user = await UserModel.create({
@@ -44,6 +46,8 @@ export async function createUser(
     lastName: lastName,
     handlerType: handlerType,
     profileImage: profileImage,
+    address: address,
+    annualPetVisitDay: annualPetVisitDay,
     verifiedByAdmin: verifiedByAdmin,
     emailVerified: emailVerified,
   });
@@ -57,7 +61,9 @@ export async function updateUser(
   firstName?: string,
   lastName?: string,
   handlerType?: HandlerType,
-  profileImage?: string
+  address?: string,
+  annualPetVisitDay?: Date,
+  profileImage?: string,
 ) {
   await dbConnect();
   const user = UserModel.findByIdAndUpdate(userId, {
@@ -66,6 +72,8 @@ export async function updateUser(
     lastName: lastName,
     handlerType: handlerType,
     birthday: birthday,
+    address: address,
+    annualPetVisitDay: annualPetVisitDay,
     profileImage: profileImage,
   });
   return user;
