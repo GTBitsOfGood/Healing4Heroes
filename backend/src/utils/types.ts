@@ -18,6 +18,8 @@ export interface User {
   _id: Types.ObjectId;
   firstName: string;
   lastName: string;
+  address: string;
+  annualPetVisitDay: Date;
   email: string;
   firebaseUid: string;
   handlerType: HandlerType;
