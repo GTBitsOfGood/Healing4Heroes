@@ -47,6 +47,8 @@ async function generateUsers(): Promise<User[]> {
     const lastName = faker.name.lastName();
     const birthday = faker.date.birthdate();
     const profileImage = faker.image.people();
+    const address = faker.address.streetAddress();
+    const annualPetVisitDay = faker.date.recent();
     const profileImageFirebaseLocation = await uploadImageToFirebase(
       StorageLocation.HANDLER_PICTURES,
       profileImage
@@ -74,6 +76,8 @@ async function generateUsers(): Promise<User[]> {
       lastName,
       randomEnum(HandlerType) as HandlerType,
       profileImageFirebaseLocation,
+      address,
+      annualPetVisitDay,
       randomBoolean(),
       true
     );
