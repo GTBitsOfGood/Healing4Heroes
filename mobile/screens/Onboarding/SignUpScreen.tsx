@@ -50,7 +50,6 @@ export default function SignUpScreen(props: any) {
 
   const handleSignUp = async () => {
     try {
-      console.log("handleSignUp");
       await auth.signOut().then().catch();
       const userCredential = await ErrorWrapper({
         functionToExecute: createUserWithEmailAndPassword,
@@ -65,8 +64,6 @@ export default function SignUpScreen(props: any) {
       });
       const user = userCredential.user;
       const firebaseUid = user.uid;
-      console.log("user");
-      console.log(user);
       const createdUser = await ErrorWrapper({
         functionToExecute: userCreateUser,
         errorHandler: setErrorMessage,

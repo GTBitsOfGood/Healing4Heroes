@@ -6,6 +6,9 @@ import {
 import APIWrapper from "server/utils/APIWrapper";
 import { getUser } from "server/utils/Authentication";
 import { HandlerType, Role } from "src/utils/types";
+import { sendEmail } from "server/utils/Authentication";
+import { EmailSubject } from "src/utils/types";
+import { EmailTemplate } from "src/utils/types";
 
 export default APIWrapper({
   GET: {
@@ -32,7 +35,6 @@ export default APIWrapper({
       requireEmailVerified: false,
     },
     handler: async (req) => {
-      console.log("POST /api/user/user");
       const email: string = req.body.email as string;
       const birthday: Date = req.body.birthday as Date;
       const firebaseUid: string = req.body.firebaseUid as string;
@@ -42,14 +44,11 @@ export default APIWrapper({
       const profileImage: string = req.body.profileImage as string;
       const address: string = req.body.address as string;
       const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
-      console.log("email", email);
 
       const dbUser = await findUserByFirebaseUid(firebaseUid);
       if (dbUser) {
         throw new Error("User already exists in database!");
       }
-
-      console.log("dbUser passed");
 
       const roles = [Role.NONPROFIT_USER];
       const isAdmin = email.endsWith("@healing4heroes.org");
@@ -72,6 +71,18 @@ export default APIWrapper({
       );
       if (!user) {
         throw new Error("Failed to create user!");
+      } else {
+        let emailData = {
+          email: email,
+          address: address ? address : "N/A",
+          firstName: firstName ? firstName : "N/A",
+          lastName: lastName ? lastName : "N/A",
+        }
+        if (process.env.NODE_ENV === "production") {
+          await sendEmail("applicant@healing4heroes.org", EmailSubject.ACCOUNT_CREATED, EmailTemplate.ACCOUNT_CREATED, emailData);
+        } else if (process.env.NODE_ENV === "development") {
+          await sendEmail("gt.engineering@hack4impact.org", EmailSubject.ACCOUNT_CREATED, EmailTemplate.ACCOUNT_CREATED, emailData);
+        }
       }
 
       return user;
