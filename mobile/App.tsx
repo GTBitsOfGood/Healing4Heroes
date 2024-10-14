@@ -41,7 +41,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [initialRoute, setInitialRoute] = useState<Screens>(
-    Screens.LANDING_SCREEN
+    Screens.DEVELOPMENT_SCREEN
   );
   const [appIsReady, setAppIsReady] = useState(false);
 
