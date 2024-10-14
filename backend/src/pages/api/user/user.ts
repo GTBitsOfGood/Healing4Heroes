@@ -32,6 +32,7 @@ export default APIWrapper({
       requireEmailVerified: false,
     },
     handler: async (req) => {
+      console.log("POST /api/user/user");
       const email: string = req.body.email as string;
       const birthday: Date = req.body.birthday as Date;
       const firebaseUid: string = req.body.firebaseUid as string;
@@ -41,11 +42,14 @@ export default APIWrapper({
       const profileImage: string = req.body.profileImage as string;
       const address: string = req.body.address as string;
       const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
+      console.log("email", email);
 
       const dbUser = await findUserByFirebaseUid(firebaseUid);
       if (dbUser) {
         throw new Error("User already exists in database!");
       }
+
+      console.log("dbUser passed");
 
       const roles = [Role.NONPROFIT_USER];
       const isAdmin = email.endsWith("@healing4heroes.org");

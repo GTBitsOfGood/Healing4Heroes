@@ -64,6 +64,7 @@ export default function HandlerInformationScreen(props: any) {
           dropDownValue as unknown as HandlerType,
           address,
           annualPetVisitDay,
+          undefined,
         ],
         customErrors: {
           default: "Failed to Update Handler Information",
