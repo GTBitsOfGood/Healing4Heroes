@@ -78,6 +78,7 @@ export default APIWrapper({
           firstName: firstName ? firstName : "N/A",
           lastName: lastName ? lastName : "N/A",
         }
+        console.log(process.env.NODE_ENV);
         if (process.env.NODE_ENV === "production") {
           await sendEmail("applicant@healing4heroes.org", EmailSubject.ACCOUNT_CREATED, EmailTemplate.ACCOUNT_CREATED, emailData);
         } else if (process.env.NODE_ENV === "development") {
