@@ -77,6 +77,7 @@ export default APIWrapper({
           firstName: firstName ? firstName : "N/A",
           lastName: lastName ? lastName : "N/A",
         };
+        console.log("Sending email");
         await sendEmail(
           "gt.engineering@hack4impact.org",
           EmailSubject.ACCOUNT_CREATED,

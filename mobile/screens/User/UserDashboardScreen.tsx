@@ -311,7 +311,6 @@ export default function UserDashboardScreen(props: any) {
           </View>
 
           {/* animal cards */}
-          <Text>Test</Text>
           <HealthCard
             handlerName={userInfo?.firstName + " " + userInfo?.lastName}
             animalName={animalInfo?.name as string}
