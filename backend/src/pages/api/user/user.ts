@@ -6,9 +6,6 @@ import {
 import APIWrapper from "server/utils/APIWrapper";
 import { getUser } from "server/utils/Authentication";
 import { HandlerType, Role } from "src/utils/types";
-import { sendEmail } from "server/utils/Authentication";
-import { EmailSubject } from "src/utils/types";
-import { EmailTemplate } from "src/utils/types";
 
 export default APIWrapper({
   GET: {
@@ -70,20 +67,7 @@ export default APIWrapper({
       );
       if (!user) {
         throw new Error("Failed to create user!");
-      } else {
-        const emailData = {
-          email: email,
-          address: address,
-          firstName: firstName,
-          lastName: lastName,
-        };
-        console.log("Sending email");
-        await sendEmail(
-          "gt.engineering@hack4impact.org",
-          EmailSubject.ACCOUNT_CREATED,
-          EmailTemplate.ACCOUNT_CREATED,
-          emailData
-        );
+      }
         // if (process.env.NODE_ENV === "production") {
         //   await sendEmail(
         //     "applicant@healing4heroes.org",
@@ -99,7 +83,6 @@ export default APIWrapper({
         //     emailData
         //   );
         // }
-      }
       return user;
     },
   },
