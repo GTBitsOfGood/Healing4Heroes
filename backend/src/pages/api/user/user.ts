@@ -73,9 +73,9 @@ export default APIWrapper({
       } else {
         const emailData = {
           email: email,
-          address: address ? address : "N/A",
-          firstName: firstName ? firstName : "N/A",
-          lastName: lastName ? lastName : "N/A",
+          address: address,
+          firstName: firstName,
+          lastName: lastName,
         };
         console.log("Sending email");
         await sendEmail(
