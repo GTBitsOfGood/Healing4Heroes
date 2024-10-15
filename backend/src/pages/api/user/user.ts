@@ -46,7 +46,6 @@ export default APIWrapper({
       const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
 
       const dbUser = await findUserByFirebaseUid(firebaseUid);
-      
       if (dbUser) {
         throw new Error("User already exists in database!");
       }
@@ -73,10 +72,10 @@ export default APIWrapper({
         throw new Error("Failed to create user!");
       } else {
         const emailData = {
-          "email": email,
-          "address": address ? address : "N/A",
-          "firstName": firstName ? firstName : "N/A",
-          "lastName": lastName ? lastName : "N/A",
+          email: email,
+          address: address ? address : "N/A",
+          firstName: firstName ? firstName : "N/A",
+          lastName: lastName ? lastName : "N/A",
         };
         await sendEmail(
           "gt.engineering@hack4impact.org",
