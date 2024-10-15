@@ -73,18 +73,18 @@ export default function HandlerInformationScreen(props: any) {
           default: "Failed to Update Handler Information",
         },
       });
-      // const emailData = {
-      //   email: (user as User).email,
-      //   firstName: firstName,
-      //   lastName: lastName,
-      //   address: address,
-      // }
-      // await sendEmail(
-      //   "gt.engineering@hack4impact.org",
-      //   EmailSubject.ACCOUNT_CREATED,
-      //   EmailTemplate.ACCOUNT_CREATED,
-      //   emailData
-      // );
+      const emailData = {
+        email: (user as User).email,
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
+      }
+      await sendEmail(
+        "gt.engineering@hack4impact.org",
+        EmailSubject.ACCOUNT_CREATED,
+        EmailTemplate.ACCOUNT_CREATED,
+        emailData
+      );
       return user;
     } catch (e) {
       endOfExecutionHandler(e as Error);
