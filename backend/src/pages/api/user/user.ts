@@ -46,10 +46,10 @@ export default APIWrapper({
       const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
 
       const dbUser = await findUserByFirebaseUid(firebaseUid);
+      
       if (dbUser) {
         throw new Error("User already exists in database!");
       }
-
       const roles = [Role.NONPROFIT_USER];
       const isAdmin = email.endsWith("@healing4heroes.org");
       if (isAdmin) {
@@ -73,29 +73,33 @@ export default APIWrapper({
         throw new Error("Failed to create user!");
       } else {
         const emailData = {
-          email: email,
-          address: address ? address : "N/A",
-          firstName: firstName ? firstName : "N/A",
-          lastName: lastName ? lastName : "N/A",
+          "email": email,
+          "address": address ? address : "N/A",
+          "firstName": firstName ? firstName : "N/A",
+          "lastName": lastName ? lastName : "N/A",
         };
-        console.log(process.env.NODE_ENV);
-        if (process.env.NODE_ENV === "production") {
-          await sendEmail(
-            "applicant@healing4heroes.org",
-            EmailSubject.ACCOUNT_CREATED,
-            EmailTemplate.ACCOUNT_CREATED,
-            emailData
-          );
-        } else if (process.env.NODE_ENV === "development") {
-          await sendEmail(
-            "gt.engineering@hack4impact.org",
-            EmailSubject.ACCOUNT_CREATED,
-            EmailTemplate.ACCOUNT_CREATED,
-            emailData
-          );
-        }
+        await sendEmail(
+          "gt.engineering@hack4impact.org",
+          EmailSubject.ACCOUNT_CREATED,
+          EmailTemplate.ACCOUNT_CREATED,
+          emailData
+        );
+        // if (process.env.NODE_ENV === "production") {
+        //   await sendEmail(
+        //     "applicant@healing4heroes.org",
+        //     EmailSubject.ACCOUNT_CREATED,
+        //     EmailTemplate.ACCOUNT_CREATED,
+        //     emailData
+        //   );
+        // } else {
+        //   await sendEmail(
+        //     "gt.engineering@hack4impact.org",
+        //     EmailSubject.ACCOUNT_CREATED,
+        //     EmailTemplate.ACCOUNT_CREATED,
+        //     emailData
+        //   );
+        // }
       }
-
       return user;
     },
   },
