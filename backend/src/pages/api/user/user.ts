@@ -72,17 +72,25 @@ export default APIWrapper({
       if (!user) {
         throw new Error("Failed to create user!");
       } else {
-        let emailData = {
+        const emailData = {
           email: email,
           address: address ? address : "N/A",
           firstName: firstName ? firstName : "N/A",
           lastName: lastName ? lastName : "N/A",
-        }
+        };
         console.log(process.env.NODE_ENV);
         if (process.env.NODE_ENV === "production") {
-          await sendEmail("applicant@healing4heroes.org", EmailSubject.ACCOUNT_CREATED, EmailTemplate.ACCOUNT_CREATED, emailData);
+          await sendEmail(
+            "applicant@healing4heroes.org",
+            EmailSubject.ACCOUNT_CREATED,
+            EmailTemplate.ACCOUNT_CREATED,
+            emailData);
         } else if (process.env.NODE_ENV === "development") {
-          await sendEmail("gt.engineering@hack4impact.org", EmailSubject.ACCOUNT_CREATED, EmailTemplate.ACCOUNT_CREATED, emailData);
+          await sendEmail(
+            "gt.engineering@hack4impact.org",
+            EmailSubject.ACCOUNT_CREATED,
+            EmailTemplate.ACCOUNT_CREATED,
+            emailData);
         }
       }
 
