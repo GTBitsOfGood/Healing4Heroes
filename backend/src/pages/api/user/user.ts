@@ -84,13 +84,15 @@ export default APIWrapper({
             "applicant@healing4heroes.org",
             EmailSubject.ACCOUNT_CREATED,
             EmailTemplate.ACCOUNT_CREATED,
-            emailData);
+            emailData
+          );
         } else if (process.env.NODE_ENV === "development") {
           await sendEmail(
             "gt.engineering@hack4impact.org",
             EmailSubject.ACCOUNT_CREATED,
             EmailTemplate.ACCOUNT_CREATED,
-            emailData);
+            emailData
+          );
         }
       }
 
