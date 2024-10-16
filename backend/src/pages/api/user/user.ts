@@ -72,7 +72,6 @@ export default APIWrapper({
       if (!user) {
         throw new Error("Failed to create user!");
       }
-      
       return user;
     },
   },
