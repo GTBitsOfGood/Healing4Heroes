@@ -18,11 +18,11 @@ const UserSchema = new mongoose.Schema<User>({
   },
   annualPetVisitDay: {
     type: Date,
-    required: false,
+    required: true,
   },
   address: {
     type: String,
-    required: false,
+    required: true,
   },
   firebaseUid: {
     type: String,

@@ -121,7 +121,7 @@ export default APIWrapper({
           lastName: lastName,
           address: address,
         };
-        if (process.env.NODE_ENV === "production") {
+        if (process.env.DEPLOY_CONTEXT === "production") {
           await sendEmail(
             "applicant@healing4heroes.org",
             EmailSubject.ACCOUNT_CREATED,
