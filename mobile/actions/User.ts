@@ -19,7 +19,9 @@ export const userCreateUser = async (
   firstName?: string,
   lastName?: string,
   handlerType?: HandlerType,
-  profileImage?: string
+  profileImage?: string,
+  address?: string,
+  annualPetVisitDay?: Date,
 ) => {
   return internalRequest<User>({
     url: userUserUrl,
@@ -32,6 +34,8 @@ export const userCreateUser = async (
       handlerType,
       birthday,
       profileImage,
+      address,
+      annualPetVisitDay,
     },
   });
 };
@@ -42,7 +46,9 @@ export const userUpdateUser = async (
   firstName?: string,
   lastName?: string,
   handlerType?: HandlerType,
-  profileImage?: string
+  address?: string,
+  annualPetVisitDay?: Date,
+  profileImage?: string,
 ) => {
   return internalRequest<User>({
     url: userUserUrl,
@@ -54,6 +60,8 @@ export const userUpdateUser = async (
       firstName,
       lastName,
       handlerType,
+      address,
+      annualPetVisitDay,
       profileImage,
     },
   });

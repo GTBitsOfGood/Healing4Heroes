@@ -6,6 +6,10 @@ import {
 import APIWrapper from "server/utils/APIWrapper";
 import { getUser } from "server/utils/Authentication";
 import { HandlerType, Role } from "src/utils/types";
+import { sendEmail } from "server/utils/Authentication";
+import { EmailSubject } from "src/utils/types";
+import { EmailTemplate } from "src/utils/types";
+import { User } from "src/utils/types";
 
 export default APIWrapper({
   GET: {
@@ -39,12 +43,13 @@ export default APIWrapper({
       const lastName: string = req.body.lastName as string;
       const handlerType: HandlerType = req.body.handlerType as HandlerType;
       const profileImage: string = req.body.profileImage as string;
+      const address: string = req.body.address as string;
+      const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
 
       const dbUser = await findUserByFirebaseUid(firebaseUid);
       if (dbUser) {
         throw new Error("User already exists in database!");
       }
-
       const roles = [Role.NONPROFIT_USER];
       const isAdmin = email.endsWith("@healing4heroes.org");
       if (isAdmin) {
@@ -60,12 +65,13 @@ export default APIWrapper({
         lastName,
         handlerType,
         profileImage,
+        address,
+        annualPetVisitDay,
         isAdmin
       );
       if (!user) {
         throw new Error("Failed to create user!");
       }
-
       return user;
     },
   },
@@ -82,6 +88,8 @@ export default APIWrapper({
       const lastName: string = req.body.lastName as string;
       const handlerType: HandlerType = req.body.handlerType as HandlerType;
       const profileImage: string = req.body.profileImage as string;
+      const address: string = req.body.address as string;
+      const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
 
       const user = await getUser(accessToken);
 
@@ -96,11 +104,38 @@ export default APIWrapper({
         firstName,
         lastName,
         handlerType,
+        address,
+        annualPetVisitDay,
         profileImage
       );
 
       if (!updatedUser?.modifiedPaths) {
         throw new Error("Failed to update user!");
+      }
+
+      // Only send email if user isn't on profile image upload
+      if (!profileImage) {
+        const emailData = {
+          email: (user as User).email,
+          firstName: firstName,
+          lastName: lastName,
+          address: address,
+        };
+        if (process.env.DEPLOY_CONTEXT === "production") {
+          await sendEmail(
+            "applicant@healing4heroes.org",
+            EmailSubject.ACCOUNT_CREATED,
+            EmailTemplate.ACCOUNT_CREATED,
+            emailData
+          );
+        } else {
+          await sendEmail(
+            "gt.engineering@hack4impact.org",
+            EmailSubject.ACCOUNT_CREATED,
+            EmailTemplate.ACCOUNT_CREATED,
+            emailData
+          );
+        }
       }
 
       return updatedUser;

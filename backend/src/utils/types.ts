@@ -18,6 +18,8 @@ export interface User {
   _id: Types.ObjectId;
   firstName: string;
   lastName: string;
+  address: string;
+  annualPetVisitDay: Date;
   email: string;
   firebaseUid: string;
   handlerType: HandlerType;
@@ -180,11 +182,13 @@ export interface UploadedPart {
 export enum EmailSubject {
   EMAIL_VERIFICATION = "Verify Your Email for Healing4Heroes",
   PASSWORD_RESET = "Reset Your Password for Healing4Heroes",
+  ACCOUNT_CREATED = "Account Created on Healing4Heroes",
 }
 
 export enum EmailTemplate {
   EMAIL_VERIFICATION = "verify",
   PASSWORD_RESET = "reset",
+  ACCOUNT_CREATED = "create",
 }
 
 /* User Retrieval */

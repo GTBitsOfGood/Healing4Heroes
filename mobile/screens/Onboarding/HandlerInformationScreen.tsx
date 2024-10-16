@@ -12,8 +12,11 @@ import StepOverlay from "../../components/Overlays/StepOverlay";
 import { Ionicons } from "@expo/vector-icons";
 import SolidDropDown from "../../components/SolidDropDown";
 import DateInput from "../../components/DateInput";
-import { validateBirthday } from "../../utils/helper";
+import { validateBirthday, validateVisitDate } from "../../utils/helper";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
+import { sendEmail } from "../../../backend/server/utils/Authentication";
+import { EmailSubject } from "../../../backend/src/utils/types";
+import { EmailTemplate } from "../../../backend/src/utils/types";
 
 export default function HandlerInformationScreen(props: any) {
   const [dropDownValue, setDropDownValue] = useState("");
@@ -22,6 +25,8 @@ export default function HandlerInformationScreen(props: any) {
   const [error, setError] = useState("");
   const [user, setUser] = useState<User>();
   const [birthday, setBirthday] = useState<Date>();
+  const [address, setAddress] = useState("");
+  const [annualPetVisitDay, setAnnualPetVisitDay] = useState<Date>();
   useEffect(() => {
     async function getUser() {
       try {
@@ -60,6 +65,9 @@ export default function HandlerInformationScreen(props: any) {
           firstName,
           lastName,
           dropDownValue as unknown as HandlerType,
+          address,
+          annualPetVisitDay,
+          undefined,
         ],
         customErrors: {
           default: "Failed to Update Handler Information",
@@ -80,6 +88,12 @@ export default function HandlerInformationScreen(props: any) {
       return;
     } else if (!validateBirthday(birthday)) {
       setError("Please enter a valid birthday.");
+      return;
+    } else if (!address) {
+      setError("Please enter your address.");
+      return;
+    } else if (!validateVisitDate(annualPetVisitDay)) {
+      setError("Please enter a valid annual pet visit day.");
       return;
     }
 
@@ -137,6 +151,15 @@ export default function HandlerInformationScreen(props: any) {
             onChangeText={setLastName}
           />
 
+          <Text style={styles.label}>What is your address?*</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Address"
+            placeholderTextColor="#999999"
+            value={address}
+            onChangeText={setAddress}
+          />
+
           <Text style={styles.label}>What describes you best?*</Text>
 
           <SolidDropDown
@@ -160,6 +183,16 @@ export default function HandlerInformationScreen(props: any) {
               autofill={false}
               callbackFunction={(date) => {
                 setBirthday(date);
+              }}
+            />
+          </View>
+
+          <View style={styles.annualVisitContainer}>
+            <Text style={styles.label}>When is your annual visit date?*</Text>
+            <DateInput
+              autofill={false}
+              callbackFunction={(date) => {
+                setAnnualPetVisitDay(date);
               }}
             />
           </View>
@@ -233,6 +266,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#666666",
   },
   birthdayContainer: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  annualVisitContainer: {
     marginTop: 10,
     marginBottom: 10,
   },

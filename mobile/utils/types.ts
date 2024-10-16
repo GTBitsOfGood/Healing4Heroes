@@ -41,6 +41,8 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+  address: string;
+  annualPetVisitDay: Date;
   firebaseUid: string;
   handlerType: HandlerType;
   birthday: Date;
