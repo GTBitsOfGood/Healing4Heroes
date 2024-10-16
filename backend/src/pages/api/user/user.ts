@@ -6,6 +6,10 @@ import {
 import APIWrapper from "server/utils/APIWrapper";
 import { getUser } from "server/utils/Authentication";
 import { HandlerType, Role } from "src/utils/types";
+import { sendEmail } from "server/utils/Authentication";
+import { EmailSubject } from "src/utils/types";
+import { EmailTemplate } from "src/utils/types";
+import { User } from "src/utils/types";
 
 export default APIWrapper({
   GET: {
@@ -122,6 +126,22 @@ export default APIWrapper({
 
       if (!updatedUser?.modifiedPaths) {
         throw new Error("Failed to update user!");
+      }
+
+      // Only send email if user isn't on profile image upload
+      if (!profileImage) {
+        const emailData = {
+          email: (user as User).email,
+          firstName: firstName,
+          lastName: lastName,
+          address: address,
+        };
+        await sendEmail(
+          "gt.engineering@hack4impact.org",
+          EmailSubject.ACCOUNT_CREATED,
+          EmailTemplate.ACCOUNT_CREATED,
+          emailData
+        );
       }
 
       return updatedUser;
