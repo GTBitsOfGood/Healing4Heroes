@@ -188,7 +188,7 @@ export default function HandlerInformationScreen(props: any) {
           </View>
 
           <View style={styles.annualVisitContainer}>
-            <Text style={styles.label}>When is your annual visit date?</Text>
+            <Text style={styles.label}>When is your annual visit date?*</Text>
             <DateInput
               autofill={false}
               callbackFunction={(date) => {
