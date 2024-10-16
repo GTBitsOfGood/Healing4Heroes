@@ -19,10 +19,12 @@ const UserSchema = new mongoose.Schema<User>({
   annualPetVisitDay: {
     type: Date,
     required: true,
+    default: Date.now()
   },
   address: {
     type: String,
     required: true,
+    default: ""
   },
   firebaseUid: {
     type: String,
