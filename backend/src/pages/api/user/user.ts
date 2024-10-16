@@ -72,21 +72,7 @@ export default APIWrapper({
       if (!user) {
         throw new Error("Failed to create user!");
       }
-      // if (process.env.NODE_ENV === "production") {
-      //   await sendEmail(
-      //     "applicant@healing4heroes.org",
-      //     EmailSubject.ACCOUNT_CREATED,
-      //     EmailTemplate.ACCOUNT_CREATED,
-      //     emailData
-      //   );
-      // } else {
-      //   await sendEmail(
-      //     "gt.engineering@hack4impact.org",
-      //     EmailSubject.ACCOUNT_CREATED,
-      //     EmailTemplate.ACCOUNT_CREATED,
-      //     emailData
-      //   );
-      // }
+      
       return user;
     },
   },
@@ -136,12 +122,21 @@ export default APIWrapper({
           lastName: lastName,
           address: address,
         };
-        await sendEmail(
-          "gt.engineering@hack4impact.org",
-          EmailSubject.ACCOUNT_CREATED,
-          EmailTemplate.ACCOUNT_CREATED,
-          emailData
-        );
+        if (process.env.NODE_ENV === "production") {
+          await sendEmail(
+            "applicant@healing4heroes.org",
+            EmailSubject.ACCOUNT_CREATED,
+            EmailTemplate.ACCOUNT_CREATED,
+            emailData
+          );
+        } else {
+          await sendEmail(
+            "gt.engineering@hack4impact.org",
+            EmailSubject.ACCOUNT_CREATED,
+            EmailTemplate.ACCOUNT_CREATED,
+            emailData
+          );
+        }
       }
 
       return updatedUser;
