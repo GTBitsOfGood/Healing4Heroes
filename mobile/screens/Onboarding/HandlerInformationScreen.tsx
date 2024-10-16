@@ -79,12 +79,19 @@ export default function HandlerInformationScreen(props: any) {
         lastName: lastName,
         address: address,
       }
-      await sendEmail(
-        "gt.engineering@hack4impact.org",
-        EmailSubject.ACCOUNT_CREATED,
-        EmailTemplate.ACCOUNT_CREATED,
-        emailData
-      );
+      await ErrorWrapper({
+        functionToExecute: sendEmail,
+        errorHandler: setError,
+        parameters: [
+          "gt.engineering@hack4impact.org",
+          EmailSubject.ACCOUNT_CREATED,
+          EmailTemplate.ACCOUNT_CREATED,
+          emailData
+        ],
+        customErrors: {
+          default: "Failed to Send Email",
+        },
+      })
       return user;
     } catch (e) {
       endOfExecutionHandler(e as Error);
