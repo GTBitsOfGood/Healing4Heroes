@@ -7,7 +7,7 @@ function getBaseURL() {
     return `https://healing4heroes.netlify.app`;
   }
 
-  return `https://healing4heroes-dev.netlify.app`;
+  return `https://deploy-preview-149--healing4heroes-dev.netlify.app`;
 
   // if (manifest?.debuggerHost) {
   //   return `http://${manifest?.debuggerHost?.split(":").shift()}:3000`;
