@@ -15,12 +15,12 @@ export const userGetUserInfo = async () => {
 export const userCreateUser = async (
   email: string,
   firebaseUid: string,
+  address?: string,
   birthday?: Date,
   firstName?: string,
   lastName?: string,
   handlerType?: HandlerType,
   profileImage?: string,
-  address?: string,
   annualPetVisitDay?: Date,
 ) => {
   return internalRequest<User>({
