@@ -123,7 +123,7 @@ export default APIWrapper({
         };
         if (process.env.DEPLOY_CONTEXT === "production") {
           await sendEmail(
-            "gt.engineering@hack4impact.org",
+            "applicant@healing4heroes.org",
             EmailSubject.ACCOUNT_CREATED,
             EmailTemplate.ACCOUNT_CREATED,
             emailData
