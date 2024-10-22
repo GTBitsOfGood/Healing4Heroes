@@ -244,3 +244,12 @@ export const HOLIDAYS = [
   { name: "Happy 4th of July!", message: "", month: 6, day: 4 },
   { name: "Happy Veterans Day!", message: "Thank you to all those who sacrificed for us", month: 10, day: 11 },
 ];
+
+export const DONATIONS = [
+  { name: "Donate a Leash", message: "Help keep our service dogs on the right path! Donate a leash and make their walks and training sessions even smoother."},
+  { name: "Donate a Crate", message: "Give our service dogs a comfy, secure place to rest. Donate a crate today and make their training journey even better!"},
+  { name: "Donate a Collar", message: "Help our service dogs stay safe and stylish with a new collar! Every little bit makes a big difference."},
+  { name: "Buy the Office Donuts", message: "Yum! The office would appreciate donuts!"},
+  { name: "Donate Dog Treats", message: "Fuel their training with delicious treats! Your donation will bring smiles (and tail wags) to our hardworking service dogs."},
+  { name: "Donate a Rabies Shot", message: "Show some love and buy service dogs their rabies shot! Anything is appreciated."}
+];
