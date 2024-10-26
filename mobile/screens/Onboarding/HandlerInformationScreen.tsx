@@ -189,6 +189,7 @@ export default function HandlerInformationScreen(props: any) {
 
           <View style={styles.annualVisitContainer}>
             <Text style={styles.label}>When is your annual visit date?*</Text>
+            <Text style={styles.optional}>Please enter the correct date, as this is used for prescription reminders</Text>
             <DateInput
               autofill={false}
               callbackFunction={(date) => {
@@ -248,6 +249,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
+  },
+  optional: {
+    color: "#999999",
+    fontWeight: "normal",
+    fontSize: 14,
   },
   circles: {
     marginTop: 13,

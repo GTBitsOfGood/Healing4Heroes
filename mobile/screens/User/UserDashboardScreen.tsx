@@ -46,6 +46,7 @@ export default function UserDashboardScreen(props: any) {
   const [error, setError] = useState("");
   const [birthdayModalVisible, setBirthdayModalVisible] = useState<boolean>(false);
   const [shotReminderVisible, setShotReminderVisible] = useState<boolean>(false);
+  const [pillReminderVisible, setPillReminderVisible] = useState<boolean>(false);
   const [calculatedShotDate, setCalculatedShotDate] = useState<Date>();
 
   const checkRabiesShot = async (animalInformation: ServiceAnimal) => {
@@ -85,6 +86,10 @@ export default function UserDashboardScreen(props: any) {
       setAnimalInfo(newAnimal);
     } else {
       setError("Failed to update animal rabies shot date.");
+    }
+
+    if (new Date().getDate() === 1 || true) {
+      setPillReminderVisible(true);
     }
   }
 
@@ -150,7 +155,6 @@ export default function UserDashboardScreen(props: any) {
 
 
   useEffect(() => {
-
     checkRabiesShot(animalInfo as ServiceAnimal).then().catch()
   }, [birthdayModalVisible])
 
@@ -230,6 +234,33 @@ export default function UserDashboardScreen(props: any) {
                     day: 'numeric',
                   }
                 )}</Text>
+              </View>
+            </View>
+          </Modal>
+
+          {/* pill reminder */}
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={pillReminderVisible}
+            onRequestClose={() => {
+              setPillReminderVisible(false);
+            }}
+            onShow={() => {
+              Vibration.vibrate(10000);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setPillReminderVisible(false)}>
+                  <MaterialIcons
+                    name="close"
+                    size={20}
+                    color={"grey"}
+                  />
+                </Pressable>
+                <Text style={styles.modalText}>{animalInfo?.name} needs their heartworm preventative and flea intake pill.</Text>
               </View>
             </View>
           </Modal>
