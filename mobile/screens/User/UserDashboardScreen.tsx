@@ -29,12 +29,14 @@ import { userGetTrainingLogs } from "../../actions/TrainingLog";
 import { userGetAnnouncements } from "../../actions/Announcement";
 import HolidayBanner from "../Banners/HolidayBanner";
 import DonationBanner from "../Banners/DonationBanner";
+import PillBanner from "../Banners/PillBanner";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
 import { userUpdateAnimal } from "../../actions/Animal";
+import { Data } from "victory-native";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -46,7 +48,7 @@ export default function UserDashboardScreen(props: any) {
   const [error, setError] = useState("");
   const [birthdayModalVisible, setBirthdayModalVisible] = useState<boolean>(false);
   const [shotReminderVisible, setShotReminderVisible] = useState<boolean>(false);
-  const [pillReminderVisible, setPillReminderVisible] = useState<boolean>(false);
+  const [prescriptionReminderVisible, setPrescriptionReminderVisible] = useState<boolean>(false);
   const [calculatedShotDate, setCalculatedShotDate] = useState<Date>();
 
   const checkRabiesShot = async (animalInformation: ServiceAnimal) => {
@@ -87,10 +89,6 @@ export default function UserDashboardScreen(props: any) {
     } else {
       setError("Failed to update animal rabies shot date.");
     }
-
-    if (new Date().getDate() === 1 || true) {
-      setPillReminderVisible(true);
-    }
   }
 
   useEffect(() => {
@@ -121,10 +119,13 @@ export default function UserDashboardScreen(props: any) {
         // use a use effect to reactively show the rabies shot modal.
         if ((new Date(animal?.dateOfBirth as Date)).getMonth() == new Date().getMonth() && new Date(animal?.dateOfBirth as Date).getDate() == new Date().getDate()) {
           setBirthdayModalVisible(true);
+        } else if (userInfo && userInfo.annualPetVisitDay
+          && (new Date(userInfo?.annualPetVisitDay as Date)).getMonth() == new Date().getMonth()
+          && (new Date(userInfo?.annualPetVisitDay as Date)).getDate() == new Date().getDate()) {
+          setPrescriptionReminderVisible(true);
         } else {
           await checkRabiesShot(animal)
         }
-
 
         setHoursCompleted(animal?.totalHours);
         if (animal.profileImage) {
@@ -155,8 +156,18 @@ export default function UserDashboardScreen(props: any) {
 
 
   useEffect(() => {
-    checkRabiesShot(animalInfo as ServiceAnimal).then().catch()
+    if (userInfo && userInfo.annualPetVisitDay
+      && (new Date(userInfo?.annualPetVisitDay as Date)).getMonth() == new Date().getMonth()
+      && (new Date(userInfo?.annualPetVisitDay as Date)).getDate() == new Date().getDate()) {
+      setPrescriptionReminderVisible(true);
+    } else {
+      checkRabiesShot(animalInfo as ServiceAnimal).then().catch()
+    }
   }, [birthdayModalVisible])
+
+  useEffect(() => {
+    checkRabiesShot(animalInfo as ServiceAnimal).then().catch()
+  }, [prescriptionReminderVisible])
 
 
   return (
@@ -172,6 +183,7 @@ export default function UserDashboardScreen(props: any) {
           {/* birthday reminder */}
           <HolidayBanner />
           <DonationBanner />
+          {new Date().getDate() === 1 ? <PillBanner /> : null}
           <Modal
             animationType="fade"
             transparent={true}
@@ -199,6 +211,33 @@ export default function UserDashboardScreen(props: any) {
                     `${animalInfo?.name} turned ${calculateAge(new Date(animalInfo?.dateOfBirth))} year${calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1 ? "s" : ""} old today!`
                     : ""}
                 </Text>
+              </View>
+            </View>
+          </Modal>
+
+          {/* prescription reminder */}
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={prescriptionReminderVisible}
+            onRequestClose={() => {
+              setPrescriptionReminderVisible(false);
+            }}
+            onShow={() => {
+              Vibration.vibrate(10000);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setPrescriptionReminderVisible(false)}>
+                  <MaterialIcons
+                    name="close"
+                    size={20}
+                    color={"grey"}
+                  />
+                </Pressable>
+                <Text style={styles.modalText}>This is a reminder to fill your prescription for {animalInfo?.name}'s heartworm preventative pill.</Text>
               </View>
             </View>
           </Modal>
@@ -234,33 +273,6 @@ export default function UserDashboardScreen(props: any) {
                     day: 'numeric',
                   }
                 )}</Text>
-              </View>
-            </View>
-          </Modal>
-
-          {/* pill reminder */}
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={pillReminderVisible}
-            onRequestClose={() => {
-              setPillReminderVisible(false);
-            }}
-            onShow={() => {
-              Vibration.vibrate(10000);
-            }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setPillReminderVisible(false)}>
-                  <MaterialIcons
-                    name="close"
-                    size={20}
-                    color={"grey"}
-                  />
-                </Pressable>
-                <Text style={styles.modalText}>{animalInfo?.name} needs their heartworm preventative and flea intake pill.</Text>
               </View>
             </View>
           </Modal>
@@ -408,9 +420,9 @@ const styles = StyleSheet.create({
   },
 
   modalText: {
-    margin: 'auto',
     paddingTop: 10,
     textAlign: 'center',
+    display: 'flex',
   },
 
   container: {
@@ -457,9 +469,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "400",
   },
-
   logContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  pillText: {
+    marginBottom: 10,
+  }
 });
