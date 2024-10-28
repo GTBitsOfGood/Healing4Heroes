@@ -27,6 +27,7 @@ import { calculateAge } from "../../utils/helper";
 import { getFile } from "../../utils/storage";
 import { userGetTrainingLogs } from "../../actions/TrainingLog";
 import { userGetAnnouncements } from "../../actions/Announcement";
+import BirthdayBanner from "../Banners/BirthdayBanner";
 import HolidayBanner from "../Banners/HolidayBanner";
 import DonationBanner from "../Banners/DonationBanner";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
@@ -165,7 +166,7 @@ export default function UserDashboardScreen(props: any) {
       }
       body={
         <View style={styles.container}>
-          {/* birthday reminder */}
+          <BirthdayBanner />
           <HolidayBanner />
           <DonationBanner />
           <Modal
