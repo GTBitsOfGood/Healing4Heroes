@@ -183,12 +183,14 @@ export enum EmailSubject {
   EMAIL_VERIFICATION = "Verify Your Email for Healing4Heroes",
   PASSWORD_RESET = "Reset Your Password for Healing4Heroes",
   ACCOUNT_CREATED = "Account Created on Healing4Heroes",
+  SHOT_REMINDER = "Rabies Shot Reminder for Your Service Animal",
 }
 
 export enum EmailTemplate {
   EMAIL_VERIFICATION = "verify",
   PASSWORD_RESET = "reset",
   ACCOUNT_CREATED = "create",
+  SHOT_REMINDER = "shot-reminder",
 }
 
 /* User Retrieval */

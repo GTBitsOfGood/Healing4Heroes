@@ -30,6 +30,7 @@ import { userGetAnnouncements } from "../../actions/Announcement";
 import HolidayBanner from "../Banners/HolidayBanner";
 import DonationBanner from "../Banners/DonationBanner";
 import PillBanner from "../Banners/PillBanner";
+import CleaningBanner from "../Banners/CleaningBanner";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
@@ -37,6 +38,9 @@ import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
 import { userUpdateAnimal } from "../../actions/Animal";
 import { Data } from "victory-native";
+import { EmailSubject } from "../../../backend/src/utils/types";
+import { EmailTemplate } from "../../../backend/src/utils/types";
+import { sendEmail } from "../../../backend/server/utils/Authentication";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -119,9 +123,9 @@ export default function UserDashboardScreen(props: any) {
         // use a use effect to reactively show the rabies shot modal.
         if ((new Date(animal?.dateOfBirth as Date)).getMonth() == new Date().getMonth() && new Date(animal?.dateOfBirth as Date).getDate() == new Date().getDate()) {
           setBirthdayModalVisible(true);
-        } else if (userInfo && userInfo.annualPetVisitDay
-          && (new Date(userInfo?.annualPetVisitDay as Date)).getMonth() == new Date().getMonth()
-          && (new Date(userInfo?.annualPetVisitDay as Date)).getDate() == new Date().getDate()) {
+        } else if (user && user.annualPetVisitDay
+          && (new Date(user?.annualPetVisitDay as Date)).getMonth() == new Date().getMonth()
+          && (new Date(user?.annualPetVisitDay as Date)).getDate() == new Date().getDate()) {
           setPrescriptionReminderVisible(true);
         } else {
           await checkRabiesShot(animal)
@@ -156,18 +160,70 @@ export default function UserDashboardScreen(props: any) {
 
 
   useEffect(() => {
-    if (userInfo && userInfo.annualPetVisitDay
-      && (new Date(userInfo?.annualPetVisitDay as Date)).getMonth() == new Date().getMonth()
-      && (new Date(userInfo?.annualPetVisitDay as Date)).getDate() == new Date().getDate()) {
-      setPrescriptionReminderVisible(true);
-    } else {
-      checkRabiesShot(animalInfo as ServiceAnimal).then().catch()
+    async function checkUser(userInfo: User) {
+      try {
+        if (!userInfo) {
+          userInfo = (await ErrorWrapper({
+            functionToExecute: userGetUserInfo,
+            errorHandler: setError,
+          })) as User;
+        }
+        if (userInfo && userInfo.annualPetVisitDay
+          && (new Date(userInfo?.annualPetVisitDay as Date)).getMonth() == new Date().getMonth()
+          && (new Date(userInfo?.annualPetVisitDay as Date)).getDate() == new Date().getDate()) {
+          setPrescriptionReminderVisible(true);
+        } else {
+          checkRabiesShot(animalInfo as ServiceAnimal).then().catch()
+        }
+      } catch (error) {
+        endOfExecutionHandler(error as Error);
+      }
     }
-  }, [birthdayModalVisible])
+    checkUser(userInfo as User).then().catch();
+  }, [birthdayModalVisible]);
 
   useEffect(() => {
     checkRabiesShot(animalInfo as ServiceAnimal).then().catch()
-  }, [prescriptionReminderVisible])
+  }, [prescriptionReminderVisible]);
+
+  useEffect(() => {
+    async function sendEmailReminder(userInfo: User, animalInfo: ServiceAnimal) {
+      if (!userInfo) {
+        userInfo = (await ErrorWrapper({
+          functionToExecute: userGetUserInfo,
+          errorHandler: setError,
+        })) as User;
+      }
+      if (!animalInfo) {
+        animalInfo = (await ErrorWrapper({
+          functionToExecute: userGetAnimal,
+          errorHandler: setError,
+        })) as ServiceAnimal;
+      }
+      const emailData = {
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        animalName: animalInfo.name,
+        shotDate: calculatedShotDate?.toLocaleDateString(
+          'en-US',
+          {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          }
+        ) as string,
+      };
+      if (userInfo.email) {
+        await sendEmail(
+          userInfo.email,
+          EmailSubject.SHOT_REMINDER,
+          EmailTemplate.SHOT_REMINDER,
+          emailData
+        );
+      }
+    }
+    sendEmailReminder(userInfo as User, animalInfo as ServiceAnimal).then().catch();
+  }, [shotReminderVisible]);
 
 
   return (
@@ -184,6 +240,7 @@ export default function UserDashboardScreen(props: any) {
           <HolidayBanner />
           <DonationBanner />
           {new Date().getDate() === 1 ? <PillBanner /> : null}
+          {new Date().getMonth() === 1 ? <CleaningBanner /> : null}
           <Modal
             animationType="fade"
             transparent={true}
