@@ -30,6 +30,7 @@ export const urls = {
       animal: "/api/user/animal",
       training: "/api/user/training",
       announcement: "/api/user/announcement",
+      email: "/api/user/email",
       readLog: "/api/user/announcements/read",
       fileUpload: {
         init: "/api/user/file/upload/init",

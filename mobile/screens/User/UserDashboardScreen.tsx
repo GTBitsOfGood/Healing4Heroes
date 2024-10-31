@@ -38,9 +38,7 @@ import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
 import { userUpdateAnimal } from "../../actions/Animal";
 import { Data } from "victory-native";
-import { EmailSubject } from "../../../backend/src/utils/types";
-import { EmailTemplate } from "../../../backend/src/utils/types";
-import { sendEmail } from "../../../backend/server/utils/Authentication";
+import { userSendEmail } from "../../actions/Email";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -214,15 +212,25 @@ export default function UserDashboardScreen(props: any) {
         ) as string,
       };
       if (userInfo.email) {
-        await sendEmail(
-          userInfo.email,
-          EmailSubject.SHOT_REMINDER,
-          EmailTemplate.SHOT_REMINDER,
-          emailData
-        );
+        try {
+          await userSendEmail(
+            "gt.engineering@hack4impact.org",
+            "Rabies Shot Reminder for Your Service Animal",
+            "shot-reminder",
+            emailData
+          );
+          console.log("Email sent");
+        } catch (error) {
+          console.log("Error sending email:", error);
+        }
       }
     }
-    sendEmailReminder(userInfo as User, animalInfo as ServiceAnimal).then().catch();
+    if (shotReminderVisible) {
+      console.log("sendEmail");
+      sendEmailReminder(userInfo as User, animalInfo as ServiceAnimal).then().catch(error => {
+        console.log(error.message);
+      });
+    }
   }, [shotReminderVisible]);
 
 
