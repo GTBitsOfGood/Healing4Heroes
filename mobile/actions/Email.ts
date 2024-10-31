@@ -1,5 +1,5 @@
 import { internalRequest } from "../utils/requests";
-import { HttpMethod, EmailBody } from "../utils/types";
+import { HttpMethod } from "../utils/types";
 import { urls } from "../utils/urls";
 
 const userEmailUrl = urls.baseUrl + urls.api.user.email;
@@ -10,7 +10,7 @@ export const userSendEmail = async (
     emailTemplate: string,
     emailData: { [Key: string]: string }
 ) => {
-    await internalRequest<EmailBody>({
+    await internalRequest<boolean>({
         url: userEmailUrl,
         method: HttpMethod.POST,
         authRequired: true,

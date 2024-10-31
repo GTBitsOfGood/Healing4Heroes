@@ -113,13 +113,6 @@ export interface UserContextType {
   animal: ServiceAnimal | null;
 }
 
-export interface EmailBody {
-  recipient: string;
-  emailSubject: string;
-  emailBody: string;
-  emailData: { [key: string]: string };
-}
-
 export enum UserVerificationLogType {
   EMAIL_VERIFICATION = "email verification",
   PASSWORD_RESET = "password reset",
