@@ -61,7 +61,7 @@ export default APIWrapper({
       if (annualPetVisitDay) {
         nextPrescriptionReminder = new Date();
         nextPrescriptionReminder.setFullYear(
-          annualPetVisitDay.getFullYear() + 1
+          nextPrescriptionReminder.getFullYear() + 1
         );
         nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
         nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
@@ -114,9 +114,10 @@ export default APIWrapper({
       }
 
       if (annualPetVisitDay && !nextPrescriptionReminder) {
+        const today = new Date();
         nextPrescriptionReminder = new Date();
         nextPrescriptionReminder.setFullYear(
-          annualPetVisitDay.getFullYear() + 1
+          today.getFullYear() + 1
         );
         nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
         nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
