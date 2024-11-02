@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema<User>({
   },
   nextPrescriptionReminder: {
     type: Date,
-    required: true,
+    required: false,
   },
   address: {
     type: String,
