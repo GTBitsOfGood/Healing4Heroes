@@ -12,6 +12,7 @@ import {
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { Screens } from "../../utils/types";
 import { Dimensions } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function LandingScreen(props: any) {
   return (
@@ -49,6 +50,40 @@ export default function LandingScreen(props: any) {
               </TouchableOpacity> */}
             </View>
           </View>
+          <View style={styles.partnersContainer}>
+            <Text style={styles.sectionHeader}>
+              Support Us While Walking Your Dog!
+            </Text>
+            <Text style={styles.descriptionText}>
+              Use WoofTrax to track your walks and earn money for Healing4Heroes
+              at no cost to you! Simply select Healing4Heroes when creating your
+              account.
+            </Text>
+            <TouchableOpacity
+              onPress={() => Linking.openURL("https://wooftrax.com/")}
+              style={styles.partnerButton}
+            >
+              <Text style={styles.partnerButtonText}>
+                Track Walks on WoofTrax
+              </Text>
+            </TouchableOpacity>
+
+            <Text style={[styles.sectionHeader, { marginTop: 20 }]}>
+              Volunteer Opportunities
+            </Text>
+            <Text style={styles.descriptionText}>
+              Find and sign up for volunteer opportunities through our Golden
+              Volunteer portal.
+            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL("https://portal.goldenvolunteer.com/")
+              }
+              style={styles.partnerButton}
+            >
+              <Text style={styles.partnerButtonText}>View Opportunities</Text>
+            </TouchableOpacity>
+          </View>
           {Platform.OS === "web" ? (
             <View style={styles.netlifyContainer}>
               <TouchableOpacity
@@ -83,6 +118,34 @@ export default function LandingScreen(props: any) {
                 resizeMode="contain"
               />
             </ScrollView>
+          </View>
+          <View style={styles.socialMediaContainer}>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL("https://m.youtube.com/@healing4heroes916")
+              }
+              style={styles.socialIcon}
+            >
+              <FontAwesome name="youtube" size={30} color="#FF0000" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL(
+                  "https://www.instagram.com/healing4heroes?igsh=eTlxOTZxazlsaDl0&utm_source=qr"
+                )
+              }
+              style={styles.socialIcon}
+            >
+              <FontAwesome name="instagram" size={30} color="#C13584" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL("https://m.facebook.com/healing4heroes.org/")
+              }
+              style={styles.socialIcon}
+            >
+              <FontAwesome name="facebook" size={30} color="#4267B2" />
+            </TouchableOpacity>
           </View>
         </View>
       }
@@ -203,5 +266,49 @@ const styles = StyleSheet.create({
   sponsorLogo: {
     width: (Dimensions.get("window").width - 68) / 3,
     maxHeight: 100,
+  },
+  socialMediaContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    marginBottom: 20,
+    width: "100%",
+  },
+  socialIcon: {
+    marginHorizontal: 15,
+    padding: 10,
+  },
+  partnersContainer: {
+    marginTop: 20,
+    padding: 16,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    alignItems: "center",
+  },
+  sectionHeader: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  descriptionText: {
+    fontSize: 14,
+    textAlign: "center",
+    marginBottom: 12,
+    paddingHorizontal: 10,
+  },
+  partnerButton: {
+    backgroundColor: "#3F3BED",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    width: "100%",
+    alignItems: "center",
+  },
+  partnerButtonText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "500",
   },
 });
