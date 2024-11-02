@@ -53,6 +53,14 @@ export default function HandlerInformationScreen(props: any) {
 
   const updateUserInfo = async () => {
     try {
+      const today = new Date();
+      const prescriptionReminderDate = new Date();
+      prescriptionReminderDate.setFullYear(
+        today.getFullYear() + 1,
+        (annualPetVisitDay as Date).getMonth(),
+        (annualPetVisitDay as Date).getDate()
+      );
+
       const user = await ErrorWrapper({
         functionToExecute: userUpdateUser,
         errorHandler: setError,
@@ -65,6 +73,8 @@ export default function HandlerInformationScreen(props: any) {
           address,
           annualPetVisitDay,
           undefined,
+          prescriptionReminderDate,
+          true,
         ],
         customErrors: {
           default: "Failed to Update Handler Information",

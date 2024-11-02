@@ -43,6 +43,7 @@ export interface User {
   email: string;
   address: string;
   annualPetVisitDay: Date;
+  nextPrescriptionReminder: Date;
   firebaseUid: string;
   handlerType: HandlerType;
   birthday: Date;

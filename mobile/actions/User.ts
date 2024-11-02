@@ -48,7 +48,9 @@ export const userUpdateUser = async (
   handlerType?: HandlerType,
   address?: string,
   annualPetVisitDay?: Date,
-  profileImage?: string
+  profileImage?: string,
+  nextPrescriptionReminder?: Date,
+  userCreation?: boolean
 ) => {
   return internalRequest<User>({
     url: userUserUrl,
@@ -63,6 +65,8 @@ export const userUpdateUser = async (
       address,
       annualPetVisitDay,
       profileImage,
+      nextPrescriptionReminder,
+      userCreation,
     },
   });
 };

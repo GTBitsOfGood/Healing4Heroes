@@ -20,9 +20,5 @@ export const userSendEmail = async (
       emailTemplate,
       emailData,
     },
-  })
-    .then()
-    .catch((error) => {
-      console.error(error);
-    });
+  });
 };

@@ -58,6 +58,12 @@ export default APIWrapper({
         roles.push(Role.NONPROFIT_ADMIN);
       }
 
+      const nextPrescriptionReminder = new Date();
+      nextPrescriptionReminder.setFullYear(annualPetVisitDay.getFullYear() + 1);
+      nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
+      nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
+
+
       const user = await createUser(
         email,
         firebaseUid,
@@ -69,7 +75,9 @@ export default APIWrapper({
         profileImage,
         address,
         annualPetVisitDay,
-        isAdmin
+        isAdmin,
+        false,
+        nextPrescriptionReminder
       );
       if (!user) {
         throw new Error("Failed to create user!");
@@ -92,6 +100,9 @@ export default APIWrapper({
       const profileImage: string = req.body.profileImage as string;
       const address: string = req.body.address as string;
       const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
+      const nextPrescriptionReminder: Date = req.body
+        .nextPrescriptionReminder as Date;
+      const userCreation: boolean = req.body.userCreation as boolean;
 
       const user = await getUser(accessToken);
 
@@ -108,7 +119,8 @@ export default APIWrapper({
         handlerType,
         address,
         annualPetVisitDay,
-        profileImage
+        profileImage,
+        nextPrescriptionReminder
       );
 
       if (!updatedUser?.modifiedPaths) {
@@ -116,7 +128,7 @@ export default APIWrapper({
       }
 
       // Only send email if user isn't on profile image upload
-      if (!profileImage) {
+      if (userCreation && !profileImage) {
         const emailData = {
           email: (user as User).email,
           firstName: firstName,

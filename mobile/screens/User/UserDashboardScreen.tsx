@@ -14,7 +14,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import HealthCard from "../../components/HealthCard";
 import LogButton from "../../components/LogButton";
 import ProgressBar from "../../components/ProgressBar";
-import { userGetUserInfo } from "../../actions/User";
+import { userGetUserInfo, userUpdateUser } from "../../actions/User";
 import { userGetAnimal } from "../../actions/Animal";
 import {
   Announcement,
@@ -37,7 +37,6 @@ import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
 import { userUpdateAnimal } from "../../actions/Animal";
-import { Data } from "victory-native";
 import { userSendEmail } from "../../actions/Email";
 
 export default function UserDashboardScreen(props: any) {
@@ -56,7 +55,65 @@ export default function UserDashboardScreen(props: any) {
     useState<boolean>(false);
   const [calculatedShotDate, setCalculatedShotDate] = useState<Date>();
 
-  const checkRabiesShot = async (animalInformation: ServiceAnimal) => {
+  const checkPrescriptionReminder = async (userInformation: User) => {
+    if (birthdayModalVisible || shotReminderVisible) return;
+
+    if (!userInformation)
+      userInformation = (await ErrorWrapper({
+        functionToExecute: userGetUserInfo,
+        errorHandler: setError,
+      })) as User;
+
+    if (!userInformation.annualPetVisitDay) {
+      return;
+    }
+
+    const today = new Date();
+    const updatedDate = new Date();
+    updatedDate.setFullYear(
+      today.getFullYear() + 1,
+      userInformation.nextPrescriptionReminder.getMonth(),
+      userInformation.nextPrescriptionReminder.getDate()
+    );
+
+    if (!userInformation.nextPrescriptionReminder) {
+      userUpdateUser(
+        userInformation.roles,
+        userInformation.birthday,
+        userInformation.firstName,
+        userInformation.lastName,
+        userInformation.handlerType,
+        userInformation.address,
+        userInformation.annualPetVisitDay,
+        userInformation.profileImage,
+        updatedDate,
+        false
+      );
+      return;
+    }
+
+    if (today >= userInformation?.nextPrescriptionReminder) {
+      setPrescriptionReminderVisible(true);
+      userUpdateUser(
+        userInformation.roles,
+        userInformation.birthday,
+        userInformation.firstName,
+        userInformation.lastName,
+        userInformation.handlerType,
+        userInformation.address,
+        userInformation.annualPetVisitDay,
+        userInformation.profileImage,
+        updatedDate,
+        false
+      );
+      return;
+    }
+  };
+
+  const checkRabiesShot = async (
+    animalInformation: ServiceAnimal,
+    userInformation: User
+  ) => {
     if (birthdayModalVisible) return;
 
     if (!animalInformation)
@@ -64,6 +121,12 @@ export default function UserDashboardScreen(props: any) {
         functionToExecute: userGetAnimal,
         errorHandler: setError,
       })) as ServiceAnimal;
+
+    if (!userInformation)
+      userInformation = (await ErrorWrapper({
+        functionToExecute: userGetUserInfo,
+        errorHandler: setError,
+      })) as User;
 
     if (
       !animalInformation?.dateOfRabiesShot ||
@@ -92,6 +155,24 @@ export default function UserDashboardScreen(props: any) {
       animalInformation?.microchipExpiration,
       animalInformation?.checkUpDate,
       animalInformation?.profileImage
+    );
+
+    const emailData = {
+      firstName: userInformation.firstName,
+      lastName: userInformation.lastName,
+      animalName: animalInfo?.name,
+      shotDate: calculatedShotDate?.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }) as string,
+    } as { [key: string]: string };
+
+    await userSendEmail(
+      "gt.engineering@hack4impact.org",
+      "Rabies Shot Reminder for Your Service Animal",
+      "shot-reminder",
+      emailData
     );
 
     if (newAnimal) {
@@ -134,17 +215,8 @@ export default function UserDashboardScreen(props: any) {
           new Date().getDate()
         ) {
           setBirthdayModalVisible(true);
-        } else if (
-          user &&
-          user.annualPetVisitDay &&
-          new Date(user?.annualPetVisitDay as Date).getMonth() ==
-          new Date().getMonth() &&
-          new Date(user?.annualPetVisitDay as Date).getDate() ==
-          new Date().getDate()
-        ) {
-          setPrescriptionReminderVisible(true);
         } else {
-          await checkRabiesShot(animal);
+          await checkRabiesShot(animal, user);
         }
 
         setHoursCompleted(animal?.totalHours);
@@ -175,92 +247,15 @@ export default function UserDashboardScreen(props: any) {
   }, []);
 
   useEffect(() => {
-    async function checkUser(userInfo: User) {
-      try {
-        if (!userInfo) {
-          userInfo = (await ErrorWrapper({
-            functionToExecute: userGetUserInfo,
-            errorHandler: setError,
-          })) as User;
-        }
-        if (
-          userInfo &&
-          userInfo.annualPetVisitDay &&
-          new Date(userInfo?.annualPetVisitDay as Date).getMonth() ==
-          new Date().getMonth() &&
-          new Date(userInfo?.annualPetVisitDay as Date).getDate() ==
-          new Date().getDate()
-        ) {
-          setPrescriptionReminderVisible(true);
-        } else {
-          checkRabiesShot(animalInfo as ServiceAnimal)
-            .then()
-            .catch();
-        }
-      } catch (error) {
-        endOfExecutionHandler(error as Error);
-      }
-    }
-    checkUser(userInfo as User)
+    checkRabiesShot(animalInfo as ServiceAnimal, userInfo as User)
       .then()
       .catch();
   }, [birthdayModalVisible]);
 
   useEffect(() => {
-    checkRabiesShot(animalInfo as ServiceAnimal)
+    checkPrescriptionReminder(userInfo as User)
       .then()
       .catch();
-  }, [prescriptionReminderVisible]);
-
-  useEffect(() => {
-    async function sendEmailReminder(
-      userInfo: User,
-      animalInfo: ServiceAnimal
-    ) {
-      if (!userInfo) {
-        userInfo = (await ErrorWrapper({
-          functionToExecute: userGetUserInfo,
-          errorHandler: setError,
-        })) as User;
-      }
-      if (!animalInfo) {
-        animalInfo = (await ErrorWrapper({
-          functionToExecute: userGetAnimal,
-          errorHandler: setError,
-        })) as ServiceAnimal;
-      }
-      const emailData = {
-        firstName: userInfo.firstName,
-        lastName: userInfo.lastName,
-        animalName: animalInfo.name,
-        shotDate: calculatedShotDate?.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }) as string,
-      };
-      if (userInfo.email) {
-        try {
-          await userSendEmail(
-            "gt.engineering@hack4impact.org",
-            "Rabies Shot Reminder for Your Service Animal",
-            "shot-reminder",
-            emailData
-          );
-          console.log("Email sent");
-        } catch (error) {
-          console.log("Error sending email:", error);
-        }
-      }
-    }
-    if (shotReminderVisible) {
-      console.log("sendEmail");
-      sendEmailReminder(userInfo as User, animalInfo as ServiceAnimal)
-        .then()
-        .catch((error) => {
-          console.log(error.message);
-        });
-    }
   }, [shotReminderVisible]);
 
   return (

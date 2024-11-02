@@ -20,6 +20,7 @@ export interface User {
   lastName: string;
   address: string;
   annualPetVisitDay: Date;
+  nextPrescriptionReminder: Date;
   email: string;
   firebaseUid: string;
   handlerType: HandlerType;

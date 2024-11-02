@@ -49,6 +49,11 @@ async function generateUsers(): Promise<User[]> {
     const profileImage = faker.image.people();
     const address = faker.address.streetAddress();
     const annualPetVisitDay = faker.date.recent();
+    const nextPrescriptionReminder = new Date();
+    nextPrescriptionReminder.setFullYear(annualPetVisitDay.getFullYear() + 1);
+    nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
+    nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
+
     const profileImageFirebaseLocation = await uploadImageToFirebase(
       StorageLocation.HANDLER_PICTURES,
       profileImage
@@ -79,7 +84,8 @@ async function generateUsers(): Promise<User[]> {
       address,
       annualPetVisitDay,
       randomBoolean(),
-      true
+      true,
+      nextPrescriptionReminder
     );
 
     users.push(user);
@@ -101,10 +107,10 @@ async function generateAnimals(users: User[]): Promise<ServiceAnimal[]> {
       /* generate subhandler approx. half of the time */
       const subHandler = randomBoolean()
         ? {
-            name: faker.name.fullName(),
-            relation: faker.word.noun(),
-            type: randomEnum(HandlerType),
-          }
+          name: faker.name.fullName(),
+          relation: faker.word.noun(),
+          type: randomEnum(HandlerType),
+        }
         : undefined;
 
       const totalHours = 0;
@@ -279,7 +285,7 @@ async function uploadImageToFirebase(
         .upload(fileName, {
           destination: storageLocation + fileId,
         });
-      fs.unlink(fileName, () => {});
+      fs.unlink(fileName, () => { });
     });
   });
 
