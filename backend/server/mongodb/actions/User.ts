@@ -51,7 +51,7 @@ export async function createUser(
     annualPetVisitDay: annualPetVisitDay,
     verifiedByAdmin: verifiedByAdmin,
     emailVerified: emailVerified,
-    nextPrescriptionReminder: nextPrescriptionReminder
+    nextPrescriptionReminder: nextPrescriptionReminder,
   });
   return user;
 }

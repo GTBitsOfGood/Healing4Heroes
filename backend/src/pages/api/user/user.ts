@@ -63,7 +63,6 @@ export default APIWrapper({
       nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
       nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
 
-
       const user = await createUser(
         email,
         firebaseUid,

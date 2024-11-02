@@ -107,10 +107,10 @@ async function generateAnimals(users: User[]): Promise<ServiceAnimal[]> {
       /* generate subhandler approx. half of the time */
       const subHandler = randomBoolean()
         ? {
-          name: faker.name.fullName(),
-          relation: faker.word.noun(),
-          type: randomEnum(HandlerType),
-        }
+            name: faker.name.fullName(),
+            relation: faker.word.noun(),
+            type: randomEnum(HandlerType),
+          }
         : undefined;
 
       const totalHours = 0;
