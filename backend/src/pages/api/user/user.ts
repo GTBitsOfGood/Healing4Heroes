@@ -116,9 +116,7 @@ export default APIWrapper({
       if (annualPetVisitDay && !nextPrescriptionReminder) {
         const today = new Date();
         nextPrescriptionReminder = new Date();
-        nextPrescriptionReminder.setFullYear(
-          today.getFullYear() + 1
-        );
+        nextPrescriptionReminder.setFullYear(today.getFullYear() + 1);
         nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
         nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
       }
