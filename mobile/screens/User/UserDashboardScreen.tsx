@@ -210,9 +210,9 @@ export default function UserDashboardScreen(props: any) {
         // use a use effect to reactively show the rabies shot modal.
         if (
           new Date(animal?.dateOfBirth as Date).getMonth() ==
-          new Date().getMonth() &&
+            new Date().getMonth() &&
           new Date(animal?.dateOfBirth as Date).getDate() ==
-          new Date().getDate()
+            new Date().getDate()
         ) {
           setBirthdayModalVisible(true);
         } else {
@@ -298,11 +298,12 @@ export default function UserDashboardScreen(props: any) {
                 <Text style={styles.modalText}>
                   {animalInfo?.dateOfBirth
                     ? `${animalInfo?.name} turned ${calculateAge(
-                      new Date(animalInfo?.dateOfBirth)
-                    )} year${calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1
-                      ? "s"
-                      : ""
-                    } old today!`
+                        new Date(animalInfo?.dateOfBirth)
+                      )} year${
+                        calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1
+                          ? "s"
+                          : ""
+                      } old today!`
                     : ""}
                 </Text>
               </View>

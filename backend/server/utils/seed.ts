@@ -285,7 +285,7 @@ async function uploadImageToFirebase(
         .upload(fileName, {
           destination: storageLocation + fileId,
         });
-      fs.unlink(fileName, () => { });
+      fs.unlink(fileName, () => {});
     });
   });
 

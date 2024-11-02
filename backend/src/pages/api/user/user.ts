@@ -57,11 +57,15 @@ export default APIWrapper({
       if (isAdmin) {
         roles.push(Role.NONPROFIT_ADMIN);
       }
-
-      const nextPrescriptionReminder = new Date();
-      nextPrescriptionReminder.setFullYear(annualPetVisitDay.getFullYear() + 1);
-      nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
-      nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
+      let nextPrescriptionReminder = undefined;
+      if (annualPetVisitDay) {
+        nextPrescriptionReminder = new Date();
+        nextPrescriptionReminder.setFullYear(
+          annualPetVisitDay.getFullYear() + 1
+        );
+        nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
+        nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
+      }
 
       const user = await createUser(
         email,
@@ -99,7 +103,7 @@ export default APIWrapper({
       const profileImage: string = req.body.profileImage as string;
       const address: string = req.body.address as string;
       const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
-      const nextPrescriptionReminder: Date = req.body
+      let nextPrescriptionReminder: Date = req.body
         .nextPrescriptionReminder as Date;
       const userCreation: boolean = req.body.userCreation as boolean;
 
@@ -107,6 +111,15 @@ export default APIWrapper({
 
       if (!user) {
         throw new Error("User not found in database!");
+      }
+
+      if (annualPetVisitDay && !nextPrescriptionReminder) {
+        nextPrescriptionReminder = new Date();
+        nextPrescriptionReminder.setFullYear(
+          annualPetVisitDay.getFullYear() + 1
+        );
+        nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
+        nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
       }
 
       const updatedUser = await updateUser(
