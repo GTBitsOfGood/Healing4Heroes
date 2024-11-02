@@ -292,3 +292,15 @@ export const DONATIONS = [
       "Show some love and buy service dogs their rabies shot! Anything is appreciated.",
   },
 ];
+
+export interface ModalContent {
+  type: "birthday" | "prescription" | "shot";
+  content: string;
+  additionalContent?: string;
+}
+
+export interface NotificationState {
+  birthday: boolean;
+  prescription: boolean;
+  shot: boolean;
+}
