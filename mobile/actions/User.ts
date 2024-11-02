@@ -21,7 +21,7 @@ export const userCreateUser = async (
   lastName?: string,
   handlerType?: HandlerType,
   profileImage?: string,
-  annualPetVisitDay?: Date,
+  annualPetVisitDay?: Date
 ) => {
   return internalRequest<User>({
     url: userUserUrl,
@@ -48,7 +48,7 @@ export const userUpdateUser = async (
   handlerType?: HandlerType,
   address?: string,
   annualPetVisitDay?: Date,
-  profileImage?: string,
+  profileImage?: string
 ) => {
   return internalRequest<User>({
     url: userUserUrl,

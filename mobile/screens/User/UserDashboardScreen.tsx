@@ -48,14 +48,16 @@ export default function UserDashboardScreen(props: any) {
   const [isEnabled, setEnabled] = useState<boolean>(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [error, setError] = useState("");
-  const [birthdayModalVisible, setBirthdayModalVisible] = useState<boolean>(false);
-  const [shotReminderVisible, setShotReminderVisible] = useState<boolean>(false);
-  const [prescriptionReminderVisible, setPrescriptionReminderVisible] = useState<boolean>(false);
+  const [birthdayModalVisible, setBirthdayModalVisible] =
+    useState<boolean>(false);
+  const [shotReminderVisible, setShotReminderVisible] =
+    useState<boolean>(false);
+  const [prescriptionReminderVisible, setPrescriptionReminderVisible] =
+    useState<boolean>(false);
   const [calculatedShotDate, setCalculatedShotDate] = useState<Date>();
 
   const checkRabiesShot = async (animalInformation: ServiceAnimal) => {
-    if (birthdayModalVisible)
-      return
+    if (birthdayModalVisible) return;
 
     if (!animalInformation)
       animalInformation = (await ErrorWrapper({
@@ -63,18 +65,23 @@ export default function UserDashboardScreen(props: any) {
         errorHandler: setError,
       })) as ServiceAnimal;
 
-    if (!animalInformation?.dateOfRabiesShot || !animalInformation?.rabiesShotTimeInterval)
-      return
+    if (
+      !animalInformation?.dateOfRabiesShot ||
+      !animalInformation?.rabiesShotTimeInterval
+    )
+      return;
 
     const newDate = new Date(animalInformation?.dateOfRabiesShot);
-    newDate.setFullYear(newDate.getFullYear() + (animalInformation?.rabiesShotTimeInterval ?? 0));
+    newDate.setFullYear(
+      newDate.getFullYear() + (animalInformation?.rabiesShotTimeInterval ?? 0)
+    );
     setCalculatedShotDate(newDate as Date);
 
-    if (newDate > new Date())
-      return
+    if (newDate > new Date()) return;
 
     setShotReminderVisible(true);
-    const newAnimal = await userUpdateAnimal(animalInformation?.name,
+    const newAnimal = await userUpdateAnimal(
+      animalInformation?.name,
       animalInformation?.totalHours,
       animalInformation?.subHandler,
       animalInformation?.dateOfBirth,
@@ -84,14 +91,15 @@ export default function UserDashboardScreen(props: any) {
       animalInformation?.dateOfTrainingClass,
       animalInformation?.microchipExpiration,
       animalInformation?.checkUpDate,
-      animalInformation?.profileImage);
+      animalInformation?.profileImage
+    );
 
     if (newAnimal) {
       setAnimalInfo(newAnimal);
     } else {
       setError("Failed to update animal rabies shot date.");
     }
-  }
+  };
 
   useEffect(() => {
     async function getUserDashboardInformation() {
@@ -119,14 +127,24 @@ export default function UserDashboardScreen(props: any) {
 
         // If there is both the birthday modal and the rabies shot modal, show the birthday one first, once that one is closed we
         // use a use effect to reactively show the rabies shot modal.
-        if ((new Date(animal?.dateOfBirth as Date)).getMonth() == new Date().getMonth() && new Date(animal?.dateOfBirth as Date).getDate() == new Date().getDate()) {
+        if (
+          new Date(animal?.dateOfBirth as Date).getMonth() ==
+          new Date().getMonth() &&
+          new Date(animal?.dateOfBirth as Date).getDate() ==
+          new Date().getDate()
+        ) {
           setBirthdayModalVisible(true);
-        } else if (user && user.annualPetVisitDay
-          && (new Date(user?.annualPetVisitDay as Date)).getMonth() == new Date().getMonth()
-          && (new Date(user?.annualPetVisitDay as Date)).getDate() == new Date().getDate()) {
+        } else if (
+          user &&
+          user.annualPetVisitDay &&
+          new Date(user?.annualPetVisitDay as Date).getMonth() ==
+          new Date().getMonth() &&
+          new Date(user?.annualPetVisitDay as Date).getDate() ==
+          new Date().getDate()
+        ) {
           setPrescriptionReminderVisible(true);
         } else {
-          await checkRabiesShot(animal)
+          await checkRabiesShot(animal);
         }
 
         setHoursCompleted(animal?.totalHours);
@@ -156,7 +174,6 @@ export default function UserDashboardScreen(props: any) {
     return unsubscribe;
   }, []);
 
-
   useEffect(() => {
     async function checkUser(userInfo: User) {
       try {
@@ -166,26 +183,40 @@ export default function UserDashboardScreen(props: any) {
             errorHandler: setError,
           })) as User;
         }
-        if (userInfo && userInfo.annualPetVisitDay
-          && (new Date(userInfo?.annualPetVisitDay as Date)).getMonth() == new Date().getMonth()
-          && (new Date(userInfo?.annualPetVisitDay as Date)).getDate() == new Date().getDate()) {
+        if (
+          userInfo &&
+          userInfo.annualPetVisitDay &&
+          new Date(userInfo?.annualPetVisitDay as Date).getMonth() ==
+          new Date().getMonth() &&
+          new Date(userInfo?.annualPetVisitDay as Date).getDate() ==
+          new Date().getDate()
+        ) {
           setPrescriptionReminderVisible(true);
         } else {
-          checkRabiesShot(animalInfo as ServiceAnimal).then().catch()
+          checkRabiesShot(animalInfo as ServiceAnimal)
+            .then()
+            .catch();
         }
       } catch (error) {
         endOfExecutionHandler(error as Error);
       }
     }
-    checkUser(userInfo as User).then().catch();
+    checkUser(userInfo as User)
+      .then()
+      .catch();
   }, [birthdayModalVisible]);
 
   useEffect(() => {
-    checkRabiesShot(animalInfo as ServiceAnimal).then().catch()
+    checkRabiesShot(animalInfo as ServiceAnimal)
+      .then()
+      .catch();
   }, [prescriptionReminderVisible]);
 
   useEffect(() => {
-    async function sendEmailReminder(userInfo: User, animalInfo: ServiceAnimal) {
+    async function sendEmailReminder(
+      userInfo: User,
+      animalInfo: ServiceAnimal
+    ) {
       if (!userInfo) {
         userInfo = (await ErrorWrapper({
           functionToExecute: userGetUserInfo,
@@ -202,14 +233,11 @@ export default function UserDashboardScreen(props: any) {
         firstName: userInfo.firstName,
         lastName: userInfo.lastName,
         animalName: animalInfo.name,
-        shotDate: calculatedShotDate?.toLocaleDateString(
-          'en-US',
-          {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          }
-        ) as string,
+        shotDate: calculatedShotDate?.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }) as string,
       };
       if (userInfo.email) {
         try {
@@ -227,12 +255,13 @@ export default function UserDashboardScreen(props: any) {
     }
     if (shotReminderVisible) {
       console.log("sendEmail");
-      sendEmailReminder(userInfo as User, animalInfo as ServiceAnimal).then().catch(error => {
-        console.log(error.message);
-      });
+      sendEmailReminder(userInfo as User, animalInfo as ServiceAnimal)
+        .then()
+        .catch((error) => {
+          console.log(error.message);
+        });
     }
   }, [shotReminderVisible]);
-
 
   return (
     <BaseOverlay
@@ -258,22 +287,27 @@ export default function UserDashboardScreen(props: any) {
             }}
             onShow={() => {
               Vibration.vibrate(10000);
-            }}>
+            }}
+          >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => setBirthdayModalVisible(!birthdayModalVisible)}>
-                  <MaterialIcons
-                    name="close"
-                    size={20}
-                    color={"grey"}
-                  />
+                  onPress={() => setBirthdayModalVisible(!birthdayModalVisible)}
+                >
+                  <MaterialIcons name="close" size={20} color={"grey"} />
                 </Pressable>
-                <Text style={styles.modalText}>Happy birthday {animalInfo?.name}!!! {'\uE312'}</Text>
-                <Text style={styles.modalText}>{
-                  animalInfo?.dateOfBirth ?
-                    `${animalInfo?.name} turned ${calculateAge(new Date(animalInfo?.dateOfBirth))} year${calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1 ? "s" : ""} old today!`
+                <Text style={styles.modalText}>
+                  Happy birthday {animalInfo?.name}!!! {"\uE312"}
+                </Text>
+                <Text style={styles.modalText}>
+                  {animalInfo?.dateOfBirth
+                    ? `${animalInfo?.name} turned ${calculateAge(
+                      new Date(animalInfo?.dateOfBirth)
+                    )} year${calculateAge(new Date(animalInfo?.dateOfBirth)) !== 1
+                      ? "s"
+                      : ""
+                    } old today!`
                     : ""}
                 </Text>
               </View>
@@ -290,19 +324,20 @@ export default function UserDashboardScreen(props: any) {
             }}
             onShow={() => {
               Vibration.vibrate(10000);
-            }}>
+            }}
+          >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => setPrescriptionReminderVisible(false)}>
-                  <MaterialIcons
-                    name="close"
-                    size={20}
-                    color={"grey"}
-                  />
+                  onPress={() => setPrescriptionReminderVisible(false)}
+                >
+                  <MaterialIcons name="close" size={20} color={"grey"} />
                 </Pressable>
-                <Text style={styles.modalText}>This is a reminder to fill your prescription for {animalInfo?.name}'s heartworm preventative pill.</Text>
+                <Text style={styles.modalText}>
+                  This is a reminder to fill your prescription for{" "}
+                  {animalInfo?.name}&apos;s heartworm preventative pill.
+                </Text>
               </View>
             </View>
           </Modal>
@@ -317,27 +352,27 @@ export default function UserDashboardScreen(props: any) {
             }}
             onShow={() => {
               Vibration.vibrate(10000);
-            }}>
+            }}
+          >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => setShotReminderVisible(false)}>
-                  <MaterialIcons
-                    name="close"
-                    size={20}
-                    color={"grey"}
-                  />
+                  onPress={() => setShotReminderVisible(false)}
+                >
+                  <MaterialIcons name="close" size={20} color={"grey"} />
                 </Pressable>
-                <Text style={styles.modalText}>{animalInfo?.name} needs their rabies shot.</Text>
-                <Text style={styles.modalText}>{animalInfo?.name} was due on {calculatedShotDate?.toLocaleDateString(
-                  'en-US',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  }
-                )}</Text>
+                <Text style={styles.modalText}>
+                  {animalInfo?.name} needs their rabies shot.
+                </Text>
+                <Text style={styles.modalText}>
+                  {animalInfo?.name} was due on{" "}
+                  {calculatedShotDate?.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </Text>
               </View>
             </View>
           </Modal>
@@ -441,24 +476,24 @@ export default function UserDashboardScreen(props: any) {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
 
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
-    borderStyle: 'solid',
-    borderWidth: .25,
-    borderColor: '#B6D0E2',
+    backgroundColor: "white",
+    borderStyle: "solid",
+    borderWidth: 0.25,
+    borderColor: "#B6D0E2",
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
-    shadowColor: '#B6D0E2',
+    alignItems: "center",
+    shadowColor: "#B6D0E2",
     shadowOffset: {
-      width: .5,
-      height: .5,
+      width: 0.5,
+      height: 0.5,
     },
     shadowOpacity: 0.5,
     shadowRadius: 7,
@@ -466,28 +501,28 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    position: 'absolute',
-    right: '1.5%',
-    top: '5%',
+    position: "absolute",
+    right: "1.5%",
+    top: "5%",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
   },
 
   buttonClose: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
 
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 
   modalText: {
     paddingTop: 10,
-    textAlign: 'center',
-    display: 'flex',
+    textAlign: "center",
+    display: "flex",
   },
 
   container: {
@@ -540,5 +575,5 @@ const styles = StyleSheet.create({
   },
   pillText: {
     marginBottom: 10,
-  }
+  },
 });

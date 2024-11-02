@@ -4,12 +4,14 @@ import {
   updateUser,
 } from "server/mongodb/actions/User";
 import APIWrapper from "server/utils/APIWrapper";
-import { getUser } from "server/utils/Authentication";
-import { HandlerType, Role } from "src/utils/types";
-import { sendEmail } from "server/utils/Authentication";
-import { EmailSubject } from "src/utils/types";
-import { EmailTemplate } from "src/utils/types";
-import { User } from "src/utils/types";
+import { getUser, sendEmail } from "server/utils/Authentication";
+import {
+  HandlerType,
+  Role,
+  EmailSubject,
+  EmailTemplate,
+  User,
+} from "src/utils/types";
 
 export default APIWrapper({
   GET: {

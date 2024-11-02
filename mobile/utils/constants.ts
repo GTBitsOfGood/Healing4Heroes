@@ -17,7 +17,6 @@ if (process.env.NODE_ENV === "production") {
   FIREBASE_STORAGE_BUCKET = "healing4heroes-f1bbb.appspot.com";
   FIREBASE_MESSAGING_SENDER_ID = "873081765798";
   FIREBASE_APP_ID = "1:873081765798:web:9e5869ae76832d28bc1967";
-
 } else {
   // Note these can be exposed
   FIREBASE_API_KEY = "AIzaSyD0uycogTnN_MEO6cKp0WEnGApVuKOFyys";

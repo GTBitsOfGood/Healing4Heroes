@@ -34,7 +34,7 @@ export async function createUser(
   address?: string,
   annualPetVisitDay?: Date,
   verifiedByAdmin?: boolean,
-  emailVerified?: boolean,
+  emailVerified?: boolean
 ) {
   await dbConnect();
   const user = await UserModel.create({
@@ -63,7 +63,7 @@ export async function updateUser(
   handlerType?: HandlerType,
   address?: string,
   annualPetVisitDay?: Date,
-  profileImage?: string,
+  profileImage?: string
 ) {
   await dbConnect();
   const user = UserModel.findByIdAndUpdate(userId, {
