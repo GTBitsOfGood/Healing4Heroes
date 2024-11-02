@@ -6,8 +6,6 @@
     "esModuleInterop": true
   },
   "paths": {
-    "crypto": [
-      "node_modules/crypto-browserify"
-    ],
+    "crypto": ["node_modules/crypto-browserify"]
   }
 }

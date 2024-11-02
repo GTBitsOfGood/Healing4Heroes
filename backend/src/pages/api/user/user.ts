@@ -4,12 +4,14 @@ import {
   updateUser,
 } from "server/mongodb/actions/User";
 import APIWrapper from "server/utils/APIWrapper";
-import { getUser } from "server/utils/Authentication";
-import { HandlerType, Role } from "src/utils/types";
-import { sendEmail } from "server/utils/Authentication";
-import { EmailSubject } from "src/utils/types";
-import { EmailTemplate } from "src/utils/types";
-import { User } from "src/utils/types";
+import { getUser, sendEmail } from "server/utils/Authentication";
+import {
+  HandlerType,
+  Role,
+  EmailSubject,
+  EmailTemplate,
+  User,
+} from "src/utils/types";
 
 export default APIWrapper({
   GET: {
@@ -55,6 +57,15 @@ export default APIWrapper({
       if (isAdmin) {
         roles.push(Role.NONPROFIT_ADMIN);
       }
+      let nextPrescriptionReminder = undefined;
+      if (annualPetVisitDay) {
+        nextPrescriptionReminder = new Date();
+        nextPrescriptionReminder.setFullYear(
+          nextPrescriptionReminder.getFullYear() + 1
+        );
+        nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
+        nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
+      }
 
       const user = await createUser(
         email,
@@ -67,7 +78,9 @@ export default APIWrapper({
         profileImage,
         address,
         annualPetVisitDay,
-        isAdmin
+        isAdmin,
+        false,
+        nextPrescriptionReminder
       );
       if (!user) {
         throw new Error("Failed to create user!");
@@ -90,11 +103,22 @@ export default APIWrapper({
       const profileImage: string = req.body.profileImage as string;
       const address: string = req.body.address as string;
       const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
+      let nextPrescriptionReminder: Date = req.body
+        .nextPrescriptionReminder as Date;
+      const userCreation: boolean = req.body.userCreation as boolean;
 
       const user = await getUser(accessToken);
 
       if (!user) {
         throw new Error("User not found in database!");
+      }
+
+      if (annualPetVisitDay && !nextPrescriptionReminder) {
+        const today = new Date();
+        nextPrescriptionReminder = new Date();
+        nextPrescriptionReminder.setFullYear(today.getFullYear() + 1);
+        nextPrescriptionReminder.setDate(annualPetVisitDay.getDate());
+        nextPrescriptionReminder.setMonth(annualPetVisitDay.getMonth());
       }
 
       const updatedUser = await updateUser(
@@ -106,7 +130,8 @@ export default APIWrapper({
         handlerType,
         address,
         annualPetVisitDay,
-        profileImage
+        profileImage,
+        nextPrescriptionReminder
       );
 
       if (!updatedUser?.modifiedPaths) {
@@ -114,7 +139,7 @@ export default APIWrapper({
       }
 
       // Only send email if user isn't on profile image upload
-      if (!profileImage) {
+      if (userCreation && !profileImage) {
         const emailData = {
           email: (user as User).email,
           firstName: firstName,

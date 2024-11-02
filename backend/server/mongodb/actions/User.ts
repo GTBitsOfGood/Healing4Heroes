@@ -35,6 +35,7 @@ export async function createUser(
   annualPetVisitDay?: Date,
   verifiedByAdmin?: boolean,
   emailVerified?: boolean,
+  nextPrescriptionReminder?: Date
 ) {
   await dbConnect();
   const user = await UserModel.create({
@@ -50,6 +51,7 @@ export async function createUser(
     annualPetVisitDay: annualPetVisitDay,
     verifiedByAdmin: verifiedByAdmin,
     emailVerified: emailVerified,
+    nextPrescriptionReminder: nextPrescriptionReminder,
   });
   return user;
 }
@@ -64,6 +66,7 @@ export async function updateUser(
   address?: string,
   annualPetVisitDay?: Date,
   profileImage?: string,
+  nextPrescriptionReminder?: Date
 ) {
   await dbConnect();
   const user = UserModel.findByIdAndUpdate(userId, {
@@ -75,6 +78,7 @@ export async function updateUser(
     address: address,
     annualPetVisitDay: annualPetVisitDay,
     profileImage: profileImage,
+    nextPrescriptionReminder: nextPrescriptionReminder,
   });
   return user;
 }

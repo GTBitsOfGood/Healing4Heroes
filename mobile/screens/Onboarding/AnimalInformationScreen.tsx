@@ -129,15 +129,16 @@ export default function AnimalInformationScreen(props: any) {
             />
           </View>
 
-          {
-          rabiesShotDate && rabiesShotDate !== undefined &&
-          <Text style={styles.label}>
-            Rabies Shot Time Interval? <Text style={styles.optional}>(Optional){`\n`}Recommended Interval: 3 years</Text>
-          </Text>
-          }
+          {rabiesShotDate && rabiesShotDate !== undefined && (
+            <Text style={styles.label}>
+              Rabies Shot Time Interval?{" "}
+              <Text style={styles.optional}>
+                (Optional){`\n`}Recommended Interval: 3 years
+              </Text>
+            </Text>
+          )}
 
-          {
-            rabiesShotDate && rabiesShotDate !== undefined &&
+          {rabiesShotDate && rabiesShotDate !== undefined && (
             <SolidDropDown
               items={intervalOptions}
               isMultiselect={false}
@@ -146,7 +147,7 @@ export default function AnimalInformationScreen(props: any) {
               }}
               placeholder="Interval between Shots"
             />
-          }
+          )}
 
           <Text style={styles.label}>
             Date of Training Class?{" "}

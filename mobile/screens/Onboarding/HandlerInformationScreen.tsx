@@ -14,9 +14,6 @@ import SolidDropDown from "../../components/SolidDropDown";
 import DateInput from "../../components/DateInput";
 import { validateBirthday, validateVisitDate } from "../../utils/helper";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
-import { sendEmail } from "../../../backend/server/utils/Authentication";
-import { EmailSubject } from "../../../backend/src/utils/types";
-import { EmailTemplate } from "../../../backend/src/utils/types";
 
 export default function HandlerInformationScreen(props: any) {
   const [dropDownValue, setDropDownValue] = useState("");
@@ -56,6 +53,14 @@ export default function HandlerInformationScreen(props: any) {
 
   const updateUserInfo = async () => {
     try {
+      const today = new Date();
+      const prescriptionReminderDate = new Date();
+      prescriptionReminderDate.setFullYear(
+        today.getFullYear() + 1,
+        (annualPetVisitDay as Date).getMonth(),
+        (annualPetVisitDay as Date).getDate()
+      );
+
       const user = await ErrorWrapper({
         functionToExecute: userUpdateUser,
         errorHandler: setError,
@@ -68,6 +73,8 @@ export default function HandlerInformationScreen(props: any) {
           address,
           annualPetVisitDay,
           undefined,
+          prescriptionReminderDate,
+          true,
         ],
         customErrors: {
           default: "Failed to Update Handler Information",
@@ -189,6 +196,10 @@ export default function HandlerInformationScreen(props: any) {
 
           <View style={styles.annualVisitContainer}>
             <Text style={styles.label}>When is your annual visit date?*</Text>
+            <Text style={styles.optional}>Please enter the correct date.</Text>
+            <Text style={[styles.optional, styles.reminder]}>
+              This is used for prescription reminders.
+            </Text>
             <DateInput
               autofill={false}
               callbackFunction={(date) => {
@@ -249,6 +260,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
   },
+  optional: {
+    color: "#999999",
+    fontWeight: "normal",
+    fontSize: 14,
+  },
   circles: {
     marginTop: 13,
     display: "flex",
@@ -272,5 +288,8 @@ const styles = StyleSheet.create({
   annualVisitContainer: {
     marginTop: 10,
     marginBottom: 10,
+  },
+  reminder: {
+    marginBottom: 16,
   },
 });

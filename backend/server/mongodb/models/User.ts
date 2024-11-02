@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { CallbackError } from "mongoose";
 import { HandlerType, Role, User } from "src/utils/types";
 
 const UserSchema = new mongoose.Schema<User>({
@@ -19,12 +19,16 @@ const UserSchema = new mongoose.Schema<User>({
   annualPetVisitDay: {
     type: Date,
     required: true,
-    default: Date.now()
+    default: Date.now(),
+  },
+  nextPrescriptionReminder: {
+    type: Date,
+    required: false,
   },
   address: {
     type: String,
     required: true,
-    default: ""
+    default: "",
   },
   firebaseUid: {
     type: String,

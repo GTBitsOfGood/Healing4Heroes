@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { HOLIDAYS } from '../../utils/types';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { HOLIDAYS } from "../../utils/types";
 
 const HolidayBanner = () => {
-  const [holidayBanner, setHolidayBanner] = useState<{ name: string, message: string } | null>(null);
+  const [holidayBanner, setHolidayBanner] = useState<{
+    name: string;
+    message: string;
+  } | null>(null);
 
   useEffect(() => {
     function checkForHoliday() {
@@ -43,19 +46,19 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     gap: 5,
-    opacity: 0.9
+    opacity: 0.9,
   },
   holidayTitle: {
     color: "white",
     fontSize: 14,
     fontWeight: "700",
-    textAlign: "center"
+    textAlign: "center",
   },
   holidayMessage: {
     color: "white",
     fontSize: 12,
     fontWeight: "400",
-    textAlign: "center"
+    textAlign: "center",
   },
 });
 
