@@ -205,7 +205,7 @@ export default function UserDashboardScreen(props: any) {
     };
 
     await userSendEmail(
-      "gt.engineering@hack4impact.org",
+      userInformation.email,
       "Rabies Shot Reminder for Your Service Animal",
       "shot-reminder",
       emailData
@@ -223,7 +223,7 @@ export default function UserDashboardScreen(props: any) {
 
     if (
       new Date(animal?.dateOfBirth as Date).getMonth() ===
-        new Date().getMonth() &&
+      new Date().getMonth() &&
       new Date(animal?.dateOfBirth as Date).getDate() === new Date().getDate()
     ) {
       addToModalQueue(
@@ -231,8 +231,7 @@ export default function UserDashboardScreen(props: any) {
         `Happy birthday ${animal.name}!!! \uE312`,
         `${animal.name} turned ${calculateAge(
           new Date(animal.dateOfBirth ?? "")
-        )} year${
-          calculateAge(new Date(animal.dateOfBirth ?? "")) !== 1 ? "s" : ""
+        )} year${calculateAge(new Date(animal.dateOfBirth ?? "")) !== 1 ? "s" : ""
         } old today!`
       );
     }

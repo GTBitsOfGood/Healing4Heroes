@@ -16,12 +16,7 @@ export default APIWrapper({
       const emailData: { [Key: string]: string } = req.body.emailData as {
         [Key: string]: string;
       };
-
-      await sendEmail(recipient, emailSubject, emailTemplate, emailData)
-        .then()
-        .catch(() => {
-          return false;
-        });
+      await sendEmail(recipient, emailSubject, emailTemplate, emailData);
       return true;
     },
   },
