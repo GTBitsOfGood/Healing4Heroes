@@ -34,6 +34,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { userGetUserInfo } from "./actions/User";
 import { Role } from "./utils/types";
 import { auth } from "./utils/firebase";
+import PartnershipsScreen from "./screens/Onboarding/PartnershipsScreen";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -190,6 +191,10 @@ export default function App() {
         <Stack.Screen
           name={Screens.ANALYTICS_USER_LIST}
           component={AnalyticsUserList}
+        />
+        <Stack.Screen
+          name={Screens.PARTNERSHIPS_SCREEN}
+          component={PartnershipsScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

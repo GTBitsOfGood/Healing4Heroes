@@ -158,6 +158,7 @@ export enum Screens {
   BASE_OVERLAY_EXAMPLE_SCREEN = "Base Overlay Example Screen",
   ANALYTICS_DASHBOARD_SCREEN = "Analytics Dashboard",
   ANALYTICS_USER_LIST = "Analytics User List",
+  PARTNERSHIPS_SCREEN = "Partnerships",
 }
 
 export enum UserFilter {

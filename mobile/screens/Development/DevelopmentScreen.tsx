@@ -22,6 +22,13 @@ export default function DevelopmentScreen(props: any) {
         <Text>Go To Landing Page</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate(Screens.PARTNERSHIPS_SCREEN)}
+        style={styles.buttonItem}
+      >
+        <Text>Go To Partnerships Page</Text>
+      </TouchableOpacity>
+
       {/* needs to be deleted */}
       <TouchableOpacity
         onPress={() => props.navigation.navigate(Screens.USER_DASHBOARD_SCREEN)}

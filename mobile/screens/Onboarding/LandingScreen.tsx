@@ -40,49 +40,15 @@ export default function LandingScreen(props: any) {
               >
                 <Text style={styles.signupBtnText}>Sign Up</Text>
               </TouchableOpacity>
-              {/* <TouchableOpacity
-                // onPress={() =>
-                //   props.navigation.navigate(Screens.DONATE_SCREEN)
-                // }
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate(Screens.PARTNERSHIPS_SCREEN)
+                }
                 style={styles.signupBtn}
               >
-                <Text style={styles.signupBtnText}>Donate</Text>
-              </TouchableOpacity> */}
+                <Text style={styles.signupBtnText}>View Partnerships</Text>
+              </TouchableOpacity>
             </View>
-          </View>
-          <View style={styles.partnersContainer}>
-            <Text style={styles.sectionHeader}>
-              Support Us While Walking Your Dog!
-            </Text>
-            <Text style={styles.descriptionText}>
-              Use WoofTrax to track your walks and earn money for Healing4Heroes
-              at no cost to you! Simply select Healing4Heroes when creating your
-              account.
-            </Text>
-            <TouchableOpacity
-              onPress={() => Linking.openURL("https://wooftrax.com/")}
-              style={styles.partnerButton}
-            >
-              <Text style={styles.partnerButtonText}>
-                Track Walks on WoofTrax
-              </Text>
-            </TouchableOpacity>
-
-            <Text style={[styles.sectionHeader, { marginTop: 20 }]}>
-              Volunteer Opportunities
-            </Text>
-            <Text style={styles.descriptionText}>
-              Find and sign up for volunteer opportunities through our Golden
-              Volunteer portal.
-            </Text>
-            <TouchableOpacity
-              onPress={() =>
-                Linking.openURL("https://portal.goldenvolunteer.com/")
-              }
-              style={styles.partnerButton}
-            >
-              <Text style={styles.partnerButtonText}>View Opportunities</Text>
-            </TouchableOpacity>
           </View>
           {Platform.OS === "web" ? (
             <View style={styles.netlifyContainer}>
@@ -279,13 +245,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     padding: 10,
   },
-  partnersContainer: {
-    marginTop: 20,
-    padding: 16,
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    alignItems: "center",
-  },
   sectionHeader: {
     fontSize: 16,
     fontWeight: "bold",
@@ -297,18 +256,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 12,
     paddingHorizontal: 10,
-  },
-  partnerButton: {
-    backgroundColor: "#3F3BED",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    width: "100%",
-    alignItems: "center",
-  },
-  partnerButtonText: {
-    color: "white",
-    fontSize: 14,
-    fontWeight: "500",
   },
 });
