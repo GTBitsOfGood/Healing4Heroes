@@ -12,6 +12,7 @@ import {
 import OnboardingOverlay from "../../components/Overlays/OnboardingOverlay";
 import { Screens } from "../../utils/types";
 import { Dimensions } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function LandingScreen(props: any) {
   return (
@@ -39,14 +40,14 @@ export default function LandingScreen(props: any) {
               >
                 <Text style={styles.signupBtnText}>Sign Up</Text>
               </TouchableOpacity>
-              {/* <TouchableOpacity
-                // onPress={() =>
-                //   props.navigation.navigate(Screens.DONATE_SCREEN)
-                // }
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate(Screens.PARTNERSHIPS_SCREEN)
+                }
                 style={styles.signupBtn}
               >
-                <Text style={styles.signupBtnText}>Donate</Text>
-              </TouchableOpacity> */}
+                <Text style={styles.signupBtnText}>View Partnerships</Text>
+              </TouchableOpacity>
             </View>
           </View>
           {Platform.OS === "web" ? (
@@ -83,6 +84,34 @@ export default function LandingScreen(props: any) {
                 resizeMode="contain"
               />
             </ScrollView>
+          </View>
+          <View style={styles.socialMediaContainer}>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL("https://m.youtube.com/@healing4heroes916")
+              }
+              style={styles.socialIcon}
+            >
+              <FontAwesome name="youtube" size={30} color="#FF0000" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL(
+                  "https://www.instagram.com/healing4heroes?igsh=eTlxOTZxazlsaDl0&utm_source=qr"
+                )
+              }
+              style={styles.socialIcon}
+            >
+              <FontAwesome name="instagram" size={30} color="#C13584" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL("https://m.facebook.com/healing4heroes.org/")
+              }
+              style={styles.socialIcon}
+            >
+              <FontAwesome name="facebook" size={30} color="#4267B2" />
+            </TouchableOpacity>
           </View>
         </View>
       }
@@ -203,5 +232,29 @@ const styles = StyleSheet.create({
   sponsorLogo: {
     width: (Dimensions.get("window").width - 68) / 3,
     maxHeight: 100,
+  },
+  socialMediaContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    marginBottom: 20,
+    width: "100%",
+  },
+  socialIcon: {
+    marginHorizontal: 15,
+    padding: 10,
+  },
+  sectionHeader: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  descriptionText: {
+    fontSize: 14,
+    textAlign: "center",
+    marginBottom: 12,
+    paddingHorizontal: 10,
   },
 });
