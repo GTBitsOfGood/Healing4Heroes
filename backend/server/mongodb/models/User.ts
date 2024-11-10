@@ -64,6 +64,11 @@ const UserSchema = new mongoose.Schema<User>({
     required: true,
     default: false,
   },
+  unsubscribeEmail: {
+    type: Boolean,
+    required: true,
+    default: false,
+  }
 });
 
 const UserModel =

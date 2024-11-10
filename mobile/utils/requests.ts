@@ -19,7 +19,6 @@ export async function internalRequest<T>({
         : "",
     },
   };
-
   if (body) {
     requestInfo.body = JSON.stringify(body);
   }
@@ -34,7 +33,6 @@ export async function internalRequest<T>({
   }
   const response = await fetch(url, requestInfo);
   const responseBody = (await response.json()) as InternalResponseData<T>;
-
   if (!responseBody) {
     throw new Error("Unable to connect to API.");
   } else if (!responseBody.success) {

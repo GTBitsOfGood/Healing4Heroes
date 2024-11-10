@@ -76,6 +76,7 @@ async function generateUsers(): Promise<User[]> {
       email,
       firebaseUser.uid,
       roles,
+      false,
       birthday,
       firstName,
       lastName,

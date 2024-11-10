@@ -111,7 +111,7 @@ export default function UserDashboardScreen(props: any) {
       );
       return;
     }
-
+    
     if (today >= new Date(userInformation?.nextPrescriptionReminder)) {
       addToModalQueue(
         "prescription",
@@ -194,6 +194,7 @@ export default function UserDashboardScreen(props: any) {
       animalInformation?.profileImage
     );
 
+    // Change content for deploy preview
     const emailData: { [key: string]: string } = {
       firstName: userInformation.firstName,
       lastName: userInformation.lastName,
@@ -204,13 +205,14 @@ export default function UserDashboardScreen(props: any) {
         day: "numeric",
       }) as string,
     };
-
-    await userSendEmail(
-      userInformation.email,
-      "Rabies Shot Reminder for Your Service Animal",
-      "shot-reminder",
-      emailData
-    );
+    if (userInformation.unsubscribeEmail === false) {
+      await userSendEmail(
+        userInformation.email,
+        "Rabies Shot Reminder for Your Service Animal",
+        "shot-reminder",
+        emailData
+      );
+    }
 
     if (newAnimal) {
       setAnimalInfo(newAnimal);

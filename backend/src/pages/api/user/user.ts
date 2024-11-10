@@ -47,6 +47,7 @@ export default APIWrapper({
       const profileImage: string = req.body.profileImage as string;
       const address: string = req.body.address as string;
       const annualPetVisitDay: Date = req.body.annualPetVisitDay as Date;
+      const unsubscribeEmail: boolean = req.body.unsubscribeEmail as boolean;
 
       const dbUser = await findUserByFirebaseUid(firebaseUid);
       if (dbUser) {
@@ -71,6 +72,7 @@ export default APIWrapper({
         email,
         firebaseUid,
         roles,
+        unsubscribeEmail,
         birthday,
         firstName,
         lastName,
@@ -106,7 +108,7 @@ export default APIWrapper({
       let nextPrescriptionReminder: Date = req.body
         .nextPrescriptionReminder as Date;
       const userCreation: boolean = req.body.userCreation as boolean;
-
+      const unsubscribeEmail: boolean = req.body.unsubscribeEmail as boolean;
       const user = await getUser(accessToken);
 
       if (!user) {
@@ -131,7 +133,8 @@ export default APIWrapper({
         address,
         annualPetVisitDay,
         profileImage,
-        nextPrescriptionReminder
+        nextPrescriptionReminder,
+        unsubscribeEmail
       );
 
       if (!updatedUser?.modifiedPaths) {
