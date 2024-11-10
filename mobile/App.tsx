@@ -7,6 +7,7 @@ import SignUpScreen from "./screens/Onboarding/SignUpScreen";
 import HandlerInformationScreen from "./screens/Onboarding/HandlerInformationScreen";
 import AnimalInformationScreen from "./screens/Onboarding/AnimalInformationScreen";
 import UserDashboardScreen from "./screens/User/UserDashboardScreen";
+import UserSettings from "./screens/User/UserSettings";
 import AdminDashboardScreen from "./screens/Admin/AdminDashboardScreen";
 import LandingScreen from "./screens/Onboarding/LandingScreen";
 import DevelopmentScreen from "./screens/Development/DevelopmentScreen";
@@ -121,6 +122,10 @@ export default function App() {
         <Stack.Screen
           name={Screens.USER_DASHBOARD_SCREEN}
           component={UserDashboardScreen}
+        />
+        <Stack.Screen
+          name={Screens.USER_SETTINGS}
+          component={UserSettings}
         />
         <Stack.Screen
           name={Screens.ADMIN_DASHBOARD_SCREEN}

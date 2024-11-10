@@ -51,6 +51,7 @@ export interface User {
   profileImage?: string;
   verifiedByAdmin: boolean;
   emailVerified: boolean;
+  unsubscribeEmail: boolean;
 }
 
 export interface ServiceAnimal {
@@ -159,6 +160,7 @@ export enum Screens {
   ANALYTICS_DASHBOARD_SCREEN = "Analytics Dashboard",
   ANALYTICS_USER_LIST = "Analytics User List",
   PARTNERSHIPS_SCREEN = "Partnerships",
+  USER_SETTINGS = "User Settings",
 }
 
 export enum UserFilter {

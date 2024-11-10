@@ -15,13 +15,14 @@ export const userGetUserInfo = async () => {
 export const userCreateUser = async (
   email: string,
   firebaseUid: string,
+  unsubscribeEmail: boolean,
   address?: string,
   birthday?: Date,
   firstName?: string,
   lastName?: string,
   handlerType?: HandlerType,
   profileImage?: string,
-  annualPetVisitDay?: Date
+  annualPetVisitDay?: Date,
 ) => {
   return internalRequest<User>({
     url: userUserUrl,
@@ -36,6 +37,7 @@ export const userCreateUser = async (
       profileImage,
       address,
       annualPetVisitDay,
+      unsubscribeEmail,
     },
   });
 };
@@ -50,9 +52,10 @@ export const userUpdateUser = async (
   annualPetVisitDay?: Date,
   profileImage?: string,
   nextPrescriptionReminder?: Date,
-  userCreation?: boolean
+  userCreation?: boolean,
+  unsubscribeEmail?: boolean,
 ) => {
-  return internalRequest<User>({
+  const user = internalRequest<User>({
     url: userUserUrl,
     method: HttpMethod.PATCH,
     authRequired: true,
@@ -67,6 +70,8 @@ export const userUpdateUser = async (
       profileImage,
       nextPrescriptionReminder,
       userCreation,
+      unsubscribeEmail,
     },
   });
+  return user;
 };
