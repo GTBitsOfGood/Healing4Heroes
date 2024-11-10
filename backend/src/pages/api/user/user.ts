@@ -134,7 +134,7 @@ export default APIWrapper({
         annualPetVisitDay,
         profileImage,
         nextPrescriptionReminder,
-        unsubscribeEmail,
+        unsubscribeEmail
       );
 
       if (!updatedUser?.modifiedPaths) {
