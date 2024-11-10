@@ -67,7 +67,7 @@ export default function SignUpScreen(props: any) {
       const createdUser = await ErrorWrapper({
         functionToExecute: userCreateUser,
         errorHandler: setErrorMessage,
-        parameters: [email, firebaseUid, "N/A"],
+        parameters: [email, firebaseUid, false, "N/A"],
       });
 
       await ErrorWrapper({
