@@ -31,6 +31,7 @@ import HolidayBanner from "../Banners/HolidayBanner";
 import DonationBanner from "../Banners/DonationBanner";
 import PillBanner from "../Banners/PillBanner";
 import CleaningBanner from "../Banners/CleaningBanner";
+import CampGraceBanner from "../Banners/CampGraceBanner";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
@@ -317,6 +318,7 @@ export default function UserDashboardScreen(props: any) {
           <BirthdayBanner />
           <HolidayBanner />
           <DonationBanner />
+          <CampGraceBanner />
           {new Date().getDate() === 1 ? <PillBanner /> : null}
           {new Date().getMonth() === 1 ? <CleaningBanner /> : null}
 
