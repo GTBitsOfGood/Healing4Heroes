@@ -194,6 +194,7 @@ export default function UserDashboardScreen(props: any) {
       animalInformation?.profileImage
     );
 
+    // Change content for deploy preview
     const emailData: { [key: string]: string } = {
       firstName: userInformation.firstName,
       lastName: userInformation.lastName,
