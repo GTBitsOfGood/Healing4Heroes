@@ -68,7 +68,7 @@ const UserSchema = new mongoose.Schema<User>({
     type: Boolean,
     required: true,
     default: false,
-  }
+  },
 });
 
 const UserModel =

@@ -3,8 +3,10 @@ import Email from "email-templates";
 import { getAuth } from "firebase-admin/auth";
 import jwt from "jsonwebtoken";
 import nodemailer, { TransportOptions } from "nodemailer";
+import pug from "pug";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";
+import { junoEmailClient } from "./juno";
 
 export const getUser = async (accessToken: string) => {
   if (!accessToken) {
@@ -41,68 +43,32 @@ export const verifyWebToken = (webToken: string) => {
   return data as Record<string, string | boolean>;
 };
 
-// export const sendEmail = async (
-//   recipient: string,
-//   emailSubject: string,
-//   emailBody: string
-// ) => {
-//   const transporter = nodemailer.createTransport({
-//     host: process.env.EMAIL_SERVER_HOST,
-//     port: process.env.EMAIL_SERVER_PORT,
-//     secure: true,
-//     auth: {
-//       user: process.env.EMAIL_SERVER_USER,
-//       pass: process.env.EMAIL_SERVER_PASSWORD,
-//     },
-//     tls: {
-//       rejectUnauthorized: false,
-//     },
-//   } as TransportOptions);
-
-//   const res = await transporter.sendMail({
-//     from: process.env.EMAIL_FROM,
-//     to: recipient,
-//     subject: emailSubject,
-//     html: emailBody,
-//   } as Mail.Options);
-//   return res;
-// };
-
-export const sendEmail = async (
+export async function sendEmail(
   recipient: string,
   emailSubject: string,
   template: string,
   key?: { [Key: string]: string }
-) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_SERVER_HOST,
-    port: process.env.EMAIL_SERVER_PORT,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_SERVER_USER,
-      pass: process.env.EMAIL_SERVER_PASSWORD,
+): Promise<void> {
+  const compiledTemplate = pug.compileFile(
+    path.join(process.cwd(), `/server/utils/emails/`, template, "/html.pug")
+  );
+  void junoEmailClient.sendEmail({
+    subject: emailSubject,
+    bcc: [],
+    cc: [],
+    sender: {
+      email: process.env.JUNO_SENDER_EMAIL as string,
+      name: process.env.JUNO_SENDER_NAME as string,
     },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  } as TransportOptions);
-  const email = new Email({
-    message: {
-      from: process.env.EMAIL_FROM,
-    },
-    preview:
-      process.env.NODE_ENV === "development" ? { openSimulator: false } : false,
-    transport: transporter,
+    recipients: [{ email: recipient, name: recipient }],
+    contents: [
+      {
+        type: "text/html",
+        value: compiledTemplate(key),
+      },
+    ],
   });
-  await email.send({
-    template: path.join(process.cwd(), `/server/utils/emails/`, template),
-    message: {
-      to: recipient,
-      subject: emailSubject,
-    },
-    locals: key,
-  });
-};
+}
 
 export const resetPassword = async (email: string, newPassword: string) => {
   firebaseConnect();

@@ -69,7 +69,7 @@ export async function updateUser(
   annualPetVisitDay?: Date,
   profileImage?: string,
   nextPrescriptionReminder?: Date,
-  unsubscribeEmail?: boolean,
+  unsubscribeEmail?: boolean
 ) {
   await dbConnect();
   const user = UserModel.findByIdAndUpdate(userId, {
