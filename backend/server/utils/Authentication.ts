@@ -3,10 +3,10 @@ import Email from "email-templates";
 import { getAuth } from "firebase-admin/auth";
 import jwt from "jsonwebtoken";
 import nodemailer, { TransportOptions } from "nodemailer";
+import pug from "pug";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";
 import { junoEmailClient } from "./juno";
-import pug from "pug";
 
 export const getUser = async (accessToken: string) => {
   if (!accessToken) {
@@ -43,28 +43,32 @@ export const verifyWebToken = (webToken: string) => {
   return data as Record<string, string | boolean>;
 };
 
-export const sendEmail = async (
+export async function sendEmail(
   recipient: string,
   emailSubject: string,
   template: string,
   key?: { [Key: string]: string }
-) => {
-  const compiledTemplate = pug.compileFile(path.join(process.cwd(), `/server/utils/emails/`, template, "/html.pug"))
-  junoEmailClient.sendEmail({
+): Promise<void> {
+  const compiledTemplate = pug.compileFile(
+    path.join(process.cwd(), `/server/utils/emails/`, template, "/html.pug")
+  );
+  void junoEmailClient.sendEmail({
     subject: emailSubject,
     bcc: [],
     cc: [],
     sender: {
       email: process.env.JUNO_SENDER_EMAIL as string,
-      name: process.env.JUNO_SENDER_NAME as string
+      name: process.env.JUNO_SENDER_NAME as string,
     },
     recipients: [{ email: recipient, name: recipient }],
-    contents: [{
-      type: "text/html",
-      value: compiledTemplate(key) as string
-    }]
-  })
-};
+    contents: [
+      {
+        type: "text/html",
+        value: compiledTemplate(key),
+      },
+    ],
+  });
+}
 
 export const resetPassword = async (email: string, newPassword: string) => {
   firebaseConnect();
