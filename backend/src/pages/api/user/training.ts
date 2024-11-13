@@ -69,8 +69,8 @@ export default APIWrapper({
               handlerAnimal.totalHours < 800
                 ? "800"
                 : handlerAnimal.totalHours < 1600
-                  ? "1600"
-                  : "3200",
+                ? "1600"
+                : "3200",
           }
         );
       }
