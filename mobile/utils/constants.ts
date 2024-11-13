@@ -1,22 +1,19 @@
+import Config from "react-native-config";
+
 let FIREBASE_API_KEY,
   FIREBASE_AUTH_DOMAIN,
   FIREBASE_PROJECT_ID,
   FIREBASE_STORAGE_BUCKET,
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_APP_ID;
-if (process.env.NODE_ENV === "production") {
-  // FIREBASE_API_KEY = "AIzaSyAJfZOc0HTD2nFQwPgvxJ67hzF4VF12Ut4";
-  // FIREBASE_AUTH_DOMAIN = "healing4heroes-bdd64.firebaseapp.com";
-  // FIREBASE_PROJECT_ID = "healing4heroes-bdd64";
-  // FIREBASE_STORAGE_BUCKET = "healing4heroes-bdd64.appspot.com";
-  // FIREBASE_MESSAGING_SENDER_ID = "241634063707";
-  // FIREBASE_APP_ID = "1:241634063707:web:e502d9385c22c44c7c567e";
-  FIREBASE_API_KEY = "AIzaSyD0uycogTnN_MEO6cKp0WEnGApVuKOFyys";
-  FIREBASE_AUTH_DOMAIN = "healing4heroes-f1bbb.firebaseapp.com";
-  FIREBASE_PROJECT_ID = "healing4heroes-f1bbb";
-  FIREBASE_STORAGE_BUCKET = "healing4heroes-f1bbb.appspot.com";
-  FIREBASE_MESSAGING_SENDER_ID = "873081765798";
-  FIREBASE_APP_ID = "1:873081765798:web:9e5869ae76832d28bc1967";
+
+if (Config.DEPLOY_CONTEXT === "production") {
+  FIREBASE_API_KEY = "AIzaSyAJfZOc0HTD2nFQwPgvxJ67hzF4VF12Ut4";
+  FIREBASE_AUTH_DOMAIN = "healing4heroes-bdd64.firebaseapp.com";
+  FIREBASE_PROJECT_ID = "healing4heroes-bdd64";
+  FIREBASE_STORAGE_BUCKET = "healing4heroes-bdd64.appspot.com";
+  FIREBASE_MESSAGING_SENDER_ID = "241634063707";
+  FIREBASE_APP_ID = "1:241634063707:web:e502d9385c22c44c7c567e";
 } else {
   // Note these can be exposed
   FIREBASE_API_KEY = "AIzaSyD0uycogTnN_MEO6cKp0WEnGApVuKOFyys";

@@ -1,19 +1,11 @@
-import Constants from "expo-constants";
-
-const { manifest } = Constants;
+import Config from "react-native-config";
 
 function getBaseURL() {
-  if (process.env.NODE_ENV === "production") {
+  if (Config.DEPLOY_CONTEXT === "production") {
     return `https://healing4heroes.netlify.app`;
   }
 
   return `https://healing4heroes-dev.netlify.app`;
-
-  // if (manifest?.debuggerHost) {
-  //   return `http://${manifest?.debuggerHost?.split(":").shift()}:3000`;
-  // } else {
-  //   return "http://localhost:3000";
-  // }
 }
 
 export const urls = {
