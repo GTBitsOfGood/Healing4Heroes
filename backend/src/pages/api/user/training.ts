@@ -60,8 +60,7 @@ export default APIWrapper({
             handlerAnimal.totalHours + trainingHours >= 3200))
       ) {
         await sendEmail(
-          // Change before pushing to right email
-          "gt.engineering@hack4impact.org",
+          "logs@healing4heroes.org",
           EmailSubject.HOURS_NOTIFICATION,
           EmailTemplate.HOURS_NOTIFICATION,
           {
