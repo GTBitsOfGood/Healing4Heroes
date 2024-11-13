@@ -5,8 +5,10 @@ import {
   getTrainingLogs,
 } from "server/mongodb/actions/TrainingLog";
 import APIWrapper from "server/utils/APIWrapper";
-import { getUser } from "server/utils/Authentication";
-import { BehaviorTypes, Role, User } from "src/utils/types";
+import { getUser, sendEmail } from "server/utils/Authentication";
+import { BehaviorTypes, Role, User, ServiceAnimal } from "src/utils/types";
+import { findAnimalByUserId } from "server/mongodb/actions/Animal";
+import { EmailSubject, EmailTemplate } from "src/utils/types";
 
 export default APIWrapper({
   POST: {
@@ -41,6 +43,26 @@ export default APIWrapper({
       );
       if (!trainingLog) {
         throw new Error("Failed to create training log");
+      }
+
+      const handlerAnimal: ServiceAnimal | null = await findAnimalByUserId(handler._id);
+
+      if (handler.unsubscribeEmail !== true && handlerAnimal && (
+        (handlerAnimal.totalHours < 800 && handlerAnimal.totalHours + trainingHours >= 800) ||
+        (handlerAnimal.totalHours < 1600 && handlerAnimal.totalHours + trainingHours >= 1600) ||
+        (handlerAnimal.totalHours < 3200 && handlerAnimal.totalHours + trainingHours >= 3200)
+      )) {
+        await sendEmail(
+          // Change before pushing to right email
+          "gt.engineering@hack4impact.org",
+          EmailSubject.HOURS_NOTIFICATION,
+          EmailTemplate.HOURS_NOTIFICATION,
+          {
+            handlerName: handler.firstName + " " + handler.lastName,
+            animalName: handlerAnimal.name,
+            thresholdAchieved: handlerAnimal.totalHours < 800 ? "800" : handlerAnimal.totalHours < 1600 ? "1600" : "3200",
+          }
+        );
       }
 
       await updateCumulativeTrainingHours(trainingHours);
