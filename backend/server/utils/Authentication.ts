@@ -52,7 +52,7 @@ export async function sendEmail(
   const compiledTemplate = pug.compileFile(
     path.join(process.cwd(), `/server/utils/emails/`, template, "/html.pug")
   );
-  void junoEmailClient.sendEmail({
+  await junoEmailClient.sendEmail({
     subject: emailSubject,
     bcc: [],
     cc: [],
