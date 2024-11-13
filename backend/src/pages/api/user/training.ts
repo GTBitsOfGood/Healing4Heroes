@@ -45,13 +45,20 @@ export default APIWrapper({
         throw new Error("Failed to create training log");
       }
 
-      const handlerAnimal: ServiceAnimal | null = await findAnimalByUserId(handler._id);
+      const handlerAnimal: ServiceAnimal | null = await findAnimalByUserId(
+        handler._id
+      );
 
-      if (handler.unsubscribeEmail !== true && handlerAnimal && (
-        (handlerAnimal.totalHours < 800 && handlerAnimal.totalHours + trainingHours >= 800) ||
-        (handlerAnimal.totalHours < 1600 && handlerAnimal.totalHours + trainingHours >= 1600) ||
-        (handlerAnimal.totalHours < 3200 && handlerAnimal.totalHours + trainingHours >= 3200)
-      )) {
+      if (
+        handler.unsubscribeEmail !== true &&
+        handlerAnimal &&
+        ((handlerAnimal.totalHours < 800 &&
+          handlerAnimal.totalHours + trainingHours >= 800) ||
+          (handlerAnimal.totalHours < 1600 &&
+          handlerAnimal.totalHours + trainingHours >= 1600) ||
+          (handlerAnimal.totalHours < 3200 &&
+          handlerAnimal.totalHours + trainingHours >= 3200))
+      ) {
         await sendEmail(
           // Change before pushing to right email
           "gt.engineering@hack4impact.org",
@@ -60,7 +67,12 @@ export default APIWrapper({
           {
             handlerName: handler.firstName + " " + handler.lastName,
             animalName: handlerAnimal.name,
-            thresholdAchieved: handlerAnimal.totalHours < 800 ? "800" : handlerAnimal.totalHours < 1600 ? "1600" : "3200",
+            thresholdAchieved:
+              handlerAnimal.totalHours < 800
+                ? "800"
+                : handlerAnimal.totalHours < 1600
+                ? "1600"
+                : "3200",
           }
         );
       }
