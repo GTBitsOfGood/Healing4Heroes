@@ -53,7 +53,7 @@ export default APIWrapper({
         handler.unsubscribeEmail !== true &&
         handlerAnimal &&
         ((handlerAnimal.totalHours < 800 &&
-            handlerAnimal.totalHours + trainingHours >= 800) ||
+          handlerAnimal.totalHours + trainingHours >= 800) ||
           (handlerAnimal.totalHours < 1600 &&
             handlerAnimal.totalHours + trainingHours >= 1600) ||
           (handlerAnimal.totalHours < 3200 &&
