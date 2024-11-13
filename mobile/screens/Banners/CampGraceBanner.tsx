@@ -3,20 +3,23 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import dayjs from "dayjs";
 
 const CampGraceBanner = () => {
-    const isCampGraceDay = new Date().getMonth() === 3 && new Date().getDate() === 13;
-    
-    if (!isCampGraceDay) return null;
+  const isCampGraceDay =
+    new Date().getMonth() === 3 && new Date().getDate() === 13;
 
-    return (
-        <View style={styles.banner}>
-        <Text style={styles.title}>Countdown to Camp Grace!</Text>
-        <Text style={styles.message}>
-            Get ready for a 4-Day advanced training at Camp Grace in Mobile, Alabama! Enjoy free cabin accommodations, fishing, kayaking, and group cooking sessions. Just bring bedding for a twin bed. See you soon!
-        </Text>
-        </View>
-    );
+  if (!isCampGraceDay) return null;
+
+  return (
+    <View style={styles.banner}>
+      <Text style={styles.title}>Countdown to Camp Grace!</Text>
+      <Text style={styles.message}>
+        Get ready for a 4-Day advanced training at Camp Grace in Mobile,
+        Alabama! Enjoy free cabin accommodations, fishing, kayaking, and group
+        cooking sessions. Just bring bedding for a twin bed. See you soon!
+      </Text>
+    </View>
+  );
 };
-  
+
 const styles = StyleSheet.create({
   banner: {
     borderRadius: 10,
@@ -39,7 +42,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "400",
     textAlign: "center",
-  }
+  },
 });
 
 export default CampGraceBanner;

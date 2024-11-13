@@ -124,10 +124,7 @@ export default function App() {
           name={Screens.USER_DASHBOARD_SCREEN}
           component={UserDashboardScreen}
         />
-        <Stack.Screen
-          name={Screens.USER_SETTINGS}
-          component={UserSettings}
-        />
+        <Stack.Screen name={Screens.USER_SETTINGS} component={UserSettings} />
         <Stack.Screen
           name={Screens.ADMIN_DASHBOARD_SCREEN}
           component={AdminDashboardScreen}
