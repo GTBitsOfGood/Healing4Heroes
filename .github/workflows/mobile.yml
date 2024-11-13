@@ -20,7 +20,7 @@ jobs:
           node-version: 18.x
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn
         working-directory: ${{ env.working-directory }}
 
       - name: Lint files and run type-checks
