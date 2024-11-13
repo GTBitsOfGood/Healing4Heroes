@@ -1,4 +1,4 @@
-import mongoose, { CallbackError } from "mongoose";
+import mongoose from "mongoose";
 import { HandlerType, Role, User } from "src/utils/types";
 
 const UserSchema = new mongoose.Schema<User>({

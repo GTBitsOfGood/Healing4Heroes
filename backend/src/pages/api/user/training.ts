@@ -1,14 +1,20 @@
 import { Types } from "mongoose";
 import { updateCumulativeTrainingHours } from "server/mongodb/actions/Analytics";
+import { findAnimalByUserId } from "server/mongodb/actions/Animal";
 import {
   createTrainingLog,
   getTrainingLogs,
 } from "server/mongodb/actions/TrainingLog";
 import APIWrapper from "server/utils/APIWrapper";
 import { getUser, sendEmail } from "server/utils/Authentication";
-import { BehaviorTypes, Role, User, ServiceAnimal } from "src/utils/types";
-import { findAnimalByUserId } from "server/mongodb/actions/Animal";
-import { EmailSubject, EmailTemplate } from "src/utils/types";
+import {
+  BehaviorTypes,
+  Role,
+  User,
+  ServiceAnimal,
+  EmailSubject,
+  EmailTemplate,
+} from "src/utils/types";
 
 export default APIWrapper({
   POST: {

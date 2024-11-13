@@ -1,8 +1,6 @@
 import path from "path";
-import Email from "email-templates";
 import { getAuth } from "firebase-admin/auth";
 import jwt from "jsonwebtoken";
-import nodemailer, { TransportOptions } from "nodemailer";
 import pug from "pug";
 import UserModel from "server/mongodb/models/User";
 import dbConnect, { firebaseConnect } from "./dbConnect";

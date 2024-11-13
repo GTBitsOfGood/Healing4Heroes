@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import dayjs from "dayjs";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 
 const CampGraceBanner = () => {
   const isCampGraceDay =
