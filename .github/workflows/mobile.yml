@@ -18,6 +18,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 18.x
+      
+      - name: Clear Yarn Cache
+        run: yarn cache clean
+        working-directory: ${{ env.working-directory }}
 
       - name: Install dependencies
         run: yarn
