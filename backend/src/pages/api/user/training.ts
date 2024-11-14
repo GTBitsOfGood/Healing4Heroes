@@ -64,21 +64,39 @@ export default APIWrapper({
           (handlerAnimal.totalHours < 3200 &&
             handlerAnimal.totalHours + trainingHours >= 3200))
       ) {
-        await sendEmail(
-          "logs@healing4heroes.org",
-          EmailSubject.HOURS_NOTIFICATION,
-          EmailTemplate.HOURS_NOTIFICATION,
-          {
-            handlerName: handler.firstName + " " + handler.lastName,
-            animalName: handlerAnimal.name,
-            thresholdAchieved:
-              handlerAnimal.totalHours < 800
-                ? "800"
-                : handlerAnimal.totalHours < 1600
-                ? "1600"
-                : "3200",
-          }
-        );
+        if (process.env.DEPLOY_CONTEXT === "production") {
+          await sendEmail(
+            "logs@healing4heroes.org",
+            EmailSubject.HOURS_NOTIFICATION,
+            EmailTemplate.HOURS_NOTIFICATION,
+            {
+              handlerName: handler.firstName + " " + handler.lastName,
+              animalName: handlerAnimal.name,
+              thresholdAchieved:
+                handlerAnimal.totalHours < 800
+                  ? "800"
+                  : handlerAnimal.totalHours < 1600
+                  ? "1600"
+                  : "3200",
+            }
+          );
+        } else {
+          await sendEmail(
+            "gt.engineering@hack4impact.org",
+            EmailSubject.HOURS_NOTIFICATION,
+            EmailTemplate.HOURS_NOTIFICATION,
+            {
+              handlerName: handler.firstName + " " + handler.lastName,
+              animalName: handlerAnimal.name,
+              thresholdAchieved:
+                handlerAnimal.totalHours < 800
+                  ? "800"
+                  : handlerAnimal.totalHours < 1600
+                  ? "1600"
+                  : "3200",
+            }
+          );
+        }
       }
 
       await updateCumulativeTrainingHours(trainingHours);
