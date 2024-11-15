@@ -38,7 +38,7 @@ import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
 import { userSendEmail } from "../../actions/Email";
-import ModalQueueManager from "../../components/ModalQueueManager";
+import DashboardModal from "../../components/DashboardModal";
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -325,9 +325,11 @@ export default function UserDashboardScreen(props: any) {
           {new Date().getDate() === 1 ? <PillBanner /> : null}
           {new Date().getMonth() === 1 ? <CleaningBanner /> : null}
 
-          <ModalQueueManager
-            modals={modalQueue}
-            onComplete={() => setModalQueue([])}
+          <DashboardModal
+            content={modalQueue.length ? modalQueue[0] : null}
+            onClose={() => {
+              setModalQueue((prev) => prev.slice(1));
+            }}
           />
 
           <TouchableOpacity

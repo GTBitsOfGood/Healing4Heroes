@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import {
   View,
   Modal,
@@ -10,58 +10,24 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { ModalContent } from "../utils/types";
 
-const ModalQueueManager = ({
-  modals,
-  onComplete,
+const DashboardModal = ({
+  content,
+  onClose,
 }: {
-  modals: ModalContent[];
-  onComplete: () => void;
+  content: ModalContent | null;
+  onClose: () => void;
 }) => {
-  const [currentModal, setCurrentModal] = useState<ModalContent | null>(null);
-  const [queue, setQueue] = useState<ModalContent[]>([]);
-  const seenTypes = useRef<Set<ModalContent["type"]>>(new Set());
-
-  // Process new modals
-  useEffect(() => {
-    if (modals.length > 0) {
-      // Filter out modals that have already been seen based on type
-      const newModals = modals.filter((modal) => {
-        if (!seenTypes.current.has(modal.type)) {
-          seenTypes.current.add(modal.type); // Mark as seen immediately
-          return true;
-        }
-        return false;
-      });
-
-      if (newModals.length > 0) {
-        setQueue((prev) => [...prev, ...newModals]);
-      }
-    }
-  }, [modals]);
-
-  // Show next modal
-  useEffect(() => {
-    if (queue.length > 0 && !currentModal) {
-      const nextModal = queue[0];
-      setCurrentModal(nextModal);
-      setQueue((prev) => prev.slice(1));
-    }
-  }, [queue, currentModal]);
-
   const handleCloseModal = () => {
-    setCurrentModal(null);
-    if (queue.length === 0) {
-      onComplete?.();
-    }
+    onClose();
   };
 
-  if (!currentModal) return null;
+  if (!content) return null;
 
   return (
     <Modal
       animationType="fade"
       transparent={true}
-      visible={!!currentModal}
+      visible={!!content}
       onShow={() => Vibration.vibrate(10000)}
     >
       <View style={styles.centeredView}>
@@ -72,11 +38,9 @@ const ModalQueueManager = ({
           >
             <MaterialIcons name="close" size={20} color="grey" />
           </Pressable>
-          <Text style={styles.modalText}>{currentModal.content}</Text>
-          {currentModal.additionalContent && (
-            <Text style={styles.modalText}>
-              {currentModal.additionalContent}
-            </Text>
+          <Text style={styles.modalText}>{content.content}</Text>
+          {content.additionalContent && (
+            <Text style={styles.modalText}>{content.additionalContent}</Text>
           )}
         </View>
       </View>
@@ -127,4 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ModalQueueManager;
+export default DashboardModal;
