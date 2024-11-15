@@ -1,7 +1,5 @@
-import Config from "react-native-config";
-
 function getBaseURL() {
-  if (Config.DEPLOY_CONTEXT === "production") {
+  if (process.env.EXPO_PUBLIC_DEPLOY_CONTEXT === "production") {
     return `https://healing4heroes.netlify.app`;
   }
 
