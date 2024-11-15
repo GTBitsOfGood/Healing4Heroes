@@ -31,6 +31,7 @@ import HolidayBanner from "../Banners/HolidayBanner";
 import DonationBanner from "../Banners/DonationBanner";
 import PillBanner from "../Banners/PillBanner";
 import CleaningBanner from "../Banners/CleaningBanner";
+import CampGraceBanner from "../Banners/CampGraceBanner";
 import BaseOverlay from "../../components/Overlays/BaseOverlay";
 import DashboardHeader from "../../components/DashboardHeader";
 import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
@@ -193,6 +194,7 @@ export default function UserDashboardScreen(props: any) {
       animalInformation?.profileImage
     );
 
+    // Change content for deploy preview
     const emailData: { [key: string]: string } = {
       firstName: userInformation.firstName,
       lastName: userInformation.lastName,
@@ -203,13 +205,14 @@ export default function UserDashboardScreen(props: any) {
         day: "numeric",
       }) as string,
     };
-
-    await userSendEmail(
-      userInformation.email,
-      "Rabies Shot Reminder for Your Service Animal",
-      "shot-reminder",
-      emailData
-    );
+    if (userInformation.unsubscribeEmail === false) {
+      await userSendEmail(
+        userInformation.email,
+        "Rabies Shot Reminder for Your Service Animal",
+        "shot-reminder",
+        emailData
+      );
+    }
 
     if (newAnimal) {
       setAnimalInfo(newAnimal);
@@ -223,7 +226,7 @@ export default function UserDashboardScreen(props: any) {
 
     if (
       new Date(animal?.dateOfBirth as Date).getMonth() ===
-      new Date().getMonth() &&
+        new Date().getMonth() &&
       new Date(animal?.dateOfBirth as Date).getDate() === new Date().getDate()
     ) {
       addToModalQueue(
@@ -231,7 +234,8 @@ export default function UserDashboardScreen(props: any) {
         `Happy birthday ${animal.name}!!! \uE312`,
         `${animal.name} turned ${calculateAge(
           new Date(animal.dateOfBirth ?? "")
-        )} year${calculateAge(new Date(animal.dateOfBirth ?? "")) !== 1 ? "s" : ""
+        )} year${
+          calculateAge(new Date(animal.dateOfBirth ?? "")) !== 1 ? "s" : ""
         } old today!`
       );
     }
@@ -317,6 +321,7 @@ export default function UserDashboardScreen(props: any) {
           <BirthdayBanner />
           <HolidayBanner />
           <DonationBanner />
+          <CampGraceBanner />
           {new Date().getDate() === 1 ? <PillBanner /> : null}
           {new Date().getMonth() === 1 ? <CleaningBanner /> : null}
 

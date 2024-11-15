@@ -22,6 +22,18 @@ const DashboardHeader = ({
         {userInfo?.firstName} {userInfo?.lastName}
       </Text>
       <IconButton
+        icon={
+          <MaterialCommunityIcons
+            name="account-settings"
+            size={26}
+            color="#3F3BED"
+          />
+        }
+        callbackFunction={() => {
+          navigationProp.navigate(Screens.USER_SETTINGS);
+        }}
+      />
+      <IconButton
         callbackFunction={async () => {
           await auth.signOut().then().catch();
           navigationProp.navigate(Screens.LANDING_SCREEN);

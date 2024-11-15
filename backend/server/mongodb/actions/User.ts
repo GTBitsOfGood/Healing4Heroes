@@ -26,6 +26,7 @@ export async function createUser(
   email: string,
   firebaseUid: string,
   roles: Array<Role>,
+  unsubscribeEmail: boolean,
   birthday?: Date,
   firstName?: string,
   lastName?: string,
@@ -42,6 +43,7 @@ export async function createUser(
     email: email,
     firebaseUid: firebaseUid,
     roles: roles,
+    unsubscribeEmail: unsubscribeEmail,
     birthday: birthday,
     firstName: firstName,
     lastName: lastName,
@@ -66,7 +68,8 @@ export async function updateUser(
   address?: string,
   annualPetVisitDay?: Date,
   profileImage?: string,
-  nextPrescriptionReminder?: Date
+  nextPrescriptionReminder?: Date,
+  unsubscribeEmail?: boolean
 ) {
   await dbConnect();
   const user = UserModel.findByIdAndUpdate(userId, {
@@ -79,6 +82,7 @@ export async function updateUser(
     annualPetVisitDay: annualPetVisitDay,
     profileImage: profileImage,
     nextPrescriptionReminder: nextPrescriptionReminder,
+    unsubscribeEmail: unsubscribeEmail,
   });
   return user;
 }

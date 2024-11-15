@@ -29,6 +29,7 @@ export interface User {
   profileImage?: string;
   verifiedByAdmin: boolean;
   emailVerified: boolean;
+  unsubscribeEmail: boolean;
 }
 
 export interface ServiceAnimal {
@@ -185,6 +186,7 @@ export enum EmailSubject {
   PASSWORD_RESET = "Reset Your Password for Healing4Heroes",
   ACCOUNT_CREATED = "Account Created on Healing4Heroes",
   SHOT_REMINDER = "Rabies Shot Reminder for Your Service Animal",
+  HOURS_NOTIFICATION = "Training Hours Notification for Your Service Animal",
 }
 
 export enum EmailTemplate {
@@ -192,6 +194,7 @@ export enum EmailTemplate {
   PASSWORD_RESET = "reset",
   ACCOUNT_CREATED = "create",
   SHOT_REMINDER = "shot-reminder",
+  HOURS_NOTIFICATION = "hours-notification",
 }
 
 /* User Retrieval */

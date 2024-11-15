@@ -4,7 +4,7 @@ import { User } from "../../utils/types";
 import { userGetUserInfo } from "../../actions/User";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear";
-import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
+import { endOfExecutionHandler } from "../../utils/error";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Balloons } from "react-native-fiesta";
 
@@ -15,14 +15,10 @@ const BirthdayBanner = () => {
     header: string;
     message: string;
   } | null>(null);
-  const [error, setError] = useState("Could not get user");
 
   const checkForBirthday = async () => {
     try {
-      const user: User = (await ErrorWrapper({
-        functionToExecute: userGetUserInfo,
-        errorHandler: setError,
-      })) as User;
+      const user: User = await userGetUserInfo();
 
       const today = new Date();
       const birthday = user.birthday;

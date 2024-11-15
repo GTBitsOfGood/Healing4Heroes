@@ -8,7 +8,7 @@
 - eslint: Automatically identifying and fixing code errors
 - Firebase: User Authentication
 - Github Actions: Continuous Deployment Pipeline
-- Email Templates + Nodemailer + Pug: Mailing Functionality
+- Juno + Pug: Emailing
 - Netlify + Expo: Deployment
 
 ## Development
