@@ -36,7 +36,6 @@ import { userGetUserInfo } from "./actions/User";
 import { Role } from "./utils/types";
 import { auth } from "./utils/firebase";
 import PartnershipsScreen from "./screens/Onboarding/PartnershipsScreen";
-import Config from "react-native-config";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -55,7 +54,7 @@ export default function App() {
   }, [appIsReady]);
 
   useEffect(() => {
-    if (Config.DEPLOY_CONTEXT === "development") {
+    if (process.env.EXPO_PUBLIC_DEPLOY_CONTEXT !== "production") {
       setInitialRoute(Screens.DEVELOPMENT_SCREEN);
       setAppIsReady(true);
     } else {

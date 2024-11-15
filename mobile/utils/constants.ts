@@ -1,5 +1,3 @@
-import Config from "react-native-config";
-
 let FIREBASE_API_KEY,
   FIREBASE_AUTH_DOMAIN,
   FIREBASE_PROJECT_ID,
@@ -7,7 +5,7 @@ let FIREBASE_API_KEY,
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_APP_ID;
 
-if (Config.DEPLOY_CONTEXT === "production") {
+if (process.env.EXPO_PUBLIC_DEPLOY_CONTEXT === "production") {
   FIREBASE_API_KEY = "AIzaSyAJfZOc0HTD2nFQwPgvxJ67hzF4VF12Ut4";
   FIREBASE_AUTH_DOMAIN = "healing4heroes-bdd64.firebaseapp.com";
   FIREBASE_PROJECT_ID = "healing4heroes-bdd64";
