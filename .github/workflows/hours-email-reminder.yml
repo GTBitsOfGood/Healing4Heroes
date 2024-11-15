@@ -16,7 +16,7 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Run Email Reminder Action Step
-              uses: ./hours-email # Uses an action in the hours-email directory
+              uses: ./hours-email-reminder
               id: hours-email
               env:
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -25,3 +25,12 @@ jobs:
                   JUNO_BASE_URL: ${{ secrets.JUNO_BASE_URL }}
                   JUNO_SENDER_EMAIL: ${{ secrets.JUNO_SENDER_EMAIL }}
                   JUNO_SENDER_NAME: ${{ secrets.JUNO_SENDER_NAME }}
+
+    keepalive-job:
+        name: Keepalive Workflow
+        runs-on: ubuntu-latest
+        permissions:
+            actions: write
+        steps:
+        - uses: actions/checkout@v4
+        - uses: gautamkrishnar/keepalive-workflow@2.0.7

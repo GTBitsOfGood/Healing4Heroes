@@ -1,0 +1,5 @@
+name: "Run Send Reminder Email"
+description: "Executes the script which sends a reminder email to all users with less than 800 hours"
+runs:
+  using: "docker"
+  image: "Dockerfile"
