@@ -1,0 +1,16 @@
+{
+  "name": "hours-email",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "juno-sdk": "^0.0.5",
+    "mongoose": "^8.8.1"
+  }
+}

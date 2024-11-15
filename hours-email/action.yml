@@ -1,0 +1,12 @@
+name: "Run Send Reminder Email"
+description: "Executes the script which sends a reminder email to all users with less than 800 hours"
+runs:
+    using: "docker"
+    image: "Dockerfile"
+    env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+        JUNO_API_KEY: ${{ secrets.JUNO_API_KEY }}
+        JUNO_BASE_URL: ${{ secrets.JUNO_BASE_URL }}
+        JUNO_SENDER_EMAIL: ${{ secrets.JUNO_SENDER_EMAIL }}
+        JUNO_SENDER_NAME: ${{ secrets.JUNO_SENDER_NAME }}
