@@ -97,6 +97,7 @@ async function getUsersPaginated(
             $nin: handlers.map((item) => item.handler),
         },
         verifiedByAdmin: true,
+        unsubscribeEmail: false
     };
 
     const users = await UserModel.find(query, null, { sort: { _id: 1 } }).limit(
