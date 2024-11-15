@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import {
   BackHandler,
   StyleSheet,
@@ -16,7 +16,6 @@ import { userGetAnimal, userUpdateAnimal } from "../../actions/Animal";
 import {
   Announcement,
   ModalContent,
-  NotificationState,
   Screens,
   ServiceAnimal,
   TrainingLog,
@@ -38,7 +37,50 @@ import { endOfExecutionHandler, ErrorWrapper } from "../../utils/error";
 import ErrorBox from "../../components/ErrorBox";
 import shadowStyle from "../../utils/styles";
 import { userSendEmail } from "../../actions/Email";
-import ModalQueueManager from "../../components/ModalQueueManager";
+import DashboardModal from "../../components/DashboardModal";
+
+type ModalQueueState = {
+  birthdayQueued: boolean;
+  prescriptionQueued: boolean;
+  shotQueued: boolean;
+
+  modals: ModalContent[];
+};
+
+function modalQueueReducer(
+  state: ModalQueueState,
+  action: ModalContent | "close"
+): ModalQueueState {
+  if (action === "close") {
+    return { ...state, modals: state.modals.slice(1) };
+  }
+
+  switch (action.type) {
+    case "birthday":
+      if (state.birthdayQueued) return state;
+      return {
+        ...state,
+        modals: [...state.modals, action],
+        birthdayQueued: true,
+      };
+    case "prescription":
+      if (state.prescriptionQueued) return state;
+      return {
+        ...state,
+        modals: [...state.modals, action],
+        prescriptionQueued: true,
+      };
+    case "shot":
+      if (state.shotQueued) return state;
+      return {
+        ...state,
+        modals: [...state.modals, action],
+        shotQueued: true,
+      };
+    default:
+      return state;
+  }
+}
 
 export default function UserDashboardScreen(props: any) {
   const [hoursCompleted, setHoursCompleted] = useState(0);
@@ -49,30 +91,20 @@ export default function UserDashboardScreen(props: any) {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [error, setError] = useState("");
   const [calculatedShotDate, setCalculatedShotDate] = useState<Date>();
-  const [modalQueue, setModalQueue] = useState<ModalContent[]>([]);
-  const [notificationsShown, setNotificationsShown] =
-    useState<NotificationState>({
-      birthday: false,
-      prescription: false,
-      shot: false,
-    });
 
-  const addToModalQueue = (
-    type: ModalContent["type"],
-    content: string,
-    additionalContent?: string
-  ) => {
-    if (!notificationsShown[type]) {
-      setModalQueue((prev) => [...prev, { type, content, additionalContent }]);
-      setNotificationsShown((prev) => ({ ...prev, [type]: true }));
-    }
-  };
+  const [modalQueue, modalQueueDispatch] = useReducer(modalQueueReducer, {
+    modals: [],
+
+    birthdayQueued: false,
+    prescriptionQueued: false,
+    shotQueued: false,
+  });
 
   const checkPrescriptionReminder = async (
     userInformation: User,
     animalInformation: ServiceAnimal
   ) => {
-    if (notificationsShown.prescription) return;
+    if (modalQueue.prescriptionQueued) return;
 
     if (!userInformation) {
       userInformation = (await ErrorWrapper({
@@ -113,10 +145,10 @@ export default function UserDashboardScreen(props: any) {
     }
 
     if (today >= new Date(userInformation?.nextPrescriptionReminder)) {
-      addToModalQueue(
-        "prescription",
-        `This is a reminder to fill your prescription for ${animalInformation.name}'s heartworm preventative pill.`
-      );
+      modalQueueDispatch({
+        type: "prescription",
+        content: `This is a reminder to fill your prescription for ${animalInformation.name}'s heartworm preventative pill.`,
+      });
 
       await userUpdateUser(
         userInformation.roles,
@@ -137,7 +169,7 @@ export default function UserDashboardScreen(props: any) {
     animalInformation: ServiceAnimal,
     userInformation: User
   ) => {
-    if (notificationsShown.shot) return;
+    if (modalQueue.shotQueued) return;
 
     if (!animalInformation) {
       animalInformation = (await ErrorWrapper({
@@ -167,18 +199,18 @@ export default function UserDashboardScreen(props: any) {
 
     if (newDate > new Date()) return;
 
-    addToModalQueue(
-      "shot",
-      `${animalInformation?.name} needs their rabies shot.`,
-      `${animalInformation?.name} was due on ${newDate.toLocaleDateString(
+    modalQueueDispatch({
+      type: "shot",
+      content: `${animalInformation?.name} needs their rabies shot.`,
+      additionalContent: `${animalInformation?.name} was due on ${newDate.toLocaleDateString(
         "en-US",
         {
           year: "numeric",
           month: "long",
           day: "numeric",
         }
-      )}`
-    );
+      )}`,
+    });
 
     const newAnimal = await userUpdateAnimal(
       animalInformation?.name,
@@ -222,22 +254,22 @@ export default function UserDashboardScreen(props: any) {
   };
 
   const checkBirthday = (animal: ServiceAnimal) => {
-    if (notificationsShown.birthday) return;
+    if (modalQueue.birthdayQueued) return;
 
     if (
       new Date(animal?.dateOfBirth as Date).getMonth() ===
         new Date().getMonth() &&
       new Date(animal?.dateOfBirth as Date).getDate() === new Date().getDate()
     ) {
-      addToModalQueue(
-        "birthday",
-        `Happy birthday ${animal.name}!!! \uE312`,
-        `${animal.name} turned ${calculateAge(
+      modalQueueDispatch({
+        type: "birthday",
+        content: `Happy birthday ${animal.name}!!! \uE312`,
+        additionalContent: `${animal.name} turned ${calculateAge(
           new Date(animal.dateOfBirth ?? "")
         )} year${
           calculateAge(new Date(animal.dateOfBirth ?? "")) !== 1 ? "s" : ""
-        } old today!`
-      );
+        } old today!`,
+      });
     }
   };
 
@@ -287,13 +319,6 @@ export default function UserDashboardScreen(props: any) {
       }
     }
 
-    // Reset notifications shown state when component mounts
-    setNotificationsShown({
-      birthday: false,
-      prescription: false,
-      shot: false,
-    });
-
     getUserDashboardInformation().catch();
 
     BackHandler.addEventListener("hardwareBackPress", function () {
@@ -325,9 +350,11 @@ export default function UserDashboardScreen(props: any) {
           {new Date().getDate() === 1 ? <PillBanner /> : null}
           {new Date().getMonth() === 1 ? <CleaningBanner /> : null}
 
-          <ModalQueueManager
-            modals={modalQueue}
-            onComplete={() => setModalQueue([])}
+          <DashboardModal
+            content={modalQueue.modals.length ? modalQueue.modals[0] : null}
+            onClose={() => {
+              modalQueueDispatch("close");
+            }}
           />
 
           <TouchableOpacity
