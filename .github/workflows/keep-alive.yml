@@ -1,0 +1,38 @@
+name: Keep repository alive
+on:
+  schedule:
+    - cron: '0 0 * * *' 
+
+jobs:
+  keepalive-workflow:
+    name: Keepalive Workflow
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # allow branch creation & deletion
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create, Push & Delete Dummy Branch
+        run: |
+          # Use run ID for a unique branch name each run
+          BRANCH="keepalive-${{ github.run_id }}"
+          
+          # 1) Create new branch
+          git checkout -b $BRANCH
+          
+          # 2) Make a dummy commit
+          echo "keepalive run ${{ github.run_id }} at $(date -u)" >> keepalive.txt
+          git add keepalive.txt
+          git commit -m "chore: keepalive commit ${{ github.run_id }}"
+          
+          # Push the branch
+          git push origin $BRANCH
+          
+          # 3) Delete it immediately
+          git push origin --delete $BRANCH
