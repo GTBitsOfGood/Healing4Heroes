@@ -165,7 +165,7 @@ export default function UploadProfileImageScreen(props: any) {
     });
     const assets = result?.assets as ImagePicker.ImagePickerAsset[];
     if (assets?.length > 0) {
-      const imageLocation = (result as ImagePicker.ImagePickerAsset).uri;
+      const imageLocation = (assets[0] as ImagePicker.ImagePickerAsset).uri;
       const imageSize = (await FileSystem.getInfoAsync(imageLocation)).size;
       // All images must be smaller than 1GB
       if (convertToMegabytes(imageSize as number) > 1024) {

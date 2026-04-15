@@ -14,14 +14,17 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Allow Healing4Heroes to access your photos.",
-        "NSPhotoLibraryAddUsageDescription": "Allow Healing4Heroes to save photos."
+        "NSPhotoLibraryAddUsageDescription": "Allow Healing4Heroes to save photos.",
+        "ITSAppUsesNonExemptEncryption": false
       },
-      "bundleIdentifier": "org.healing4heroes"
+      "bundleIdentifier": "org.healing4heroes2"
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -49,7 +52,13 @@
     },
     "owner": "bitsofgood",
     "android": {
-      "package": "org.healing4heroes"
+      "package": "org.healing4heroes",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
+      ]
     }
   }
 }
